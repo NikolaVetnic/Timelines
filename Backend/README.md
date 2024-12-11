@@ -13,13 +13,17 @@ The services' port numbers are as follows:
 
 ASP.NET Core ports are listed as HTTP / HTTPS for running application.
 
-## 2 Various
+## 2 Solution Structure
 
-### 2.1 Docker Compose Aliases
+Solution structure diagrams can be viewed [here](https://drive.google.com/drive/folders/1HYEQCzZ2Otbqf1CSzVkrOl4q5qZRX4Vi?usp=sharing).
+
+## 3 Various
+
+### 3.1 Docker Compose Aliases
 
 From the solution root run `source ./Various/aliases` to source the following aliases:
 
-| Command | Description                                                                                                         |
+| Alias   | Command                                                                                                             |
 | ------- | ------------------------------------------------------------------------------------------------------------------- |
 | `tlup`  | `docker compose -f ./DockerCompose/docker-compose.yml -f ./DockerCompose/docker-compose.override.yml up -d`         |
 | `tlupb` | `docker compose -f ./DockerCompose/docker-compose.yml -f ./DockerCompose/docker-compose.override.yml up --build -d` |
