@@ -30,3 +30,47 @@ From the solution root run `source ./Various/aliases` to source the following al
 | `tldn`  | `docker compose -f ./DockerCompose/docker-compose.yml -f ./DockerCompose/docker-compose.override.yml down`          |
 
 All commands work from anywhere in the file system, it is not necessary to stay at the root.
+
+## 4. Getting Started
+
+Follow the steps below to set up and run the project:
+### Step 1: Clone the Repository
+
+Open your terminal and execute the following command to clone the repository:
+
+```
+git clone https://github.com/NikolaVetnic/Timelines.git
+```
+
+### Step 2: Load Predefined Aliases (Optional)
+
+Navigate to the `./Various` directory and load the predefined aliases into your terminal by running:
+
+```
+source aliases
+```
+
+This step configures your terminal with convenient shortcuts. For instance, the alias `tlupb` (short for _Timelines Up Build_) automates pulling the necessary Docker images and setting up the containers.
+
+### Step 3: Start the Containers
+
+To start the containers, use the alias:
+
+```
+tlupb
+```
+
+Alternatively, if you prefer not to use aliases, navigate to the `/Backend/src` directory and run the equivalent command manually:
+
+```
+docker compose -f ./DockerCompose/docker-compose.yml -f ./DockerCompose/docker-compose.override.yml up --build -d
+```
+
+### Step 4: Verify the Setup
+
+To confirm the containers are running correctly, open your browser and visit the following URLs:
+
+- [http://localhost:26001](http://localhost:26001)
+- [http://localhost:26001/health](http://localhost:26001/health)
+
+These endpoints will indicate whether the setup was successful.
