@@ -1,0 +1,18 @@
+﻿version: "3.4"
+
+name: timelines
+
+services:
+  core.db:
+    container_name: core.db
+    image: postgres
+  
+  core.api:
+    container_name: core.api
+    image: ${DOCKER_REGISTRY-}coreapi
+    build:
+      context: ../
+      dockerfile: Applications/Core/Core.Api/Dockerfile
+
+volumes:
+  timelines_core:

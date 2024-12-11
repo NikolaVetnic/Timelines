@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <OutputType>Library</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Nodes.Application\Nodes.Application.csproj" />
+      <ProjectReference Include="..\Nodes.Domain\Nodes.Domain.csproj" />
+      <ProjectReference Include="..\Nodes.Infrastructure\Nodes.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

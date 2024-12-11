@@ -1,0 +1,24 @@
+version: "3.4"
+
+services: 
+  core.db:
+    environment:
+     - POSTGRES_USER=postgres
+     - POSTGRES_PASSWORD=postgres
+     - POSTGRES_DB=CoreDb
+    restart: always
+    ports:
+     - "25432:5432"
+    volumes:
+     - timelines_core:/var/lib/postgresql/data
+
+  core.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ConnectionStrings__DefaultConnection=Host=core.db;Port=5432;Database=CoreDb;Username=postgres;Password=postgres;Include Error Detail=true
+    ports:
+      - "26001:8080"
+      - "26061:8081"
+    depends_on:
+      - core.db

@@ -1,0 +1,24 @@
+# Function to dynamically determine DockerCompose path relative to the script location
+set_docker_compose_path() {
+    # Assuming the DockerCompose directory is always at a fixed location relative to the script
+    export DOCKER_COMPOSE_PATH="$(pwd)/DockerCompose"
+}
+
+# Call the function to set the path
+set_docker_compose_path
+
+# Define functions using the dynamically set path
+tlup() {
+    docker compose -f "${DOCKER_COMPOSE_PATH}/docker-compose.yml" \
+                 -f "${DOCKER_COMPOSE_PATH}/docker-compose.override.yml" up -d
+}
+
+tlupb() {
+    docker compose -f "${DOCKER_COMPOSE_PATH}/docker-compose.yml" \
+                 -f "${DOCKER_COMPOSE_PATH}/docker-compose.override.yml" up --build -d
+}
+
+tldn() {
+    docker compose -f "${DOCKER_COMPOSE_PATH}/docker-compose.yml" \
+                 -f "${DOCKER_COMPOSE_PATH}/docker-compose.override.yml" down
+}
