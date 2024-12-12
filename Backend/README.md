@@ -1,8 +1,43 @@
 # Timelines Backend Solution
 
-Timelines backend solution.
+Description pending.
 
-## 1 Ports
+## 1 Getting Started
+
+Follow the steps below to set up and run the project:
+
+### 1.1 Clone the Repository
+
+Open your terminal and execute the following command to clone the repository:
+
+```
+git clone https://github.com/NikolaVetnic/Timelines Timelines && cd Timelines/Backend/src
+```
+
+### 1.2 Start the Containers
+
+After navigating to the `/Backend/src` directory in the previous step run the following command to start the containers:
+
+```
+docker compose -f ./DockerCompose/docker-compose.yml -f ./DockerCompose/docker-compose.override.yml up --build -d
+```
+
+For Linux and macOS users, predefined aliases are available. To load the aliases, execute the following command:
+
+```
+source ./Various/aliases
+```
+
+Consult the [table given below](#4-Various) for the list of available aliases.
+
+### 1.3 Verify the Setup
+
+Once the containers are running the following `Core.Api` endpoints will be available on `localhost:26001`
+
+- `GET /health`
+- `GET /Nodes`
+
+## 2 Ports
 
 The services' port numbers are as follows:
 
@@ -13,13 +48,13 @@ The services' port numbers are as follows:
 
 ASP.NET Core ports are listed as HTTP / HTTPS for running application.
 
-## 2 Solution Structure
+## 3 Solution Structure
 
 Solution structure diagrams can be viewed [here](https://drive.google.com/drive/folders/1HYEQCzZ2Otbqf1CSzVkrOl4q5qZRX4Vi?usp=sharing).
 
-## 3 Various
+## 4 Various
 
-### 3.1 Docker Compose Aliases
+### 4.1 Docker Compose Aliases
 
 From the solution root run `source ./Various/aliases` to source the following aliases:
 
