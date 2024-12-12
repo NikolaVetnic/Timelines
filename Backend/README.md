@@ -5,6 +5,7 @@ Description pending.
 ## 1 Getting Started
 
 Follow the steps below to set up and run the project:
+
 ### 1.1 Clone the Repository
 
 Open your terminal and execute the following command to clone the repository:
@@ -13,9 +14,15 @@ Open your terminal and execute the following command to clone the repository:
 git clone https://github.com/NikolaVetnic/Timelines Timelines && cd Timelines/Backend/src
 ```
 
-### 1.2 Load Predefined Aliases (Optional)
+### 1.2 Start the Containers
 
-After navigating to the `/Backend/src` directory in the previous step, you can optionally load the predefined aliases by executing the following command:
+After navigating to the `/Backend/src` directory in the previous step run the following command to start the containers:
+
+```
+docker compose -f ./DockerCompose/docker-compose.yml -f ./DockerCompose/docker-compose.override.yml up --build -d
+```
+
+For Linux and macOS users, predefined aliases are available. To load the aliases, execute the following command:
 
 ```
 source ./Various/aliases
@@ -23,20 +30,13 @@ source ./Various/aliases
 
 Consult the [table given below](#4-Various) for the list of available aliases.
 
-### 1.3 Start the Containers
-
-If you prefer not to use aliases, navigate to the `/Backend/src` directory and run the equivalent command manually:
-
-```
-docker compose -f ./DockerCompose/docker-compose.yml -f ./DockerCompose/docker-compose.override.yml up --build -d
-```
-
-### 1.4 Verify the Setup
+### 1.3 Verify the Setup
 
 Once the containers are running the following `Core.Api` endpoints will be available on `localhost:26001`
 
 - `GET /health`
 - `GET /Nodes`
+
 ## 2 Ports
 
 The services' port numbers are as follows:
