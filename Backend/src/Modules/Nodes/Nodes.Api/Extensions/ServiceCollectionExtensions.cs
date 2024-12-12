@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
 
     public static IEndpointRouteBuilder MapNodesModuleEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/Nodes", NodesDomainTestClass.GetTestString);
+        endpoints.MapGet("/Nodes", () => "Hello World! This is Timelines Nodes module.");
         return endpoints;
     }
 }
