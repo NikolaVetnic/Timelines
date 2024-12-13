@@ -1,8 +1,12 @@
-﻿namespace BuildingBlocks.Domain
+﻿namespace BuildingBlocks.Domain.Abstractions
 {
-    public abstract class Entity<T> : IEntity<T>
+    public interface IEntity<out T> : IEntity
     {
-        public required T Id { get; init; }
+        T Id { get; }
+    }
+
+    public interface IEntity
+    {
         public DateTime? CreatedAt { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? LastModifiedAt { get; set; }

@@ -1,6 +1,6 @@
 ﻿using BuildingBlocks.Domain.Exceptions;
 
-namespace Nodes.Domain.ValueObjects.Ids
+namespace BuildingBlocks.Domain.ValueObjects.Ids
 {
     public record NodeId
     {
