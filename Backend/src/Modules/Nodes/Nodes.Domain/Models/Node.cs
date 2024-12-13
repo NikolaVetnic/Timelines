@@ -1,9 +1,8 @@
-﻿using BuildingBlocks.Domain;
-using Nodes.Domain.ValueObjects.Ids;
+using Nodes.Domain.Events;
 
-namespace Nodes.Domain.Models
-{
-    public class Node : Entity<NodeId>
+namespace Nodes.Domain.Models;
+
+public class Node : Aggregate<NodeId>
     {
         public required string Title { get; set; }
         public required string Description { get; set; }
