@@ -1,4 +1,4 @@
-﻿using Nodes.Domain.Exceptions;
+﻿using BuildingBlocks.Domain.Exceptions;
 
 namespace Nodes.Domain.ValueObjects.Ids
 {
