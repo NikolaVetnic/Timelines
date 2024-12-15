@@ -32,6 +32,10 @@ app.MapTimelinesModuleEndpoints();
 
 app.MapGet("/", BuildingBlocksTestClass.GetTestString);
 
+// Environment-specific configuration
+if (app.Environment.IsDevelopment())
+    await app.Services.MigrateAndSeedAllModulesAsync();
+
 app.UseHealthChecks("/health",
     new HealthCheckOptions
     {

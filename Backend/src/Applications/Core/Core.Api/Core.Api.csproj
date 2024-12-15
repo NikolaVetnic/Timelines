@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
+      <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks.Infrastructure\BuildingBlocks.Infrastructure.csproj" />
       <ProjectReference Include="..\..\..\Modules\Files\Files.Api\Files.Api.csproj" />
       <ProjectReference Include="..\..\..\Modules\Nodes\Nodes.Api\Nodes.Api.csproj" />
       <ProjectReference Include="..\..\..\Modules\Notes\Notes.Api\Notes.Api.csproj" />
@@ -25,6 +25,10 @@
     <ItemGroup>
       <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.2" />
       <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
 </Project>
