@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
         <ProjectReference Include="..\Reminders.Domain\Reminders.Domain.csproj" />
     </ItemGroup>
 
