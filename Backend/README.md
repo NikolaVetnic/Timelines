@@ -48,21 +48,13 @@ The services' port numbers are as follows:
 
 ASP.NET Core ports are listed as HTTP / HTTPS for running application.
 
-## 3 Migrations
-
-Migrations are to be added using the `dotnet ef migrations` tool while positioned in the `Infrastructure` layer of a particular module. In case of Nodes module, the working directory should be `Modules/Nodes/Nodes.Infrastructure`, and then the following is executed:
-
-```shell
-dotnet ef migrations add MigrationName -o ./Data/Migrations --startup-project ../../../Applications/Core/Core.Api
-```
-
-## 4 Solution Structure
+## 3 Solution Structure
 
 Solution structure diagrams can be viewed [here](https://drive.google.com/drive/folders/1HYEQCzZ2Otbqf1CSzVkrOl4q5qZRX4Vi?usp=sharing).
 
-## 5 Various
+## 4 Various
 
-### 5.1 Docker Compose Aliases
+### 4.1 Docker Compose Aliases
 
 From the solution root run `source ./Various/aliases` to source the following aliases:
 
