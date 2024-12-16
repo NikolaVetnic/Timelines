@@ -35,7 +35,7 @@ Consult the [table given below](#4-Various) for the list of available aliases.
 Once the containers are running the following `Core.Api` endpoints will be available on `localhost:26001`
 
 -   `GET /health`
--   `GET /Nodes`
+-   `GET /Nodes/Test`
 
 ## 2 Ports
 
