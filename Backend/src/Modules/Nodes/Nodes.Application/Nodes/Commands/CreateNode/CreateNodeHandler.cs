@@ -18,7 +18,7 @@ public class CreateNodeHandler(INodesDbContext dbContext) :
             command.Node.Categories,
             command.Node.Tags
         );
-        
+
         dbContext.Nodes.Add(node);
         await dbContext.SaveChangesAsync(cancellationToken);
 

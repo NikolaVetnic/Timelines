@@ -15,7 +15,7 @@ internal static class InitialData
                 ["court", "complaint"],
                 ["investigation", "interview"]
             ),
-            
+
             Node.Create(
                 NodeId.Of(Guid.Parse("6968d886-9e39-4fc0-9f2c-a5fbc1548970")),
                 "Witness Cross-Examination",

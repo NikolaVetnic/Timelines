@@ -20,7 +20,7 @@ public class NodesDbContext(DbContextOptions<NodesDbContext> options) :
         {
             entity.ToTable("Nodes"); // Specify table name within the schema
         });
-        
+
         // Apply all configurations taken from classes that implement IEntityTypeConfiguration<>
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(builder);

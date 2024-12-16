@@ -10,7 +10,7 @@ public class NodeConfiguration : IEntityTypeConfiguration<Node>
         builder.Property(n => n.Id).HasConversion(
             nodeId => nodeId.Value,
             dbId => NodeId.Of(dbId));
-        
+
         // ToDo: Add remaining Node configuration commands
     }
 }
