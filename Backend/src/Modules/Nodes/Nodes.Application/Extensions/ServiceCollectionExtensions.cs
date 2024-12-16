@@ -1,8 +1,5 @@
 using System.Reflection;
-using BuildingBlocks.Application.Extensions;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Nodes.Application.Nodes.Commands.CreateNode;
 
 namespace Nodes.Api.Extensions;
 
@@ -16,8 +13,6 @@ public static class ServiceCollectionExtensions
             // config.AddOpenBehavior(typeof(ValidationBehavior<,>));
             // config.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
-        
-        services.AddMediatRFromAssembly<CreateNodeCommand>();
         
         return services;
     }
