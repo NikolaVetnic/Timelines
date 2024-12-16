@@ -1,4 +1,5 @@
 using BuildingBlocks.Domain.ValueObjects.Ids;
+using Nodes.Application.Data;
 using Nodes.Domain.Models;
 
 namespace Nodes.Application.Nodes.Commands.CreateNode;

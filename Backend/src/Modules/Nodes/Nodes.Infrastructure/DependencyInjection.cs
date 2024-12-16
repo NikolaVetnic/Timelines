@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using Nodes.Application.Data;
 using Nodes.Infrastructure.Data;
 
 namespace Nodes.Infrastructure;
