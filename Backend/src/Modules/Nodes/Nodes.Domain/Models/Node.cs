@@ -42,7 +42,7 @@ public class Node : Aggregate<NodeId>
         return node;
     }
 
-    public void Update(string title, string description, DateTime timestamp, 
+    public void Update(string title, string description, DateTime timestamp,
         int importance, string phase)
     {
         Title = title;
