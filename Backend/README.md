@@ -37,6 +37,8 @@ Once the containers are running the following `Core.Api` endpoints will be avail
 -   `GET /health`
 -   `GET /Nodes/Test`
 
+The entire Postman collection can be found [here](https://www.postman.com/nikolavetnic/workspace/timelines).
+
 ## 2 Ports
 
 The services' port numbers are as follows:
