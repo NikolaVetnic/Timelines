@@ -34,8 +34,10 @@ Consult the [table given below](#4-Various) for the list of available aliases.
 
 Once the containers are running the following `Core.Api` endpoints will be available on `localhost:26001`
 
-- `GET /health`
-- `GET /Nodes`
+-   `GET /health`
+-   `GET /Nodes/Test`
+
+The entire Postman collection can be found [here](https://www.postman.com/nikolavetnic/workspace/timelines).
 
 ## 2 Ports
 

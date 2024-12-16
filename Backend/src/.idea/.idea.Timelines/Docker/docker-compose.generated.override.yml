@@ -1,21 +1,21 @@
 # This is a generated file. Not intended for manual editing.
 services:
-  core.api:
-    build:
-      context: "/Users/nikolavetnic/Documents/Code/Timelines/Backend/src/DockerCompose"
-      dockerfile: "../Applications/Core/Core.Api/Dockerfile"
-      target: "base"
-    command: []
-    entrypoint:
-    - "dotnet"
-    - "/app/bin/Debug/net8.0/Core.Api.dll"
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-      DOTNET_USE_POLLING_FILE_WATCHER: "true"
-    image: "coreapi:dev"
-    ports: []
-    volumes:
-    - "/Users/nikolavetnic/.nuget/packages:/home/app/.nuget/packages"
-    - "/Users/nikolavetnic/Documents/Code/Timelines/Backend/src/Applications/Core/Core.Api:/app:rw"
-    - "/Users/nikolavetnic/Documents/Code/Timelines/Backend/src:/src:rw"
-    working_dir: "/app"
+    core.api:
+        build:
+            context: "/Users/nikolavetnic/Documents/Code/Timelines/Backend/src/DockerCompose"
+            dockerfile: "../Applications/Core/Core.Api/Dockerfile"
+            target: "base"
+        command: []
+        entrypoint:
+            - "dotnet"
+            - "/app/bin/Debug/net9.0/Core.Api.dll"
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Development"
+            DOTNET_USE_POLLING_FILE_WATCHER: "true"
+        image: "coreapi:dev"
+        ports: []
+        volumes:
+            - "/Users/nikolavetnic/.nuget/packages:/home/app/.nuget/packages"
+            - "/Users/nikolavetnic/Documents/Code/Timelines/Backend/src/Applications/Core/Core.Api:/app:rw"
+            - "/Users/nikolavetnic/Documents/Code/Timelines/Backend/src:/src:rw"
+        working_dir: "/app"

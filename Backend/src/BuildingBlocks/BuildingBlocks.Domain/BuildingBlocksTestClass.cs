@@ -1,4 +1,4 @@
-﻿namespace BuildingBlocks;
+﻿namespace BuildingBlocks.Domain;
 
 public static class BuildingBlocksTestClass
 {
