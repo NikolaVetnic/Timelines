@@ -1,7 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using Nodes.Domain.Models;
-
-namespace Nodes.Application;
+namespace Nodes.Application.Data;
 
 public interface INodesDbContext
 {
