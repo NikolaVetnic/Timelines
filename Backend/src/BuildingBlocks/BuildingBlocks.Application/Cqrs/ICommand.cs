@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace BuildingBlocks.Cqrs;
+namespace BuildingBlocks.Application.Cqrs;
 
 public interface ICommand : ICommand<Unit> { }
 
