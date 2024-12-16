@@ -1,6 +1,6 @@
 using Nodes.Infrastructure.Data.Extensions;
 
-namespace BuildingBlocks.Infrastructure.Extensions;
+namespace Core.Api.Extensions;
 
 public static class DatabaseExtensions
 {
