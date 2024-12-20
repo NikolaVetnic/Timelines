@@ -1,5 +1,4 @@
-﻿using BuildingBlocks.Domain.Abstractions;
-using BuildingBlocks.Domain.ValueObjects.Ids;
+﻿using BuildingBlocks.Domain.ValueObjects.Ids;
 
 namespace Reminders.Domain.Models;
 
