@@ -1,11 +1,11 @@
 ﻿using Reminders.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Reminders.Application.Data;
-using Microsoft.EntityFrameworkCore;
 
 public interface IRemindersDbContext
 {
-    DbSet<Reminder> Reminder { get; }
+    DbSet<Reminder> Reminders { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

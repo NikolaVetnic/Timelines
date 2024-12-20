@@ -15,7 +15,7 @@ public class CreateReminderHandler(IRemindersDbContext dbContext) :
             command.Reminder.Title
         );
 
-        dbContext.Reminder.Add(reminder);
+        dbContext.Reminders.Add(reminder);
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return new CreateReminderResult(reminder.Id);
