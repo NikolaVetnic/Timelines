@@ -12,7 +12,7 @@ public static class ModuleExtensions
     {
         services.AddFilesModule();
         services.AddNodesModule(configuration);
-        services.AddNotesModule();
+        services.AddNotesModule(configuration);
         services.AddRemindersModule();
         services.AddTimelinesModule();
         return services;

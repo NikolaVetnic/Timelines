@@ -6,6 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Carter" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\Notes.Application\Notes.Application.csproj" />
         <ProjectReference Include="..\Notes.Infrastructure\Notes.Infrastructure.csproj" />
     </ItemGroup>
