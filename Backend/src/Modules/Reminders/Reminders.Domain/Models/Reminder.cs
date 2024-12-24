@@ -7,6 +7,8 @@ public class Reminder : Aggregate<ReminderId>
 {
     public required string Title { get; set; }
 
+    #region Reminder
+
     public static Reminder Create(ReminderId id, string title)
     {
         var reminder = new Reminder
@@ -26,4 +28,6 @@ public class Reminder : Aggregate<ReminderId>
 
         AddDomainEvent(new ReminderUpdatedEvent(this));
     }
+
+    #endregion
 }
