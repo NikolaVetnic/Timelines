@@ -1,5 +1,4 @@
-﻿using BuildingBlocks.Domain;
-using Nodes.Domain.ValueObjects.Ids;
+﻿using Nodes.Domain.ValueObjects.Ids;
 
 namespace Nodes.Domain.Models;
 
