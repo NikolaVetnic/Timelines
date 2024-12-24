@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Domain.ValueObjects.Ids;
+using Reminders.Domain.Events;
 
 namespace Reminders.Domain.Models;
 
@@ -14,6 +15,15 @@ public class Reminder : Aggregate<ReminderId>
             Title = title
         };
 
+        reminder.AddDomainEvent(new ReminderCreatedEvent(reminder));
+
         return reminder;
+    }
+
+    public void Update(string title)
+    {
+        Title = title;
+
+        AddDomainEvent(new ReminderUpdatedEvent(this));
     }
 }
