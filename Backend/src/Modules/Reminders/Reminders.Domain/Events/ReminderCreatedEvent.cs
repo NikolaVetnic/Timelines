@@ -2,4 +2,4 @@
 
 namespace Reminders.Domain.Events;
 
-public record ReminderCreatedEvent(Reminder Reminder) : IDomainEvent { }
+public record ReminderCreatedEvent(Reminder Reminder) : IDomainEvent;
