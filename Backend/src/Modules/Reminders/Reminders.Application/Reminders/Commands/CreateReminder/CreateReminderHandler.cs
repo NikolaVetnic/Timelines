@@ -1,7 +1,5 @@
-﻿using BuildingBlocks.Application.Cqrs;
-using BuildingBlocks.Domain.ValueObjects.Ids;
+﻿using BuildingBlocks.Domain.ValueObjects.Ids;
 using Reminders.Application.Data;
-using Reminders.Domain.Models;
 
 namespace Reminders.Application.Reminders.Commands.CreateReminder;
 

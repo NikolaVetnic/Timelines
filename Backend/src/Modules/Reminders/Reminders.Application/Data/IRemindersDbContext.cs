@@ -1,7 +1,4 @@
-﻿using Reminders.Domain.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace Reminders.Application.Data;
+﻿namespace Reminders.Application.Data;
 
 public interface IRemindersDbContext
 {

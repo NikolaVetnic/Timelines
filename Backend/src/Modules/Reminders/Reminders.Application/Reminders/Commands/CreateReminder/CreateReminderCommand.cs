@@ -1,5 +1,4 @@
-﻿using BuildingBlocks.Application.Cqrs;
-using BuildingBlocks.Domain.ValueObjects.Ids;
+﻿using BuildingBlocks.Domain.ValueObjects.Ids;
 using FluentValidation;
 using Reminders.Application.Dtos;
 
