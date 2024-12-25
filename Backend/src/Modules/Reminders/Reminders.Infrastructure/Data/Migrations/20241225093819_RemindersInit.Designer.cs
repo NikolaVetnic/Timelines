@@ -12,8 +12,8 @@ using Reminders.Infrastructure.Data;
 namespace Reminders.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(RemindersDbContext))]
-    [Migration("20241220194002_MigrationName")]
-    partial class MigrationName
+    [Migration("20241225093819_RemindersInit")]
+    partial class RemindersInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,10 +37,28 @@ namespace Reminders.Infrastructure.Data.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DueDateTime")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("NotificationTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Priority")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Title")
