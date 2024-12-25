@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BuildingBlocks.Domain.Abstractions;
 
-namespace Files.Domain.Events
-{
-    internal class FileCreatedEvent
-    {
-    }
-}
+namespace Files.Domain.Events;
+
+public record FileCreatedEvent(Models.File File) : IDomainEvent;
