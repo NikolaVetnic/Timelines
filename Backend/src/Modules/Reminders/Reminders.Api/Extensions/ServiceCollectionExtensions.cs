@@ -21,7 +21,6 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
-        services.AddCarter();
         // services.AddExceptionHandler<CustomExceptionHandler>();
         // services.AddHealthChecks()...
 
@@ -32,7 +31,6 @@ public static class ServiceCollectionExtensions
     {
         endpoints.MapGet("/Reminders/Test", () => "Reminders.Api Test -> Ok!");
 
-        endpoints.MapCarter();
         // app.UseExceptionHandler(_ => { });
         // app.UseHealthChecks...
 
