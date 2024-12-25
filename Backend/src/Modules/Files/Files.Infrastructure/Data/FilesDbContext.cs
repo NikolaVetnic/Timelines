@@ -1,7 +1,5 @@
 ﻿using Files.Application.Data;
-using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using Files.Domain.Models;
 
 namespace Files.Infrastructure.Data;
 
