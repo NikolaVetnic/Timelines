@@ -30,6 +30,6 @@ public class CreateFile : ICarterModule
     }
 }
 
-public record CreateFileRequest(FileDto File);
+public record CreateFileRequest(FileAssetDto FileAsset);
 
 public record CreateFileResponse(FileAssetId AssetId);

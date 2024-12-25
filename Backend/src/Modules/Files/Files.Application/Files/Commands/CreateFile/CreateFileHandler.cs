@@ -10,7 +10,7 @@ public class CreateFileHandler(IFilesDbContext dbContext) :
     {
         var file = FileAsset.Create(
             FileAssetId.Of(Guid.NewGuid()),
-            command.File.Title
+            command.FileAsset.Title
         );
 
         dbContext.FileAssets.Add(file);

@@ -1,4 +1,4 @@
 ﻿namespace Files.Application.Dtos;
 
-public record FileDto(
+public record FileAssetDto(
     string Title);
