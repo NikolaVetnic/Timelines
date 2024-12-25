@@ -27,7 +27,7 @@ public class CreateReminderCommandValidator : AbstractValidator<CreateReminderCo
             .NotEmpty().WithMessage("Priority is required.");
 
         RuleFor(x => x.Reminder.NotificationTime)
-            .LessThan(x => x.Reminder.DueDateTime).WithMessage("Notification time must be before the due date and time.")
+            .LessThan(x => x.Reminder.DueDateTime).WithMessage("Notification time must be before the due date time.")
             .GreaterThan(DateTime.Now).WithMessage("Notification time must be in the future.");
 
         RuleFor(x => x.Reminder.Status)
