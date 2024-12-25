@@ -1,7 +1,4 @@
-﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using Files.Domain.Models;
-
-namespace Files.Infrastructure.Data.Extensions;
+﻿namespace Files.Infrastructure.Data.Extensions;
 
 internal static class InitialData
 {
