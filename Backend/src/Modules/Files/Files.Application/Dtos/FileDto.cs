@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Files.Application.Dtos;
 
-namespace Files.Application.Dtos
-{
-    internal class FileDto
-    {
-    }
-}
+public record FileDto(
+    string Title);

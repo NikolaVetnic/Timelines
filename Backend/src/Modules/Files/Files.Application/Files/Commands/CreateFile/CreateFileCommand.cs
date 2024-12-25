@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BuildingBlocks.Domain.ValueObjects.Ids;
+using Files.Application.Dtos;
+using FluentValidation;
 
-namespace Files.Application.Files.Commands.CreateFile
+namespace Files.Application.Files.Commands.CreateFile;
+
+public record CreateFileCommand(FileDto File) : ICommand<CreateFileResult>;
+
+public record CreateFileResult(FileId Id);
+
+public class CreateFileCommandValidator : AbstractValidator<CreateFileCommand>
 {
-    internal class CreateFileCommand
+    public CreateFileCommandValidator()
     {
+        RuleFor(x => x.File.Title).NotEmpty().WithMessage("Title is required.")
+
+        // ToDo: Add remaining File command validators
     }
 }

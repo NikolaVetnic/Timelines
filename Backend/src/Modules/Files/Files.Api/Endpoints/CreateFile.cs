@@ -1,4 +1,8 @@
-﻿using Carter;
+﻿using BuildingBlocks.Domain.ValueObjects.Ids;
+using Carter;
+using Files.Application.Dtos;
+using Files.Application.Files.Commands.CreateFile;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -10,13 +14,13 @@ public class CreateFile : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/Nodes", async (CreateFileRequest request, ISender sender) =>
+        app.MapPost("/Files", async (CreateFileRequest request, ISender sender) =>
             {
                 var command = request.Adapt<CreateFileCommand>();
                 var result = await sender.Send(command);
                 var response = result.Adapt<CreateFileResponse>();
 
-                return Results.Created($"/Nodes/{response.Id}", response);
+                return Results.Created($"/Files/{response.Id}", response);
             })
             .WithName("CreateFile")
             .Produces<CreateFileResponse>(StatusCodes.Status201Created)
@@ -27,3 +31,5 @@ public class CreateFile : ICarterModule
 }
 
 public record CreateFileRequest(FileDto File);
+
+public record CreateFileResponse(FileId Id);
