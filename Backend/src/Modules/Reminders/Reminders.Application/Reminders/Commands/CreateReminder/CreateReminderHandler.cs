@@ -10,7 +10,12 @@ public class CreateReminderHandler(IRemindersDbContext dbContext) :
     {
         var reminder = Reminder.Create(
             ReminderId.Of(Guid.NewGuid()),
-            command.Reminder.Title
+            command.Reminder.Title,
+            command.Reminder.Description,
+            command.Reminder.DueDateTime,
+            command.Reminder.Priority,
+            command.Reminder.NotificationTime,
+            command.Reminder.Status
         );
 
         dbContext.Reminders.Add(reminder);
