@@ -11,6 +11,25 @@ public class ReminderConfiguration : IEntityTypeConfiguration<Reminder>
             reminderId => reminderId.Value,
             dbId => ReminderId.Of(dbId));
 
-        // ToDO: Add remaining Reminder configuration commands
+        builder.Property(r => r.Title)
+            .IsRequired()
+            .HasMaxLength(50);
+
+        builder.Property(r => r.Description)
+            .IsRequired()
+            .HasMaxLength(500);
+
+        builder.Property(r => r.DueDateTime)
+            .IsRequired();
+
+        builder.Property(r => r.Priority)
+            .IsRequired();
+
+        builder.Property(r => r.NotificationTime)
+            .IsRequired();
+
+        builder.Property(r => r.Status)
+            .IsRequired()
+            .HasMaxLength(50);
     }
 }
