@@ -2,19 +2,19 @@
 
 namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
-public record FileId
+public record FileAssetId
 {
-    private FileId(Guid value)
+    private FileAssetId(Guid value)
     {
         Value = value;
     }
 
     public Guid Value { get; }
 
-    public static FileId Of(Guid value)
+    public static FileAssetId Of(Guid value)
     {
         if (value == Guid.Empty) throw new DomainException("FileId cannot be empty.");
 
-        return new FileId(value);
+        return new FileAssetId(value);
     }
 }

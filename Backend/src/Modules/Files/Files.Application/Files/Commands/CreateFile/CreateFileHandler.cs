@@ -1,12 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BuildingBlocks.Domain.ValueObjects.Ids;
+using Files.Application.Data;
 
-namespace Files.Application.Files.Commands.CreateFile
+namespace Files.Application.Files.Commands.CreateFile;
+
+public class CreateFileHandler(IFilesDbContext dbContext) :
+    ICommandHandler<CreateFileCommand, CreateFileResult>
 {
-    internal class CreateFileHandler
+    public async Task<CreateFileResult> Handle(CreateFileCommand command, CancellationToken cancellationToken)
     {
+        var file = FileAsset.Create(
+            FileAssetId.Of(Guid.NewGuid()),
+            command.File.Title
+        );
+
+        dbContext.FileAssets.Add(file);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return new CreateFileResult(file.Id);
     }
 }

@@ -1,5 +1,5 @@
-﻿using BuildingBlocks.Domain.Abstractions;
+﻿using Files.Domain.Models;
 
 namespace Files.Domain.Events;
 
-public record FileCreatedEvent(Models.File File) : IDomainEvent;
+public record FileCreatedEvent(FileAsset FileAsset) : IDomainEvent;

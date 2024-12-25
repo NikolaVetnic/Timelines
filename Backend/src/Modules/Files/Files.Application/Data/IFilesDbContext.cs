@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Files.Application.Data;
 
-namespace Files.Application.Data
+public interface IFilesDbContext
 {
-    internal class IFilesDbContext
-    {
-    }
+    DbSet<FileAsset> FileAssets { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

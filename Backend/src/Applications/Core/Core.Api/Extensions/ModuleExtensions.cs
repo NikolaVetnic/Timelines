@@ -10,7 +10,7 @@ public static class ModuleExtensions
 {
     public static IServiceCollection AddModules(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddFilesModule();
+        services.AddFilesModule(configuration);
         services.AddNodesModule(configuration);
         services.AddNotesModule();
         services.AddRemindersModule();
@@ -20,7 +20,7 @@ public static class ModuleExtensions
 
     public static IEndpointRouteBuilder UseModules(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapFilesModuleEndpoints();
+        endpoints.UseFilesModule();
         endpoints.UseNodesModule();
         endpoints.MapNotesModuleEndpoints();
         endpoints.MapRemindersModuleEndpoints();

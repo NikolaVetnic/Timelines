@@ -1,12 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Files.Application.Data;
+using Files.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
 
-namespace Files.Infrastructure
+namespace Files.Infrastructure;
+
+public static class DependencyInjection
 {
-    internal class DependencyInjection
+    public static IServiceCollection AddInfrastructureServices
+        (this IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        // Add File-specific DbContext
+        services.AddDbContext<FilesDbContext>((serviceProvider, options) =>
+        {
+            options.UseNpgsql(connectionString);
+            options.AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
+        });
+
+        // Register DbContext interface
+        services.AddScoped<IFilesDbContext, FilesDbContext>();
+
+        return services;
     }
 }

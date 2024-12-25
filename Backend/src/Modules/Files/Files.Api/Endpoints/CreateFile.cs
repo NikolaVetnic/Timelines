@@ -20,7 +20,7 @@ public class CreateFile : ICarterModule
                 var result = await sender.Send(command);
                 var response = result.Adapt<CreateFileResponse>();
 
-                return Results.Created($"/Files/{response.Id}", response);
+                return Results.Created($"/Files/{response.AssetId}", response);
             })
             .WithName("CreateFile")
             .Produces<CreateFileResponse>(StatusCodes.Status201Created)
@@ -32,4 +32,4 @@ public class CreateFile : ICarterModule
 
 public record CreateFileRequest(FileDto File);
 
-public record CreateFileResponse(FileId Id);
+public record CreateFileResponse(FileAssetId AssetId);

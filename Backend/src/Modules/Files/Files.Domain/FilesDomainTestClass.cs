@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Files.Domain;
 
-namespace Files.Domain
+public static class FilesDomainTestClass
 {
-    internal class FilesDomainTestClass
+    public static string GetTestString()
     {
+        return "Hello World! This is Timelines Files module.";
     }
 }

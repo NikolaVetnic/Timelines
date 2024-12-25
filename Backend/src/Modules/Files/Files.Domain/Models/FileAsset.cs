@@ -1,20 +1,18 @@
-﻿using BuildingBlocks.Domain.Abstractions;
-using BuildingBlocks.Domain.ValueObjects.Ids;
-using Files.Domain.Events;
+﻿using Files.Domain.Events;
 
 namespace Files.Domain.Models;
 
-public class File : Aggregate<FileId>
+public class FileAsset : Aggregate<FileAssetId>
 {
     public required string Title { get; set; }
 
     #region File
 
-    public static File Create(FileId id, string title)
+    public static FileAsset Create(FileAssetId assetId, string title)
     {
-        var file = new File
+        var file = new FileAsset
         {
-            Id = id,
+            Id = assetId,
             Title = title
         };
 
