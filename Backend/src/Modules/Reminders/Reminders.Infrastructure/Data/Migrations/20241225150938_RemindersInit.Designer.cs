@@ -12,7 +12,7 @@ using Reminders.Infrastructure.Data;
 namespace Reminders.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(RemindersDbContext))]
-    [Migration("20241225093819_RemindersInit")]
+    [Migration("20241225150938_RemindersInit")]
     partial class RemindersInit
     {
         /// <inheritdoc />
@@ -39,7 +39,8 @@ namespace Reminders.Infrastructure.Data.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<DateTime>("DueDateTime")
                         .HasColumnType("timestamp with time zone");
@@ -53,17 +54,18 @@ namespace Reminders.Infrastructure.Data.Migrations
                     b.Property<DateTime>("NotificationTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Priority")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
