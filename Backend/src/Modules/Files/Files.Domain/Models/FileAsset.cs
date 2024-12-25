@@ -8,11 +8,11 @@ public class FileAsset : Aggregate<FileAssetId>
 
     #region File
 
-    public static FileAsset Create(FileAssetId assetId, string title)
+    public static FileAsset Create(FileAssetId fileAssetId, string title)
     {
         var file = new FileAsset
         {
-            Id = assetId,
+            Id = fileAssetId,
             Title = title
         };
 
