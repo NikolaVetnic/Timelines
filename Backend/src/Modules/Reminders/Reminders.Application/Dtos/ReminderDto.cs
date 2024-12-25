@@ -4,6 +4,6 @@ public record ReminderDto(
     string Title,
     string Description,
     DateTime DueDateTime,
-    string Priority,
+    int Priority,
     DateTime NotificationTime,
     string Status);
