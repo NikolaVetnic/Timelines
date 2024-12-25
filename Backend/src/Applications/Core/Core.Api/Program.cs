@@ -1,4 +1,5 @@
 using BuildingBlocks.Domain;
+using Carter;
 using Core.Api.Extensions;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllers();
+builder.Services.AddCarter();
 builder.Services.AddModules(builder.Configuration);
 
 builder.Services.AddHealthChecks()
@@ -18,6 +20,7 @@ var app = builder.Build();
 app.UseRouting();
 app.MapControllers();
 app.UseModules();
+app.MapCarter();
 
 app.MapGet("/", BuildingBlocksTestClass.GetTestString);
 

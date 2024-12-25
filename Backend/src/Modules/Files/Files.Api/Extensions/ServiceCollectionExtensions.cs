@@ -1,4 +1,3 @@
-using Carter;
 using Files.Application.Extensions;
 using Files.Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -22,7 +21,6 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
-        services.AddCarter();
         // services.AddExceptionHandler<CustomExceptionHandler>();
         // services.AddHealthChecks()...
 
@@ -33,7 +31,6 @@ public static class ServiceCollectionExtensions
     {
         endpoints.MapGet("/Files/Test", () => "Files.Api Test -> Ok!");
 
-        endpoints.MapCarter();
         // app.UseExceptionHandler(_ => { });
         // app.UseHealthChecks...
 
