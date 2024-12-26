@@ -1,3 +1,4 @@
+using BuildingBlocks.Application.Exceptions.Handlers;
 using BuildingBlocks.Domain;
 using Carter;
 using Core.Api.Extensions;
@@ -11,6 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddCarter();
 builder.Services.AddModules(builder.Configuration);
 
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException());
 
@@ -21,6 +24,8 @@ app.UseRouting();
 app.MapControllers();
 app.UseModules();
 app.MapCarter();
+
+app.UseExceptionHandler(_ => { });
 
 app.MapGet("/", BuildingBlocksTestClass.GetTestString);
 
