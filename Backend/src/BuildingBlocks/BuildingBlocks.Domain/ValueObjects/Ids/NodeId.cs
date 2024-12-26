@@ -13,7 +13,7 @@ public record NodeId
 
     public static NodeId Of(Guid value)
     {
-        if (value == Guid.Empty) throw new DomainException("NodeId cannot be empty.");
+        if (value == Guid.Empty) throw new EmptyIdException("NodeId cannot be empty.");
 
         return new NodeId(value);
     }
