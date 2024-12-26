@@ -4,10 +4,10 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Nodes.Application.Dtos;
-using Nodes.Application.Nodes.Queries.GetNodeById;
+using Nodes.Application.Entities.Nodes.Dtos;
+using Nodes.Application.Entities.Nodes.Queries.GetNodeById;
 
-namespace Nodes.Api.Endpoints;
+namespace Nodes.Api.Endpoints.Nodes;
 
 public class GetNodeById : ICarterModule
 {

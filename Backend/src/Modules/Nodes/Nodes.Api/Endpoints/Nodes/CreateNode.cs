@@ -5,10 +5,10 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Nodes.Application.Dtos;
-using Nodes.Application.Nodes.Commands.CreateNode;
+using Nodes.Application.Entities.Nodes.Commands.CreateNode;
+using Nodes.Application.Entities.Nodes.Dtos;
 
-namespace Nodes.Api.Endpoints;
+namespace Nodes.Api.Endpoints.Nodes;
 
 public class CreateNode : ICarterModule
 {

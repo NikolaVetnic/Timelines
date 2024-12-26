@@ -1,4 +1,6 @@
-namespace Nodes.Application.Nodes.Commands.CreateNode;
+using Nodes.Application.Entities.Nodes.Dtos;
+
+namespace Nodes.Application.Entities.Nodes.Commands.CreateNode;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public record CreateNodeCommand(NodeDto Node) : ICommand<CreateNodeResult>;

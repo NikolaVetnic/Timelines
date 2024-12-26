@@ -1,4 +1,4 @@
-namespace Nodes.Application.Dtos;
+namespace Nodes.Application.Entities.Nodes.Dtos;
 
 public record NodeDto(
     string Id,

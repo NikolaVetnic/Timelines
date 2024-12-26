@@ -1,7 +1,8 @@
 using Nodes.Application.Data;
-using Nodes.Application.Exceptions;
+using Nodes.Application.Entities.Nodes.Dtos;
+using Nodes.Application.Entities.Nodes.Exceptions;
 
-namespace Nodes.Application.Nodes.Queries.GetNodeById;
+namespace Nodes.Application.Entities.Nodes.Queries.GetNodeById;
 
 public class GetNodeByIdHandler(INodesDbContext dbContext) : IQueryHandler<GetNodeByIdQuery, GetNodeByIdResult>
 {
