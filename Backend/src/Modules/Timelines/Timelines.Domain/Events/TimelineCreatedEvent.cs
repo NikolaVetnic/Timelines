@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BuildingBlocks.Domain.Abstractions;
+using Timelines.Domain.Models;
 
-namespace Timelines.Domain.Events
-{
-    internal class TimelineCreatedEvent
-    {
-    }
-}
+namespace Timelines.Domain.Events;
+
+public record TimelineCreatedEvent(Timeline Timeline) : IDomainEvent;

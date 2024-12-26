@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using Timelines.Domain.Models;
 
-namespace Timelines.Application.Data
+namespace Timelines.Application.Data;
+
+public interface ITimelinesDbContext
 {
-    internal class ITimelinesDbContext
-    {
-    }
+    DbSet<Timeline> Timelines { get; }
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
