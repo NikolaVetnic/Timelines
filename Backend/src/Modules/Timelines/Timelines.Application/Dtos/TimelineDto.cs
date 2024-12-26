@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Timelines.Application.Dtos;
 
-namespace Timelines.Application.Dtos
-{
-    internal class TimelineDto
-    {
-    }
-}
+public record TimelineDto(
+    string Title);
