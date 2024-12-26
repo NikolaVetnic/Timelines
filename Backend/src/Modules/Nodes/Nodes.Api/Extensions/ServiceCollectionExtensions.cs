@@ -15,7 +15,7 @@ public static class ServiceCollectionExtensions
         services.AddApiServices();
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
-        
+
         return services;
     }
 
@@ -33,7 +33,7 @@ public static class ServiceCollectionExtensions
 
         // app.UseExceptionHandler(_ => { });
         // app.UseHealthChecks...
-        
+
         return endpoints;
     }
 }
