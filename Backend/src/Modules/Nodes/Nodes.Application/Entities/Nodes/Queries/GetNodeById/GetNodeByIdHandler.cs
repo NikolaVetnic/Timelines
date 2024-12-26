@@ -1,10 +1,10 @@
-using Nodes.Application.Data;
 using Nodes.Application.Entities.Nodes.Dtos;
 using Nodes.Application.Entities.Nodes.Exceptions;
+using Nodes.Application.Entities.Nodes.Extensions;
 
 namespace Nodes.Application.Entities.Nodes.Queries.GetNodeById;
 
-public class GetNodeByIdHandler(INodesDbContext dbContext) : IQueryHandler<GetNodeByIdQuery, GetNodeByIdResult>
+internal class GetNodeByIdHandler(INodesDbContext dbContext) : IQueryHandler<GetNodeByIdQuery, GetNodeByIdResult>
 {
     public async Task<GetNodeByIdResult> Handle(GetNodeByIdQuery request, CancellationToken cancellationToken)
     {
@@ -16,21 +16,5 @@ public class GetNodeByIdHandler(INodesDbContext dbContext) : IQueryHandler<GetNo
             throw new NodeNotFoundException(request.Id);
         
         return new GetNodeByIdResult(node.ToNodeDto());
-    }
-}
-
-internal static class NodeExtensions
-{
-    public static NodeDto ToNodeDto(this Node node)
-    {
-        return new NodeDto(
-            node.Id.ToString(),
-            node.Title,
-            node.Description,
-            node.Timestamp,
-            node.Importance,
-            node.Phase,
-            node.Categories.ToList(),
-            node.Tags.ToList());
     }
 }
