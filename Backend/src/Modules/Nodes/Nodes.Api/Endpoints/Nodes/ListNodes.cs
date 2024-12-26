@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using BuildingBlocks.Application.Pagination;
 using Carter;
 using Mapster;
@@ -30,4 +29,6 @@ public class ListNodes : ICarterModule
     }
 }
 
+// ReSharper disable once ClassNeverInstantiated.Global
+// ReSharper disable once NotAccessedPositionalProperty.Global
 public record ListNodesResponse(PaginatedResult<NodeDto> Nodes);
