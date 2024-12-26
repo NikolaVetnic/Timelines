@@ -13,7 +13,7 @@ public static class ModuleExtensions
         services.AddFilesModule();
         services.AddNodesModule(configuration);
         services.AddNotesModule(configuration);
-        services.AddRemindersModule();
+        services.AddRemindersModule(configuration);
         services.AddTimelinesModule();
         return services;
     }
@@ -23,7 +23,7 @@ public static class ModuleExtensions
         endpoints.MapFilesModuleEndpoints();
         endpoints.UseNodesModule();
         endpoints.MapNotesModuleEndpoints();
-        endpoints.MapRemindersModuleEndpoints();
+        endpoints.UseRemindersModule();
         endpoints.MapTimelinesModuleEndpoints();
         return endpoints;
     }
