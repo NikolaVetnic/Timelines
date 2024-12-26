@@ -19,7 +19,7 @@ public class GetNodeByIdHandler(INodesDbContext dbContext) : IQueryHandler<GetNo
     }
 }
 
-internal static partial class NodeExtensions
+internal static class NodeExtensions
 {
     public static NodeDto ToNodeDto(this Node node)
     {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Nodes.Application.Entities.Nodes.Commands.CreateNode;
 using Nodes.Application.Entities.Nodes.Dtos;
+// ReSharper disable ClassNeverInstantiated.Global
 
 namespace Nodes.Api.Endpoints.Nodes;
 
@@ -30,6 +31,7 @@ public class CreateNode : ICarterModule
     }
 }
 
-public record CreateNodeRequest(NodeDto Node);
+// ReSharper disable once NotAccessedPositionalProperty.Global
+public record CreateNodeRequest(NodeDto NodeDto);
 
 public record CreateNodeResponse(NodeId Id);

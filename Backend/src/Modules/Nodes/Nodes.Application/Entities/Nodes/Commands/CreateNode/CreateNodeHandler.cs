@@ -15,7 +15,7 @@ public class CreateNodeHandler(INodesDbContext dbContext) : ICommandHandler<Crea
     }
 }
 
-internal static partial class CreateNodeCommandExtensions
+internal static class CreateNodeCommandExtensions
 {
     public static Node ToNode(this CreateNodeCommand command)
     {
