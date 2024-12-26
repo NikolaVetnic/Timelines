@@ -10,4 +10,8 @@
         <ProjectReference Include="..\Reminders.Application\Reminders.Application.csproj" />
     </ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
+	</ItemGroup>
+
 </Project>
