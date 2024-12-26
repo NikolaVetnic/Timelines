@@ -16,4 +16,9 @@ public static class NodeExtensions
             node.Categories.ToList(),
             node.Tags.ToList());
     }
+
+    public static IEnumerable<NodeDto> ToNodeDtoList(this IEnumerable<Node> nodes)
+    {
+        return nodes.Select(ToNodeDto);
+    }
 }
