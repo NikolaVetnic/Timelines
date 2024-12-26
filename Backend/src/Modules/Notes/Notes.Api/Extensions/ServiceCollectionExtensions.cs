@@ -25,7 +25,7 @@ public static class ServiceCollectionExtensions
         services.AddCarter();
     }
 
-    public static IEndpointRouteBuilder MapNotesModuleEndpoints(this IEndpointRouteBuilder endpoints)
+    public static IEndpointRouteBuilder UseNotesModule(this IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet("/Notes", () => "Hello World! This is Timelines Notes module.");
         return endpoints;

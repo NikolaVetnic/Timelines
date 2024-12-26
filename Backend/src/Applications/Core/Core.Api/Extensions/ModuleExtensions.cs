@@ -22,7 +22,7 @@ public static class ModuleExtensions
     {
         endpoints.MapFilesModuleEndpoints();
         endpoints.UseNodesModule();
-        endpoints.MapNotesModuleEndpoints();
+        endpoints.UseNotesModule();
         endpoints.UseRemindersModule();
         endpoints.MapTimelinesModuleEndpoints();
         return endpoints;
