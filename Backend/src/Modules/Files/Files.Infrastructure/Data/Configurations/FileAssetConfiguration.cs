@@ -11,6 +11,23 @@ public class FileAssetConfiguration : IEntityTypeConfiguration<FileAsset>
             fileAssetId => fileAssetId.Value,
             dbId => FileAssetId.Of(dbId));
 
-        // ToDo: Add remaining FileAsset configuration commands
+        builder.Property(n => n.Name)
+            .IsRequired()
+            .HasMaxLength(200);
+
+        builder.Property(n => n.Size)
+            .IsRequired();
+
+        builder.Property(n => n.Type)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.Property(n => n.Owner)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.Property(n => n.Description)
+            .IsRequired()
+            .HasMaxLength(500);
     }
 }
