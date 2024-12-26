@@ -2,13 +2,13 @@
 using Files.Application.Dtos;
 using FluentValidation;
 
-namespace Files.Application.Files.Commands.CreateFile;
+namespace Files.Application.Files.Commands.CreateFileAsset;
 
-public record CreateFileCommand(FileAssetDto FileAsset) : ICommand<CreateFileResult>;
+public record CreateFileAssetCommand(FileAssetDto FileAsset) : ICommand<CreateFileResult>;
 
 public record CreateFileResult(FileAssetId AssetId);
 
-public class CreateFileCommandValidator : AbstractValidator<CreateFileCommand>
+public class CreateFileCommandValidator : AbstractValidator<CreateFileAssetCommand>
 {
     public CreateFileCommandValidator()
     {

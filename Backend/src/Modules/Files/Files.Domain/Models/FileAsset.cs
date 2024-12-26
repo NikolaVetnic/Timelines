@@ -31,7 +31,7 @@ public class FileAsset : Aggregate<FileAssetId>
         foreach (var person in sharedWith)
             file.AddPerson(person);
 
-        file.AddDomainEvent(new FileCreatedEvent(file));
+        file.AddDomainEvent(new FileAssetCreatedEvent(file));
 
         return file;
     }
@@ -44,7 +44,7 @@ public class FileAsset : Aggregate<FileAssetId>
         Owner = owner;
         Description = description;
 
-        AddDomainEvent(new FileUpdatedEvent(this));
+        AddDomainEvent(new FileAssetUpdatedEvent(this));
     }
 
     #endregion

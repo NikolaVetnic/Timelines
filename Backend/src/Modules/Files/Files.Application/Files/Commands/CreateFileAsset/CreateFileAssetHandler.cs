@@ -1,12 +1,11 @@
 ﻿using BuildingBlocks.Domain.ValueObjects.Ids;
 using Files.Application.Data;
+namespace Files.Application.Files.Commands.CreateFileAsset;
 
-namespace Files.Application.Files.Commands.CreateFile;
-
-public class CreateFileHandler(IFilesDbContext dbContext) :
-    ICommandHandler<CreateFileCommand, CreateFileResult>
+public class CreateFileAssetHandler(IFilesDbContext dbContext) :
+    ICommandHandler<CreateFileAssetCommand, CreateFileResult>
 {
-    public async Task<CreateFileResult> Handle(CreateFileCommand command, CancellationToken cancellationToken)
+    public async Task<CreateFileResult> Handle(CreateFileAssetCommand command, CancellationToken cancellationToken)
     {
         var fileAsset = FileAsset.Create(
             FileAssetId.Of(Guid.NewGuid()),
