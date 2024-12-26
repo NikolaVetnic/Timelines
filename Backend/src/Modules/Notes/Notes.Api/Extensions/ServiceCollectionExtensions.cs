@@ -1,4 +1,3 @@
-using Carter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
@@ -22,12 +21,12 @@ public static class ServiceCollectionExtensions
 
     private static void AddApiServices(this IServiceCollection services)
     {
-        services.AddCarter();
+        
     }
 
     public static IEndpointRouteBuilder UseNotesModule(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/Notes", () => "Hello World! This is Timelines Notes module.");
+        endpoints.MapGet("/Notes", () => "Notes.Api Test -> Ok!");
         return endpoints;
     }
 }
