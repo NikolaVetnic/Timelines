@@ -1,6 +1,7 @@
 namespace Nodes.Application.Dtos;
 
 public record NodeDto(
+    string Id,
     string Title,
     string Description,
     DateTime Timestamp,
