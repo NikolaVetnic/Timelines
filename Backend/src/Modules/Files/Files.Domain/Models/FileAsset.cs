@@ -4,28 +4,61 @@ namespace Files.Domain.Models;
 
 public class FileAsset : Aggregate<FileAssetId>
 {
-    public required string Title { get; set; }
+    private readonly List<string> _sharedWith = [];
+
+    public IReadOnlyList<string> SharedWith => _sharedWith.AsReadOnly();
+
+    public required string Name { get; set; }
+    public required float Size { get; set; }
+    public required string Type { get; set; }
+    public required string Owner { get; set; }
+    public required string Description { get; set; }
 
     #region File
 
-    public static FileAsset Create(FileAssetId fileAssetId, string title)
+    public static FileAsset Create(FileAssetId fileAssetId, string name, float size, string type, string owner, string description, List<string> sharedWith)
     {
         var file = new FileAsset
         {
             Id = fileAssetId,
-            Title = title
+            Name = name,
+            Size = size,
+            Type = type,
+            Owner = owner,
+            Description = description
         };
+
+        foreach (var person in sharedWith)
+            file.AddPerson(person);
 
         file.AddDomainEvent(new FileCreatedEvent(file));
 
         return file;
     }
 
-    public void Update(string title)
+    public void Update(string name, float size, string type, string owner, string description)
     {
-        Title = title;
+        Name = name;
+        Size = size;
+        Type = type;
+        Owner = owner;
+        Description = description;
 
         AddDomainEvent(new FileUpdatedEvent(this));
+    }
+
+    #endregion
+
+    #region ShadredWith
+
+    private void AddPerson(string person)
+    {
+        _sharedWith.Add(person);
+    }
+
+    private void RemovePerson(string person)
+    {
+        _sharedWith.Remove(person);
     }
 
     #endregion
