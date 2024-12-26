@@ -3,7 +3,7 @@ using Nodes.Application.Data;
 
 namespace Nodes.Application.Nodes.Commands.CreateNode;
 
-public class CreateNodeHandler(INodesDbContext dbContext) :
+public class CreateNodeHandler(INodesDbContext dbContext, IValidator<CreateNodeCommand> validator) :
     ICommandHandler<CreateNodeCommand, CreateNodeResult>
 {
     public async Task<CreateNodeResult> Handle(CreateNodeCommand command, CancellationToken cancellationToken)
