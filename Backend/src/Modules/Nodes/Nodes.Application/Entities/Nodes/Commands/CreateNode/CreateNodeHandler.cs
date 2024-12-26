@@ -1,8 +1,6 @@
-using Nodes.Application.Data;
-
 namespace Nodes.Application.Entities.Nodes.Commands.CreateNode;
 
-public class CreateNodeHandler(INodesDbContext dbContext) : ICommandHandler<CreateNodeCommand, CreateNodeResult>
+internal class CreateNodeHandler(INodesDbContext dbContext) : ICommandHandler<CreateNodeCommand, CreateNodeResult>
 {
     public async Task<CreateNodeResult> Handle(CreateNodeCommand command, CancellationToken cancellationToken)
     {
