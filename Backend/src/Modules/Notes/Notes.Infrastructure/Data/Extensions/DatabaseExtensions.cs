@@ -1,4 +1,5 @@
 ﻿namespace Notes.Infrastructure.Data.Extensions;
+
 public static class DatabaseExtensions
 {
     public static async Task MigrateAndSeedNotesDatabaseAsync(this IServiceProvider services)
