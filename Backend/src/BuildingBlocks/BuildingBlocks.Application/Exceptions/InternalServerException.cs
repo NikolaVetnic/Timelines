@@ -9,5 +9,6 @@ public class InternalServerException : Exception
         Details = details;
     }
 
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public string? Details { get; }
 }
