@@ -12,16 +12,10 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddNotesModule
         (this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddApiServices();
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
 
         return services;
-    }
-
-    private static void AddApiServices(this IServiceCollection services)
-    {
-        
     }
 
     public static IEndpointRouteBuilder UseNotesModule(this IEndpointRouteBuilder endpoints)
