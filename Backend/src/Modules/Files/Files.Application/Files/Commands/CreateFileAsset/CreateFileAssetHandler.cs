@@ -3,9 +3,9 @@ using Files.Application.Data;
 namespace Files.Application.Files.Commands.CreateFileAsset;
 
 public class CreateFileAssetHandler(IFilesDbContext dbContext) :
-    ICommandHandler<CreateFileAssetCommand, CreateFileResult>
+    ICommandHandler<CreateFileAssetCommand, CreateFileAssetResult>
 {
-    public async Task<CreateFileResult> Handle(CreateFileAssetCommand command, CancellationToken cancellationToken)
+    public async Task<CreateFileAssetResult> Handle(CreateFileAssetCommand command, CancellationToken cancellationToken)
     {
         var fileAsset = FileAsset.Create(
             FileAssetId.Of(Guid.NewGuid()),
@@ -20,6 +20,6 @@ public class CreateFileAssetHandler(IFilesDbContext dbContext) :
         dbContext.FileAssets.Add(fileAsset);
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return new CreateFileResult(fileAsset.Id);
+        return new CreateFileAssetResult(fileAsset.Id);
     }
 }

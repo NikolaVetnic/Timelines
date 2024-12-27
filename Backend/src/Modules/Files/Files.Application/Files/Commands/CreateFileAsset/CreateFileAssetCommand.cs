@@ -4,9 +4,9 @@ using FluentValidation;
 
 namespace Files.Application.Files.Commands.CreateFileAsset;
 
-public record CreateFileAssetCommand(FileAssetDto FileAsset) : ICommand<CreateFileResult>;
+public record CreateFileAssetCommand(FileAssetDto FileAsset) : ICommand<CreateFileAssetResult>;
 
-public record CreateFileResult(FileAssetId AssetId);
+public record CreateFileAssetResult(FileAssetId AssetId);
 
 public class CreateFileCommandValidator : AbstractValidator<CreateFileAssetCommand>
 {
