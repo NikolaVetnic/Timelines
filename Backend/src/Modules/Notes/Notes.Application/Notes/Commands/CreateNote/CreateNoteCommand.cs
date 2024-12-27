@@ -14,6 +14,6 @@ public class CreateNoteCommandValidator : AbstractValidator<CreateNoteCommand>
     {
         RuleFor(x => x.Note.Title).NotEmpty().WithMessage("Title is required.");
         RuleFor(x => x.Note.Content).NotEmpty().WithMessage("Content is required.");
-        RuleFor(x => x.Note.Importance).NotEmpty().WithMessage("Importance level is required."); // Do we need range check .InclusiveBeetwen()
+        RuleFor(x => x.Note.Importance).NotEmpty().WithMessage("Importance level is required.");
     }
 }

@@ -12,8 +12,14 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddNotesModule
         (this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddApiServices();
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
+        return services;
+    }
+
+    private static IServiceCollection AddApiServices(this IServiceCollection services)
+    {
         return services;
     }
 
