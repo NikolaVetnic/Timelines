@@ -14,7 +14,6 @@ public static class ServiceCollectionExtensions
     {
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
-
         return services;
     }
 
