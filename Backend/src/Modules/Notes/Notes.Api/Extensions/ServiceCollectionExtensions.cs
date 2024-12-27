@@ -19,7 +19,7 @@ public static class ServiceCollectionExtensions
 
     public static IEndpointRouteBuilder UseNotesModule(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/Notes", () => "Notes.Api Test -> Ok!");
+        endpoints.MapGet("/Notes/Test", () => "Notes.Api Test -> Ok!");
         return endpoints;
     }
 }
