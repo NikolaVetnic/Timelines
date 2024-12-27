@@ -13,7 +13,7 @@ public record ReminderId
 
     public static ReminderId Of(Guid value)
     {
-        if (value == Guid.Empty) throw new DomainException("ReminderId cannot be empty.");
+        if (value == Guid.Empty) throw new EmptyIdException("ReminderId cannot be empty.");
     
         return new ReminderId(value);
     }

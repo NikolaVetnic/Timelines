@@ -1,14 +1,9 @@
 using BuildingBlocks.Domain.ValueObjects.Ids;
-using Carter;
-using Mapster;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Nodes.Application.Dtos;
-using Nodes.Application.Nodes.Commands.CreateNode;
+using Nodes.Application.Entities.Nodes.Commands.CreateNode;
 
-namespace Nodes.Api.Endpoints;
+// ReSharper disable ClassNeverInstantiated.Global
+
+namespace Nodes.Api.Endpoints.Nodes;
 
 public class CreateNode : ICarterModule
 {
@@ -30,6 +25,7 @@ public class CreateNode : ICarterModule
     }
 }
 
+// ReSharper disable once NotAccessedPositionalProperty.Global
 public record CreateNodeRequest(NodeDto Node);
 
 public record CreateNodeResponse(NodeId Id);
