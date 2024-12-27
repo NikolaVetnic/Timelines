@@ -1,4 +1,3 @@
-using BuildingBlocks.Domain.Abstractions;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
