@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllers();
+builder.Services.AddSwaggerDocumentation();
+
 builder.Services.AddCarter();
 builder.Services.AddModules(builder.Configuration);
 
@@ -26,7 +28,10 @@ app.MapGet("/", BuildingBlocksTestClass.GetTestString);
 
 // Environment-specific configuration
 if (app.Environment.IsDevelopment())
+{
+    app.UseSwaggerDocumentation(app.Environment);
     await app.Services.MigrateAndSeedAllModulesAsync();
+}
 
 app.UseHealthChecks("/health",
     new HealthCheckOptions

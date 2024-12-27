@@ -35,8 +35,7 @@
               "title": "Notes on How a Complete Functionality Was Implemented"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -177,10 +176,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "304eef776246af8c",
+  "active": "422b4686ff417c4d",
   "lastOpenFiles": [
-    "Migrations.md",
     "Notes on How a Complete Functionality Was Implemented.md",
+    "Migrations.md",
     "Welcome.md"
   ]
 }
