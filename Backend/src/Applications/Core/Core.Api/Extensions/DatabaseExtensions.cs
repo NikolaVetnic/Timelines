@@ -1,5 +1,6 @@
 using Files.Infrastructure.Data.Extensions;
 using Nodes.Infrastructure.Data.Extensions;
+using Notes.Infrastructure.Data.Extensions;
 using Reminders.Infrastructure.Data.Extensions;
 
 namespace Core.Api.Extensions;
@@ -10,6 +11,7 @@ public static class DatabaseExtensions
     {
         await services.MigrateAndSeedFilesDatabaseAsync();
         await services.MigrateAndSeedNodesDatabaseAsync();
+        await services.MigrateAndSeedNotesDatabaseAsync();
         await services.MigrateAndSeedRemindersDatabaseAsync();
     }
 }
