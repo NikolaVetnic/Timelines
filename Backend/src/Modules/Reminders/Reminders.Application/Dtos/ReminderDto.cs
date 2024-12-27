@@ -1,6 +1,7 @@
 ﻿namespace Reminders.Application.Dtos;
 
 public record ReminderDto(
+    string Id,
     string Title,
     string Description,
     DateTime DueDateTime,
