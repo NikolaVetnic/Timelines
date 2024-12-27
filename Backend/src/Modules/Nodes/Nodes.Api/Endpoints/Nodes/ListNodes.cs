@@ -1,11 +1,4 @@
 using BuildingBlocks.Application.Pagination;
-using Carter;
-using Mapster;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Nodes.Application.Entities.Nodes.Dtos;
 using Nodes.Application.Entities.Nodes.Queries.ListNodes;
 
 namespace Nodes.Api.Endpoints.Nodes;

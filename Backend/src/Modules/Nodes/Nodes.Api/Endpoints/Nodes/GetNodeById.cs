@@ -1,14 +1,8 @@
-using Carter;
-using Mapster;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Nodes.Application.Entities.Nodes.Dtos;
 using Nodes.Application.Entities.Nodes.Queries.GetNodeById;
 
 namespace Nodes.Api.Endpoints.Nodes;
 
+// ReSharper disable once UnusedType.Global
 public class GetNodeById : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
@@ -30,4 +24,5 @@ public class GetNodeById : ICarterModule
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
+// ReSharper disable once NotAccessedPositionalProperty.Global
 public record GetNodeByIdResponse(NodeDto NodeDto);

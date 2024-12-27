@@ -1,12 +1,6 @@
 using BuildingBlocks.Domain.ValueObjects.Ids;
-using Carter;
-using Mapster;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Nodes.Application.Entities.Nodes.Commands.CreateNode;
-using Nodes.Application.Entities.Nodes.Dtos;
+
 // ReSharper disable ClassNeverInstantiated.Global
 
 namespace Nodes.Api.Endpoints.Nodes;
