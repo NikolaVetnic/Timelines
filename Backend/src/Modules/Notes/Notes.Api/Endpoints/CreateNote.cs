@@ -30,6 +30,6 @@ public class CreateNote : ICarterModule
     }
 }
 
-public record CreateNoteRequest(NoteDto Node);
+public record CreateNoteRequest(NoteDto Note);
 
 public record CreateNoteResponse(NoteId Id);
