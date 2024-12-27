@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Timelines.Infrastructure
-{
-    internal class GlobalUsing
-    {
-    }
-}
+﻿global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.DependencyInjection;
+global using BuildingBlocks.Domain.ValueObjects.Ids;
+global using Timelines.Domain.Models;

@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+﻿using System.Reflection;
 using Timelines.Application.Data;
-using Timelines.Domain.Models;
 
 namespace Timelines.Infrastructure.Data;
 

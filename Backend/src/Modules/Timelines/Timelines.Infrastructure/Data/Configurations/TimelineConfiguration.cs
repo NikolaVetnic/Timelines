@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Timelines.Infrastructure.Data.Configurations
+namespace Timelines.Infrastructure.Data.Configurations;
+
+public class TimelineConfiguration : IEntityTypeConfiguration<Timeline>
 {
-    internal class TimelineConfiguration
+    public void Configure(EntityTypeBuilder<Timeline> builder)
     {
+        builder.HasKey(t => t.Id);
+        builder.Property(t => t.Id).HasConversion(
+            timelineId => timelineId.Value,
+            dbId => TimelineId.Of(dbId));
+
+        // ToDo: Add remaining Timeline configuration commands
     }
 }

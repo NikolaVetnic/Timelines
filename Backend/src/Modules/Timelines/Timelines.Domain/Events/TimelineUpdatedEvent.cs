@@ -1,5 +1,4 @@
-﻿using BuildingBlocks.Domain.Abstractions;
-using Timelines.Domain.Models;
+﻿using Timelines.Domain.Models;
 
 namespace Timelines.Domain.Events;
 

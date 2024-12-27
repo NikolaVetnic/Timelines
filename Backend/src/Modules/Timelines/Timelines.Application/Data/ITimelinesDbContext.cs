@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Timelines.Domain.Models;
-
-namespace Timelines.Application.Data;
+﻿namespace Timelines.Application.Data;
 
 public interface ITimelinesDbContext
 {
     DbSet<Timeline> Timelines { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

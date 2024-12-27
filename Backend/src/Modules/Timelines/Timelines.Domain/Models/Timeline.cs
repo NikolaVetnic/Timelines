@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Domain.Abstractions;
-using BuildingBlocks.Domain.ValueObjects.Ids;
-using Timelines.Domain.Events;
+﻿using Timelines.Domain.Events;
 
 namespace Timelines.Domain.Models;
 

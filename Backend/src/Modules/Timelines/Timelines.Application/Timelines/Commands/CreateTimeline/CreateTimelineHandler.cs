@@ -1,12 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BuildingBlocks.Domain.ValueObjects.Ids;
+using Timelines.Application.Data;
 
-namespace Timelines.Application.Timelines.Commands.CreateTimeline
+namespace Timelines.Application.Timelines.Commands.CreateTimeline;
+
+public class CreateTimelineHandler(ITimelinesDbContext dbContext) :
+    ICommandHandler<CreateTimelineCommand, CreateTimelineResult>
 {
-    internal class CreateTimelineHandler
+    public async Task<CreateTimelineResult> Handle(CreateTimelineCommand command, CancellationToken cancellationToken)
     {
+        var timeline = Timeline.Create(
+            TimelineId.Of(Guid.NewGuid()),
+            command.Timeline.Title
+        );
+
+        dbContext.Timelines.Add(timeline);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return new CreateTimelineResult(timeline.Id);
     }
 }

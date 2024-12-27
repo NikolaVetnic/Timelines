@@ -1,12 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Timelines.Application
-{
-    internal class GlobalUsing
-    {
-    }
-}
+﻿global using Microsoft.EntityFrameworkCore;
+global using BuildingBlocks.Application.Cqrs;
+global using Timelines.Domain.Models;
