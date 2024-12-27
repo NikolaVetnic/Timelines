@@ -26,6 +26,6 @@ public class CreateNode : ICarterModule
 }
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
-public record CreateNodeRequest(NodeDto NodeDto);
+public record CreateNodeRequest(NodeDto Node);
 
 public record CreateNodeResponse(NodeId Id);
