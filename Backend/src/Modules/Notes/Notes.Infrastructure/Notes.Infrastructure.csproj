@@ -15,8 +15,4 @@
       <ProjectReference Include="..\Notes.Application\Notes.Application.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Data\Migrations\" />
-    </ItemGroup>
-
 </Project>

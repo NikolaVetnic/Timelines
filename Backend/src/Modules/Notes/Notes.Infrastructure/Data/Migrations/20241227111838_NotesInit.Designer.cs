@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Notes.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(NotesDbContext))]
-    [Migration("20241227111838_MigrationName")]
-    partial class MigrationName
+    [Migration("20241227111838_NotesInit")]
+    partial class NotesInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
