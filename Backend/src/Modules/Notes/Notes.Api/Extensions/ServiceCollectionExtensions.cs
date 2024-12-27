@@ -15,6 +15,7 @@ public static class ServiceCollectionExtensions
         services.AddApiServices();
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
+        
         return services;
     }
 
@@ -26,6 +27,7 @@ public static class ServiceCollectionExtensions
     public static IEndpointRouteBuilder UseNotesModule(this IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet("/Notes/Test", () => "Notes.Api Test -> Ok!");
+        
         return endpoints;
     }
 }
