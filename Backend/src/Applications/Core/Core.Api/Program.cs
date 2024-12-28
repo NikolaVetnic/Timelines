@@ -29,12 +29,8 @@ app.MapCarter();
 
 app.MapGet("/", BuildingBlocksTestClass.GetTestString);
 
-// Environment-specific configuration
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwaggerDocumentation(app.Environment);
-    await app.Services.MigrateAndSeedAllModulesAsync();
-}
+app.UseSwaggerDocumentation(app.Environment);
+await app.Services.MigrateAndSeedAllModulesAsync(app.Environment);
 
 app.UseExceptionHandler(_ => { });
 
