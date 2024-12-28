@@ -27,16 +27,12 @@ app.MapControllers();
 app.UseModules();
 app.MapCarter();
 
-app.UseExceptionHandler(_ => { });
-
 app.MapGet("/", BuildingBlocksTestClass.GetTestString);
 
-// Environment-specific configuration
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwaggerDocumentation(app.Environment);
-    await app.Services.MigrateAndSeedAllModulesAsync();
-}
+app.UseSwaggerDocumentation(app.Environment);
+await app.Services.MigrateAndSeedAllModulesAsync(app.Environment);
+
+app.UseExceptionHandler(_ => { });
 
 app.UseHealthChecks("/health",
     new HealthCheckOptions

@@ -7,8 +7,11 @@ namespace Core.Api.Extensions;
 
 public static class DatabaseExtensions
 {
-    public static async Task MigrateAndSeedAllModulesAsync(this IServiceProvider services)
+    public static async Task MigrateAndSeedAllModulesAsync(this IServiceProvider services, IWebHostEnvironment env)
     {
+        if (!env.IsDevelopment()) 
+            return;
+        
         await services.MigrateAndSeedFilesDatabaseAsync();
         await services.MigrateAndSeedNodesDatabaseAsync();
         await services.MigrateAndSeedNotesDatabaseAsync();
