@@ -20,3 +20,18 @@
     gap: 20px;
     padding: 20px 0;
 }
+
+@media (max-width: 900px) {
+    .timeline-container {
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .timeline-strip {
+        left: 20px;
+    }
+
+    .timeline-cards {
+        padding-left: 60px;
+    }
+}
