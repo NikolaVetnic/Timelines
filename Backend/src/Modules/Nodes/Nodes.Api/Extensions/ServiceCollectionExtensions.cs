@@ -1,5 +1,4 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
+using BuildingBlocks.Api.Converters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Extensions;
@@ -21,8 +20,7 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
-        // services.AddExceptionHandler<CustomExceptionHandler>();
-        // services.AddHealthChecks()...
+        TypeAdapterConfig.GlobalSettings.Scan(typeof(NodeIdConverter).Assembly);
 
         return services;
     }
@@ -30,10 +28,7 @@ public static class ServiceCollectionExtensions
     public static IEndpointRouteBuilder UseNodesModule(this IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet("/Nodes/Test", () => "Nodes.Api Test -> Ok!");
-
-        // app.UseExceptionHandler(_ => { });
-        // app.UseHealthChecks...
-
+        
         return endpoints;
     }
 }

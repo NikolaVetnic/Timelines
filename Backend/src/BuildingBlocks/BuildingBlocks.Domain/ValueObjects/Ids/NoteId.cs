@@ -13,7 +13,7 @@ public record NoteId
 
     public static NoteId Of(Guid value)
     {
-        if (value == Guid.Empty) throw new DomainException("NoteId cannot be empty.");
+        if (value == Guid.Empty) throw new EmptyIdException("NoteId cannot be empty.");
 
         return new NoteId(value);
     }

@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Nodes.Application.Entities.Nodes.Queries.GetNodeById;
 
 namespace Nodes.Api.Endpoints.Nodes;
@@ -25,4 +26,4 @@ public class GetNodeById : ICarterModule
 
 // ReSharper disable once ClassNeverInstantiated.Global
 // ReSharper disable once NotAccessedPositionalProperty.Global
-public record GetNodeByIdResponse(NodeDto NodeDto);
+public record GetNodeByIdResponse([property: JsonPropertyName("node")] NodeDto NodeDto);

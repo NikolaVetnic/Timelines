@@ -6,7 +6,7 @@ internal static class InitialData
         new List<Note>
         {
             Note.Create(
-                NoteId.Of(Guid.Parse("d562b07b-ea65-45d4-958d-4e890391cbc7")),
+                NoteId.Of(Guid.Parse("74dad71c-4ddc-4d4d-a894-3307ddc3fe10")),
                 "Check time!",
                 "Check for the exact time of the Court Proceedings.",
                 DateTime.UtcNow,
@@ -14,7 +14,7 @@ internal static class InitialData
             ),
 
             Note.Create(
-                NoteId.Of(Guid.Parse("d562b07b-ea65-45d4-958d-4e890391cbc7")),
+                NoteId.Of(Guid.Parse("dffbedcb-b793-4ac2-8767-1fb391033644")),
                 "Additional documents",
                 "Make sure you bring both folders.",
                 DateTime.UtcNow,
