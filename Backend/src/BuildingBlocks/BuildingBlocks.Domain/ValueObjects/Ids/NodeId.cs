@@ -1,4 +1,6 @@
-﻿using BuildingBlocks.Domain.Exceptions;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using BuildingBlocks.Domain.Exceptions;
 
 namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
@@ -9,7 +11,7 @@ public record NodeId
         Value = value;
     }
 
-    public Guid Value { get; }
+    public Guid Value { get; init; }
 
     public static NodeId Of(Guid value)
     {
@@ -17,4 +19,10 @@ public record NodeId
 
         return new NodeId(value);
     }
+
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }
+
