@@ -13,7 +13,7 @@ public record TimelineId
 
     public static TimelineId Of(Guid value)
     {
-        if (value == Guid.Empty) throw new DomainException("TimelineId cannot be empty.");
+        if (value == Guid.Empty) throw new EmptyIdException("TimelineId cannot be empty.");
 
         return new TimelineId(value);
     }
