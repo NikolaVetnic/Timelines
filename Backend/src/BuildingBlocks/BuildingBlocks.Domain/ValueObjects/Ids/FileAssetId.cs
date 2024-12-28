@@ -13,7 +13,7 @@ public record FileAssetId
 
     public static FileAssetId Of(Guid value)
     {
-        if (value == Guid.Empty) throw new DomainException("FileAssetId cannot be empty.");
+        if (value == Guid.Empty) throw new EmptyIdException("FileAssetId cannot be empty.");
 
         return new FileAssetId(value);
     }
