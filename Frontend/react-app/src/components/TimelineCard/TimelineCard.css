@@ -1,0 +1,41 @@
+.timeline-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.timeline-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.card-header span {
+    font-size: 1.5rem;
+}
+
+.card-content {
+    padding: 15px 20px;
+    text-align: left;
+}
+
+.card-content img {
+    max-width: 100%;
+    margin-top: 10px;
+    border-radius: 4px;
+}
