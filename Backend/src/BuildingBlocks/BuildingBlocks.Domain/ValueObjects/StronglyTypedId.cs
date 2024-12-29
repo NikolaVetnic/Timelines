@@ -3,8 +3,7 @@ using System.Text.Json;
 
 namespace BuildingBlocks.Domain.ValueObjects;
 
-public abstract record StronglyTypedId<T>
-    where T : StronglyTypedId<T>
+public abstract record StronglyTypedId<T> where T : StronglyTypedId<T>
 {
     protected StronglyTypedId(Guid value)
     {
@@ -19,8 +18,7 @@ public abstract record StronglyTypedId<T>
     public override string ToString() => Value.ToString();
 }
 
-public class StronglyTypedIdJsonConverter<T> : JsonConverter<T>
-    where T : StronglyTypedId<T>
+public class StronglyTypedIdJsonConverter<T> : JsonConverter<T> where T : StronglyTypedId<T>
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
