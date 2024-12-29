@@ -1,20 +1,13 @@
-﻿using BuildingBlocks.Domain.Exceptions;
+﻿using System.Text.Json.Serialization;
 
 namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
-public record ReminderId
+[JsonConverter(typeof(ReminderIdJsonConverter))]
+public record ReminderId : StronglyTypedId<ReminderId>
 {
-    private ReminderId(Guid value)
-    {
-        Value = value;
-    }
+    private ReminderId(Guid value) : base(value) { }
 
-    public Guid Value { get; }
+    public static ReminderId Of(Guid value) => new(value);
 
-    public static ReminderId Of(Guid value)
-    {
-        if (value == Guid.Empty) throw new EmptyIdException("ReminderId cannot be empty.");
-    
-        return new ReminderId(value);
-    }
+    public class ReminderIdJsonConverter : StronglyTypedIdJsonConverter<ReminderId>;
 }

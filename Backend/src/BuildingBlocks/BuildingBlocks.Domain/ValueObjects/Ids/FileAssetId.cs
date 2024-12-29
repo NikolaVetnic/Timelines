@@ -1,20 +1,13 @@
-﻿using BuildingBlocks.Domain.Exceptions;
+﻿using System.Text.Json.Serialization;
 
 namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
-public record FileAssetId
+[JsonConverter(typeof(FileAssetIdJsonConverter))]
+public record FileAssetId : StronglyTypedId<FileAssetId>
 {
-    private FileAssetId(Guid value)
-    {
-        Value = value;
-    }
+    private FileAssetId(Guid value) : base(value) { }
 
-    public Guid Value { get; }
+    public static FileAssetId Of(Guid value) => new(value);
 
-    public static FileAssetId Of(Guid value)
-    {
-        if (value == Guid.Empty) throw new EmptyIdException("FileAssetId cannot be empty.");
-
-        return new FileAssetId(value);
-    }
+    public class FileAssetIdJsonConverter : StronglyTypedIdJsonConverter<FileAssetId>;
 }
