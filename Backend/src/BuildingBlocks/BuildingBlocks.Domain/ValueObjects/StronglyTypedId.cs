@@ -18,23 +18,24 @@ public abstract record StronglyTypedId
     public override string ToString() => Value.ToString();
 }
 
-public class StronglyTypedIdJsonConverter<T> : JsonConverter<T> where T : StronglyTypedId
+public class StronglyTypedIdJsonConverter : JsonConverter<StronglyTypedId>
 {
-    public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override StronglyTypedId Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var value = reader.GetString();
 
         if (Guid.TryParse(value, out var guid))
         {
-            var constructor = typeof(T).GetConstructor(new[] { typeof(Guid) });
+            var constructor = typeToConvert.GetConstructor(new[] { typeof(Guid) });
 
             if (constructor != null)
-                return (T)constructor.Invoke(new object[] { guid });
+                return (StronglyTypedId)constructor.Invoke(new object[] { guid });
         }
 
-        throw new JsonException($"Invalid GUID format for {typeof(T).Name}: {value}");
+        throw new JsonException($"Invalid GUID format for {typeToConvert.Name}: {value}");
     }
 
-    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options) =>
+    public override void Write(Utf8JsonWriter writer, StronglyTypedId value, JsonSerializerOptions options) =>
         writer.WriteStringValue(value.Value.ToString());
 }
+

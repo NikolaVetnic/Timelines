@@ -9,5 +9,5 @@ public record ReminderId : StronglyTypedId
 
     public static ReminderId Of(Guid value) => new(value);
 
-    public class ReminderIdJsonConverter : StronglyTypedIdJsonConverter<ReminderId>;
+    public class ReminderIdJsonConverter : StronglyTypedIdJsonConverter;
 }
