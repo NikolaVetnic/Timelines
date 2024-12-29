@@ -9,5 +9,5 @@ public record NoteId : StronglyTypedId
 
     public static NoteId Of(Guid value) => new(value);
 
-    public class NoteIdJsonConverter : StronglyTypedIdJsonConverter;
+    public class NoteIdJsonConverter : StronglyTypedIdJsonConverter<NoteId>;
 }
