@@ -1,20 +1,13 @@
-﻿using BuildingBlocks.Domain.Exceptions;
+﻿using System.Text.Json.Serialization;
 
 namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
-public record TimelineId
+[JsonConverter(typeof(TimelineIdJsonConverter))]
+public record TimelineId : StronglyTypedId<TimelineId>
 {
-    private TimelineId(Guid value)
-    {
-        Value = value;
-    }
+    private TimelineId(Guid value) : base(value) { }
 
-    public Guid Value { get; }
+    public static TimelineId Of(Guid value) => new(value);
 
-    public static TimelineId Of(Guid value)
-    {
-        if (value == Guid.Empty) throw new EmptyIdException("TimelineId cannot be empty.");
-
-        return new TimelineId(value);
-    }
+    public class TimelineIdJsonConverter : StronglyTypedIdJsonConverter<TimelineId>;
 }
