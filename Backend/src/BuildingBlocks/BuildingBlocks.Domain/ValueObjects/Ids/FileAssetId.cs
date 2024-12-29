@@ -3,7 +3,7 @@
 namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
 [JsonConverter(typeof(FileAssetIdJsonConverter))]
-public record FileAssetId : StronglyTypedId<FileAssetId>
+public record FileAssetId : StronglyTypedId
 {
     private FileAssetId(Guid value) : base(value) { }
 

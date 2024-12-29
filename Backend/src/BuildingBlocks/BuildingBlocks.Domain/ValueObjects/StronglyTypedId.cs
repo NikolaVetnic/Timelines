@@ -3,12 +3,12 @@ using System.Text.Json;
 
 namespace BuildingBlocks.Domain.ValueObjects;
 
-public abstract record StronglyTypedId<T> where T : StronglyTypedId<T>
+public abstract record StronglyTypedId
 {
     protected StronglyTypedId(Guid value)
     {
         if (value == Guid.Empty)
-            throw new ArgumentException($"{typeof(T).Name} cannot be empty.", nameof(value));
+            throw new ArgumentException($"{GetType().Name} cannot be empty.", nameof(value));
 
         Value = value;
     }
@@ -18,7 +18,7 @@ public abstract record StronglyTypedId<T> where T : StronglyTypedId<T>
     public override string ToString() => Value.ToString();
 }
 
-public class StronglyTypedIdJsonConverter<T> : JsonConverter<T> where T : StronglyTypedId<T>
+public class StronglyTypedIdJsonConverter<T> : JsonConverter<T> where T : StronglyTypedId
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

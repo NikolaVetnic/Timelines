@@ -3,7 +3,7 @@
 namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
 [JsonConverter(typeof(NodeIdJsonConverter))]
-public record NodeId : StronglyTypedId<NodeId>
+public record NodeId : StronglyTypedId
 {
     private NodeId(Guid value) : base(value) { }
 

@@ -3,7 +3,7 @@
 namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
 [JsonConverter(typeof(TimelineIdJsonConverter))]
-public record TimelineId : StronglyTypedId<TimelineId>
+public record TimelineId : StronglyTypedId
 {
     private TimelineId(Guid value) : base(value) { }
 

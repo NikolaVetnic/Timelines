@@ -3,7 +3,7 @@
 namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
 [JsonConverter(typeof(ReminderIdJsonConverter))]
-public record ReminderId : StronglyTypedId<ReminderId>
+public record ReminderId : StronglyTypedId
 {
     private ReminderId(Guid value) : base(value) { }
 
