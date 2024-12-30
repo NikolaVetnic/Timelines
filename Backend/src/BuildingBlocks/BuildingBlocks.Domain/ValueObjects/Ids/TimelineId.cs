@@ -9,5 +9,5 @@ public record TimelineId : StronglyTypedId
 
     public static TimelineId Of(Guid value) => new(value);
 
-    public class TimelineIdJsonConverter : StronglyTypedIdJsonConverter<TimelineId>;
+    private class TimelineIdJsonConverter : StronglyTypedIdJsonConverter<TimelineId>;
 }

@@ -9,5 +9,5 @@ public record FileAssetId : StronglyTypedId
 
     public static FileAssetId Of(Guid value) => new(value);
 
-    public class FileAssetIdJsonConverter : StronglyTypedIdJsonConverter<FileAssetId>;
+    private class FileAssetIdJsonConverter : StronglyTypedIdJsonConverter<FileAssetId>;
 }

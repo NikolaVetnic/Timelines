@@ -9,5 +9,5 @@ public record NodeId : StronglyTypedId
 
     public static NodeId Of(Guid value) => new(value);
 
-    public class NodeIdJsonConverter : StronglyTypedIdJsonConverter<NodeId>;
+    private class NodeIdJsonConverter : StronglyTypedIdJsonConverter<NodeId>;
 }
