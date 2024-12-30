@@ -1,8 +1,7 @@
-﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using FluentValidation;
-using Reminders.Application.Dtos;
+﻿using FluentValidation;
+using Reminders.Application.Entities.Reminders.Dtos;
 
-namespace Reminders.Application.Reminders.Commands.CreateReminder;
+namespace Reminders.Application.Entities.Reminders.Commands.CreateReminder;
 
 public record CreateReminderCommand(ReminderDto Reminder) : ICommand<CreateReminderResult>;
 

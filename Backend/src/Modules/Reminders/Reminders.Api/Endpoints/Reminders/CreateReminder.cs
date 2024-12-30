@@ -1,14 +1,8 @@
 ﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using Carter;
-using MediatR;
-using Mapster;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Reminders.Application.Dtos;
-using Reminders.Application.Reminders.Commands.CreateReminder;
+using Reminders.Application.Entities.Reminders.Commands.CreateReminder;
+using Reminders.Application.Entities.Reminders.Dtos;
 
-namespace Reminders.Api.Endpoints;
+namespace Reminders.Api.Endpoints.Reminders;
 
 public class CreateReminder : ICarterModule
 {

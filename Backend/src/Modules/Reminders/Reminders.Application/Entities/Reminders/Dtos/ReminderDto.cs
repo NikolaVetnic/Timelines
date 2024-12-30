@@ -1,4 +1,4 @@
-﻿namespace Reminders.Application.Dtos;
+﻿namespace Reminders.Application.Entities.Reminders.Dtos;
 
 public record ReminderDto(
     string Id,
