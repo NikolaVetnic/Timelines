@@ -23,4 +23,4 @@ public class GetNotesById : ICarterModule
     }
 }
 
-public record GetNoteByIdResponse([property: JsonPropertyName("node")] NoteDto NodeDto);
+public record GetNoteByIdResponse([property: JsonPropertyName("note")] NoteDto NoteDto);

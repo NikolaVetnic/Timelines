@@ -4,18 +4,18 @@ namespace Notes.Application.Entities.Notes.Extensions;
 
 public static class NoteExtensions
 {
-    public static NoteDto ToNoteDto(this Note node)
+    public static NoteDto ToNoteDto(this Note note)
     {
         return new NoteDto(
-            node.Id.ToString(),
-            node.Title,
-            node.Content,
-            node.Timestamp,
-            node.Importance);
+            note.Id.ToString(),
+            note.Title,
+            note.Content,
+            note.Timestamp,
+            note.Importance);
     }
 
-    public static IEnumerable<NoteDto> ToNodeDtoList(this IEnumerable<Note> nodes)
+    public static IEnumerable<NoteDto> ToNodeDtoList(this IEnumerable<Note> notes)
     {
-        return nodes.Select(ToNoteDto);
+        return notes.Select(ToNoteDto);
     }
 }
