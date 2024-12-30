@@ -13,7 +13,7 @@ internal class GetNoteByIdHandler(INotesDbContext dbContext) : IQueryHandler<Get
 
         if (note is null)
             throw new NoteNotFoundException(request.Id);
-        
+
         return new GetNoteByIdResult(note.ToNoteDto());
     }
 }
