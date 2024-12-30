@@ -7,7 +7,7 @@ public class ListReminders : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/Nodes", async ([AsParameters] PaginationRequest query, ISender sender) =>
+        app.MapGet("/Reminders", async ([AsParameters] PaginationRequest query, ISender sender) =>
             {
                 var result = await sender.Send(new ListRemindersQuery(query));
                 var response = result.Adapt<ListRemindersResponse>();
@@ -24,4 +24,4 @@ public class ListReminders : ICarterModule
 
 // ReSharper disable once ClassNeverInstantiated.Global
 // ReSharper disable once NotAccessedPositionalProperty.Global
-public record ListRemindersResponse(PaginatedResult<ReminderDto> Nodes);
+public record ListRemindersResponse(PaginatedResult<ReminderDto> Reminders);
