@@ -16,11 +16,11 @@ public class FileAsset : Aggregate<FileAssetId>
 
     #region File
 
-    public static FileAsset Create(FileAssetId fileAssetId, string name, float size, string type, string owner, string description, List<string> sharedWith)
+    public static FileAsset Create(FileAssetId id, string name, float size, string type, string owner, string description, List<string> sharedWith)
     {
         var file = new FileAsset
         {
-            Id = fileAssetId,
+            Id = id,
             Name = name,
             Size = size,
             Type = type,

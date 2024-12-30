@@ -13,8 +13,8 @@ public record PhaseId
 
     public static PhaseId Of(Guid value)
     {
-        ArgumentNullException.ThrowIfNull(value);
-        if (value == Guid.Empty) throw new EmptyIdException("PhaseId cannot be empty.");
+        if (value == Guid.Empty) 
+            throw new EmptyIdException("PhaseId cannot be empty.");
 
         return new PhaseId(value);
     }
