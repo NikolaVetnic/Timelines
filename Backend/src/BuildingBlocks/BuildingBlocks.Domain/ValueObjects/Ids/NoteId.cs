@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Domain.Exceptions;
-
-namespace BuildingBlocks.Domain.ValueObjects.Ids;
+﻿namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
 public record NoteId
 {
