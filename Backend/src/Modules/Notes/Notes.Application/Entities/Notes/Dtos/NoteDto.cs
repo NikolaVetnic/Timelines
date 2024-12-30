@@ -1,4 +1,4 @@
-﻿namespace Notes.Application.Dtos;
+﻿namespace Notes.Application.Entities.Notes.Dtos;
 
 public record NoteDto(
     string Title,

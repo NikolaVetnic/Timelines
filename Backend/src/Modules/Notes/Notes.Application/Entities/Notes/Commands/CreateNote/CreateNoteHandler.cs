@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.Domain.ValueObjects.Ids;
 using Notes.Application.Data;
 
-namespace Notes.Application.Notes.Commands.CreateNote;
+namespace Notes.Application.Entities.Notes.Commands.CreateNote;
 
 public class CreateNoteHandler(INotesDbContext dbContext)
     : ICommandHandler<CreateNoteCommand, CreateNoteResult>
