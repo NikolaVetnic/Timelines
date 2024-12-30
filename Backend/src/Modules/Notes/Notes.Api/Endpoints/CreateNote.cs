@@ -1,11 +1,4 @@
 ﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using Carter;
-using Mapster;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Notes.Application.Dtos;
 using Notes.Application.Notes.Commands.CreateNote;
 
 namespace Notes.Api.Endpoints;
