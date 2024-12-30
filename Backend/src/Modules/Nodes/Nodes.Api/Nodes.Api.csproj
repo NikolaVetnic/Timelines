@@ -1,16 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <OutputType>Library</OutputType>
     </PropertyGroup>
-
-    <ItemGroup>
-      <Compile Remove="Converters\**" />
-      <Content Remove="Converters\**" />
-      <EmbeddedResource Remove="Converters\**" />
-      <None Remove="Converters\**" />
-    </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks.Api\BuildingBlocks.Api.csproj" />
