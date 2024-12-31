@@ -1,13 +1,7 @@
 ﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using Files.Application.Files.Commands.CreateFileAsset;
+using Files.Application.Entities.Files.Commands.CreateFileAsset;
 
 // ReSharper disable ClassNeverInstantiated.Global
-using Files.Application.Entities.Files.Commands.CreateFileAsset;
-using Mapster;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 
 namespace Files.Api.Endpoints.Files;
 
@@ -32,4 +26,6 @@ public class CreateFileAsset : ICarterModule
 }
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
+public record CreateFileAssetRequest(FileAssetDto FileAsset);
+
 public record CreateFileAssetResponse(FileAssetId Id);
