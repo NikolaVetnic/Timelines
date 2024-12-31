@@ -2,8 +2,10 @@
 
 namespace Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public record CreateTimelineCommand(TimelineDto Timeline) : ICommand<CreateTimelineResult>;
 
+// ReSharper disable once NotAccessedPositionalProperty.Global
 public record CreateTimelineResult(TimelineId Id);
 
 public class CreateTimelineCommandValidator : AbstractValidator<CreateTimelineCommand>

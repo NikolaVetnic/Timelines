@@ -1,7 +1,6 @@
 ﻿namespace Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
-public class CreateTimelineHandler(ITimelinesDbContext dbContext) :
-    ICommandHandler<CreateTimelineCommand, CreateTimelineResult>
+internal class CreateTimelineHandler(ITimelinesDbContext dbContext) : ICommandHandler<CreateTimelineCommand, CreateTimelineResult>
 {
     public async Task<CreateTimelineResult> Handle(CreateTimelineCommand command, CancellationToken cancellationToken)
     {
