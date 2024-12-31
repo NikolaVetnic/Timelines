@@ -1,8 +1,7 @@
 ﻿using BuildingBlocks.Domain.ValueObjects.Ids;
 using Notes.Application.Entities.Notes.Commands.CreateNote;
-using Notes.Application.Entities.Notes.Dtos;
 
-namespace Notes.Api.Endpoints;
+namespace Notes.Api.Endpoints.Notes;
 
 public class CreateNote : ICarterModule
 {

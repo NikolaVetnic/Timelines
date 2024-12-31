@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Notes.Application.Entities.Notes.Queries.GetNoteById;
 
-namespace Notes.Api.Endpoints;
+namespace Notes.Api.Endpoints.Notes;
 
 public class GetNotesById : ICarterModule
 {

@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.Application.Pagination;
 using Notes.Application.Entities.Notes.Queries.ListNotes;
 
-namespace Notes.Api.Endpoints;
+namespace Notes.Api.Endpoints.Notes;
 
 public class ListNotes : ICarterModule
 {
