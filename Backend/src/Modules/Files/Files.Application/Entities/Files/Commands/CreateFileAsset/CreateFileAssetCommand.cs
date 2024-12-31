@@ -4,7 +4,7 @@ namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
 
 public record CreateFileAssetCommand(FileAssetDto FileAsset) : ICommand<CreateFileAssetResult>;
 
-public record CreateFileAssetResult(FileAssetId AssetId);
+public record CreateFileAssetResult(FileAssetId Id);
 
 public class CreateFileCommandValidator : AbstractValidator<CreateFileAssetCommand>
 {
