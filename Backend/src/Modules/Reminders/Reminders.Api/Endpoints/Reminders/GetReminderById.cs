@@ -8,9 +8,9 @@ public class GetReminderById : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/Reminders/{reminderId}", async (string nodeId, ISender sender) =>
+        app.MapGet("/Reminders/{reminderId}", async (string reminderId, ISender sender) =>
             {
-                var result = await sender.Send(new GetReminderByIdQuery(nodeId));
+                var result = await sender.Send(new GetReminderByIdQuery(reminderId));
                 var response = result.Adapt<GetReminderByIdResponse>();
 
                 return Results.Ok(response);
