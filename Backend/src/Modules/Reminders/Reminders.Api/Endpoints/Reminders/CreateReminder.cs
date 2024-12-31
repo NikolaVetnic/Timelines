@@ -1,6 +1,5 @@
 ﻿using BuildingBlocks.Domain.ValueObjects.Ids;
 using Reminders.Application.Entities.Reminders.Commands.CreateReminder;
-using Reminders.Application.Entities.Reminders.Dtos;
 
 namespace Reminders.Api.Endpoints.Reminders;
 
