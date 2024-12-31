@@ -3,7 +3,7 @@ using Notes.Application.Entities.Notes.Queries.GetNoteById;
 
 namespace Notes.Api.Endpoints.Notes;
 
-public class GetNotesById : ICarterModule
+public class GetNoteById : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
