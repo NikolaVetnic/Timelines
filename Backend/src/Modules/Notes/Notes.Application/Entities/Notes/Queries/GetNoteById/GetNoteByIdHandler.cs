@@ -5,14 +5,14 @@ namespace Notes.Application.Entities.Notes.Queries.GetNoteById;
 
 internal class GetNoteByIdHandler(INotesDbContext dbContext) : IQueryHandler<GetNoteByIdQuery, GetNoteByIdResult>
 {
-    public async Task<GetNoteByIdResult> Handle(GetNoteByIdQuery request, CancellationToken cancellationToken)
+    public async Task<GetNoteByIdResult> Handle(GetNoteByIdQuery query, CancellationToken cancellationToken)
     {
         var note = await dbContext.Notes
             .AsNoTracking()
-            .SingleOrDefaultAsync(n => n.Id == NoteId.Of(Guid.Parse(request.Id)), cancellationToken);
+            .SingleOrDefaultAsync(n => n.Id == NoteId.Of(Guid.Parse(query.Id)), cancellationToken);
 
         if (note is null)
-            throw new NoteNotFoundException(request.Id);
+            throw new NoteNotFoundException(query.Id);
 
         return new GetNoteByIdResult(note.ToNoteDto());
     }
