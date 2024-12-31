@@ -1,10 +1,11 @@
-﻿using FluentValidation;
-using Reminders.Application.Entities.Reminders.Dtos;
+﻿using Reminders.Application.Entities.Reminders.Dtos;
 
 namespace Reminders.Application.Entities.Reminders.Commands.CreateReminder;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public record CreateReminderCommand(ReminderDto Reminder) : ICommand<CreateReminderResult>;
 
+// ReSharper disable once NotAccessedPositionalProperty.Global
 public record CreateReminderResult(ReminderId Id);
 
 public class CreateReminderCommandValidator : AbstractValidator<CreateReminderCommand>

@@ -1,5 +1,5 @@
-﻿using Reminders.Application.Entities.Reminders.Queries.GetReminderById;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using Reminders.Application.Entities.Reminders.Queries.GetReminderById;
 
 namespace Reminders.Api.Endpoints.Reminders;
 
@@ -9,18 +9,18 @@ public class GetReminderById : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/Reminders/{reminderId}", async (string reminderId, ISender sender) =>
-            {
-                var result = await sender.Send(new GetReminderByIdQuery(reminderId));
-                var response = result.Adapt<GetReminderByIdResponse>();
+        {
+            var result = await sender.Send(new GetReminderByIdQuery(reminderId));
+            var response = result.Adapt<GetReminderByIdResponse>();
 
-                return Results.Ok(response);
-            })
-            .WithName("GetReminderById")
-            .Produces<GetReminderByIdResponse>()
-            .ProducesProblem(StatusCodes.Status400BadRequest)
-            .ProducesProblem(StatusCodes.Status404NotFound)
-            .WithSummary("Get Reminder by Id")
-            .WithDescription("Get Reminder by Id");
+            return Results.Ok(response);
+        })
+        .WithName("GetReminderById")
+        .Produces<GetReminderByIdResponse>()
+        .ProducesProblem(StatusCodes.Status400BadRequest)
+        .ProducesProblem(StatusCodes.Status404NotFound)
+        .WithSummary("Get Reminder by Id")
+        .WithDescription("Get Reminder by Id");
     }
 }
 
