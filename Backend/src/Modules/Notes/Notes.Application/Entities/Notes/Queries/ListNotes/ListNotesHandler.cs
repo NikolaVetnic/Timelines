@@ -4,7 +4,7 @@ using Notes.Application.Entities.Notes.Extensions;
 
 namespace Notes.Application.Entities.Notes.Queries.ListNotes;
 
-public class ListNotesHandler(INotesDbContext dbContext) : IQueryHandler<ListNotesQuery, ListNotesResult>
+internal class ListNotesHandler(INotesDbContext dbContext) : IQueryHandler<ListNotesQuery, ListNotesResult>
 {
     public async Task<ListNotesResult> Handle(ListNotesQuery query, CancellationToken cancellationToken)
     {

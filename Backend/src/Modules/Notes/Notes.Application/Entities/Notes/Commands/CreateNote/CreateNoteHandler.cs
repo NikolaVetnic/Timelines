@@ -1,6 +1,6 @@
 ﻿namespace Notes.Application.Entities.Notes.Commands.CreateNote;
 
-public class CreateNoteHandler(INotesDbContext dbContext)
+internal class CreateNoteHandler(INotesDbContext dbContext)
     : ICommandHandler<CreateNoteCommand, CreateNoteResult>
 {
     public async Task<CreateNoteResult> Handle(CreateNoteCommand command, CancellationToken cancellationToken)
