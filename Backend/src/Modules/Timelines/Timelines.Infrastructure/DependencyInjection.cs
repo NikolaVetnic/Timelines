@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Timelines.Application.Data;
 using Timelines.Infrastructure.Data;
+using Timelines.Infrastructure.Data.Interceptors;
 
 namespace Timelines.Infrastructure;
 
@@ -11,6 +12,9 @@ public static class DependencyInjection
         (this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
         // Add Timeline-specific DbContext
         services.AddDbContext<TimelinesDbContext>((serviceProvider, options) =>

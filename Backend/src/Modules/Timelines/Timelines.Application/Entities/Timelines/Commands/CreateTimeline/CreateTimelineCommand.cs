@@ -1,8 +1,6 @@
-﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using FluentValidation;
-using Timelines.Application.Dtos;
+﻿using Timelines.Application.Entities.Timelines.Dtos;
 
-namespace Timelines.Application.Timelines.Commands.CreateTimeline;
+namespace Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
 public record CreateTimelineCommand(TimelineDto Timeline) : ICommand<CreateTimelineResult>;
 

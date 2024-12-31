@@ -1,14 +1,7 @@
 ﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using Carter;
-using Mapster;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Timelines.Application.Dtos;
-using Timelines.Application.Timelines.Commands.CreateTimeline;
+using Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
-namespace Timelines.Api.Endpoints;
+namespace Timelines.Api.Endpoints.Timelines;
 
 public class CreateTimeline : ICarterModule
 {

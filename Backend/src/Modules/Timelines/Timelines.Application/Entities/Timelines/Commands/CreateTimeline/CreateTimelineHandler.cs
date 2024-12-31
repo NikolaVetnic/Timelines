@@ -1,7 +1,4 @@
-﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using Timelines.Application.Data;
-
-namespace Timelines.Application.Timelines.Commands.CreateTimeline;
+﻿namespace Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
 public class CreateTimelineHandler(ITimelinesDbContext dbContext) :
     ICommandHandler<CreateTimelineCommand, CreateTimelineResult>
