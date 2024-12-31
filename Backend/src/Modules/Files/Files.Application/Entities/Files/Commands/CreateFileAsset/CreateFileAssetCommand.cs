@@ -2,8 +2,10 @@
 
 namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public record CreateFileAssetCommand(FileAssetDto FileAsset) : ICommand<CreateFileAssetResult>;
 
+// ReSharper disable once NotAccessedPositionalProperty.Global
 public record CreateFileAssetResult(FileAssetId Id);
 
 public class CreateFileCommandValidator : AbstractValidator<CreateFileAssetCommand>

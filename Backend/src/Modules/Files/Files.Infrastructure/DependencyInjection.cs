@@ -1,7 +1,7 @@
-﻿using Files.Application.Data;
-using Files.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using Files.Application.Data;
+using Files.Infrastructure.Data;
 using Files.Infrastructure.Data.Interceptors;
 
 namespace Files.Infrastructure;

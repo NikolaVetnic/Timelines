@@ -3,6 +3,7 @@ using Files.Application.Entities.Files.Queries.GetFileAssetById;
 
 namespace Files.Api.Endpoints.Files;
 
+// ReSharper disable once UnusedType.Global
 public class GetFileAssetById : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
