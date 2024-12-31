@@ -1,4 +1,4 @@
-﻿namespace Files.Application.Dtos;
+﻿namespace Files.Application.Entities.Files.Dtos;
 
 public record FileAssetDto(
     string Id,

@@ -2,6 +2,7 @@
 using Files.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using Files.Infrastructure.Data.Interceptors;
 
 namespace Files.Infrastructure;
 
@@ -11,6 +12,9 @@ public static class DependencyInjection
         (this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
         // Add File-specific DbContext
         services.AddDbContext<FilesDbContext>((serviceProvider, options) =>

@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using Files.Application.Data;
-namespace Files.Application.Files.Commands.CreateFileAsset;
+﻿namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
 
 public class CreateFileAssetHandler(IFilesDbContext dbContext) :
     ICommandHandler<CreateFileAssetCommand, CreateFileAssetResult>

@@ -1,8 +1,6 @@
-﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using Files.Application.Dtos;
-using FluentValidation;
+﻿using Files.Application.Entities.Files.Dtos;
 
-namespace Files.Application.Files.Commands.CreateFileAsset;
+namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
 
 public record CreateFileAssetCommand(FileAssetDto FileAsset) : ICommand<CreateFileAssetResult>;
 

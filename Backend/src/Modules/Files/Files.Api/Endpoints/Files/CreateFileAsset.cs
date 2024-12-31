@@ -1,14 +1,7 @@
 ﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using Carter;
-using Files.Application.Dtos;
-using Files.Application.Files.Commands.CreateFileAsset;
-using Mapster;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
+using Files.Application.Entities.Files.Commands.CreateFileAsset;
 
-namespace Files.Api.Endpoints;
+namespace Files.Api.Endpoints.Files;
 
 public class CreateFileAsset : ICarterModule
 {
