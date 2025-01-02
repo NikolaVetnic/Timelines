@@ -12,6 +12,7 @@
     width: 4px;
     height: 100%;
     background-color: #ddd;
+    z-index: 1;
 }
 
 .timeline-cards {
@@ -19,6 +20,8 @@
     flex-direction: column;
     gap: 20px;
     padding: 20px 0;
+    position: relative;
+    z-index: 2;
 }
 
 @media (max-width: 900px) {
