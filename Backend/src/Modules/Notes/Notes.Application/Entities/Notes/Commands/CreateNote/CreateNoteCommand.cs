@@ -1,8 +1,6 @@
-﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using FluentValidation;
-using Notes.Application.Dtos;
+﻿using Notes.Application.Entities.Notes.Dtos;
 
-namespace Notes.Application.Notes.Commands.CreateNote;
+namespace Notes.Application.Entities.Notes.Commands.CreateNote;
 
 public record CreateNoteCommand(NoteDto Note) : ICommand<CreateNoteResult>;
 

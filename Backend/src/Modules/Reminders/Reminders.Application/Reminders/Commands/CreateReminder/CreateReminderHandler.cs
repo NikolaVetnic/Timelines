@@ -3,7 +3,7 @@ using Reminders.Application.Data;
 
 namespace Reminders.Application.Reminders.Commands.CreateReminder;
 
-public class CreateReminderHandler(IRemindersDbContext dbContext) :
+internal class CreateReminderHandler(IRemindersDbContext dbContext) :
     ICommandHandler<CreateReminderCommand, CreateReminderResult>
 {
     public async Task<CreateReminderResult> Handle(CreateReminderCommand command, CancellationToken cancellationToken)
