@@ -1,13 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
-[JsonConverter(typeof(NodeIdJsonConverter))]
-public record NodeId : StronglyTypedId
+public class NodeId : StronglyTypedId
 {
     private NodeId(Guid value) : base(value) { }
 
     public static NodeId Of(Guid value) => new(value);
-
-    private class NodeIdJsonConverter : StronglyTypedIdJsonConverter<NodeId>;
+    
+    public override string ToString() => Value.ToString();
 }

@@ -2,12 +2,11 @@
 
 namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
-[JsonConverter(typeof(NoteIdJsonConverter))]
-public record NoteId : StronglyTypedId
+public class NoteId : StronglyTypedId
 {
     private NoteId(Guid value) : base(value) { }
 
     public static NoteId Of(Guid value) => new(value);
-
-    private class NoteIdJsonConverter : StronglyTypedIdJsonConverter<NoteId>;
+    
+    public override string ToString() => Value.ToString();
 }
