@@ -28,6 +28,19 @@ public class CreateNodeCommandValidator : AbstractValidator<CreateNodeCommand>
 
         RuleFor(x => x.Node.Phase)
             .NotEmpty().WithMessage("Phase is required.");
+        
+        RuleFor(x => x.Node)
+            .NotNull().WithMessage("Node cannot be null.")
+            .DependentRules(() =>
+            {
+                RuleFor(x => x.Node.Categories)
+                    .Must(categories => categories != null && categories.Count > 0)
+                    .WithMessage("At least one category must be provided.");
+                
+                RuleFor(x => x.Node.Tags)
+                    .Must(tags => tags != null && tags.Count > 0)
+                    .WithMessage("At least one tag must be provided.");
+            });
 
         RuleForEach(x => x.Node.Categories)
             .MaximumLength(50).WithMessage("Category must not exceed 50 characters.");
