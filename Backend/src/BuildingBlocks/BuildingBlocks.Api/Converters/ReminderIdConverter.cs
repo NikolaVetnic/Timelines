@@ -2,8 +2,8 @@
 
 namespace BuildingBlocks.Api.Converters;
 
-public class NodeIdConverter : IRegister
+public class ReminderIdConverter : IRegister
 {
     public void Register(TypeAdapterConfig config) =>
-        config.NewConfig<NodeId, NodeId>().ConstructUsing(src => NodeId.Of(src.Value));
+        config.NewConfig<ReminderId, ReminderId>().ConstructUsing(src => ReminderId.Of(src.Value));
 }

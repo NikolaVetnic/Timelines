@@ -2,8 +2,8 @@
 
 namespace BuildingBlocks.Api.Converters;
 
-public class NodeIdConverter : IRegister
+public class TimelineIdConverter : IRegister
 {
     public void Register(TypeAdapterConfig config) =>
-        config.NewConfig<NodeId, NodeId>().ConstructUsing(src => NodeId.Of(src.Value));
+        config.NewConfig<TimelineId, TimelineId>().ConstructUsing(src => TimelineId.Of(src.Value));
 }
