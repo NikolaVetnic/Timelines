@@ -2,7 +2,7 @@
 using Files.Application.Data;
 namespace Files.Application.Files.Commands.CreateFileAsset;
 
-public class CreateFileAssetHandler(IFilesDbContext dbContext) :
+internal class CreateFileAssetHandler(IFilesDbContext dbContext) :
     ICommandHandler<CreateFileAssetCommand, CreateFileAssetResult>
 {
     public async Task<CreateFileAssetResult> Handle(CreateFileAssetCommand command, CancellationToken cancellationToken)

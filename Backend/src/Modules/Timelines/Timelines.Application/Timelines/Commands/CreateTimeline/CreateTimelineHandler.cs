@@ -3,7 +3,7 @@ using Timelines.Application.Data;
 
 namespace Timelines.Application.Timelines.Commands.CreateTimeline;
 
-public class CreateTimelineHandler(ITimelinesDbContext dbContext) :
+internal class CreateTimelineHandler(ITimelinesDbContext dbContext) :
     ICommandHandler<CreateTimelineCommand, CreateTimelineResult>
 {
     public async Task<CreateTimelineResult> Handle(CreateTimelineCommand command, CancellationToken cancellationToken)
