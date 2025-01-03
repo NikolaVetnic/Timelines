@@ -1,4 +1,3 @@
-using BuildingBlocks.Api.Converters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Extensions;
@@ -20,8 +19,6 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
-        TypeAdapterConfig.GlobalSettings.Scan(typeof(NodeIdConverter).Assembly);
-
         return services;
     }
 
