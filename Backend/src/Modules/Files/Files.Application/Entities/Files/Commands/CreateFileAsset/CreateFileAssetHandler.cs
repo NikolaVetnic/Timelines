@@ -1,6 +1,7 @@
 ﻿namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
 
-internal class CreateFileAssetHandler(IFilesDbContext dbContext) : ICommandHandler<CreateFileAssetCommand, CreateFileAssetResult>
+internal class CreateFileAssetHandler(IFilesDbContext dbContext) :
+    ICommandHandler<CreateFileAssetCommand, CreateFileAssetResult>
 {
     public async Task<CreateFileAssetResult> Handle(CreateFileAssetCommand command, CancellationToken cancellationToken)
     {

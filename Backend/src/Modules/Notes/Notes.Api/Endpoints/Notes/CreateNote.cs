@@ -1,14 +1,7 @@
 ﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using Carter;
-using Mapster;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Notes.Application.Dtos;
-using Notes.Application.Notes.Commands.CreateNote;
+using Notes.Application.Entities.Notes.Commands.CreateNote;
 
-namespace Notes.Api.Endpoints;
+namespace Notes.Api.Endpoints.Notes;
 
 public class CreateNote : ICarterModule
 {
