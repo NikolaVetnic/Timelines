@@ -13,7 +13,7 @@ internal class GetNodeByIdHandler(INodesDbContext dbContext) : IQueryHandler<Get
 
         if (node is null)
             throw new NodeNotFoundException(query.Id);
-
+        
         return new GetNodeByIdResult(node.ToNodeDto());
     }
 }
