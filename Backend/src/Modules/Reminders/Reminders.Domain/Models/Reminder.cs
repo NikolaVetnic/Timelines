@@ -1,5 +1,4 @@
-﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using Reminders.Domain.Events;
+﻿using Reminders.Domain.Events;
 
 namespace Reminders.Domain.Models;
 

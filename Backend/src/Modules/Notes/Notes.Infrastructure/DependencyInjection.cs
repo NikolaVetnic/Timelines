@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Notes.Application.Data;
 using Notes.Infrastructure.Data;
+using Notes.Infrastructure.Data.Interceptors;
 
 namespace Notes.Infrastructure;
 
@@ -11,6 +12,9 @@ public static class DependencyInjection
         (this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
         // Add Note-specific DbContext
         services.AddDbContext<NotesDbContext>((serviceProvider, options) =>
