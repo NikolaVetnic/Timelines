@@ -5,15 +5,15 @@ namespace Nodes.Application.Entities.Nodes.Queries.GetNodeById;
 
 internal class GetNodeByIdHandler(INodesDbContext dbContext) : IQueryHandler<GetNodeByIdQuery, GetNodeByIdResult>
 {
-    public async Task<GetNodeByIdResult> Handle(GetNodeByIdQuery request, CancellationToken cancellationToken)
+    public async Task<GetNodeByIdResult> Handle(GetNodeByIdQuery query, CancellationToken cancellationToken)
     {
         var node = await dbContext.Nodes
             .AsNoTracking()
-            .SingleOrDefaultAsync(n => n.Id == NodeId.Of(Guid.Parse(request.Id)), cancellationToken);
+            .SingleOrDefaultAsync(n => n.Id == NodeId.Of(Guid.Parse(query.Id)), cancellationToken);
 
         if (node is null)
-            throw new NodeNotFoundException(request.Id);
-        
+            throw new NodeNotFoundException(query.Id);
+
         return new GetNodeByIdResult(node.ToNodeDto());
     }
 }
