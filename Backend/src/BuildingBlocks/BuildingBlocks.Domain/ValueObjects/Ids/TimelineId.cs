@@ -1,13 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
-namespace BuildingBlocks.Domain.ValueObjects.Ids;
-
-[JsonConverter(typeof(TimelineIdJsonConverter))]
-public record TimelineId : StronglyTypedId
+public class TimelineId : StronglyTypedId
 {
     private TimelineId(Guid value) : base(value) { }
 
     public static TimelineId Of(Guid value) => new(value);
 
-    private class TimelineIdJsonConverter : StronglyTypedIdJsonConverter<TimelineId>;
+    public override string ToString() => Value.ToString();
 }

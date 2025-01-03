@@ -11,6 +11,18 @@ public class NodeConfiguration : IEntityTypeConfiguration<Node>
             nodeId => nodeId.Value,
             dbId => NodeId.Of(dbId));
 
-        // ToDo: Add remaining Node configuration commands
+        builder.Property(n => n.Title)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.Property(n => n.Description)
+            .IsRequired()
+            .HasMaxLength(500);
+
+        builder.Property(n => n.Importance)
+            .IsRequired();
+
+        builder.Property(n => n.Phase)
+            .IsRequired();
     }
 }

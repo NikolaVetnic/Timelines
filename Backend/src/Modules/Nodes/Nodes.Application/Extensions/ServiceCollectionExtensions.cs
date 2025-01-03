@@ -17,6 +17,8 @@ public static class ServiceCollectionExtensions
         
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
         return services;
     }
 }

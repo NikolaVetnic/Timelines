@@ -1,3 +1,4 @@
+using BuildingBlocks.Api.Converters;
 using Files.Application.Extensions;
 using Files.Infrastructure;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,8 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
+        TypeAdapterConfig.GlobalSettings.Scan(typeof(FileIdConverter).Assembly);
+
         return services;
     }
 
