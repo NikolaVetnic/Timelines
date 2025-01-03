@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace BuildingBlocks.Domain.ValueObjects.Ids;
+﻿namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
 public class NodeId : StronglyTypedId
 {
