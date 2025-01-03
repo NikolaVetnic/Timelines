@@ -13,8 +13,7 @@ internal class CreateReminderHandler(IRemindersDbContext dbContext) : ICommandHa
     }
 }
 
-internal class CreateReminderHandler(IRemindersDbContext dbContext) :
-    ICommandHandler<CreateReminderCommand, CreateReminderResult>
+internal static class CreateReminderCommandExtensions
 {
     public static Reminder ToReminder(this CreateReminderCommand command)
     {
