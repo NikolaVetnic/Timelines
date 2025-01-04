@@ -22,4 +22,4 @@ public class DeleteFileAsset : ICarterModule
     }
 }
 
-public record DeleteFileAssetResponse(bool IsSuccess);
+public record DeleteFileAssetResponse(bool FileDeleted);

@@ -2,7 +2,7 @@
 
 public record DeleteFileAssetCommand(string FileAssetId) : ICommand<DeleteFileAssetResult>;
 
-public record DeleteFileAssetResult(bool IsSuccess);
+public record DeleteFileAssetResult(bool FileDeleted);
 
 public class DeleteFileAssetCommandValidator : AbstractValidator<DeleteFileAssetCommand>
 {
