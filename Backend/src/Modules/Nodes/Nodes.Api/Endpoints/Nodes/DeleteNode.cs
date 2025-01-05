@@ -9,12 +9,12 @@ public class DeleteNode : ICarterModule
         app.MapDelete("/Nodes/{nodeId}", async (string nodeId, ISender sender) =>
             {
                 var result = await sender.Send(new DeleteNodeCommand(nodeId));
-                var response = result.Adapt<DeleteNodeAssetResponse>();
+                var response = result.Adapt<DeleteNodeResponse>();
 
                 return Results.Ok(response);
             })
             .WithName("DeleteNode")
-            .Produces<DeleteNodeAssetResponse>()
+            .Produces<DeleteNodeResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithSummary("Delete Node")
@@ -22,4 +22,4 @@ public class DeleteNode : ICarterModule
     }
 }
 
-public record DeleteNodeAssetResponse(bool NodeDeleted);
+public record DeleteNodeResponse(bool NodeDeleted);

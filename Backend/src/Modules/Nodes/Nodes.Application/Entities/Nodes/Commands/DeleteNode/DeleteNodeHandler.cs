@@ -2,7 +2,7 @@
 
 namespace Nodes.Application.Entities.Nodes.Commands.DeleteNode;
 
-public class DeleteFileAssetHandler(INodesDbContext dbContext) : ICommandHandler<DeleteNodeCommand, DeleteNodeResult>
+public class DeleteNodeHandler(INodesDbContext dbContext) : ICommandHandler<DeleteNodeCommand, DeleteNodeResult>
 {
     public async Task<DeleteNodeResult> Handle(DeleteNodeCommand command, CancellationToken cancellationToken)
     {
