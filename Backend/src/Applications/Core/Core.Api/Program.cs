@@ -2,6 +2,7 @@ using BuildingBlocks.Application.Exceptions.Handlers;
 using BuildingBlocks.Domain;
 using Carter;
 using Core.Api.Extensions;
+using Core.Api.Sdk;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
@@ -18,6 +19,8 @@ builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException());
+
+builder.Services.AddHttpClient<ICoreApiClient, CoreApiClient>();
 
 var app = builder.Build();
 

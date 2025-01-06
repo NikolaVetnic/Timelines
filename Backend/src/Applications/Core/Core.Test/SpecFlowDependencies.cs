@@ -1,18 +1,19 @@
+using BoDi;
+using Core.Api.Sdk;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
-using SolidToken.SpecFlow.DependencyInjection;
 
-namespace Core.Test.StepDefinitions;
+namespace Core.Test;
 
 [Binding]
-public class SpecFlowDependencies
+public class SpecFlowDependencies(IObjectContainer container)
 {
-    [ScenarioDependencies]
-    public static IServiceCollection CreateServices()
+    [BeforeScenario]
+    public void RegisterClient()
     {
-        var services = new ServiceCollection();
-        services.AddSingleton<WebApplicationFactory<Program>>();
+        var factory = new WebApplicationFactory<Program>();
+        var httpClient = factory.CreateClient();
+        var client = new CoreApiClient(httpClient);
 
-        return services;
+        container.RegisterInstanceAs<ICoreApiClient>(client);
     }
 }
