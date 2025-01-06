@@ -41,3 +41,5 @@ app.UseHealthChecks("/health",
     });
 
 app.Run();
+
+public partial class Program; // This partial class is needed for the integration tests
