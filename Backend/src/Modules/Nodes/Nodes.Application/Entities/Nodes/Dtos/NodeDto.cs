@@ -1,11 +1,38 @@
+using System.Text.Json.Serialization;
+
 namespace Nodes.Application.Entities.Nodes.Dtos;
 
-public record NodeDto(
-    string Id,
-    string Title,
-    string Description,
-    DateTime Timestamp,
-    int Importance,
-    string Phase,
-    List<string> Categories,
-    List<string> Tags);
+public class NodeDto(
+    string id,
+    string title,
+    string description,
+    DateTime timestamp,
+    int importance,
+    string phase,
+    List<string> categories,
+    List<string> tags)
+{
+    [JsonPropertyName("id")]
+    public string Id { get; } = id;
+
+    [JsonPropertyName("title")]
+    public string Title { get; } = title;
+
+    [JsonPropertyName("description")]
+    public string Description { get; } = description;
+
+    [JsonPropertyName("timestamp")]
+    public DateTime Timestamp { get; } = timestamp;
+
+    [JsonPropertyName("importance")]
+    public int Importance { get; } = importance;
+
+    [JsonPropertyName("phase")]
+    public string Phase { get; } = phase;
+
+    [JsonPropertyName("categories")]
+    public List<string> Categories { get; } = categories;
+
+    [JsonPropertyName("tags")]
+    public List<string> Tags { get; } = tags;
+}
