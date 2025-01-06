@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace Nodes.Application.Entities.Nodes.Dtos;
 
 public class NodeDto(
-    string id,
+    string? id,
     string title,
     string description,
     DateTime timestamp,
@@ -12,27 +12,19 @@ public class NodeDto(
     List<string> categories,
     List<string> tags)
 {
-    [JsonPropertyName("id")]
-    public string Id { get; } = id;
+    [JsonPropertyName("id")] public string? Id { get; } = id;
 
-    [JsonPropertyName("title")]
-    public string Title { get; } = title;
+    [JsonPropertyName("title")] public string Title { get; } = title;
 
-    [JsonPropertyName("description")]
-    public string Description { get; } = description;
+    [JsonPropertyName("description")] public string Description { get; } = description;
 
-    [JsonPropertyName("timestamp")]
-    public DateTime Timestamp { get; } = timestamp;
+    [JsonPropertyName("timestamp")] public DateTime Timestamp { get; } = timestamp;
 
-    [JsonPropertyName("importance")]
-    public int Importance { get; } = importance;
+    [JsonPropertyName("importance")] public int Importance { get; } = importance;
 
-    [JsonPropertyName("phase")]
-    public string Phase { get; } = phase;
+    [JsonPropertyName("phase")] public string Phase { get; } = phase;
 
-    [JsonPropertyName("categories")]
-    public List<string> Categories { get; } = categories;
+    [JsonPropertyName("categories")] public List<string> Categories { get; } = categories;
 
-    [JsonPropertyName("tags")]
-    public List<string> Tags { get; } = tags;
+    [JsonPropertyName("tags")] public List<string> Tags { get; } = tags;
 }
