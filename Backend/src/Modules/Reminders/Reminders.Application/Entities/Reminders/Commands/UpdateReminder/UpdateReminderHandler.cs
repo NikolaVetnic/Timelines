@@ -2,7 +2,7 @@
 
 namespace Reminders.Application.Entities.Reminders.Commands.UpdateReminder;
 
-public class UpdateOrderHandler(IRemindersDbContext dbContext) : ICommandHandler<UpdateReminderCommand, UpdateReminderResult>
+public class UpdateReminderHandler(IRemindersDbContext dbContext) : ICommandHandler<UpdateReminderCommand, UpdateReminderResult>
 {
     public async Task<UpdateReminderResult> Handle(UpdateReminderCommand command, CancellationToken cancellationToken)
     {
@@ -13,7 +13,7 @@ public class UpdateOrderHandler(IRemindersDbContext dbContext) : ICommandHandler
         if (reminder is null)
             throw new ReminderNotFoundException(command.Reminder.Id);
 
-        UpdateOrderWithNewValues(reminder, command.Reminder);
+        UpdateReminderWithNewValues(reminder, command.Reminder);
 
         dbContext.Reminders.Update(reminder);
         await dbContext.SaveChangesAsync(cancellationToken);
@@ -21,7 +21,7 @@ public class UpdateOrderHandler(IRemindersDbContext dbContext) : ICommandHandler
         return new UpdateReminderResult(true);
     }
 
-    private static void UpdateOrderWithNewValues(Reminder reminder, ReminderDto reminderDto)
+    private static void UpdateReminderWithNewValues(Reminder reminder, ReminderDto reminderDto)
     {
         reminder.Update(
             reminderDto.Title,
