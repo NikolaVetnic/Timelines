@@ -30,4 +30,3 @@ public class UpdateFileAssetCommandValidator : AbstractValidator<UpdateFileAsset
             .MaximumLength(500).WithMessage("Description must not exceed 500 characters.");
     }
 }
-

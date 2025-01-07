@@ -1,6 +1,4 @@
-﻿using Files.Application.Entities.Files.Dtos;
-
-namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
+﻿namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public record CreateFileAssetCommand(FileAssetDto FileAsset) : ICommand<CreateFileAssetResult>;

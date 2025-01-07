@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.Application.Pagination;
-using Reminders.Application.Entities.Reminders.Dtos;
 using Reminders.Application.Entities.Reminders.Extensions;
 
 namespace Reminders.Application.Entities.Reminders.Queries.ListReminders;

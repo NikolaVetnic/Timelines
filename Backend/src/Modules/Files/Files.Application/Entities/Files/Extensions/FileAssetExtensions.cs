@@ -1,6 +1,4 @@
-﻿using Files.Application.Entities.Files.Dtos;
-
-namespace Files.Application.Entities.Files.Extensions;
+﻿namespace Files.Application.Entities.Files.Extensions;
 
 public static class FileAssetExtensions
 {

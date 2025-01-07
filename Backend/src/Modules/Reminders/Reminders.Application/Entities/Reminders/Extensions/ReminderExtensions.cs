@@ -1,6 +1,4 @@
-﻿using Reminders.Application.Entities.Reminders.Dtos;
-
-namespace Reminders.Application.Entities.Reminders.Extensions;
+﻿namespace Reminders.Application.Entities.Reminders.Extensions;
 
 public static class ReminderExtensions
 {
