@@ -1,6 +1,4 @@
-﻿using Reminders.Application.Entities.Reminders.Dtos;
-
-namespace Reminders.Application.Entities.Reminders.Commands.CreateReminder;
+﻿namespace Reminders.Application.Entities.Reminders.Commands.CreateReminder;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public record CreateReminderCommand(ReminderDto Reminder) : ICommand<CreateReminderResult>;
