@@ -2,7 +2,7 @@
 
 public record UpdateReminderCommand(ReminderDto Reminder) : ICommand<UpdateReminderResult>;
 
-public record UpdateReminderResult(bool IsSuccess);
+public record UpdateReminderResult(bool ReminderUpdated);
 
 public class UpdateReminderCommandValidator : AbstractValidator<UpdateReminderCommand>
 {

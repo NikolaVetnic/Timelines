@@ -24,4 +24,4 @@ public class UpdateReminder : ICarterModule
 
 public record UpdateReminderRequest(ReminderDto Reminder);
 
-public record UpdateReminderResponse(bool IsSuccess);
+public record UpdateReminderResponse(bool ReminderUpdated);
