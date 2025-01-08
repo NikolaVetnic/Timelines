@@ -1,6 +1,4 @@
-﻿using Nodes.Application.Entities.Nodes.Dtos;
-
-namespace Nodes.Application.Entities.Nodes.Commands.UpdateNode;
+﻿namespace Nodes.Application.Entities.Nodes.Commands.UpdateNode;
 
 public record UpdateNodeCommand(NodeDto Node) : ICommand<UpdateNodeResult>;
 
