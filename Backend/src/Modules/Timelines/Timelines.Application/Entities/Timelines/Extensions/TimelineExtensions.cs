@@ -1,6 +1,4 @@
-﻿using Timelines.Application.Entities.Timelines.Dtos;
-
-namespace Timelines.Application.Entities.Timelines.Extensions;
+﻿namespace Timelines.Application.Entities.Timelines.Extensions;
 
 public static class TimelineExtensions
 {

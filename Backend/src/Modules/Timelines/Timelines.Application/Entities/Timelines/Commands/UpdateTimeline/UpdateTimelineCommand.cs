@@ -1,6 +1,4 @@
-﻿using Timelines.Application.Entities.Timelines.Dtos;
-
-namespace Timelines.Application.Entities.Timelines.Commands.UpdateTimeline;
+﻿namespace Timelines.Application.Entities.Timelines.Commands.UpdateTimeline;
 
 public record UpdateTimelineCommand(TimelineDto Timeline) : ICommand<UpdateTimelineResult>;
 

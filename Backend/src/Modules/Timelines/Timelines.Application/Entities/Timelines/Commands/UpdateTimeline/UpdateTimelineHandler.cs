@@ -1,5 +1,4 @@
-﻿using Timelines.Application.Entities.Timelines.Dtos;
-using Timelines.Application.Entities.Timelines.Exceptions;
+﻿using Timelines.Application.Entities.Timelines.Exceptions;
 
 namespace Timelines.Application.Entities.Timelines.Commands.UpdateTimeline;
 

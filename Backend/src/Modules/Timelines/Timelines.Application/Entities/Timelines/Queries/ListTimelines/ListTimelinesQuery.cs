@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.Application.Pagination;
-using Timelines.Application.Entities.Timelines.Dtos;
 
 // ReSharper disable ClassNeverInstantiated.Global
 
