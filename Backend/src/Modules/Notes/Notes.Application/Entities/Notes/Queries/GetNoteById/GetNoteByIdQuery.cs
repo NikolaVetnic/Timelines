@@ -1,6 +1,4 @@
-﻿using Notes.Application.Entities.Notes.Dtos;
-
-namespace Notes.Application.Entities.Notes.Queries.GetNoteById;
+﻿namespace Notes.Application.Entities.Notes.Queries.GetNoteById;
 
 public record GetNoteByIdQuery(string Id) : IQuery<GetNoteByIdResult>;
 
