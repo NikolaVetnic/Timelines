@@ -44,13 +44,10 @@ public class NodesApiStepDefinitions
                 }
             });
 
+        (_response = rawResponse).EnsureSuccessStatusCode();
         rawResponse.EnsureSuccessStatusCode();
 
-        _persistedNodeId = response!.Id;
-        _response = rawResponse;
-
-        _persistedNodeId.Should().NotBeNull();
-        _response.EnsureSuccessStatusCode();
+        (_persistedNodeId = response!.Id).Should().NotBeNull();
     }
 
     #endregion
@@ -70,7 +67,6 @@ public class NodesApiStepDefinitions
         var (response, rawResponse) = await _apiApiClient.GetNodeByIdAsync(_persistedNodeId!);
 
         rawResponse.EnsureSuccessStatusCode();
-
         var nodeDto = response!.NodeDto;
 
         nodeDto?.Title.Should().Be("Test Node");
