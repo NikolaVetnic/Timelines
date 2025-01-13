@@ -2,6 +2,8 @@ using BuildingBlocks.Domain.ValueObjects.Ids;
 using Nodes.Application.Entities.Nodes.Commands.CreateNode;
 
 // ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable NotAccessedPositionalProperty.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Nodes.Api.Endpoints.Nodes;
 
@@ -25,7 +27,13 @@ public class CreateNode : ICarterModule
     }
 }
 
-// ReSharper disable once NotAccessedPositionalProperty.Global
-public record CreateNodeRequest(NodeDto Node);
+public class CreateNodeRequest
+{
+    public CreateNodeRequest() { }
+
+    public CreateNodeRequest(NodeDto node) => Node = node;
+    
+    public NodeDto Node { get; set; }
+}
 
 public record CreateNodeResponse(NodeId Id);
