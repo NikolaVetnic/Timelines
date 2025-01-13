@@ -19,6 +19,7 @@
         <ProjectReference Include="..\..\..\Modules\Notes\Notes.Api\Notes.Api.csproj" />
         <ProjectReference Include="..\..\..\Modules\Reminders\Reminders.Api\Reminders.Api.csproj" />
         <ProjectReference Include="..\..\..\Modules\Timelines\Timelines.Api\Timelines.Api.csproj" />
+        <ProjectReference Include="..\..\..\Sdk\Core.Api.Sdk\Core.Api.Sdk.csproj" />
     </ItemGroup>
 
     <ItemGroup>
