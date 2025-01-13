@@ -3,6 +3,7 @@ using BuildingBlocks.Domain;
 using Carter;
 using Core.Api.Extensions;
 using Core.Api.Sdk;
+using Core.Api.Sdk.Interfaces;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
