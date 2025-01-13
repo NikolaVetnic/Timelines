@@ -22,6 +22,14 @@ public class NodeIdJsonConverter : JsonConverter<NodeId>
         // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
         switch (reader.TokenType)
         {
+            case JsonTokenType.String:
+            {
+                var guidString = reader.GetString();
+                if (!Guid.TryParse(guidString, out var guid))
+                    throw new JsonException($"Invalid GUID format for NodeId: {guidString}");
+                
+                return NodeId.Of(guid);
+            }
             case JsonTokenType.StartObject:
             {
                 using var jsonDoc = JsonDocument.ParseValue(ref reader);
