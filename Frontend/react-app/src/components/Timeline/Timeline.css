@@ -1,7 +1,10 @@
-.timeline-container {
-    position: relative;
-    width: 800px;
-    margin: 0 auto;
+.timeline-strip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    background-color: var(--enmBlue);
+    z-index: 1;
 }
 
 .timeline-strip {

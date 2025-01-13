@@ -5,6 +5,7 @@
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.3s;
+    position: relative;
 }
 
 .timeline-card:hover {
