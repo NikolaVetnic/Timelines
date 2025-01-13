@@ -93,7 +93,7 @@ namespace Core.Test.Features.Nodes
             {
                 this.ScenarioStart();
 #line 5
-        testRunner.When("a POST request is sent to the /Nodes endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+        testRunner.When("a POST request is sent to the /Nodes endpoint with a valid payload", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 6
         testRunner.Then("the response status code is 201 (Created)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

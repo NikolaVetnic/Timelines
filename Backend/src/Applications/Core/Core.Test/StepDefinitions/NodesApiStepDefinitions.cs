@@ -25,7 +25,7 @@ public class NodesApiStepDefinitions
 
     #region When
 
-    [When("a POST request is sent to the /Nodes endpoint")]
+    [When("a POST request is sent to the /Nodes endpoint with a valid payload")]
     public async Task WhenAPostRequestIsSentToTheNodesEndpoint()
     {
         var (response, rawResponse) =
