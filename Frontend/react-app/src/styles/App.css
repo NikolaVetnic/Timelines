@@ -1,10 +1,131 @@
-.App {
-    text-align: center;
-    padding: 20px;
-    background-color: #f0f2f5;
+/* Define global color variables */
+:root {
+    --enmOrange: #e76a29;
+    --enmBlue: #1d377f;
+    --enmGray: #908f8f;
+    --Success: #4cae4c;
+    --Error: #c9302c;
+    --BackgroundStripe: #333;
 }
 
-h1 {
-    margin-bottom: 40px;
+/* Apply global styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--enmGray);
+    color: var(--BackgroundStripe);
+    margin: 0;
+    padding: 0;
+}
+
+/* Buttons */
+button {
+    background-color: var(--enmOrange);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #cf5a22;
+}
+
+/* Links */
+a {
+    color: var(--enmBlue);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #14265e;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--enmBlue);
+    margin: 0;
+}
+
+/* Timeline Styles */
+.timeline-container {
+    position: relative;
+    width: 800px;
+    margin: 0 auto;
+}
+
+.timeline-strip {
+    background-color: var(--enmBlue);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 100%;
+}
+
+.timeline-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+/* Timeline Card Styles */
+.timeline-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.timeline-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background-color: var(--enmBlue);
+    color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-content {
+    background-color: #fff;
+    padding: 15px 20px;
     color: #333;
+    text-align: left;
+}
+
+.card-content img {
+    max-width: 100%;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+    .timeline-container {
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .timeline-strip {
+        left: 20px;
+    }
+
+    .timeline-cards {
+        padding-left: 60px;
+    }
 }
