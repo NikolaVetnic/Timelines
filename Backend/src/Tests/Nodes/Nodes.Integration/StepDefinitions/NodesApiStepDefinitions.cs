@@ -7,7 +7,7 @@ using SdkCreateNodeRequest = Core.Api.Sdk.Contracts.Nodes.Commands.CreateNodeReq
 // ReSharper disable NullableWarningSuppressionIsUsed
 // ReSharper disable Reqnroll.MethodNameMismatchPattern
 
-namespace Nodes.Test.StepDefinitions;
+namespace Nodes.Integration.StepDefinitions;
 
 [Binding]
 public class NodesApiStepDefinitions

@@ -2,7 +2,7 @@ using BoDi;
 using Core.Api.Sdk;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace Nodes.Test;
+namespace Nodes.Integration;
 
 [Binding]
 public class SpecFlowDependencies(IObjectContainer container)
