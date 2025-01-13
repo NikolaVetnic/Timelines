@@ -8,12 +8,12 @@ public class UpdateNodeHandler(INodesDbContext dbContext) : ICommandHandler<Upda
     {
         var node = await dbContext.Nodes
             .AsNoTracking()
-            .SingleOrDefaultAsync(n => n.Id == NodeId.Of(Guid.Parse(command.Node.Id)), cancellationToken);
+            .SingleOrDefaultAsync(n => n.Id == NodeId.Of(Guid.Parse(command.Id)), cancellationToken);
 
         if (node is null)
-            throw new NodeNotFoundException(command.Node.Id);
+            throw new NodeNotFoundException(command.Id);
 
-        UpdateNodeWithNewValues(node, command.Node);
+        UpdateNodeWithNewValues(node, command);
 
         dbContext.Nodes.Update(node);
         await dbContext.SaveChangesAsync(cancellationToken);
@@ -21,13 +21,13 @@ public class UpdateNodeHandler(INodesDbContext dbContext) : ICommandHandler<Upda
         return new UpdateNodeResult(true);
     }
 
-    private static void UpdateNodeWithNewValues(Node node, NodeDto nodeDto)
+    private static void UpdateNodeWithNewValues(Node node, UpdateNodeCommand command)
     {
         node.Update(
-            nodeDto.Title,
-            nodeDto.Description,
-            nodeDto.Timestamp,
-            nodeDto.Importance,
-            nodeDto.Phase);
+            command.Title,
+            command.Description,
+            command.Timestamp,
+            command.Importance,
+            command.Phase);
     }
 }

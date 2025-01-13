@@ -1,4 +1,9 @@
-﻿using Nodes.Application.Entities.Nodes.Commands.UpdateNode;
+﻿using System;
+using System.Collections.Generic;
+using Nodes.Application.Entities.Nodes.Commands.UpdateNode;
+
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable NotAccessedPositionalProperty.Global
 
 namespace Nodes.Api.Endpoints.Nodes;
 
@@ -22,6 +27,16 @@ public class UpdateNode : ICarterModule
     }
 }
 
-public record UpdateNodeRequest(NodeDto Node);
+public class UpdateNodeRequest
+{
+    public required string Id { get; init; }
+    public string Title { get; init; }
+    public string Description { get; init; }
+    public DateTime Timestamp { get; init; }
+    public int Importance { get; init; }
+    public string Phase { get; init; }
+    public List<string> Categories { get; init; }
+    public List<string> Tags { get; init; }
+}
 
 public record UpdateNodeResponse(bool NodeUpdated);
