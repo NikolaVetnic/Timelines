@@ -13,7 +13,6 @@ public class DeleteNodeHandler(INodesDbContext dbContext) : ICommandHandler<Dele
         if (node is null)
             throw new NodeNotFoundException(command.NodeId);
 
-
         dbContext.Nodes.Remove(node);
         await dbContext.SaveChangesAsync(cancellationToken);
 

@@ -13,7 +13,6 @@ public class DeleteFileAssetHandler(IFilesDbContext dbContext) : ICommandHandler
         if (fileAsset is null)
             throw new FileAssetNotFoundException(command.FileAssetId);
 
-
         dbContext.FileAssets.Remove(fileAsset);
         await dbContext.SaveChangesAsync(cancellationToken);
 

@@ -13,7 +13,6 @@ public class DeleteReminderHandler(IRemindersDbContext dbContext) : ICommandHand
         if (reminder is null)
             throw new ReminderNotFoundException(command.ReminderId);
 
-
         dbContext.Reminders.Remove(reminder);
         await dbContext.SaveChangesAsync(cancellationToken);
 

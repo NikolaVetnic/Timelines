@@ -13,7 +13,6 @@ public class DeleteNoteHandler(INotesDbContext dbContext) : ICommandHandler<Dele
         if (note is null)
             throw new NoteNotFoundException(command.NoteId);
 
-
         dbContext.Notes.Remove(note);
         await dbContext.SaveChangesAsync(cancellationToken);
 
