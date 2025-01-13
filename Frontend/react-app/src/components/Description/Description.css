@@ -1,0 +1,30 @@
+.description-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+.description-text {
+    flex: 1;
+    font-size: 1rem;
+    color: #333;
+    word-wrap: break-word;
+    margin-right: 10px;
+}
+
+.edit-button {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--enmOrange);
+    transition: transform 0.2s ease;
+}
+
+.edit-button:hover {
+    transform: scale(1.1);
+    color: var(--enmBlue);
+}
