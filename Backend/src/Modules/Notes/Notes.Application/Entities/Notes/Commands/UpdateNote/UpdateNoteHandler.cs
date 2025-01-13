@@ -21,12 +21,18 @@ public class UpdateNodeHandler(INotesDbContext dbContext) : ICommandHandler<Upda
         return new UpdateNoteResult(true);
     }
 
-    private static void UpdateNoteWithNewValues(Note note, NoteDto noteDto)
+    private static void UpdateNoteWithNewValues(Note note, UpdateNoteDto noteDto)
     {
-        note.Update(
-            noteDto.Title,
-            noteDto.Content,
-            noteDto.Timestamp,
-            noteDto.Importance);
+        if (noteDto.Title is not null)
+            note.Title = noteDto.Title;
+
+        if (noteDto.Content is not null)
+            note.Content = noteDto.Content;
+
+        if (noteDto.Timestamp.HasValue && noteDto.Timestamp.Value != DateTime.MinValue)
+            note.Timestamp = noteDto.Timestamp.Value;
+
+        if (noteDto.Importance.HasValue && noteDto.Importance != 0)
+            note.Importance = noteDto.Importance.Value;
     }
 }
