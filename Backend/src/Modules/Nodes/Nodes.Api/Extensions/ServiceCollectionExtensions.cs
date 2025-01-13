@@ -28,7 +28,7 @@ public static class ServiceCollectionExtensions
     public static IEndpointRouteBuilder UseNodesModule(this IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet("/Nodes/Test", () => "Nodes.Api Test -> Ok!");
-        
+
         return endpoints;
     }
 }
