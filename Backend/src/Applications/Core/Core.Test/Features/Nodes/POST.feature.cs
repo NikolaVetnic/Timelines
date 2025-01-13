@@ -93,15 +93,12 @@ namespace Core.Test.Features.Nodes
             {
                 this.ScenarioStart();
 #line 5
-        testRunner.Given("a Node", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 6
         testRunner.When("a POST request is sent to the /Nodes endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 7
+#line 6
         testRunner.Then("the response status code is 201 (Created)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 8
+#line 7
         testRunner.And("the Node is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
