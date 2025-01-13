@@ -2,6 +2,7 @@ using BuildingBlocks.Application.Pagination;
 using Nodes.Application.Entities.Nodes.Dtos;
 
 // ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable NotAccessedPositionalProperty.Global
 
 namespace Nodes.Application.Entities.Nodes.Queries.ListNodes;
 
