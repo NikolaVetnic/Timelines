@@ -13,7 +13,8 @@ namespace Core.Api.Sdk;
 
 public class CoreApiClient(HttpClient httpClient) : ICoreApiClient
 {
-    public async Task<(SdkCreateNodeResponse? Response, HttpResponseMessage RawResponse)> CreateNodeAsync(SdkCreateNodeRequest request)
+    public async Task<(SdkCreateNodeResponse? Response, HttpResponseMessage RawResponse)> CreateNodeAsync(
+        SdkCreateNodeRequest request)
     {
         if (request == null)
             throw new ArgumentNullException(nameof(request));
@@ -30,7 +31,8 @@ public class CoreApiClient(HttpClient httpClient) : ICoreApiClient
         return (sdkCreateNodeResponse, response);
     }
 
-    public async Task<(SdkGetNodeByIdResponse? Response, HttpResponseMessage RawResponse)> GetNodeByIdAsync(SdkNodeId nodeId)
+    public async Task<(SdkGetNodeByIdResponse? Response, HttpResponseMessage RawResponse)> GetNodeByIdAsync(
+        SdkNodeId nodeId)
     {
         if (nodeId == null)
             throw new ArgumentNullException(nameof(nodeId));
@@ -44,6 +46,5 @@ public class CoreApiClient(HttpClient httpClient) : ICoreApiClient
         var sdkNode = apiNode.Adapt<SdkGetNodeByIdResponse>();
 
         return (sdkNode, response);
-
     }
 }
