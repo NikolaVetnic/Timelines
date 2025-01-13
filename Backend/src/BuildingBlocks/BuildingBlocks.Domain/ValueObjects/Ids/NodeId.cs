@@ -6,9 +6,7 @@ namespace BuildingBlocks.Domain.ValueObjects.Ids;
 [JsonConverter(typeof(NodeIdJsonConverter))]
 public class NodeId : StronglyTypedId
 {
-    private NodeId(Guid value) : base(value)
-    {
-    }
+    private NodeId(Guid value) : base(value) { }
 
     public static NodeId Of(Guid value) => new(value);
 
@@ -27,7 +25,7 @@ public class NodeIdJsonConverter : JsonConverter<NodeId>
                 var guidString = reader.GetString();
                 if (!Guid.TryParse(guidString, out var guid))
                     throw new JsonException($"Invalid GUID format for NodeId: {guidString}");
-                
+
                 return NodeId.Of(guid);
             }
             case JsonTokenType.StartObject:
