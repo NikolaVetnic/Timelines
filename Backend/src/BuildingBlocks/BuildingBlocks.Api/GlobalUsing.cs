@@ -1,2 +1,1 @@
-global using Mapster;
-global using BuildingBlocks.Domain.ValueObjects.Ids;
+﻿global using Mapster;

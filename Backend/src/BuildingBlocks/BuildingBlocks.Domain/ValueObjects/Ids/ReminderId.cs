@@ -1,13 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
-namespace BuildingBlocks.Domain.ValueObjects.Ids;
-
-[JsonConverter(typeof(ReminderIdJsonConverter))]
-public record ReminderId : StronglyTypedId
+public class ReminderId : StronglyTypedId
 {
     private ReminderId(Guid value) : base(value) { }
 
     public static ReminderId Of(Guid value) => new(value);
 
-    private class ReminderIdJsonConverter : StronglyTypedIdJsonConverter<ReminderId>;
+    public override string ToString() => Value.ToString();
 }

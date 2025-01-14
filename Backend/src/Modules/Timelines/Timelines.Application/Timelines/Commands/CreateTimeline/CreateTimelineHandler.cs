@@ -1,9 +1,8 @@
-﻿using BuildingBlocks.Domain.ValueObjects.Ids;
-using Timelines.Application.Data;
+﻿using Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
 namespace Timelines.Application.Timelines.Commands.CreateTimeline;
 
-public class CreateTimelineHandler(ITimelinesDbContext dbContext) :
+internal class CreateTimelineHandler(ITimelinesDbContext dbContext) :
     ICommandHandler<CreateTimelineCommand, CreateTimelineResult>
 {
     public async Task<CreateTimelineResult> Handle(CreateTimelineCommand command, CancellationToken cancellationToken)

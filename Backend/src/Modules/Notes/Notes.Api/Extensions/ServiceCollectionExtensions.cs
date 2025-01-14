@@ -1,5 +1,4 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
+using BuildingBlocks.Api.Converters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Notes.Application.Extensions;
@@ -15,19 +14,21 @@ public static class ServiceCollectionExtensions
         services.AddApiServices();
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
-        
+
         return services;
     }
 
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
+        TypeAdapterConfig.GlobalSettings.Scan(typeof(NoteIdConverter).Assembly);
+
         return services;
     }
 
     public static IEndpointRouteBuilder UseNotesModule(this IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet("/Notes/Test", () => "Notes.Api Test -> Ok!");
-        
+
         return endpoints;
     }
 }

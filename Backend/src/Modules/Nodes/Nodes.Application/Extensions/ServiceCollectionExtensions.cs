@@ -14,6 +14,8 @@ public static class ServiceCollectionExtensions
             config.AddOpenBehavior(typeof(ValidationBehavior<,>));
             config.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
+        
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 

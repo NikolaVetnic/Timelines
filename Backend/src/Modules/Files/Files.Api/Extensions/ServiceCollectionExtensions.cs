@@ -1,7 +1,6 @@
+using BuildingBlocks.Api.Converters;
 using Files.Application.Extensions;
 using Files.Infrastructure;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,8 +20,7 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
-        // services.AddExceptionHandler<CustomExceptionHandler>();
-        // services.AddHealthChecks()...
+        TypeAdapterConfig.GlobalSettings.Scan(typeof(FileIdConverter).Assembly);
 
         return services;
     }
@@ -30,9 +28,6 @@ public static class ServiceCollectionExtensions
     public static IEndpointRouteBuilder UseFilesModule(this IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet("/Files/Test", () => "Files.Api Test -> Ok!");
-
-        // app.UseExceptionHandler(_ => { });
-        // app.UseHealthChecks...
 
         return endpoints;
     }
