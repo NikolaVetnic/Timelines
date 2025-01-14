@@ -51,10 +51,10 @@ public class Node : Aggregate<NodeId>
         if (description != null)
             Description = description;
 
-        if (timestamp != null)
+        if (timestamp.HasValue && timestamp.Value != DateTime.MinValue)
             Timestamp = (DateTime)timestamp;
 
-        if (importance != null)
+        if (importance.HasValue && importance != 0)
             Importance = (int)importance;
 
         if (phase != null)
