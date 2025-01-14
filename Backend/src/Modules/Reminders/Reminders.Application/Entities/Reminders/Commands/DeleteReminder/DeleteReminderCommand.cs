@@ -1,6 +1,6 @@
 ﻿namespace Reminders.Application.Entities.Reminders.Commands.DeleteReminder;
 
-public record DeleteReminderCommand(string ReminderId) : ICommand<DeleteReminderResult>;
+public record DeleteReminderCommand(string Id) : ICommand<DeleteReminderResult>;
 
 public record DeleteReminderResult(bool ReminderDeleted);
 
@@ -8,6 +8,8 @@ public class DeleteReminderCommandValidator : AbstractValidator<DeleteReminderCo
 {
     public DeleteReminderCommandValidator()
     {
-        RuleFor(x => x.ReminderId).NotEmpty().WithMessage("ReminderId is required");
+        RuleFor(x => x.Id)
+            .NotEmpty().WithMessage("Id is required.")
+            .Must(value => Guid.TryParse(value.ToString(), out _)).WithMessage("Id is not valid.");
     }
 }

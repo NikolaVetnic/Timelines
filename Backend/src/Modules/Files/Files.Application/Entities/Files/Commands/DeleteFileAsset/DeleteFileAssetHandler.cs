@@ -8,10 +8,10 @@ public class DeleteFileAssetHandler(IFilesDbContext dbContext) : ICommandHandler
     {
         var fileAsset = await dbContext.FileAssets
             .AsNoTracking()
-            .SingleOrDefaultAsync(f => f.Id == FileAssetId.Of(Guid.Parse(command.FileAssetId)), cancellationToken);
+            .SingleOrDefaultAsync(f => f.Id == FileAssetId.Of(Guid.Parse(command.Id)), cancellationToken);
 
         if (fileAsset is null)
-            throw new FileAssetNotFoundException(command.FileAssetId);
+            throw new FileAssetNotFoundException(command.Id);
 
         dbContext.FileAssets.Remove(fileAsset);
         await dbContext.SaveChangesAsync(cancellationToken);
