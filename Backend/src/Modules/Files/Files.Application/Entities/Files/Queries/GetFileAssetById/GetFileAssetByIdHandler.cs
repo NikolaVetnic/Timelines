@@ -7,12 +7,14 @@ internal class GetFileAssetByIdHandler(IFilesDbContext dbContext) : IQueryHandle
 {
     public async Task<GetFileAssetByIdResult> Handle(GetFileAssetByIdQuery query, CancellationToken cancellationToken)
     {
+        var fileAssetId = query.Id.ToString();
+
         var fileAsset = await dbContext.FileAssets
             .AsNoTracking()
-            .SingleOrDefaultAsync(f => f.Id == FileAssetId.Of(Guid.Parse(query.Id)), cancellationToken);
+            .SingleOrDefaultAsync(f => f.Id == FileAssetId.Of(Guid.Parse(fileAssetId)), cancellationToken);
 
         if (fileAsset is null)
-            throw new FileAssetNotFoundException(query.Id);
+            throw new FileAssetNotFoundException(fileAssetId);
 
         return new GetFileAssetByIdResult(fileAsset.ToFileAssetDto());
     }

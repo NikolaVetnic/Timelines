@@ -7,12 +7,14 @@ internal class GetTimelineByIdHandler(ITimelinesDbContext dbContext) : IQueryHan
 {
     public async Task<GetTimelineByIdResult> Handle(GetTimelineByIdQuery query, CancellationToken cancellationToken)
     {
+        var timelineId = query.Id.ToString();
+
         var timeline = await dbContext.Timelines
             .AsNoTracking()
-            .SingleOrDefaultAsync(t => t.Id == TimelineId.Of(Guid.Parse(query.Id)), cancellationToken);
+            .SingleOrDefaultAsync(t => t.Id == TimelineId.Of(Guid.Parse(timelineId)), cancellationToken);
 
         if (timeline is null)
-            throw new TimelineNotFoundException(query.Id);
+            throw new TimelineNotFoundException(timelineId);
 
         return new GetTimelineByIdResult(timeline.ToTimelineDto());
     }

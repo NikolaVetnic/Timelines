@@ -7,12 +7,14 @@ internal class GetNoteByIdHandler(INotesDbContext dbContext) : IQueryHandler<Get
 {
     public async Task<GetNoteByIdResult> Handle(GetNoteByIdQuery query, CancellationToken cancellationToken)
     {
+        var noteId = query.Id.ToString();
+
         var note = await dbContext.Notes
             .AsNoTracking()
-            .SingleOrDefaultAsync(n => n.Id == NoteId.Of(Guid.Parse(query.Id)), cancellationToken);
+            .SingleOrDefaultAsync(n => n.Id == NoteId.Of(Guid.Parse(noteId)), cancellationToken);
 
         if (note is null)
-            throw new NoteNotFoundException(query.Id);
+            throw new NoteNotFoundException(noteId);
 
         return new GetNoteByIdResult(note.ToNoteDto());
     }
