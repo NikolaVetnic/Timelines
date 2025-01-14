@@ -3,7 +3,7 @@
 public record FileAssetDto(
     string Id,
     string Name,
-    float Size,
+    string Size,
     string Type,
     string Owner,
     string Description,

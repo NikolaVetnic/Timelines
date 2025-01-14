@@ -8,12 +8,12 @@ public class UpdateFileAssetHandler(IFilesDbContext dbContext) : ICommandHandler
     {
         var fileAsset = await dbContext.FileAssets
             .AsNoTracking()
-            .SingleOrDefaultAsync(f => f.Id == FileAssetId.Of(Guid.Parse(command.FileAsset.Id)), cancellationToken);
+            .SingleOrDefaultAsync(f => f.Id == FileAssetId.Of(Guid.Parse(command.Id)), cancellationToken);
 
         if (fileAsset is null)
-            throw new FileAssetNotFoundException(command.FileAsset.Id);
+            throw new FileAssetNotFoundException(command.Id);
 
-        UpdateFileAssetWithNewValues(fileAsset, command.FileAsset);
+        UpdateFileAssetWithNewValues(fileAsset, command);
 
         dbContext.FileAssets.Update(fileAsset);
         await dbContext.SaveChangesAsync(cancellationToken);
@@ -21,13 +21,13 @@ public class UpdateFileAssetHandler(IFilesDbContext dbContext) : ICommandHandler
         return new UpdateFileAssetResult(true);
     }
 
-    private static void UpdateFileAssetWithNewValues(FileAsset fileAsset, FileAssetDto fileAssetDto)
+    private static void UpdateFileAssetWithNewValues(FileAsset fileAsset, UpdateFileAssetCommand command)
     {
         fileAsset.Update(
-            fileAssetDto.Name,
-            fileAssetDto.Size,
-            fileAssetDto.Type,
-            fileAssetDto.Owner,
-            fileAssetDto.Description);
+            command.Name,
+            command.Size,
+            command.Type,
+            command.Owner,
+            command.Description);
     }
 }
