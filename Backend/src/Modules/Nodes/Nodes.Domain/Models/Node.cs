@@ -42,14 +42,23 @@ public class Node : Aggregate<NodeId>
         return node;
     }
 
-    public void Update(string title, string description, DateTime timestamp,
-        int importance, string phase)
+    public void Update(string? title, string? description, DateTime? timestamp,
+        int? importance, string? phase)
     {
-        Title = title;
-        Description = description;
-        Timestamp = timestamp;
-        Importance = importance;
-        Phase = phase;
+        if (title != null)
+            Title = title;
+
+        if (description != null)
+            Description = description;
+
+        if (timestamp != null)
+            Timestamp = (DateTime)timestamp;
+
+        if (importance != null)
+            Importance = (int)importance;
+
+        if (phase != null)
+            Phase = phase;
 
         AddDomainEvent(new NodeUpdatedEvent(this));
     }
