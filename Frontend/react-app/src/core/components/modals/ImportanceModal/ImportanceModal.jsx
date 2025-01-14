@@ -6,17 +6,27 @@ import SaveButton from "../../buttons/SaveButton/SaveButton";
 
 const ImportanceModal = ({ isOpen, onClose, onSave, initialValue }) => {
     const [value, setValue] = useState(initialValue);
+    const [isChanged, setIsChanged] = useState(false);
 
     useEffect(() => {
         setValue(initialValue);
+        setIsChanged(false);
     }, [initialValue]);
 
     const handleIncrement = () => {
-        setValue((prevValue) => prevValue + 1);
+        setValue((prevValue) => {
+            const newValue = prevValue + 1;
+            setIsChanged(newValue !== initialValue);
+            return newValue;
+        });
     };
 
     const handleDecrement = () => {
-        setValue((prevValue) => (prevValue > 0 ? prevValue - 1 : 0));
+        setValue((prevValue) => {
+            const newValue = prevValue > 0 ? prevValue - 1 : 0;
+            setIsChanged(newValue !== initialValue);
+            return newValue;
+        });
     };
 
     const handleSave = () => {
@@ -41,7 +51,7 @@ const ImportanceModal = ({ isOpen, onClose, onSave, initialValue }) => {
                 </div>
                 <div className="importance-modal-actions">
                     <CancelButton onClick={onClose} />
-                    <SaveButton onClick={handleSave} />
+                    <SaveButton onClick={handleSave} disabled={!isChanged} />
                 </div>
             </div>
         </div>
