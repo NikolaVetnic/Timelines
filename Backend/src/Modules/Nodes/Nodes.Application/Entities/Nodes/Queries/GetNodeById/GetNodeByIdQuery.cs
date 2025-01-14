@@ -18,6 +18,6 @@ public class GetNodeByIdQueryValidator : AbstractValidator<GetNodeByIdQuery>
     {
         RuleFor(x => x.Id)
             .NotEmpty().WithMessage("Id is required.")
-            .Must(value => Guid.TryParse(value.ToString(), out _)).WithMessage("Invalid Id format.");
+            .Must(value => Guid.TryParse(value.ToString(), out _)).WithMessage("Id is not valid.");
     }
 }
