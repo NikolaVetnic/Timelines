@@ -7,12 +7,14 @@ internal class GetNodeByIdHandler(INodesDbContext dbContext) : IQueryHandler<Get
 {
     public async Task<GetNodeByIdResult> Handle(GetNodeByIdQuery query, CancellationToken cancellationToken)
     {
+        var nodeId = query.Id.ToString();
+        
         var node = await dbContext.Nodes
             .AsNoTracking()
-            .SingleOrDefaultAsync(n => n.Id == NodeId.Of(Guid.Parse(query.Id)), cancellationToken);
+            .SingleOrDefaultAsync(n => n.Id == NodeId.Of(Guid.Parse(nodeId)), cancellationToken);
 
         if (node is null)
-            throw new NodeNotFoundException(query.Id);
+            throw new NodeNotFoundException(nodeId);
         
         return new GetNodeByIdResult(node.ToNodeDto());
     }
