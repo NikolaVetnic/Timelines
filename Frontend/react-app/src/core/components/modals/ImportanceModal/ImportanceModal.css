@@ -38,19 +38,19 @@
 }
 
 .importance-value {
-    font-size: 1.5rem;
-    font-weight: bold;
     color: #333;
 }
 
 .importance-button {
+    font-family: "Courier New", Courier, monospace;
+    font-weight: bold;
     background-color: #e76a29;
     color: white;
     border: none;
     border-radius: 6px;
-    padding: 10px 15px;
+    padding: 4px 4px;
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
