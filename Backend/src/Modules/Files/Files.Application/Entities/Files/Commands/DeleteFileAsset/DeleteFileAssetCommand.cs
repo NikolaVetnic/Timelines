@@ -1,6 +1,9 @@
 ﻿namespace Files.Application.Entities.Files.Commands.DeleteFileAsset;
 
-public record DeleteFileAssetCommand(string Id) : ICommand<DeleteFileAssetResult>;
+public record DeleteFileAssetCommand(FileAssetId Id) : ICommand<DeleteFileAssetResult>
+{
+    public DeleteFileAssetCommand(string Id) : this(FileAssetId.Of(Guid.Parse(Id))) { }
+}
 
 public record DeleteFileAssetResult(bool FileDeleted);
 

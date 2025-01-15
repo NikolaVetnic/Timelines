@@ -8,10 +8,10 @@ public class DeleteReminderHandler(IRemindersDbContext dbContext) : ICommandHand
     {
         var reminder = await dbContext.Reminders
             .AsNoTracking()
-            .SingleOrDefaultAsync(r => r.Id == ReminderId.Of(Guid.Parse(command.Id)), cancellationToken);
+            .SingleOrDefaultAsync(r => r.Id == command.Id, cancellationToken);
 
         if (reminder is null)
-            throw new ReminderNotFoundException(command.Id);
+            throw new ReminderNotFoundException(command.Id.ToString());
 
         dbContext.Reminders.Remove(reminder);
         await dbContext.SaveChangesAsync(cancellationToken);

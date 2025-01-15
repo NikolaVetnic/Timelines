@@ -1,6 +1,9 @@
 ﻿namespace Nodes.Application.Entities.Nodes.Commands.DeleteNode;
 
-public record DeleteNodeCommand(string Id) : ICommand<DeleteNodeResult>;
+public record DeleteNodeCommand(NodeId Id) : ICommand<DeleteNodeResult>
+{
+    public DeleteNodeCommand(string Id) : this(NodeId.Of(Guid.Parse(Id))) { }
+}
 
 public record DeleteNodeResult(bool NodeDeleted);
 

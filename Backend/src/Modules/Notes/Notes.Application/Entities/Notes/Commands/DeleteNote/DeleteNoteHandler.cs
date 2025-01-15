@@ -8,10 +8,10 @@ public class DeleteNoteHandler(INotesDbContext dbContext) : ICommandHandler<Dele
     {
         var note = await dbContext.Notes
             .AsNoTracking()
-            .SingleOrDefaultAsync(n => n.Id == NoteId.Of(Guid.Parse(command.Id)), cancellationToken);
+            .SingleOrDefaultAsync(n => n.Id == command.Id, cancellationToken);
 
         if (note is null)
-            throw new NoteNotFoundException(command.Id);
+            throw new NoteNotFoundException(command.Id.ToString());
 
         dbContext.Notes.Remove(note);
         await dbContext.SaveChangesAsync(cancellationToken);

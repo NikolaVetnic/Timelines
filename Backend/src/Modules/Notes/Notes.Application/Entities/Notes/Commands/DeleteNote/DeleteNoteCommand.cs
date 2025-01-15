@@ -1,6 +1,9 @@
 ﻿namespace Notes.Application.Entities.Notes.Commands.DeleteNote;
 
-public record DeleteNoteCommand(string Id) : ICommand<DeleteNoteResult>;
+public record DeleteNoteCommand(NoteId Id) : ICommand<DeleteNoteResult>
+{
+    public DeleteNoteCommand(string Id) : this(NoteId.Of(Guid.Parse(Id))) { }
+}
 
 public record DeleteNoteResult(bool NoteDeleted);
 

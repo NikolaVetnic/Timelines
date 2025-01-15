@@ -8,10 +8,10 @@ public class DeleteNodeHandler(ITimelinesDbContext dbContext) : ICommandHandler<
     {
         var timeline = await dbContext.Timelines
             .AsNoTracking()
-            .SingleOrDefaultAsync(t => t.Id == TimelineId.Of(Guid.Parse(command.Id)), cancellationToken);
+            .SingleOrDefaultAsync(t => t.Id == command.Id, cancellationToken);
 
         if (timeline is null)
-            throw new TimelineNotFoundException(command.Id);
+            throw new TimelineNotFoundException(command.Id.ToString());
 
         dbContext.Timelines.Remove(timeline);
         await dbContext.SaveChangesAsync(cancellationToken);

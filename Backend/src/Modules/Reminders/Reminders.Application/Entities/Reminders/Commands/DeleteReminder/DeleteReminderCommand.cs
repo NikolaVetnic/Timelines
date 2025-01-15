@@ -1,6 +1,9 @@
 ﻿namespace Reminders.Application.Entities.Reminders.Commands.DeleteReminder;
 
-public record DeleteReminderCommand(string Id) : ICommand<DeleteReminderResult>;
+public record DeleteReminderCommand(ReminderId Id) : ICommand<DeleteReminderResult>
+{
+    public DeleteReminderCommand(string Id) : this(ReminderId.Of(Guid.Parse(Id))) { }
+}
 
 public record DeleteReminderResult(bool ReminderDeleted);
 

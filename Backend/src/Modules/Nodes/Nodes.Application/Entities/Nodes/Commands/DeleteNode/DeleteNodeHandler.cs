@@ -8,10 +8,10 @@ public class DeleteNodeHandler(INodesDbContext dbContext) : ICommandHandler<Dele
     {
         var node = await dbContext.Nodes
             .AsNoTracking()
-            .SingleOrDefaultAsync(n => n.Id == NodeId.Of(Guid.Parse(command.Id)), cancellationToken);
+            .SingleOrDefaultAsync(n => n.Id == command.Id, cancellationToken);
 
         if (node is null)
-            throw new NodeNotFoundException(command.Id);
+            throw new NodeNotFoundException(command.Id.ToString());
 
         dbContext.Nodes.Remove(node);
         await dbContext.SaveChangesAsync(cancellationToken);

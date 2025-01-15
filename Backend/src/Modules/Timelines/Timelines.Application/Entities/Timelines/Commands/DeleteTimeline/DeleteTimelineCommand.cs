@@ -1,6 +1,9 @@
 ﻿namespace Timelines.Application.Entities.Timelines.Commands.DeleteTimeline;
 
-public record DeleteTimelineCommand(string Id) : ICommand<DeleteTimelineResult>;
+public record DeleteTimelineCommand(TimelineId Id) : ICommand<DeleteTimelineResult>
+{
+    public DeleteTimelineCommand(string Id) : this(TimelineId.Of(Guid.Parse(Id))) { }
+}
 
 public record DeleteTimelineResult(bool TimelineDeleted);
 
