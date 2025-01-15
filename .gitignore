@@ -566,8 +566,3 @@ fabric.properties
 # Datasource local storage ignored files
 **/dataSources/
 **/dataSources.local.xml
-/Backend/src/Modules/Files/Files.Api/Properties/launchSettings.json
-/Backend/src/Modules/Nodes/Nodes.Api/Properties/launchSettings.json
-/Backend/src/Modules/Notes/Notes.Api/Properties/launchSettings.json
-/Backend/src/Modules/Reminders/Reminders.Api/Properties/launchSettings.json
-/Backend/src/Modules/Timelines/Timelines.Api/Properties/launchSettings.json
