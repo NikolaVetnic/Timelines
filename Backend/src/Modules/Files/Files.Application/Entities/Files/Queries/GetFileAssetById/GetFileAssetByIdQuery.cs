@@ -10,6 +10,7 @@ public record GetFileAssetByIdQuery(FileAssetId Id) : IQuery<GetFileAssetByIdRes
 }
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
+
 public record GetFileAssetByIdResult(FileAssetDto FileAssetDto);
 
 public class GetFileAssetByIdQueryValidator : AbstractValidator<GetFileAssetByIdQuery>

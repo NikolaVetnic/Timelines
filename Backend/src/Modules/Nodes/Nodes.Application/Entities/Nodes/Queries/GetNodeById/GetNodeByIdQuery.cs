@@ -10,6 +10,7 @@ public record GetNodeByIdQuery(NodeId Id) : IQuery<GetNodeByIdResult>
 }
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
+
 public record GetNodeByIdResult(NodeDto NodeDto);
 
 public class GetNodeByIdQueryValidator : AbstractValidator<GetNodeByIdQuery>

@@ -10,6 +10,7 @@ public record GetNoteByIdQuery(NoteId Id) : IQuery<GetNoteByIdResult>
 }
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
+
 public record GetNoteByIdResult(NoteDto NoteDto);
 
 public class GetNoteByIdQueryValidator : AbstractValidator<GetNoteByIdQuery>

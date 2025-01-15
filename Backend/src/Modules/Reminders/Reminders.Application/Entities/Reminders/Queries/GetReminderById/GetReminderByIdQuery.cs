@@ -10,6 +10,7 @@ public record GetReminderByIdQuery(ReminderId Id) : IQuery<GetReminderByIdResult
 }
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
+
 public record GetReminderByIdResult(ReminderDto ReminderDto);
 
 public class GetReminderByIdQueryValidator : AbstractValidator<GetReminderByIdQuery>
