@@ -1,5 +1,5 @@
 .editable-title {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
     border: none;
     background: transparent;
@@ -11,6 +11,5 @@
     outline: none;
     border: 1px solid #ccc;
     border-radius: 4px;
-    padding: 5px;
     background-color: #f9f9f9;
 }
