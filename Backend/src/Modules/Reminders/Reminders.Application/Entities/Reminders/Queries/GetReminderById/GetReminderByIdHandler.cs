@@ -7,14 +7,12 @@ internal class GetReminderByIdHandler(IRemindersDbContext dbContext) : IQueryHan
 {
     public async Task<GetReminderByIdResult> Handle(GetReminderByIdQuery query, CancellationToken cancellationToken)
     {
-        var reminderId = query.Id.ToString();
-
         var reminder = await dbContext.Reminders
             .AsNoTracking()
-            .SingleOrDefaultAsync(r => r.Id == ReminderId.Of(Guid.Parse(reminderId)), cancellationToken);
+            .SingleOrDefaultAsync(r => r.Id == query.Id, cancellationToken);
 
         if (reminder is null)
-            throw new ReminderNotFoundException(reminderId);
+            throw new ReminderNotFoundException(query.Id.ToString());
 
         return new GetReminderByIdResult(reminder.ToReminderDto());
     }
