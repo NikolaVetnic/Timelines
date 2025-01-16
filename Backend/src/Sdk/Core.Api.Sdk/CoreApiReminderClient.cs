@@ -1,6 +1,5 @@
 using System.Net.Http.Json;
 using Mapster;
-
 using ApiCreateReminderRequest = Reminders.Api.Endpoints.Reminders.CreateReminderRequest;
 using ApiCreateReminderResponse = Reminders.Api.Endpoints.Reminders.CreateReminderResponse;
 using ApiGetReminderByIdResponse = Reminders.Api.Endpoints.Reminders.GetReminderByIdResponse;
