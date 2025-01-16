@@ -1,6 +1,4 @@
-﻿using Notes.Application.Entities.Notes.Dtos;
-
-namespace Notes.Application.Entities.Notes.Commands.CreateNote;
+﻿namespace Notes.Application.Entities.Notes.Commands.CreateNote;
 
 public record CreateNoteCommand(NoteDto Note) : ICommand<CreateNoteResult>;
 

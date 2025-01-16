@@ -9,14 +9,14 @@ public class FileAsset : Aggregate<FileAssetId>
     public IReadOnlyList<string> SharedWith => _sharedWith.AsReadOnly();
 
     public required string Name { get; set; }
-    public required float Size { get; set; }
+    public required string Size { get; set; }
     public required string Type { get; set; }
     public required string Owner { get; set; }
     public required string Description { get; set; }
 
     #region File
 
-    public static FileAsset Create(FileAssetId id, string name, float size, string type, string owner, string description, List<string> sharedWith)
+    public static FileAsset Create(FileAssetId id, string name, string size, string type, string owner, string description, List<string> sharedWith)
     {
         var file = new FileAsset
         {
@@ -36,13 +36,22 @@ public class FileAsset : Aggregate<FileAssetId>
         return file;
     }
 
-    public void Update(string name, float size, string type, string owner, string description)
+    public void Update(string? name, string? size, string? type, string? owner, string? description)
     {
-        Name = name;
-        Size = size;
-        Type = type;
-        Owner = owner;
-        Description = description;
+        if (name != null)
+            Name = name;
+
+        if (size != null)
+            Size = size;
+
+        if (type != null)
+            Type = type;
+
+        if (owner != null) 
+            Owner = owner;
+
+        if (description != null)
+            Description = description;
 
         AddDomainEvent(new FileAssetUpdatedEvent(this));
     }

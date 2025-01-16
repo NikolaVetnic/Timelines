@@ -1,6 +1,4 @@
-﻿using Timelines.Application.Entities.Timelines.Dtos;
-
-namespace Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
+﻿namespace Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public record CreateTimelineCommand(TimelineDto Timeline) : ICommand<CreateTimelineResult>;

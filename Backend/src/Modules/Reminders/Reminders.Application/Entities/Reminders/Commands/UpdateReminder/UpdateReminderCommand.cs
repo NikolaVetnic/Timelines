@@ -1,15 +1,16 @@
-﻿namespace Reminders.Application.Entities.Reminders.Commands.CreateReminder;
+﻿namespace Reminders.Application.Entities.Reminders.Commands.UpdateReminder;
 
-// ReSharper disable once ClassNeverInstantiated.Global
-public record CreateReminderCommand(ReminderDto Reminder) : ICommand<CreateReminderResult>;
+public record UpdateReminderCommand(ReminderDto Reminder) : ICommand<UpdateReminderResult>;
 
-// ReSharper disable once NotAccessedPositionalProperty.Global
-public record CreateReminderResult(ReminderId Id);
+public record UpdateReminderResult(bool ReminderUpdated);
 
-public class CreateReminderCommandValidator : AbstractValidator<CreateReminderCommand>
+public class UpdateReminderCommandValidator : AbstractValidator<UpdateReminderCommand>
 {
-    public CreateReminderCommandValidator()
+    public UpdateReminderCommandValidator()
     {
+        RuleFor(x => x.Reminder.Id)
+            .NotEmpty().WithMessage("Id is required.");
+
         RuleFor(x => x.Reminder.Title)
             .NotEmpty().WithMessage("Title is required.")
             .MaximumLength(100).WithMessage("Title must not exceed 100 characters.");

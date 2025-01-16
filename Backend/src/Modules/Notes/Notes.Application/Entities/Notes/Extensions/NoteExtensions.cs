@@ -1,6 +1,4 @@
-﻿using Notes.Application.Entities.Notes.Dtos;
-
-namespace Notes.Application.Entities.Notes.Extensions;
+﻿namespace Notes.Application.Entities.Notes.Extensions;
 
 public static class NoteExtensions
 {

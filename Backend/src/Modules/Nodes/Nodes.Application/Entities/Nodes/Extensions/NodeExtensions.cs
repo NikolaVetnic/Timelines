@@ -1,5 +1,3 @@
-using Nodes.Application.Entities.Nodes.Dtos;
-
 namespace Nodes.Application.Entities.Nodes.Extensions;
 
 public static class NodeExtensions

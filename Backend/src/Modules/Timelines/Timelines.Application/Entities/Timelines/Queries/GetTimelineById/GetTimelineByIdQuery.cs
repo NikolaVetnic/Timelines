@@ -1,7 +1,5 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
 
-using Timelines.Application.Entities.Timelines.Dtos;
-
 namespace Timelines.Application.Entities.Timelines.Queries.GetTimelineById;
 
 public record GetTimelineByIdQuery(TimelineId Id) : IQuery<GetTimelineByIdResult>

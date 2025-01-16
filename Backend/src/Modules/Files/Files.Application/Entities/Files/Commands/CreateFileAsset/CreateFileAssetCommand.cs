@@ -1,6 +1,4 @@
-﻿using Files.Application.Entities.Files.Dtos;
-
-namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
+﻿namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public record CreateFileAssetCommand(FileAssetDto FileAsset) : ICommand<CreateFileAssetResult>;
@@ -15,8 +13,7 @@ public class CreateFileCommandValidator : AbstractValidator<CreateFileAssetComma
         RuleFor(x => x.FileAsset.Name).NotEmpty().WithMessage("Title is required.");
 
         RuleFor(x => x.FileAsset.Size)
-            .NotNull().WithMessage("Size is required.")
-            .GreaterThan(0).WithMessage("Size must be greater than 0.");
+            .NotNull().WithMessage("Size is required.");
 
         RuleFor(x => x.FileAsset.Type)
             .NotEmpty().WithMessage("Type is required.")
