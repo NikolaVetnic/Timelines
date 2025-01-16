@@ -7,7 +7,6 @@ import TimelineSelect from "./components/TimelineSelect/TimelineSelect";
 
 function App() {
     const handleTimelineSelect = (selectedTimeline) => {
-        // console.log("Selected Timeline:", selectedTimeline);
     };
 
     return (
