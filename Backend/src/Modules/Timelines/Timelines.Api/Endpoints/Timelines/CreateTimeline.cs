@@ -2,6 +2,8 @@
 using Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
 // ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable NotAccessedPositionalProperty.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Timelines.Api.Endpoints.Timelines;
 
@@ -25,7 +27,13 @@ public class CreateTimeline : ICarterModule
     }
 }
 
-// ReSharper disable once NotAccessedPositionalProperty.Global
-public record CreateTimelineRequest(TimelineDto Timeline);
+public record CreateTimelineRequest
+{
+    public CreateTimelineRequest() { }
+
+    public CreateTimelineRequest(TimelineDto timeline) => Timeline = timeline;
+
+    public TimelineDto Timeline { get; set; }
+}
 
 public record CreateTimelineResponse(TimelineId Id);
