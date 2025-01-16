@@ -1,5 +1,4 @@
-﻿using Core.Api.Sdk.Interfaces;
-using Mapster;
+﻿using Mapster;
 using System.Net.Http.Json;
 using ApiCreateNoteRequest = Notes.Api.Endpoints.Notes.CreateNoteRequest;
 using ApiCreateNoteResponse = Notes.Api.Endpoints.Notes.CreateNoteResponse;
@@ -8,7 +7,7 @@ using SdkCreateNoteResponse = Core.Api.Sdk.Contracts.Notes.Commands.CreateNoteRe
 
 namespace Core.Api.Sdk;
 
-public partial class CoreApiClient : ICoreApiClient
+public partial class CoreApiClient
 {
     public async Task<(SdkCreateNoteResponse? Response, HttpResponseMessage RawResponse)> CreateNoteAsync(SdkCreateNoteRequest request)
     {
