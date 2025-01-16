@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Modules\Nodes\Nodes.Api\Nodes.Api.csproj" />
+      <ProjectReference Include="..\..\Modules\Notes\Notes.Api\Notes.Api.csproj" />
     </ItemGroup>
 
 </Project>
