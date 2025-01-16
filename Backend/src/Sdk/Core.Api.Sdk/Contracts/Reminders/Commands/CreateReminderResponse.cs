@@ -1,7 +1,7 @@
 ﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
 
-using BuildingBlocks.Domain.ValueObjects.Ids;
+using Core.Api.Sdk.Contracts.Reminders.ValueObjects;
 
 namespace Core.Api.Sdk.Contracts.Reminders.Commands;
 
