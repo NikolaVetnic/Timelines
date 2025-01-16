@@ -1,6 +1,5 @@
 using System.Net.Http.Json;
 using Mapster;
-
 using ApiCreateTimelineRequest = Timelines.Api.Endpoints.Timelines.CreateTimelineRequest;
 using ApiCreateTimelineResponse = Timelines.Api.Endpoints.Timelines.CreateTimelineResponse;
 using ApiGetTimelineByIdResponse = Timelines.Api.Endpoints.Timelines.GetTimelineByIdResponse;
