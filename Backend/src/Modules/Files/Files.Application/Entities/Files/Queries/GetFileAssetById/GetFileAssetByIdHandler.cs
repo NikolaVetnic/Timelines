@@ -9,10 +9,10 @@ internal class GetFileAssetByIdHandler(IFilesDbContext dbContext) : IQueryHandle
     {
         var fileAsset = await dbContext.FileAssets
             .AsNoTracking()
-            .SingleOrDefaultAsync(f => f.Id == FileAssetId.Of(Guid.Parse(query.Id)), cancellationToken);
+            .SingleOrDefaultAsync(f => f.Id == query.Id, cancellationToken);
 
         if (fileAsset is null)
-            throw new FileAssetNotFoundException(query.Id);
+            throw new FileAssetNotFoundException(query.Id.ToString());
 
         return new GetFileAssetByIdResult(fileAsset.ToFileAssetDto());
     }
