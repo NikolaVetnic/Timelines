@@ -8,6 +8,5 @@ namespace Core.Api.Sdk.Interfaces;
 public partial interface ICoreApiClient
 {
     Task<(SdkCreateNodeResponse? Response, HttpResponseMessage RawResponse)> CreateNodeAsync(SdkCreateNodeRequest request);
-
     Task<(SdkGetNodeByIdResponse? Response, HttpResponseMessage RawResponse)> GetNodeByIdAsync(SdkNodeId nodeId);
 }

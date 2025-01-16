@@ -8,6 +8,5 @@ namespace Core.Api.Sdk.Interfaces;
 public partial interface ICoreApiClient
 {
     Task<(SdkCreateReminderResponse? Response, HttpResponseMessage RawResponse)> CreateReminderAsync(SdkCreateReminderRequest request);
-
     Task<(SdkGetReminderByIdResponse? Response, HttpResponseMessage RawResponse)> GetReminderByIdAsync(SdkReminderId reminderId);
 }

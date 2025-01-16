@@ -8,6 +8,5 @@ namespace Core.Api.Sdk.Interfaces;
 public partial interface ICoreApiClient
 {
     Task<(SdkCreateTimelineResponse? Response, HttpResponseMessage RawResponse)> CreateTimelineAsync(SdkCreateTimelineRequest request);
-
     Task<(SdkGetTimelineByIdResponse? Response, HttpResponseMessage RawResponse)> GetTimelineByIdAsync(SdkTimelineId timelineId);
 }
