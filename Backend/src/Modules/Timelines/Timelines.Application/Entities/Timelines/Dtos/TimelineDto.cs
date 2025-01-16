@@ -3,7 +3,7 @@
 namespace Timelines.Application.Entities.Timelines.Dtos;
 
 public class TimelineDto(
-    string id,
+    string? id,
     string title)
 {
     [JsonPropertyName("id")] public string? Id { get; } = id;
