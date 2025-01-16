@@ -86,6 +86,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nodes", "Nodes", "{BD1E0E89
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nodes.Integration", "Tests\Nodes\Nodes.Integration\Nodes.Integration.csproj", "{3E7D0B42-4579-4960-A05D-56FCE720A62D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reminders", "Reminders", "{E783BF30-869C-45B7-A479-FAF3A5D9F19A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reminders.Integration", "Tests\Reminders\Reminders.Integration\Reminders.Integration.csproj", "{74519517-34C3-4E05-84B4-041CD8EFCD73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -200,6 +204,10 @@ Global
 		{3E7D0B42-4579-4960-A05D-56FCE720A62D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E7D0B42-4579-4960-A05D-56FCE720A62D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E7D0B42-4579-4960-A05D-56FCE720A62D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74519517-34C3-4E05-84B4-041CD8EFCD73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74519517-34C3-4E05-84B4-041CD8EFCD73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74519517-34C3-4E05-84B4-041CD8EFCD73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74519517-34C3-4E05-84B4-041CD8EFCD73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -238,5 +246,7 @@ Global
 		{8F5C7F4B-B84F-4685-9A9B-509713A8278A} = {A4DAC3A7-D970-4866-AF91-228AFA853760}
 		{BD1E0E89-A837-44A4-8C43-B3CDDCD5F519} = {FC2E36AE-2129-4B8B-890F-0090F296AA3F}
 		{3E7D0B42-4579-4960-A05D-56FCE720A62D} = {BD1E0E89-A837-44A4-8C43-B3CDDCD5F519}
+		{E783BF30-869C-45B7-A479-FAF3A5D9F19A} = {FC2E36AE-2129-4B8B-890F-0090F296AA3F}
+		{74519517-34C3-4E05-84B4-041CD8EFCD73} = {E783BF30-869C-45B7-A479-FAF3A5D9F19A}
 	EndGlobalSection
 EndGlobal

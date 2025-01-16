@@ -12,7 +12,7 @@ public class SpecFlowDependencies(IObjectContainer container)
     {
         var factory = new WebApplicationFactory<Program>();
         var httpClient = factory.CreateClient();
-        var client = new CoreApiClient(httpClient);
+        var client = new CoreApiNodeClient(httpClient);
 
         container.RegisterInstanceAs<ICoreApiClient>(client);
     }
