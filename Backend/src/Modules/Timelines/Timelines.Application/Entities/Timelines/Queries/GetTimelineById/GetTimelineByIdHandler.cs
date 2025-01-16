@@ -9,10 +9,10 @@ internal class GetTimelineByIdHandler(ITimelinesDbContext dbContext) : IQueryHan
     {
         var timeline = await dbContext.Timelines
             .AsNoTracking()
-            .SingleOrDefaultAsync(t => t.Id == TimelineId.Of(Guid.Parse(query.Id)), cancellationToken);
+            .SingleOrDefaultAsync(t => t.Id == query.Id, cancellationToken);
 
         if (timeline is null)
-            throw new TimelineNotFoundException(query.Id);
+            throw new TimelineNotFoundException(query.Id.ToString());
 
         return new GetTimelineByIdResult(timeline.ToTimelineDto());
     }
