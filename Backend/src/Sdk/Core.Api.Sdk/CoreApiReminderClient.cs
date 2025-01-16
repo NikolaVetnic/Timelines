@@ -11,7 +11,7 @@ using SdkGetReminderByIdResponse = Core.Api.Sdk.Contracts.Reminders.Queries.GetR
 
 namespace Core.Api.Sdk;
 
-public partial class CoreApiNodeClient
+public partial class CoreApiClient
 {
     public async Task<(SdkCreateReminderResponse? Response, HttpResponseMessage RawResponse)> CreateReminderAsync(
         SdkCreateReminderRequest request)

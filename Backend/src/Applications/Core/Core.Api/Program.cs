@@ -21,7 +21,7 @@ builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException());
 
-builder.Services.AddHttpClient<ICoreApiClient, CoreApiNodeClient>();
+builder.Services.AddHttpClient<ICoreApiClient, CoreApiClient>();
 
 var app = builder.Build();
 
