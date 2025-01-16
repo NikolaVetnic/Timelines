@@ -5,6 +5,7 @@
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.3s;
+    position: relative;
 }
 
 .timeline-card:hover {
@@ -22,6 +23,7 @@
 
 .card-header h3 {
     margin: 0;
+    color: #eee;
     font-size: 1.2rem;
 }
 

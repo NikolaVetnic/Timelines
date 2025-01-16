@@ -1,0 +1,24 @@
+.edit-button {
+    background: none;
+    border: none;
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--enmOrange);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    pointer-events: all;
+}
+
+.edit-button:hover {
+    transform: scale(1.2);
+    color: white;
+}
+
+.edit-button svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
