@@ -2,7 +2,7 @@
 
 namespace Timelines.Application.Entities.Timelines.Commands.DeleteTimeline;
 
-public class DeleteNodeHandler(ITimelinesDbContext dbContext) : ICommandHandler<DeleteTimelineCommand, DeleteTimelineResult>
+public class DeleteTimelineHandler(ITimelinesDbContext dbContext) : ICommandHandler<DeleteTimelineCommand, DeleteTimelineResult>
 {
     public async Task<DeleteTimelineResult> Handle(DeleteTimelineCommand command, CancellationToken cancellationToken)
     {
