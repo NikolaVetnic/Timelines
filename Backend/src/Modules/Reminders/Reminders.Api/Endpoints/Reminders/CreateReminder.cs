@@ -2,6 +2,8 @@
 using Reminders.Application.Entities.Reminders.Commands.CreateReminder;
 
 // ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable NotAccessedPositionalProperty.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Reminders.Api.Endpoints.Reminders;
 
@@ -25,7 +27,13 @@ public class CreateReminder : ICarterModule
     }
 }
 
-// ReSharper disable once NotAccessedPositionalProperty.Global
-public record CreateReminderRequest(ReminderDto Reminder);
+public record CreateReminderRequest
+{
+    public CreateReminderRequest() { }
+
+    public CreateReminderRequest(ReminderDto reminder) => Reminder = reminder;
+
+    public ReminderDto Reminder { get; set; }
+}
 
 public record CreateReminderResponse(ReminderId Id);
