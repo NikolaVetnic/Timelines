@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import recalculateStrip from "../../core/utils/RecalculateStrip";
-import timelineData from "../../data/timelineData";
-import TimelineCard from "../TimelineCard/TimelineCard";
+import recalculateStrip from "../../../../core/utils/RecalculateStrip";
+import timelineData from "../../../../data/timelineData";
+import Node from "../../../Nodes/Node/Node/Node";
 import "./Timeline.css";
 
 const Timeline = () => {
@@ -25,7 +25,7 @@ const Timeline = () => {
             ></div>
             <div className="timeline-cards">
                 {timelineData.map((item, index) => (
-                    <TimelineCard
+                    <Node
                         key={item.id}
                         item={item}
                         ref={(el) => (cardsRef.current[index] = el)}

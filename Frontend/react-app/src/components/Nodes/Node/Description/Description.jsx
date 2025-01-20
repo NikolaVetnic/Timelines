@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import EditButton from "../../core/components/buttons/EditButton/EditButton";
-import DescriptionModal from "../../core/components/modals/DescriptionModal/DescriptionModal";
+import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
+import DescriptionModal from "../../../../core/components/modals/DescriptionModal/DescriptionModal";
 
 import "./Description.css";
 

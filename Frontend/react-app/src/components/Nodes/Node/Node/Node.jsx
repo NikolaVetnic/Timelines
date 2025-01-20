@@ -1,14 +1,15 @@
 import React, { forwardRef, useState } from "react";
-import "./TimelineCard.css";
 
+import Timestamp from "../../../Timestamp/Timestamp";
 import Categories from "../Categories/Categories";
 import Description from "../Description/Description";
 import EditableTitle from "../EditableTitle/EditableTitle";
 import Importance from "../Importance/Importance";
 import Tags from "../Tags/Tags";
-import Timestamp from "../Timestamp/Timestamp";
 
-const TimelineCard = forwardRef(({ item, onToggle }, ref) => {
+import "./Node.css";
+
+const Node = forwardRef(({ item, onToggle }, ref) => {
     const [isOpen, setIsOpen] = useState(false);
     const [categories, setCategories] = useState(item.categories);
     const [tags, setTags] = useState(item.tags);
@@ -65,4 +66,4 @@ const TimelineCard = forwardRef(({ item, onToggle }, ref) => {
     );
 });
 
-export default TimelineCard;
+export default Node;

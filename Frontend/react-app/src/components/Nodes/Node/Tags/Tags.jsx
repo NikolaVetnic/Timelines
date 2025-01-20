@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import EditButton from "../../core/components/buttons/EditButton/EditButton";
-import InputCSVModal from "../../core/components/modals/InputCSVModal/InputCSVModal";
-import convertStringToColor from "../../core/utils/ConvertStringToColor";
+import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
+import InputStringModal from "../../../../core/components/modals/InputCSVModal/InputStringModal";
+import convertStringToColor from "../../../../core/utils/ConvertStringToColor";
 
 import "./Tags.css";
 
@@ -39,7 +39,7 @@ const Tags = ({ tags, onUpdateTags }) => {
                 ))}
             </div>
             <EditButton onClick={handleOpenModal} />
-            <InputCSVModal
+            <InputStringModal
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
                 onSave={handleSaveTags}

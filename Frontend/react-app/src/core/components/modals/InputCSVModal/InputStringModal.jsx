@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import "./InputCSVModal.css";
+import "./InputStringModal.css";
 
 import CancelButton from "../../buttons/CancelButton/CancelButton";
 import SaveButton from "../../buttons/SaveButton/SaveButton";
 
-const InputCSVModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
+const InputStringModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
     const [value, setValue] = useState(initialValue);
     const [isChanged, setIsChanged] = useState(false);
 
@@ -46,4 +46,4 @@ const InputCSVModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
     );
 };
 
-export default InputCSVModal;
+export default InputStringModal;
