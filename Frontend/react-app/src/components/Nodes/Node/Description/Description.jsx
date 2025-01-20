@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
-import DescriptionModal from "../../../../core/components/modals/DescriptionModal/DescriptionModal";
+import TextAreaModal from "../../../../core/components/modals/TextAreaModal/TextAreaModal";
 
 import "./Description.css";
 
@@ -28,7 +28,7 @@ const Description = ({ description, onUpdateDescription }) => {
                 <strong>Description:</strong> {localDescription}
             </div>
             <EditButton onClick={handleOpenModal} />
-            <DescriptionModal
+            <TextAreaModal
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
                 onSave={handleSaveDescription}

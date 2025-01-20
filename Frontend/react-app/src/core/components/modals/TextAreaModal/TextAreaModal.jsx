@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./DescriptionModal.css";
+import "./TextAreaModal.css";
 
 import CancelButton from "../../buttons/CancelButton/CancelButton";
 import SaveButton from "../../buttons/SaveButton/SaveButton";
 
-const DescriptionModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
+const TextAreaModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
     const [value, setValue] = useState(initialValue);
     const [isChanged, setIsChanged] = useState(false);
 
@@ -45,4 +45,4 @@ const DescriptionModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
     );
 };
 
-export default DescriptionModal;
+export default TextAreaModal;

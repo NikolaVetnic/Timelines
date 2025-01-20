@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
-import InputStringModal from "../../../../core/components/modals/InputCSVModal/InputStringModal";
+import InputStringModal from "../../../../core/components/modals/InputStringModal/InputStringModal";
 import convertStringToColor from "../../../../core/utils/ConvertStringToColor";
 
 import "./Tags.css";

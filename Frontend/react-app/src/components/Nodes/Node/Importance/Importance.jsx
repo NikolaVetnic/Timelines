@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
-import IntegerModal from "../../../../core/components/modals/ImportanceModal/IntegerModal";
+import IntegerModal from "../../../../core/components/modals/IntegerModal/IntegerModal";
 
 import "./Importance.css";
 
