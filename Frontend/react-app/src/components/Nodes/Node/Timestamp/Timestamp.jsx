@@ -8,18 +8,14 @@ const Timestamp = ({ initialValue, onUpdateTimestamp }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [localTimestamp, setLocalTimestamp] = useState(new Date(initialValue));
 
-    const handleOpenModal = () => {
-        setModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setModalOpen(false);
+    const setModalActive = (isActive) => {
+        setModalOpen(isActive);
     };
 
     const handleSaveTimestamp = (newTimestamp) => {
         setLocalTimestamp(newTimestamp);
         onUpdateTimestamp(newTimestamp);
-        handleCloseModal();
+        setModalActive(false);
     };
 
     return (
@@ -27,10 +23,10 @@ const Timestamp = ({ initialValue, onUpdateTimestamp }) => {
             <div>
                 <strong>Timestamp:</strong> {localTimestamp.toLocaleDateString()}
             </div>
-            <EditButton onClick={handleOpenModal} />
+            <EditButton onClick={() => setModalActive(true)} />
             <DatePickerModal
                 isOpen={isModalOpen}
-                onClose={handleCloseModal}
+                onClose={() => setModalActive(false)}
                 onSave={handleSaveTimestamp}
                 initialValue={localTimestamp}
                 title="Edit Timestamp"

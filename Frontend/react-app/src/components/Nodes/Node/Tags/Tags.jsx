@@ -10,18 +10,14 @@ const Tags = ({ tags, onUpdateTags }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [localTags, setLocalTags] = useState(tags);
 
-    const handleOpenModal = () => {
-        setModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setModalOpen(false);
+    const setModalActive = (isActive) => {
+        setModalOpen(isActive);
     };
 
     const handleSaveTags = (newTags) => {
         setLocalTags(newTags);
         onUpdateTags(newTags);
-        handleCloseModal();
+        setModalActive(false);
     };
 
     return (
@@ -38,10 +34,10 @@ const Tags = ({ tags, onUpdateTags }) => {
                     </span>
                 ))}
             </div>
-            <EditButton onClick={handleOpenModal} />
+            <EditButton onClick={() => setModalActive(true)} />
             <InputStringModal
                 isOpen={isModalOpen}
-                onClose={handleCloseModal}
+                onClose={() => setModalActive(false)}
                 onSave={handleSaveTags}
                 initialValue={localTags.join(", ")}
                 title="Edit Tags"

@@ -9,18 +9,14 @@ const Importance = ({ initialValue, onSave }) => {
     const [importance, setImportance] = useState(initialValue);
     const [isModalOpen, setModalOpen] = useState(false);
 
-    const handleOpenModal = () => {
-        setModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setModalOpen(false);
+    const setModalActive = (isActive) => {
+        setModalOpen(isActive);
     };
 
     const handleSaveImportance = (newImportance) => {
         setImportance(newImportance);
         onSave(newImportance);
-        handleCloseModal();
+        setModalActive(false);
     };
 
     return (
@@ -28,10 +24,10 @@ const Importance = ({ initialValue, onSave }) => {
             <div className="importance-content">
                 <strong>Importance:</strong> {importance}
             </div>
-            <EditButton onClick={handleOpenModal} />
+            <EditButton onClick={() => setModalActive(true)} />
             <IntegerModal
                 isOpen={isModalOpen}
-                onClose={handleCloseModal}
+                onClose={() => setModalActive(false)}
                 onSave={handleSaveImportance}
                 initialValue={importance}
             />
