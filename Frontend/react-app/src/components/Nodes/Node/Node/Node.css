@@ -3,7 +3,7 @@
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    cursor: pointer;
+    cursor: default;
     transition: transform 0.3s;
     position: relative;
 }
@@ -19,6 +19,7 @@
     padding: 15px 20px;
     background-color: #007bff;
     color: #fff;
+    cursor: pointer;
 }
 
 .card-header h3 {
@@ -33,6 +34,7 @@
 
 .card-content {
     padding: 15px 20px;
+    cursor: default;
     text-align: left;
 }
 
