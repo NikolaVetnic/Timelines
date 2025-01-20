@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import EditButton from "../../core/components/buttons/EditButton/EditButton";
-import DatePickerModal from "../../core/components/modals/DatePickerModal/DatePickerModal";
+import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
+import DatePickerModal from "../../../../core/components/modals/DatePickerModal/DatePickerModal";
 
 import "./Timestamp.css";
 

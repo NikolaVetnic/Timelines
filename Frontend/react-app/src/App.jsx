@@ -1,9 +1,8 @@
 import React from "react";
 
+import Timeline from "./components/Timelines/Timeline/Timeline";
+import TimelineSelect from "./components/Timelines/TimelineSelect/TimelineSelect";
 import "./styles/App.css";
-
-import Timeline from "./components/Timeline/Timeline";
-import TimelineSelect from "./components/TimelineSelect/TimelineSelect";
 
 function App() {
     const handleTimelineSelect = (selectedTimeline) => {

@@ -1,11 +1,11 @@
 import React, { forwardRef, useState } from "react";
 
-import Timestamp from "../../../Timestamp/Timestamp";
 import Categories from "../Categories/Categories";
 import Description from "../Description/Description";
 import EditableTitle from "../EditableTitle/EditableTitle";
 import Importance from "../Importance/Importance";
 import Tags from "../Tags/Tags";
+import Timestamp from "../Timestamp/Timestamp";
 
 import "./Node.css";
 

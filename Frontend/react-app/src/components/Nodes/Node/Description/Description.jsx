@@ -8,18 +8,14 @@ const Description = ({ description, onUpdateDescription }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [localDescription, setLocalDescription] = useState(description);
 
-    const handleOpenModal = () => {
-        setModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setModalOpen(false);
+    const setModalActive = (isActive) => {
+        setModalOpen(isActive);
     };
 
     const handleSaveDescription = (newDescription) => {
         setLocalDescription(newDescription);
         onUpdateDescription(newDescription);
-        handleCloseModal();
+        setModalActive(false);
     };
 
     return (
@@ -27,10 +23,10 @@ const Description = ({ description, onUpdateDescription }) => {
             <div>
                 <strong>Description:</strong> {localDescription}
             </div>
-            <EditButton onClick={handleOpenModal} />
+            <EditButton onClick={() => setModalActive(true)} />
             <TextAreaModal
                 isOpen={isModalOpen}
-                onClose={handleCloseModal}
+                onClose={() => setModalActive(false)}
                 onSave={handleSaveDescription}
                 initialValue={localDescription}
                 title="Edit Description"

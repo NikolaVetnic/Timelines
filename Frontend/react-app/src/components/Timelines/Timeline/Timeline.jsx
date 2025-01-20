@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import recalculateStrip from "../../../../core/utils/RecalculateStrip";
-import timelineData from "../../../../data/timelineData";
-import Node from "../../../Nodes/Node/Node/Node";
+import recalculateStrip from "../../../core/utils/RecalculateStrip";
+import timelineData from "../../../data/timelineData";
+import Node from "../../Nodes/Node/Node/Node";
 import "./Timeline.css";
 
 const Timeline = () => {

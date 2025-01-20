@@ -10,18 +10,14 @@ const Categories = ({ categories, onUpdateCategories }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [localCategories, setLocalCategories] = useState(categories);
 
-    const handleOpenModal = () => {
-        setModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setModalOpen(false);
+    const setModalActive = (isActive) => {
+        setModalOpen(isActive);
     };
 
     const handleSaveCategories = (newCategories) => {
         setLocalCategories(newCategories);
         onUpdateCategories(newCategories);
-        handleCloseModal();
+        setModalActive(false);
     };
 
     return (
@@ -38,10 +34,10 @@ const Categories = ({ categories, onUpdateCategories }) => {
                     </span>
                 ))}
             </div>
-            <EditButton onClick={handleOpenModal} />
+            <EditButton onClick={() => setModalActive(true)} />
             <InputStringModal
                 isOpen={isModalOpen}
-                onClose={handleCloseModal}
+                onClose={() => setModalActive(false)}
                 onSave={handleSaveCategories}
                 initialValue={localCategories.join(", ")}
                 title="Edit Categories"
