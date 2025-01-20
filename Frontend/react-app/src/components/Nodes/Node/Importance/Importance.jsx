@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+
 import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
-import ImportanceModal from "../../../../core/components/modals/ImportanceModal/ImportanceModal";
+import IntegerModal from "../../../../core/components/modals/ImportanceModal/IntegerModal";
 
 import "./Importance.css";
 
@@ -28,7 +29,7 @@ const Importance = ({ initialValue, onSave }) => {
                 <strong>Importance:</strong> {importance}
             </div>
             <EditButton onClick={handleOpenModal} />
-            <ImportanceModal
+            <IntegerModal
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
                 onSave={handleSaveImportance}

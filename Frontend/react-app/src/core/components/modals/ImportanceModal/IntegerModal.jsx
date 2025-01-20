@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./ImportanceModal.css";
+import "./IntegerModal.css";
 
 import CancelButton from "../../buttons/CancelButton/CancelButton";
 import SaveButton from "../../buttons/SaveButton/SaveButton";
 
-const ImportanceModal = ({ isOpen, onClose, onSave, initialValue }) => {
+const IntegerModal = ({ isOpen, onClose, onSave, initialValue }) => {
     const [value, setValue] = useState(initialValue);
     const [isChanged, setIsChanged] = useState(false);
 
@@ -58,4 +58,4 @@ const ImportanceModal = ({ isOpen, onClose, onSave, initialValue }) => {
     );
 };
 
-export default ImportanceModal;
+export default IntegerModal;
