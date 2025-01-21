@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import Select from "react-select";
 
+import timelineData from "../../../data/timelineData";
 import "./TimelineSelect.css";
 
 const TimelineSelect = ({ onTimelineSelect }) => {
     const [selectedTimeline, setSelectedTimeline] = useState(null);
 
-    const timelineOptions = [
-        { value: "timeline1", label: "Timeline 1" },
-        { value: "timeline2", label: "Timeline 2" },
-        { value: "timeline3", label: "Timeline 3" },
-    ];
+    const timelineOptions = timelineData.map(timeline => ({
+        value: timeline.id,
+        label: timeline.title,
+    }));
 
     const handleTimelineChange = (selectedOption) => {
         setSelectedTimeline(selectedOption);
@@ -25,7 +25,7 @@ const TimelineSelect = ({ onTimelineSelect }) => {
                 options={timelineOptions}
                 value={selectedTimeline}
                 onChange={handleTimelineChange}
-                placeholder="My Timelines"
+                placeholder="Select a Timeline"
                 className="timeline-dropdown"
                 classNamePrefix="react-select"
                 components={{
