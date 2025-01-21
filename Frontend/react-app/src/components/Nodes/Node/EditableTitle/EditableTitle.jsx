@@ -50,7 +50,10 @@ const EditableTitle = ({ title, onUpdateTitle, className }) => {
             {isHovered && (
                 <FaEdit
                     className="editable-title-edit-icon"
-                    onClick={() => setEditing(true)}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setEditing(true);
+                    }}
                 />
             )}
         </div>
