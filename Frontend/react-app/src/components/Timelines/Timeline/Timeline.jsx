@@ -13,6 +13,7 @@ const Timeline = ({ selectedTimeline }) => {
     useEffect(() => {
         cardsRef.current = [];
         setNodesRendered(false);
+        setStripStyle({});
     }, [selectedTimeline]);
 
     useEffect(() => {
@@ -20,7 +21,7 @@ const Timeline = ({ selectedTimeline }) => {
             const newStyle = recalculateStrip(cardsRef);
             setStripStyle(newStyle);
         }
-    }, [updateStrip, nodesRendered]);
+    }, [nodesRendered, selectedTimeline, updateStrip]); 
 
     if (!selectedTimeline) {
         return <p>Please select a timeline.</p>;
@@ -38,12 +39,12 @@ const Timeline = ({ selectedTimeline }) => {
                         ref={(el) => {
                             if (el) {
                                 cardsRef.current[index] = el;
-                                if (index === selectedTimeline.nodes.length - 1) {
-                                    setNodesRendered(true);
-                                }
+                            }
+                            if (index === selectedTimeline.nodes.length - 1) {
+                                setTimeout(() => setNodesRendered(true), 0);
                             }
                         }}
-                        onToggle={() => setUpdateStrip(!updateStrip)}
+                        onToggle={() => setUpdateStrip(prev => !prev)}
                     />
                 ))}
             </div>
