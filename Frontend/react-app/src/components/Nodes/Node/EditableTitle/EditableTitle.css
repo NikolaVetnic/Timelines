@@ -1,10 +1,18 @@
+.editable-title-container {
+    display: flex;
+    align-items: center;
+    cursor: text;
+    gap: 8px;
+}
+
 .editable-title {
     font-size: 1.2rem;
     font-weight: bold;
     border: none;
     background: transparent;
     color: #333;
-    cursor: pointer;
+    cursor: text;
+    transition: opacity 0.2s ease-in-out;
 }
 
 .editable-title:focus {
@@ -12,4 +20,19 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #f9f9f9;
+}
+
+.editable-title-container:hover .editable-title {
+    opacity: 0.7;
+}
+
+.editable-title-edit-icon {
+    font-size: 1rem;
+    color: gray;
+    transition: opacity 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.editable-title-container:hover .editable-title-edit-icon {
+    opacity: 1;
 }

@@ -1,17 +1,17 @@
 import React, { useState } from "react";
+import { FaEdit } from "react-icons/fa";
 import "./EditableTitle.css";
 
 const EditableTitle = ({ title, onUpdateTitle, className }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [localTitle, setLocalTitle] = useState(title);
+    const [isHovered, setIsHovered] = useState(false);
 
-    const handleDoubleClick = (e) => {
-        e.stopPropagation();
-        setIsEditing(true);
-    };
-
-    const handleClick = (e) => {
-        e.stopPropagation();
+    const setEditing = (isActive) => {
+        setIsEditing(isActive);
+        if (!isActive) {
+            setIsHovered(false);
+        }
     };
 
     const handleChange = (e) => {
@@ -20,16 +20,13 @@ const EditableTitle = ({ title, onUpdateTitle, className }) => {
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
-            handleSave();
+            setEditing(false);
+            onUpdateTitle(localTitle);
         }
     };
 
     const handleBlur = () => {
-        handleSave();
-    };
-
-    const handleSave = () => {
-        setIsEditing(false);
+        setEditing(false);
         onUpdateTitle(localTitle);
     };
 
@@ -44,13 +41,19 @@ const EditableTitle = ({ title, onUpdateTitle, className }) => {
             autoFocus
         />
     ) : (
-        <h3
-            onDoubleClick={handleDoubleClick}
-            onClick={handleClick}
-            className={`editable-title ${className}`}
+        <div
+            className={`editable-title-container ${className}`}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
         >
-            {localTitle}
-        </h3>
+            <h3 className="editable-title">{localTitle}</h3>
+            {isHovered && (
+                <FaEdit
+                    className="editable-title-edit-icon"
+                    onClick={() => setEditing(true)}
+                />
+            )}
+        </div>
     );
 };
 
