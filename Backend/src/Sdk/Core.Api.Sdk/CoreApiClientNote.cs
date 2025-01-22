@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using System.Net.Http.Json;
+using Core.Api.Sdk.Interfaces;
 using ApiCreateNoteRequest = Notes.Api.Endpoints.Notes.CreateNoteRequest;
 using ApiCreateNoteResponse = Notes.Api.Endpoints.Notes.CreateNoteResponse;
 using SdkCreateNoteRequest = Core.Api.Sdk.Contracts.Notes.Commands.CreateNoteRequest;
