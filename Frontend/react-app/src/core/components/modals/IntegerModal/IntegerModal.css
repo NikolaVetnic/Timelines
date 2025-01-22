@@ -1,4 +1,4 @@
-.importance-modal-overlay {
+.integer-modal-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
     z-index: 1000;
 }
 
-.importance-modal {
+.integer-modal {
     background: #fff;
     padding: 20px;
     border-radius: 12px;
@@ -23,25 +23,25 @@
     gap: 15px;
 }
 
-.importance-modal h3 {
+.integer-modal h3 {
     margin: 0;
     font-size: 1.2rem;
     color: #333;
     text-align: center;
 }
 
-.importance-controls {
+.integer-controls {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
 }
 
-.importance-value {
+.integer-value {
     color: #333;
 }
 
-.importance-button {
+.integer-button {
     font-family: "Courier New", Courier, monospace;
     font-weight: bold;
     background-color: #e76a29;
@@ -57,11 +57,11 @@
     transition: background-color 0.2s ease;
 }
 
-.importance-button:hover {
+.integer-button:hover {
     background-color: #cf5a22;
 }
 
-.importance-modal-actions {
+.integer-modal-actions {
     display: flex;
     justify-content: flex-end;
     gap: 10px;

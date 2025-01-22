@@ -37,19 +37,19 @@ const IntegerModal = ({ isOpen, onClose, onSave, initialValue }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="importance-modal-overlay">
-            <div className="importance-modal">
+        <div className="integer-modal-overlay">
+            <div className="integer-modal">
                 <h3>Edit Importance</h3>
-                <div className="importance-controls">
-                    <button className="importance-button" onClick={handleDecrement}>
+                <div className="integer-controls">
+                    <button className="integer-button" onClick={handleDecrement}>
                         -
                     </button>
-                    <span className="importance-value">{value}</span>
+                    <span className="integer-value">{value}</span>
                     <button className="importance-button" onClick={handleIncrement}>
                         +
                     </button>
                 </div>
-                <div className="importance-modal-actions">
+                <div className="integer-modal-actions">
                     <CancelButton onClick={onClose} />
                     <SaveButton onClick={handleSave} disabled={!isChanged} />
                 </div>
