@@ -23,8 +23,8 @@ const Node = forwardRef(({ item, onToggle }, ref) => {
     };
 
     return (
-        <div className={`timeline-card ${isOpen ? "open" : ""}`} ref={ref}>
-            <div className="card-header" onClick={toggleCard}>
+        <div className={`timeline-node ${isOpen ? "open" : ""}`} ref={ref}>
+            <div className="node-header" onClick={toggleCard}>
                 <EditableTitle
                     title={title}
                     onUpdateTitle={(newTitle) => setTitle(newTitle)}
@@ -33,7 +33,7 @@ const Node = forwardRef(({ item, onToggle }, ref) => {
                 <span>{isOpen ? "-" : "+"}</span>
             </div>
             {isOpen && (
-                <div className="card-content">
+                <div className="node-content">
                     <Description
                         description={description}
                         onUpdateDescription={setDescription}

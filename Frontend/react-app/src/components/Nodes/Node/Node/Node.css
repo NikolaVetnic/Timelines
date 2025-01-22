@@ -1,4 +1,4 @@
-.timeline-card {
+.timeline-node {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -8,11 +8,20 @@
     position: relative;
 }
 
-.timeline-card:hover {
+.timeline-node {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.timeline-node:hover {
     transform: translateY(-5px);
 }
 
-.card-header {
+.node-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,23 +31,54 @@
     cursor: pointer;
 }
 
-.card-header h3 {
+.node-header {
+    color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.node-header h3 {
     margin: 0;
     color: #eee;
     font-size: 1.2rem;
 }
 
-.card-header span {
+.node-header span {
     font-size: 1.5rem;
 }
 
-.card-content {
+.node-header:hover .editable-title {
+    color: #ddd;
+    transition: color 0.2s ease-in-out;
+}
+
+.node-header:hover .editable-title {
+    color: #ddd;
+    transition: color 0.2s ease-in-out;
+}
+
+.node-content {
     padding: 15px 20px;
     cursor: default;
     text-align: left;
 }
 
-.card-content img {
+.node-content img {
+    max-width: 100%;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+.node-content {
+    background-color: #fff;
+    padding: 15px 20px;
+    color: #333;
+    text-align: left;
+}
+
+.node-content img {
     max-width: 100%;
     margin-top: 10px;
     border-radius: 4px;

@@ -18,7 +18,25 @@
     z-index: 1;
 }
 
-.timeline-cards {
+.timeline-container {
+    position: relative;
+    width: 800px;
+    margin: 0 auto;
+}
+
+.timeline-container {
+    position: relative;
+    z-index: 5;
+}
+
+.timeline-nodes {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.timeline-nodes {
     display: flex;
     flex-direction: column;
     gap: 20px;

@@ -5,13 +5,13 @@ import "./Timeline.css";
 
 const Timeline = ({ selectedTimeline }) => {
     const stripRef = useRef(null);
-    const cardsRef = useRef([]);
+    const nodesRef = useRef([]);
     const [stripStyle, setStripStyle] = useState({});
     const [updateStrip, setUpdateStrip] = useState(false);
     const [nodesRendered, setNodesRendered] = useState(false);
 
     useEffect(() => {
-        cardsRef.current = [];
+        nodesRef.current = [];
         setNodesRendered(false);
         setStripStyle({});
         setUpdateStrip(prev => !prev);
@@ -19,8 +19,8 @@ const Timeline = ({ selectedTimeline }) => {
     
 
     useEffect(() => {
-        if (nodesRendered && cardsRef.current.length > 0) {
-            const newStyle = recalculateStrip(cardsRef);
+        if (nodesRendered && nodesRef.current.length > 0) {
+            const newStyle = recalculateStrip(nodesRef);
             setStripStyle(newStyle);
         }
     }, [nodesRendered, selectedTimeline, updateStrip]); 
@@ -33,14 +33,14 @@ const Timeline = ({ selectedTimeline }) => {
         <div className="timeline-container" key={selectedTimeline.id}>
             <h2>{selectedTimeline.title}</h2>
             <div className="timeline-strip" ref={stripRef} style={stripStyle}></div>
-            <div className="timeline-cards">
+            <div className="timeline-nodes">
                 {selectedTimeline.nodes.map((item, index) => (
                     <Node
                         key={item.id}
                         item={item}
                         ref={(el) => {
                             if (el) {
-                                cardsRef.current[index] = el;
+                                nodesRef.current[index] = el;
                             }
                             if (index === selectedTimeline.nodes.length - 1) {
                                 setTimeout(() => setNodesRendered(true), 0);
