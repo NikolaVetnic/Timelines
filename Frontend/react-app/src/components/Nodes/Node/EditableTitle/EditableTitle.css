@@ -23,12 +23,12 @@
 }
 
 .editable-title-container:hover .editable-title {
-    opacity: 0.7;
+    color: #fff;
 }
 
 .editable-title-edit-icon {
     font-size: 1rem;
-    color: gray;
+    color: #fff;
     transition: opacity 0.2s ease-in-out;
     cursor: pointer;
 }
