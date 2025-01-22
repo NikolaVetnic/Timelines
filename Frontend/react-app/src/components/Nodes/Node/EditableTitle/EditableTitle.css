@@ -36,3 +36,15 @@
 .editable-title-container:hover .editable-title-edit-icon {
     opacity: 1;
 }
+
+.editable-title-container:focus-within .editable-title-edit-icon {
+    opacity: 1 !important;
+}
+
+.editable-title:focus {
+    color: #333 !important;
+    background-color: #f9f9f9;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
