@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
 import "./EditableTitle.css";
 
 const EditableTitle = ({ title, onUpdateTitle, className }) => {
@@ -48,7 +48,7 @@ const EditableTitle = ({ title, onUpdateTitle, className }) => {
         >
             <h3 className="editable-title">{localTitle}</h3>
             {isHovered && (
-                <FaEdit
+                <EditButton
                     className="editable-title-edit-icon"
                     onClick={(e) => {
                         e.stopPropagation();
