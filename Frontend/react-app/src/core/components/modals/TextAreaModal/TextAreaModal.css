@@ -1,4 +1,4 @@
-.description-modal-overlay {
+.text-area-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
     z-index: 1000;
 }
 
-.description-modal {
+.text-area-modal {
     background: #fff;
     padding: 20px;
     border-radius: 12px;
@@ -23,14 +23,14 @@
     gap: 15px;
 }
 
-.description-modal h3 {
+.text-area-modal h3 {
     margin: 0;
     font-size: 1.2rem;
     color: #333;
     text-align: center;
 }
 
-.description-modal textarea {
+.text-area-modal textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -40,7 +40,7 @@
     box-sizing: border-box;
 }
 
-.description-modal-actions {
+.text-area-modal-actions {
     display: flex;
     justify-content: flex-end;
     gap: 10px;

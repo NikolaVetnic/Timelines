@@ -27,8 +27,8 @@ const TextAreaModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="description-modal-overlay">
-            <div className="description-modal">
+        <div className="text-area-modal-overlay">
+            <div className="text-area-modal">
                 <h3>{title}</h3>
                 <textarea
                     rows="4"
@@ -36,7 +36,7 @@ const TextAreaModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
                     onChange={handleInputChange}
                     placeholder="Enter a new description"
                 ></textarea>
-                <div className="description-modal-actions">
+                <div className="text-area-modal-actions">
                     <CancelButton onClick={onClose} />
                     <SaveButton onClick={handleSave} disabled={!isChanged} />
                 </div>
