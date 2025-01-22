@@ -1,5 +1,12 @@
-﻿namespace Timelines.Application.Entities.Timelines.Dtos;
+﻿using System.Text.Json.Serialization;
 
-public record TimelineDto(
-    string Id,
-    string Title);
+namespace Timelines.Application.Entities.Timelines.Dtos;
+
+public class TimelineDto(
+    string? id,
+    string title)
+{
+    [JsonPropertyName("id")] public string? Id { get; } = id;
+
+    [JsonPropertyName("title")] public string Title { get; } = title;
+}

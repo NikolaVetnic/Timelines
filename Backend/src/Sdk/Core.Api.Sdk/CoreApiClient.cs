@@ -11,7 +11,7 @@ using SdkGetNodeByIdResponse = Core.Api.Sdk.Contracts.Nodes.Queries.GetNodeByIdR
 
 namespace Core.Api.Sdk;
 
-public class CoreApiClient(HttpClient httpClient) : ICoreApiClient
+public partial class CoreApiClient(HttpClient httpClient) : ICoreApiClient
 {
     public async Task<(SdkCreateNodeResponse? Response, HttpResponseMessage RawResponse)> CreateNodeAsync(
         SdkCreateNodeRequest request)

@@ -5,7 +5,7 @@ using SdkGetNodeByIdResponse = Core.Api.Sdk.Contracts.Nodes.Queries.GetNodeByIdR
 
 namespace Core.Api.Sdk.Interfaces;
 
-public interface ICoreApiClient
+public partial interface ICoreApiClient
 {
     Task<(SdkCreateNodeResponse? Response, HttpResponseMessage RawResponse)> CreateNodeAsync(SdkCreateNodeRequest request);
     Task<(SdkGetNodeByIdResponse? Response, HttpResponseMessage RawResponse)> GetNodeByIdAsync(SdkNodeId nodeId);
