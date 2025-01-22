@@ -14,7 +14,9 @@ const Timeline = ({ selectedTimeline }) => {
         cardsRef.current = [];
         setNodesRendered(false);
         setStripStyle({});
+        setUpdateStrip(prev => !prev);
     }, [selectedTimeline]);
+    
 
     useEffect(() => {
         if (nodesRendered && cardsRef.current.length > 0) {
@@ -28,7 +30,7 @@ const Timeline = ({ selectedTimeline }) => {
     }
 
     return (
-        <div className="timeline-container">
+        <div className="timeline-container" key={selectedTimeline.id}>
             <h2>{selectedTimeline.title}</h2>
             <div className="timeline-strip" ref={stripRef} style={stripStyle}></div>
             <div className="timeline-cards">
@@ -49,7 +51,7 @@ const Timeline = ({ selectedTimeline }) => {
                 ))}
             </div>
         </div>
-    );
+    );  
 };
 
 export default Timeline;

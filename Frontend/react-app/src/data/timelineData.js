@@ -1,6 +1,6 @@
 const timelineData = [
   {
-    id: "timeline-1",
+    id: "1",
     title: "Software Development Lifecycle",
     nodes: [
       {
@@ -62,7 +62,7 @@ const timelineData = [
     ],
   },
   {
-    id: "timeline-2",
+    id: "2",
     title: "Marketing Campaign",
     nodes: [
       {
@@ -112,7 +112,7 @@ const timelineData = [
     ],
   },
   {
-    id: "timeline-3",
+    id: "3",
     title: "Event Planning",
     nodes: [
       {

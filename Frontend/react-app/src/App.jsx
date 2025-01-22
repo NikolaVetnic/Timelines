@@ -10,8 +10,9 @@ function App() {
 
     const handleTimelineSelect = (selectedOption) => {
         const foundTimeline = timelineData.find(timeline => timeline.id === selectedOption.value);
-        setSelectedTimeline(foundTimeline);
+        setSelectedTimeline(foundTimeline ? { ...foundTimeline, nodes: [...foundTimeline.nodes] } : null);
     };
+    
 
     return (
         <div className="app-container">
