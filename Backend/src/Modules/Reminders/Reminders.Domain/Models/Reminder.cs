@@ -34,7 +34,7 @@ public class Reminder : Aggregate<ReminderId>
         return reminder;
     }
 
-    public void Update(string title, string description, DateTime notifyAt, int priority, DateTime notificationTime, string status)
+    public void Update(string title, string description, DateTime notifyAt, int priority, List<Reminder> relatedReminders)
     {
         Title = title;
         Description = description;
