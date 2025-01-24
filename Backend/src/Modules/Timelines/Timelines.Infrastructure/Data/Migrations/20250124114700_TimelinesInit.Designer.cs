@@ -12,7 +12,7 @@ using Timelines.Infrastructure.Data;
 namespace Timelines.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(TimelinesDbContext))]
-    [Migration("20241227122955_TimelinesInit")]
+    [Migration("20250124114700_TimelinesInit")]
     partial class TimelinesInit
     {
         /// <inheritdoc />
@@ -35,6 +35,10 @@ namespace Timelines.Infrastructure.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("LastModifiedAt")
