@@ -16,10 +16,10 @@ public class ReminderDto(
 
     [JsonPropertyName("description")] public string Description { get; } = description;
 
-    [JsonPropertyName("dueDateTime")] public DateTime NotifyAt { get; } = notifyAt;
+    [JsonPropertyName("notifyAt")] public DateTime NotifyAt { get; } = notifyAt;
 
     [JsonPropertyName("priority")] public int Priority { get; } = priority;
 
-    [JsonPropertyName("priority")] public List<Reminder> RelatedReminders { get; } = relatedReminders;
+    [JsonPropertyName("relatedReminders")] public List<Reminder> RelatedReminders { get; } = relatedReminders;
 
 }
