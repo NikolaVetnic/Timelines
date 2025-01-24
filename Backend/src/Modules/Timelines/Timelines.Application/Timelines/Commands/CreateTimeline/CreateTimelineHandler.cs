@@ -9,7 +9,8 @@ internal class CreateTimelineHandler(ITimelinesDbContext dbContext) :
     {
         var timeline = Timeline.Create(
             TimelineId.Of(Guid.NewGuid()),
-            command.Timeline.Title
+            command.Timeline.Title,
+            command.Timeline.Description
         );
 
         dbContext.Timelines.Add(timeline);

@@ -8,7 +8,8 @@ public static class TimelineExtensions
     {
         return new TimelineDto(
             timeline.Id.ToString(),
-            timeline.Title);
+            timeline.Title,
+            timeline.Description);
     }
 
     public static IEnumerable<TimelineDto> ToTimelineDtoList(this IEnumerable<Timeline> timelines)

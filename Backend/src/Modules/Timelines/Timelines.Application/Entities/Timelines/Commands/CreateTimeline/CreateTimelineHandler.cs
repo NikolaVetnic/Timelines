@@ -19,7 +19,8 @@ internal static class CreateTimelineCommandExtensions
     {
         return Timeline.Create(
             TimelineId.Of(Guid.NewGuid()),
-            command.Timeline.Title
+            command.Timeline.Title,
+            command.Timeline.Description
         );
     }
 }
