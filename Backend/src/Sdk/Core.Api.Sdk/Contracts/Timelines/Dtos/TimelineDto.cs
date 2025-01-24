@@ -7,4 +7,5 @@ public class TimelineDto
 {
     public string? Id { get; set; }
     public required string Title { get; init; }
+    public required string Description { get; init; }
 }

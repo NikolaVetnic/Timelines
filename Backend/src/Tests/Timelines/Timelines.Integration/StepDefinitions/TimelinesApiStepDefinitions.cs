@@ -35,6 +35,7 @@ public class TimelinesApiStepDefinitions
                 {
                     Id = null,
                     Title = "Submit Annual Tax Return",
+                    Description = "Random description"
                 }
             });
 
@@ -64,6 +65,7 @@ public class TimelinesApiStepDefinitions
         var timelineDto = response!.TimelineDto;
 
         timelineDto?.Title.Should().Be("Submit Annual Tax Return");
+        timelineDto?.Description.Should().Be("Random description");
     }
 
     #endregion
