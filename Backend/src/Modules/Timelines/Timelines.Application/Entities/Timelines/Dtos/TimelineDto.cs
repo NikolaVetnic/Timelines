@@ -10,5 +10,6 @@ public class TimelineDto(
     [JsonPropertyName("id")] public string? Id { get; } = id;
 
     [JsonPropertyName("title")] public string Title { get; } = title;
+
     [JsonPropertyName("description")] public string Description { get; } = description;
 }
