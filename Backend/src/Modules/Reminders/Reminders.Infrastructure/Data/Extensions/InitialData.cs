@@ -10,9 +10,8 @@ internal static class InitialData
                 "Meeting Room 1 - Daily",
                 "Important meeting with Timo",
                 DateTime.UtcNow.AddHours(2), 
-                3, 
-                DateTime.UtcNow.AddHours(1), 
-                "Pending"),
+                3,
+                []),
 
             Reminder.Create(
                 ReminderId.Of(Guid.Parse("74f40a78-bda2-4177-bffd-86e6648c4318")),
@@ -20,7 +19,6 @@ internal static class InitialData
                 "Basic team sync with the team",
                 DateTime.UtcNow.AddHours(2), 
                 1,
-                DateTime.UtcNow.AddHours(1),
-                "Canceled"),
+                []),
         };
 }

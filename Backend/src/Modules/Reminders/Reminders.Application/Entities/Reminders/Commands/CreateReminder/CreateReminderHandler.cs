@@ -21,10 +21,9 @@ internal static class CreateReminderCommandExtensions
             ReminderId.Of(Guid.NewGuid()),
             command.Reminder.Title,
             command.Reminder.Description,
-            command.Reminder.DueDateTime,
+            command.Reminder.NotifyAt,
             command.Reminder.Priority,
-            command.Reminder.NotificationTime,
-            command.Reminder.Status
+            command.Reminder.RelatedReminders
         );
     }
 }

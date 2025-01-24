@@ -10,10 +10,9 @@ public static class ReminderExtensions
             reminder.Id.ToString(),
             reminder.Title,
             reminder.Description,
-            reminder.DueDateTime,
+            reminder.NotifyAt,
             reminder.Priority,
-            reminder.NotificationTime,
-            reminder.Status);
+            reminder.RelatedReminders.ToList());
     }
 
     public static IEnumerable<ReminderDto> ToReminderDtoList(this IEnumerable<Reminder> reminders)

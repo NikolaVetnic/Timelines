@@ -15,7 +15,7 @@ public class ListRemindersHandler(IRemindersDbContext dbContext) : IQueryHandler
 
         var nodes = await dbContext.Reminders
             .AsNoTracking()
-            .OrderBy(r => r.DueDateTime)
+            .OrderBy(r => r.NotifyAt)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
