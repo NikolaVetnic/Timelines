@@ -39,25 +39,20 @@ namespace Reminders.Infrastructure.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<DateTime>("DueDateTime")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("NotificationTime")
+                    b.Property<DateTime>("NotifyAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Priority")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                    b.Property<Guid?>("ReminderId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -66,7 +61,21 @@ namespace Reminders.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ReminderId");
+
                     b.ToTable("Reminders", "Reminders");
+                });
+
+            modelBuilder.Entity("Reminders.Domain.Models.Reminder", b =>
+                {
+                    b.HasOne("Reminders.Domain.Models.Reminder", null)
+                        .WithMany("RelatedReminders")
+                        .HasForeignKey("ReminderId");
+                });
+
+            modelBuilder.Entity("Reminders.Domain.Models.Reminder", b =>
+                {
+                    b.Navigation("RelatedReminders");
                 });
 #pragma warning restore 612, 618
         }
