@@ -36,10 +36,9 @@ public class RemindersApiStepDefinitions
                     Id = null,
                     Title = "Submit Annual Tax Return",
                     Description = "Prepare and submit the annual tax return before the due date to avoid penalties.",
-                    DueDateTime = DateTime.Parse("2025-03-15T14:24:06.919459Z", null, DateTimeStyles.RoundtripKind),
+                    NotifyAt = DateTime.Parse("2025-03-15T14:24:06.919459Z", null, DateTimeStyles.RoundtripKind),
                     Priority = 3,
-                    NotificationTime = DateTime.Parse("2025-02-15T10:00:00Z", null, DateTimeStyles.RoundtripKind),
-                    Status =  "Canceled"
+                    RelatedReminders = []
                 }
             });
 
@@ -70,10 +69,9 @@ public class RemindersApiStepDefinitions
 
         reminderDto?.Title.Should().Be("Submit Annual Tax Return");
         reminderDto?.Description.Should().Be("Prepare and submit the annual tax return before the due date to avoid penalties.");
-        reminderDto?.DueDateTime.Should().Be(DateTime.Parse("2025-03-15T14:24:06.919459Z", null, DateTimeStyles.RoundtripKind));
+        reminderDto?.NotifyAt.Should().Be(DateTime.Parse("2025-03-15T14:24:06.919459Z", null, DateTimeStyles.RoundtripKind));
         reminderDto?.Priority.Should().Be(3);
-        reminderDto?.NotificationTime.Should().Be(DateTime.Parse("2025-02-15T10:00:00Z", null, DateTimeStyles.RoundtripKind));
-        reminderDto?.Status.Should().Be("Canceled");
+        reminderDto?.RelatedReminders.Should().BeEmpty();
     }
 
     #endregion
