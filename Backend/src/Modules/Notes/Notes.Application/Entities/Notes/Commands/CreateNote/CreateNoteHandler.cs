@@ -23,7 +23,9 @@ internal static class CreateNoteCommandExtensions
             command.Note.Title,
             command.Note.Content,
             command.Note.Timestamp,
-            command.Note.Importance
+            command.Note.Related,
+            command.Note.SharedWith,
+            command.Note.IsPublic
         );
     }
 }

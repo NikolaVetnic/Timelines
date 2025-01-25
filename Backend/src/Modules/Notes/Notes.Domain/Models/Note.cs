@@ -7,8 +7,8 @@ public class Note : Aggregate<NoteId>
     public required string Title { get; set; }
     public required string Content { get; set; }
     public required DateTime Timestamp { get; set; }
-    public required List<Note> Related { get; set; }
-    public required string[] SharedWith { get; set; }
+    public List<Note>? Related { get; set; }
+    public string[]? SharedWith { get; set; }
     public required bool IsPublic { get; set; }
 
     #region Note
