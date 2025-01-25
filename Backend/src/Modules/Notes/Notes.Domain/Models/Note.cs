@@ -7,12 +7,14 @@ public class Note : Aggregate<NoteId>
     public required string Title { get; set; }
     public required string Content { get; set; }
     public required DateTime Timestamp { get; set; }
-    public required int Importance { get; set; }
+    public required List<Note> Related { get; set; }
+    public required string[] SharedWith { get; set; }
+    public required bool IsPublic { get; set; }
 
     #region Note
 
     public static Note Create(NoteId id, string title, string content,
-        DateTime timestamp, int importance)
+        DateTime timestamp, List<Note> related, string[] sharedWith, bool isPublic)
     {
         var note = new Note
         {
@@ -20,7 +22,9 @@ public class Note : Aggregate<NoteId>
             Title = title,
             Content = content,
             Timestamp = timestamp,
-            Importance = importance
+            Related = related,
+            SharedWith = sharedWith,
+            IsPublic = isPublic
         };
 
         note.AddDomainEvent(new NoteCreatedEvent(note));
@@ -29,12 +33,14 @@ public class Note : Aggregate<NoteId>
     }
 
     public void Update(string title, string content, DateTime timestamp,
-        int importance)
+        List<Note> related, string[] sharedWith, bool isPublic)
     {
         Title = title;
         Content = content;
         Timestamp = timestamp;
-        Importance = importance;
+        Related = related;
+        SharedWith = sharedWith;
+        IsPublic = isPublic;
 
         AddDomainEvent(new NoteUpdatedEvent(this));
     }
