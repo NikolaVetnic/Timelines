@@ -3,6 +3,7 @@
 public record NoteDto(
     string Id,
     string Title,
+    string Content,
     DateTime Timestamp,
     List<Note> Related,
     string[] SharedWith,
