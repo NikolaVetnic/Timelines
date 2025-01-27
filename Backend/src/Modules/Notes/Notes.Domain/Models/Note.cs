@@ -4,10 +4,6 @@ namespace Notes.Domain.Models;
 
 public class Note : Aggregate<NoteId>
 {
-    private readonly List<Note> _related = [];
-
-    public IReadOnlyList<Note> Related => _related.AsReadOnly();
-
     public required string Title { get; set; }
     public required string Content { get; set; }
     public required DateTime Timestamp { get; set; }
@@ -29,9 +25,6 @@ public class Note : Aggregate<NoteId>
             IsPublic = isPublic
         };
 
-        foreach (var relatedNote in relatedNotes)
-            note.AddRelatedNote(relatedNote);
-
         note.AddDomainEvent(new NoteCreatedEvent(note));
 
         return note;
@@ -47,15 +40,6 @@ public class Note : Aggregate<NoteId>
         IsPublic = isPublic;
 
         AddDomainEvent(new NoteUpdatedEvent(this));
-    }
-
-    #endregion
-
-    #region Related
-
-    private void AddRelatedNote(Note note)
-    {
-        _related.Add(note);
     }
 
     #endregion

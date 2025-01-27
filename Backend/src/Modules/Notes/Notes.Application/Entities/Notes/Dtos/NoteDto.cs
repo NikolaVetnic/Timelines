@@ -5,6 +5,5 @@ public record NoteDto(
     string Title,
     string Content,
     DateTime Timestamp,
-    List<Note> Related,
     string[] SharedWith,
     bool IsPublic);

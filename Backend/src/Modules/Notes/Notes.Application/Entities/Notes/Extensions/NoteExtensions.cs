@@ -11,7 +11,6 @@ public static class NoteExtensions
             note.Title,
             note.Content,
             note.Timestamp,
-            note.Related.ToList(),
             note.SharedWith,
             note.IsPublic);
     }
