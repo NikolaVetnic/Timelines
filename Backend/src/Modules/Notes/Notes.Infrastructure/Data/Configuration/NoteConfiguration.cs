@@ -8,7 +8,7 @@ public class NoteConfiguration : IEntityTypeConfiguration<Note>
     {
         builder.HasKey(n => n.Id);
         builder.Property(n => n.Id).HasConversion(
-            nodeId => nodeId.Value,
+            noteId => noteId.Value,
             dbId => NoteId.Of(dbId));
         builder.Property(n => n.Title);
         builder.Property(n => n.Content);
