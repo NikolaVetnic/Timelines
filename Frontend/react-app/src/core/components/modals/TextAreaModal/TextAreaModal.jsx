@@ -34,7 +34,7 @@ const TextAreaModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
                     rows="4"
                     value={value}
                     onChange={handleInputChange}
-                    placeholder="Enter a new description"
+                    placeholder="Input text"
                 ></textarea>
                 <div className="text-area-modal-actions">
                     <CancelButton onClick={onClose} />
