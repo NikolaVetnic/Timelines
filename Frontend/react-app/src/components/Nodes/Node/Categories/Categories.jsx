@@ -6,12 +6,13 @@ import convertStringToColor from "../../../../core/utils/ConvertStringToColor";
 
 import "./Categories.css";
 
-const Categories = ({ categories, onUpdateCategories }) => {
+const Categories = ({ categories, onUpdateCategories, setModalActive }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [localCategories, setLocalCategories] = useState(categories);
 
-    const setModalActive = (isActive) => {
+    const setModalState = (isActive) => {
         setModalOpen(isActive);
+        setModalActive(isActive);
     };
 
     const handleSaveCategories = (newCategories) => {
@@ -34,10 +35,10 @@ const Categories = ({ categories, onUpdateCategories }) => {
                     </span>
                 ))}
             </div>
-            <EditButton onClick={() => setModalActive(true)} />
+            <EditButton onClick={() => setModalState(true)} />
             <InputStringModal
                 isOpen={isModalOpen}
-                onClose={() => setModalActive(false)}
+                onClose={() => setModalState(false)}
                 onSave={handleSaveCategories}
                 initialValue={localCategories.join(", ")}
                 title="Edit Categories"

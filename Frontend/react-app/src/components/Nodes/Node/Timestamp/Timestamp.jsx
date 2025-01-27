@@ -4,12 +4,13 @@ import DatePickerModal from "../../../../core/components/modals/DatePickerModal/
 
 import "./Timestamp.css";
 
-const Timestamp = ({ initialValue, onUpdateTimestamp }) => {
+const Timestamp = ({ initialValue, onUpdateTimestamp, setModalActive }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [localTimestamp, setLocalTimestamp] = useState(new Date(initialValue));
 
-    const setModalActive = (isActive) => {
+    const setModalState = (isActive) => {
         setModalOpen(isActive);
+        setModalActive(isActive);
     };
 
     const handleSaveTimestamp = (newTimestamp) => {
@@ -23,10 +24,10 @@ const Timestamp = ({ initialValue, onUpdateTimestamp }) => {
             <div>
                 <strong>Timestamp:</strong> {localTimestamp.toLocaleDateString()}
             </div>
-            <EditButton onClick={() => setModalActive(true)} />
+            <EditButton onClick={() => setModalState(true)} />
             <DatePickerModal
                 isOpen={isModalOpen}
-                onClose={() => setModalActive(false)}
+                onClose={() => setModalState(false)}
                 onSave={handleSaveTimestamp}
                 initialValue={localTimestamp}
                 title="Edit Timestamp"

@@ -9,6 +9,8 @@ const Timeline = ({ selectedTimeline }) => {
     const [stripStyle, setStripStyle] = useState({});
     const [updateStrip, setUpdateStrip] = useState(false);
     const [nodesRendered, setNodesRendered] = useState(false);
+    const [isModalActive, setModalActive] = useState(false);
+    const [openNodeId, setOpenNodeId] = useState(null);
 
     useEffect(() => {
         nodesRef.current = [];
@@ -16,14 +18,13 @@ const Timeline = ({ selectedTimeline }) => {
         setStripStyle({});
         setUpdateStrip(prev => !prev);
     }, [selectedTimeline]);
-    
 
     useEffect(() => {
         if (nodesRendered && nodesRef.current.length > 0) {
             const newStyle = recalculateStrip(nodesRef);
             setStripStyle(newStyle);
         }
-    }, [nodesRendered, selectedTimeline, updateStrip]); 
+    }, [nodesRendered, selectedTimeline, updateStrip]);
 
     if (!selectedTimeline) {
         return <p>Please select a timeline.</p>;
@@ -46,6 +47,10 @@ const Timeline = ({ selectedTimeline }) => {
                                 setTimeout(() => setNodesRendered(true), 0);
                             }
                         }}
+                        isModalActive={isModalActive}
+                        setModalActive={setModalActive}
+                        openNodeId={openNodeId}
+                        setOpenNodeId={setOpenNodeId}
                         onToggle={() => setUpdateStrip(prev => !prev)}
                     />
                 ))}

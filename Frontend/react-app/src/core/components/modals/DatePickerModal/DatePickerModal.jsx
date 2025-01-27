@@ -36,12 +36,14 @@ const DatePickerModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
         <div className={`datepicker-modal-overlay ${isOpen ? "show" : ""}`}>
             <div className="datepicker-modal">
                 <h3>{title}</h3>
-                <DatePicker
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                    dateFormat="yyyy-MM-dd"
-                    inline
-                />
+                <div className="datepicker-content">
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={handleDateChange}
+                        dateFormat="yyyy-MM-dd"
+                        inline
+                    />
+                </div>
                 <div className="datepicker-modal-actions">
                     <CancelButton onClick={onClose} />
                     <SaveButton onClick={handleSave} disabled={!isChanged} />

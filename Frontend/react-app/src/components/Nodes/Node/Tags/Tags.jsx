@@ -6,12 +6,13 @@ import convertStringToColor from "../../../../core/utils/ConvertStringToColor";
 
 import "./Tags.css";
 
-const Tags = ({ tags, onUpdateTags }) => {
+const Tags = ({ tags, onUpdateTags, setModalActive }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [localTags, setLocalTags] = useState(tags);
 
-    const setModalActive = (isActive) => {
+    const setModalState = (isActive) => {
         setModalOpen(isActive);
+        setModalActive(isActive);
     };
 
     const handleSaveTags = (newTags) => {
@@ -34,10 +35,10 @@ const Tags = ({ tags, onUpdateTags }) => {
                     </span>
                 ))}
             </div>
-            <EditButton onClick={() => setModalActive(true)} />
+            <EditButton onClick={() => setModalState(true)} />
             <InputStringModal
                 isOpen={isModalOpen}
-                onClose={() => setModalActive(false)}
+                onClose={() => setModalState(false)}
                 onSave={handleSaveTags}
                 initialValue={localTags.join(", ")}
                 title="Edit Tags"

@@ -1,5 +1,4 @@
 import React, { forwardRef, useState } from "react";
-
 import Categories from "../Categories/Categories";
 import Description from "../Description/Description";
 import EditableTitle from "../EditableTitle/EditableTitle";
@@ -9,8 +8,8 @@ import Timestamp from "../Timestamp/Timestamp";
 
 import "./Node.css";
 
-const Node = forwardRef(({ item, onToggle }, ref) => {
-    const [isOpen, setIsOpen] = useState(false);
+const Node = forwardRef(({ item, onToggle, isModalActive, setModalActive, openNodeId, setOpenNodeId }, ref) => {
+    const isOpen = openNodeId === item.id;
     const [categories, setCategories] = useState(item.categories);
     const [tags, setTags] = useState(item.tags);
     const [description, setDescription] = useState(item.description);
@@ -18,7 +17,13 @@ const Node = forwardRef(({ item, onToggle }, ref) => {
     const [title, setTitle] = useState(item.title);
 
     const toggleCard = () => {
-        setIsOpen(!isOpen);
+        if (isModalActive) return;
+
+        if (isOpen) {
+            setOpenNodeId(null);
+        } else {
+            setOpenNodeId(item.id);
+        }
         onToggle();
     };
 
@@ -37,16 +42,19 @@ const Node = forwardRef(({ item, onToggle }, ref) => {
                     <Description
                         description={description}
                         onUpdateDescription={setDescription}
+                        setModalActive={setModalActive}
                     />
                     <Timestamp
                         initialValue={timestamp}
                         onSave={(newTimestamp) => setTimestamp(newTimestamp)}
+                        setModalActive={setModalActive}
                     />
                     <Importance
                         initialValue={item.importance}
                         onSave={(newImportance) =>
                             console.log("Saved Importance:", newImportance)
                         }
+                        setModalActive={setModalActive}
                     />
                     <p>
                         <strong>Phase:</strong> {item.phase.title}
@@ -54,12 +62,13 @@ const Node = forwardRef(({ item, onToggle }, ref) => {
                     <Categories
                         categories={categories}
                         onUpdateCategories={setCategories}
+                        setModalActive={setModalActive}
                     />
                     <Tags
                         tags={tags}
                         onUpdateTags={setTags}
+                        setModalActive={setModalActive}
                     />
-                    {/* {item.image && <img src={item.image} alt={title} />} */}
                 </div>
             )}
         </div>

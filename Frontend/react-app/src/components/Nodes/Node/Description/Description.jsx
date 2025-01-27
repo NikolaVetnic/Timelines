@@ -4,12 +4,13 @@ import TextAreaModal from "../../../../core/components/modals/TextAreaModal/Text
 
 import "./Description.css";
 
-const Description = ({ description, onUpdateDescription }) => {
+const Description = ({ description, onUpdateDescription, setModalActive }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [localDescription, setLocalDescription] = useState(description);
 
-    const setModalActive = (isActive) => {
+    const setModalState = (isActive) => {
         setModalOpen(isActive);
+        setModalActive(isActive);
     };
 
     const handleSaveDescription = (newDescription) => {
@@ -23,10 +24,10 @@ const Description = ({ description, onUpdateDescription }) => {
             <div>
                 <strong>Description:</strong> {localDescription}
             </div>
-            <EditButton onClick={() => setModalActive(true)} />
+            <EditButton onClick={() => setModalState(true)} />
             <TextAreaModal
                 isOpen={isModalOpen}
-                onClose={() => setModalActive(false)}
+                onClose={() => setModalState(false)}
                 onSave={handleSaveDescription}
                 initialValue={localDescription}
                 title="Edit Description"
