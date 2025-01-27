@@ -10,10 +10,16 @@ public class NoteConfiguration : IEntityTypeConfiguration<Note>
         builder.Property(n => n.Id).HasConversion(
             noteId => noteId.Value,
             dbId => NoteId.Of(dbId));
-        builder.Property(n => n.Title);
-        builder.Property(n => n.Content);
-        builder.Property(n => n.Timestamp);
+
+        builder.Property(n => n.Title)
+            .IsRequired();
+
+        builder.Property(n => n.Content)
+            .IsRequired();
+
         builder.Property(n => n.SharedWith);
-        builder.Property(n => n.IsPublic);
+
+        builder.Property(n => n.IsPublic)
+            .IsRequired();
     }
 }
