@@ -36,7 +36,7 @@ namespace Notes.Infrastructure.Data.Migrations
                 table: "Notes",
                 schema: "Notes",
                 keyColumn: "Id",
-                keyValue: new Guid ("74dad71c - 4ddc - 4d4d - a894 - 3307ddc3fe10"),
+                keyValue: new Guid ("74dad71c-4ddc-4d4d-a894-3307ddc3fe10"),
                 columns: new[] { "IsPublic", "SharedWith" },
                 values: new object[] { true, new[] { "user1", "user2" } });
 
