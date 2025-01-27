@@ -5,27 +5,32 @@ namespace Files.Domain.Models;
 public class FileAsset : Aggregate<FileAssetId>
 {
     private readonly List<string> _sharedWith = [];
+    //private readonly List<FileAsset> _related = [];
 
     public IReadOnlyList<string> SharedWith => _sharedWith.AsReadOnly();
 
     public required string Name { get; set; }
-    public required float Size { get; set; }
-    public required string Type { get; set; }
-    public required string Owner { get; set; }
     public required string Description { get; set; }
+    public required float Size { get; set; }
+    public required EFileType Type { get; set; }
+    public required string Owner { get; set; }
+    public required byte[] Content { get; set; }
+    public required bool IsPublic { get; set; }
 
     #region File
 
-    public static FileAsset Create(FileAssetId id, string name, float size, string type, string owner, string description, List<string> sharedWith)
+    public static FileAsset Create(FileAssetId id, string name, string description, float size, EFileType type, string owner, byte[] content, bool isPublic, List<string> sharedWith)
     {
         var file = new FileAsset
         {
             Id = id,
             Name = name,
+            Description = description,
             Size = size,
             Type = type,
             Owner = owner,
-            Description = description
+            Content = content,
+            IsPublic = isPublic
         };
 
         foreach (var person in sharedWith)
@@ -36,13 +41,15 @@ public class FileAsset : Aggregate<FileAssetId>
         return file;
     }
 
-    public void Update(string name, float size, string type, string owner, string description)
+    public void Update(string name, string description, float size, EFileType type, string owner, byte[] content, bool isPublic)
     {
         Name = name;
+        Description = description;
         Size = size;
         Type = type;
         Owner = owner;
-        Description = description;
+        Content = content;
+        IsPublic = isPublic;
 
         AddDomainEvent(new FileAssetUpdatedEvent(this));
     }
@@ -62,4 +69,14 @@ public class FileAsset : Aggregate<FileAssetId>
     }
 
     #endregion
+}
+
+public enum EFileType
+{
+    Pdf,     // Represents PDF files
+    Docx,    // Represents Word documents
+    Txt,     // Represents plain text files
+    Csv,     // Represents CSV files
+    Image,   // Represents image files (e.g., jpg, png)
+    Video    // Represents video files
 }
