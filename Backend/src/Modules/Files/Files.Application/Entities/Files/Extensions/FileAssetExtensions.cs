@@ -9,10 +9,12 @@ public static class FileAssetExtensions
         return new FileAssetDto(
             fileAsset.Id.ToString(),
             fileAsset.Name,
+            fileAsset.Description,
             fileAsset.Size,
             fileAsset.Type,
             fileAsset.Owner,
-            fileAsset.Description,
+            fileAsset.Content,
+            fileAsset.IsPublic,
             fileAsset.SharedWith.ToList());
     }
 
