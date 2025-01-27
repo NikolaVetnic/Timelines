@@ -30,6 +30,23 @@ namespace Notes.Infrastructure.Data.Migrations
                 type: "text[]",
                 nullable: false,
                 defaultValue: new string[0]);
+
+            // Update new rows with values
+            migrationBuilder.UpdateData(
+                table: "Notes",
+                schema: "Notes",
+                keyColumn: "Id",
+                keyValue: "74dad71c - 4ddc - 4d4d - a894 - 3307ddc3fe10",
+                columns: new[] { "IsPublic", "SharedWith" },
+                values: new object[] { true, new[] { "user1", "user2" } });
+
+            migrationBuilder.UpdateData(
+                table: "Notes",
+                schema: "Notes",
+                keyColumn: "Id",
+                keyValue: 2,
+                columns: new[] { "IsPublic", "SharedWith" },
+                values: new object[] { true, new string[] {"user1"} });
         }
 
         /// <inheritdoc />
