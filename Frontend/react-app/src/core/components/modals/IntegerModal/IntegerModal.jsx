@@ -45,7 +45,7 @@ const IntegerModal = ({ isOpen, onClose, onSave, initialValue }) => {
                         -
                     </button>
                     <span className="integer-value">{value}</span>
-                    <button className="importance-button" onClick={handleIncrement}>
+                    <button className="integer-button" onClick={handleIncrement}>
                         +
                     </button>
                 </div>
