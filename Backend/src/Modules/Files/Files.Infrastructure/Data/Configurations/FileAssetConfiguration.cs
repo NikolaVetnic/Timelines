@@ -23,13 +23,11 @@ public class FileAssetConfiguration : IEntityTypeConfiguration<FileAsset>
             .IsRequired();
 
         builder.Property(n => n.Type)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion<string>();
 
         builder.Property(n => n.Owner)
             .IsRequired()
             .HasMaxLength(100);
-
-        builder.Property(f => f.Type)
-            .HasConversion<string>();
     }
 }
