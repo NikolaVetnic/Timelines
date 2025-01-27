@@ -39,13 +39,19 @@ const IntegerModal = ({ isOpen, onClose, onSave, initialValue }) => {
     return (
         <div className="integer-modal-overlay">
             <div className="integer-modal">
-                <h3>Edit Importance</h3>
+                <h3>Edit Value</h3>
                 <div className="integer-controls">
-                    <button className="integer-button" onClick={handleDecrement}>
+                    <button
+                        className="integer-button"
+                        onClick={handleDecrement}
+                    >
                         -
                     </button>
                     <span className="integer-value">{value}</span>
-                    <button className="integer-button" onClick={handleIncrement}>
+                    <button
+                        className="integer-button"
+                        onClick={handleIncrement}
+                    >
                         +
                     </button>
                 </div>
