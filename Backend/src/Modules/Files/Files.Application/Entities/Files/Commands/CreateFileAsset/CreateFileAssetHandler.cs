@@ -23,9 +23,9 @@ internal static class CreateFileAssetCommandExtensions
             command.FileAsset.Name,
             command.FileAsset.Description,
             command.FileAsset.Size,
-            command.FileAsset.Type,
+            (EFileType)Enum.Parse(typeof(EFileType), command.FileAsset.Type),
             command.FileAsset.Owner,
-            command.FileAsset.Content,
+            Convert.FromBase64String(command.FileAsset.Content),
             command.FileAsset.IsPublic,
             command.FileAsset.SharedWith
         );

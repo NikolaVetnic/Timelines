@@ -11,9 +11,9 @@ public static class FileAssetExtensions
             fileAsset.Name,
             fileAsset.Description,
             fileAsset.Size,
-            fileAsset.Type,
+            fileAsset.Type.ToString(),
             fileAsset.Owner,
-            fileAsset.Content,
+            Convert.ToBase64String(fileAsset.Content),
             fileAsset.IsPublic,
             fileAsset.SharedWith.ToList());
     }

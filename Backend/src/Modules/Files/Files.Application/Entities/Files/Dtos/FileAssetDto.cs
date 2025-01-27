@@ -5,8 +5,8 @@ public record FileAssetDto(
     string Name,
     string Description,
     float Size,
-    EFileType Type,
+    string Type,
     string Owner,
-    byte[] Content,
+    string Content,
     bool IsPublic,
     List<string> SharedWith);
