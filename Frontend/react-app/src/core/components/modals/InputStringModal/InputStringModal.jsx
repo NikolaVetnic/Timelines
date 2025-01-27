@@ -4,13 +4,13 @@ import "./InputStringModal.css";
 import CancelButton from "../../buttons/CancelButton/CancelButton";
 import SaveButton from "../../buttons/SaveButton/SaveButton";
 
-const InputStringModal = ({ 
-    isOpen, 
-    onClose, 
-    onSave, 
-    initialValue = "", 
-    title = "Edit Values", 
-    placeholder = "Enter values here..." 
+const InputStringModal = ({
+    isOpen,
+    onClose,
+    onSave,
+    initialValue = "",
+    title = "Input String",
+    placeholder = "Input String...",
 }) => {
     const [value, setValue] = useState(initialValue);
     const [isChanged, setIsChanged] = useState(false);
@@ -29,7 +29,7 @@ const InputStringModal = ({
     };
 
     const handleSave = () => {
-        onSave(value.split(",").map((item) => item.trim())); 
+        onSave(value.split(",").map((item) => item.trim()));
         onClose();
     };
 
