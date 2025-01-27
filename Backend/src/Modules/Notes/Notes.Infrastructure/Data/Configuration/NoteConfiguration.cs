@@ -17,8 +17,6 @@ public class NoteConfiguration : IEntityTypeConfiguration<Note>
         builder.Property(n => n.Content)
             .IsRequired();
 
-        builder.Property(n => n.SharedWith);
-
         builder.Property(n => n.IsPublic)
             .IsRequired();
     }
