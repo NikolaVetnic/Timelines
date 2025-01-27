@@ -15,19 +15,21 @@ public class FileAssetConfiguration : IEntityTypeConfiguration<FileAsset>
             .IsRequired()
             .HasMaxLength(200);
 
+        builder.Property(n => n.Description)
+            .IsRequired()
+            .HasMaxLength(500);
+
         builder.Property(n => n.Size)
             .IsRequired();
 
         builder.Property(n => n.Type)
-            .IsRequired()
-            .HasMaxLength(100);
+            .IsRequired();
 
         builder.Property(n => n.Owner)
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Property(n => n.Description)
-            .IsRequired()
-            .HasMaxLength(500);
+        builder.Property(f => f.Type)
+            .HasConversion<string>();
     }
 }
