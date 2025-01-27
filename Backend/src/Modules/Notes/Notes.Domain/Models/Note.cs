@@ -51,7 +51,7 @@ public class Note : Aggregate<NoteId>
 
     #endregion
 
-    #region SharedWith
+    #region Related
 
     private void AddRelatedNote(Note note)
     {
