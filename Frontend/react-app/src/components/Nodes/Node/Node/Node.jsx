@@ -49,7 +49,7 @@ const Node = forwardRef(({ item, onToggle }, ref) => {
                         }
                     />
                     <p>
-                        <strong>Phase:</strong> {item.phase}
+                        <strong>Phase:</strong> {item.phase.title}
                     </p>
                     <Categories
                         categories={categories}
@@ -59,7 +59,7 @@ const Node = forwardRef(({ item, onToggle }, ref) => {
                         tags={tags}
                         onUpdateTags={setTags}
                     />
-                    {item.image && <img src={item.image} alt={title} />}
+                    {/* {item.image && <img src={item.image} alt={title} />} */}
                 </div>
             )}
         </div>
