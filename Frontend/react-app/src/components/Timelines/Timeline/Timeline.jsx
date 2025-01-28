@@ -37,21 +37,22 @@ const Timeline = ({ selectedTimeline }) => {
             <div className="timeline-nodes">
                 {selectedTimeline.nodes.map((item, index) => (
                     <Node
-                        key={item.id}
-                        item={item}
-                        ref={(el) => {
-                            if (el) {
-                                nodesRef.current[index] = el;
-                            }
-                            if (index === selectedTimeline.nodes.length - 1) {
-                                setTimeout(() => setNodesRendered(true), 0);
-                            }
-                        }}
-                        isModalActive={isModalActive}
-                        setModalActive={setModalActive}
-                        openNodeId={openNodeId}
-                        setOpenNodeId={setOpenNodeId}
-                        onToggle={() => setUpdateStrip(prev => !prev)}
+                    timelineId={selectedTimeline.id}
+                    key={item.id}
+                    item={item}
+                    ref={(el) => {
+                        if (el) {
+                        nodesRef.current[index] = el;
+                        }
+                        if (index === selectedTimeline.nodes.length - 1) {
+                        setTimeout(() => setNodesRendered(true), 0);
+                        }
+                    }}
+                    isModalActive={isModalActive}
+                    setModalActive={setModalActive}
+                    openNodeId={openNodeId}
+                    setOpenNodeId={setOpenNodeId}
+                    onToggle={() => setUpdateStrip(prev => !prev)}
                     />
                 ))}
             </div>
