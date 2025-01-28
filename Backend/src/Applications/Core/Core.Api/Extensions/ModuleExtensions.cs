@@ -15,6 +15,7 @@ public static class ModuleExtensions
         services.AddNotesModule(configuration);
         services.AddRemindersModule(configuration);
         services.AddTimelinesModule(configuration);
+        
         return services;
     }
 
@@ -25,6 +26,7 @@ public static class ModuleExtensions
         endpoints.UseNotesModule();
         endpoints.UseRemindersModule();
         endpoints.UseTimelinesModule();
+        
         return endpoints;
     }
 }
