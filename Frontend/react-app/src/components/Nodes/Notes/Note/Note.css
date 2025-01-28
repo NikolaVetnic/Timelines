@@ -85,19 +85,6 @@
     margin: 0;
 }
 
-.remove-note-button {
-    background: none;
-    border: none;
-    color: #dc3545;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: color 0.3s ease-in-out;
-}
-
-.remove-note-button:hover {
-    color: white;
-}
-
 .note-content-button-area {
     display: flex;
 }
