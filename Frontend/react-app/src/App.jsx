@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Timeline from "./components/Timelines/Timeline/Timeline";
 import TimelineSelect from "./components/Timelines/TimelineSelect/TimelineSelect";
-import { checkAndScheduleReminders } from "./core/utils/ScheduledReminders";
+import { checkAndScheduleReminders } from "./core/utils/CheckAndScheduleReminders";
 import timelineData from "./data/timelineData";
 import "./styles/App.css";
 
