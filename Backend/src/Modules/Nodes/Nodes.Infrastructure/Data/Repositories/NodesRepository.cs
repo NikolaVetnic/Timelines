@@ -1,4 +1,4 @@
-using Nodes.Application.Data;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Exceptions;
 

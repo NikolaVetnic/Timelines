@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using BuildingBlocks.Domain.Nodes.Node.Events;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -69,19 +70,13 @@ public class Node : Aggregate<NodeId>
     public void AddReminder(ReminderId reminderId)
     {
         if (!ReminderIds.Contains(reminderId))
-        {
             ReminderIds.Add(reminderId);
-            // AddDomainEvent(new ReminderAddedToNodeEvent(Id, reminderId));
-        }
     }
 
     public void RemoveReminder(ReminderId reminderId)
     {
         if (ReminderIds.Contains(reminderId))
-        {
             ReminderIds.Remove(reminderId);
-            // AddDomainEvent(new ReminderRemovedFromNodeEvent(Id, reminderId));
-        }
     }
 
     #endregion

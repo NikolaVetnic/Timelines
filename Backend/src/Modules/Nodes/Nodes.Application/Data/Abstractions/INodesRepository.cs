@@ -1,3 +1,5 @@
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+
 namespace Nodes.Application.Data.Abstractions;
 
 public interface INodesRepository

@@ -1,4 +1,5 @@
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 
 namespace Nodes.Application.Entities.Nodes.Commands.CreateNode;
 

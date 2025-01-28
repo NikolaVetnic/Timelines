@@ -1,4 +1,6 @@
-﻿namespace Nodes.Application.Entities.Nodes.Commands.DeleteNode;
+﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+
+namespace Nodes.Application.Entities.Nodes.Commands.DeleteNode;
 
 public record DeleteNodeCommand(NodeId Id) : ICommand<DeleteNodeResult>
 {

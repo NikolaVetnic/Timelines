@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Domain.Reminders.ValueObjects;
+﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Reminders.ValueObjects;
 
 namespace Reminders.Infrastructure.Data.Extensions;
 

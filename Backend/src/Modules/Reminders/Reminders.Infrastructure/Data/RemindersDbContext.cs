@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Reminders.Application.Data;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Reminders.Application.Data.Abstractions;
 
 namespace Reminders.Infrastructure.Data;

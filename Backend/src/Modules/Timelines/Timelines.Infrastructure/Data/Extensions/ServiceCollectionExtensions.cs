@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Timelines.Application.Data;
-using Timelines.Infrastructure.Data;
 
-namespace Timelines.Infrastructure;
+namespace Timelines.Infrastructure.Data.Extensions;
 
 public static class ServiceCollectionExtensions
 {

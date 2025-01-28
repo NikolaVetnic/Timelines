@@ -1,3 +1,4 @@
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Nodes.Infrastructure.Data.Configurations;

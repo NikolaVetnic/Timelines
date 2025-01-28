@@ -1,5 +1,6 @@
 using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.ValueObjects;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;

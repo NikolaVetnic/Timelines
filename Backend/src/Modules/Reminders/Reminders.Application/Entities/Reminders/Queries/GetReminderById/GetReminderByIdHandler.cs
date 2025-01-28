@@ -3,7 +3,7 @@ using Reminders.Application.Entities.Reminders.Exceptions;
 
 namespace Reminders.Application.Entities.Reminders.Queries.GetReminderById;
 
-internal class GetReminderByIdHandler(INodesService nodesService, IRemindersService remindersService) : IQueryHandler<GetReminderByIdQuery, GetReminderByIdResult>
+internal class GetReminderByIdHandler(IRemindersService remindersService) : IQueryHandler<GetReminderByIdQuery, GetReminderByIdResult>
 {
     public async Task<GetReminderByIdResult> Handle(GetReminderByIdQuery query, CancellationToken cancellationToken)
     {

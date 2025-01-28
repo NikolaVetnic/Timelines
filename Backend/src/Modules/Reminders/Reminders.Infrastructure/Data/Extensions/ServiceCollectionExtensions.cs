@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Reminders.Application.Data.Abstractions;
-using Reminders.Infrastructure.Data;
 using Reminders.Infrastructure.Data.Repositories;
 
-namespace Reminders.Infrastructure;
+namespace Reminders.Infrastructure.Data.Extensions;
 
 public static class ServiceCollectionExtensions
 {

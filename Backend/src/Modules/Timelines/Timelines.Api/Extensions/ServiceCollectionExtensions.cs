@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Timelines.Application.Extensions;
 using Timelines.Infrastructure;
+using Timelines.Infrastructure.Data.Extensions;
 
 namespace Timelines.Api.Extensions;
 

@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Files.Application.Data;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
-using Files.Application.Data;
-using Files.Infrastructure.Data;
 
-namespace Files.Infrastructure;
+namespace Files.Infrastructure.Data.Extensions;
 
 public static class ServiceCollectionExtensions
 {

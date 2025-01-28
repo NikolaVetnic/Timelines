@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using BuildingBlocks.Domain.Abstractions;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace BuildingBlocks.Domain.ValueObjects.Ids;
+namespace BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 
 [JsonConverter(typeof(NodeIdJsonConverter))]
 public class NodeId : StronglyTypedId

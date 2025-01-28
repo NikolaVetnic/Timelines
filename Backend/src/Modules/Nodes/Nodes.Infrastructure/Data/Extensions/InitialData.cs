@@ -1,3 +1,5 @@
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+
 namespace Nodes.Infrastructure.Data.Extensions;
 
 internal static class InitialData
