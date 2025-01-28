@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.Domain.ValueObjects.Ids;
+﻿using BuildingBlocks.Domain.Reminders.ValueObjects;
 
 namespace BuildingBlocks.Api.Converters;
 

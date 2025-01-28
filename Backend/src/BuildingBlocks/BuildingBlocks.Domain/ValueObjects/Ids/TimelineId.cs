@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using BuildingBlocks.Domain.Abstractions;
 
 namespace BuildingBlocks.Domain.ValueObjects.Ids;
 

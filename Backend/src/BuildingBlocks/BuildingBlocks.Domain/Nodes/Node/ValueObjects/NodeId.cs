@@ -1,5 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using BuildingBlocks.Domain.Abstractions;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
@@ -11,7 +13,28 @@ public class NodeId : StronglyTypedId
     public static NodeId Of(Guid value) => new(value);
 
     public override string ToString() => Value.ToString();
+
+    public override bool Equals(object? obj)
+    {
+        return obj is NodeId other && Value == other.Value;
+    }
+
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
+    }
 }
+
+public class NodeIdValueConverter : ValueConverter<NodeId, Guid>
+{
+    public NodeIdValueConverter()
+        : base(
+            nodeId => nodeId.Value, // Convert from NodeId to Guid
+            guid => NodeId.Of(guid)) // Convert from Guid to NodeId
+    {
+    }
+}
+
 
 public class NodeIdJsonConverter : JsonConverter<NodeId>
 {

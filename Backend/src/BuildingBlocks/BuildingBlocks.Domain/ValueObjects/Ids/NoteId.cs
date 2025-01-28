@@ -1,4 +1,6 @@
-﻿namespace BuildingBlocks.Domain.ValueObjects.Ids;
+﻿using BuildingBlocks.Domain.Abstractions;
+
+namespace BuildingBlocks.Domain.ValueObjects.Ids;
 
 public class NoteId : StronglyTypedId
 {

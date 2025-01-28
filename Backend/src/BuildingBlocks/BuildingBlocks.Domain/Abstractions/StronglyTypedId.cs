@@ -1,4 +1,4 @@
-﻿namespace BuildingBlocks.Domain.ValueObjects;
+﻿namespace BuildingBlocks.Domain.Abstractions;
 
 public abstract class StronglyTypedId
 {
