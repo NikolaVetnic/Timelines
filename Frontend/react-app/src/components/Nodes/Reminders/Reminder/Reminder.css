@@ -1,0 +1,81 @@
+.reminders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: var(--remindersHeader);
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    font-size: 0.9rem;
+    border: none;
+    text-align: left;
+}
+
+.reminder-headers-opened {
+    border-radius: 5px 5px 0px 0px;
+}
+
+.reminder-headers-closed {
+    border-radius: 5px;
+}
+
+.reminders-header:hover {
+    color: lightgray
+}
+
+.reminders-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: white
+}
+
+.reminders-header:hover h4 {
+    color: lightgray
+}
+
+.reminders-container {
+    background: #f9f9f9;
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 0 0 5px 5px;
+}
+
+.add-reminder-button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.add-reminder-button:hover {
+    background: #218838;
+}
+
+.reminder-item {
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.remove-reminder-button {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.remove-reminder-button:hover {
+    background: #b02a37;
+}
