@@ -1,4 +1,5 @@
-﻿using Reminders.Domain.Events;
+﻿using BuildingBlocks.Domain.Reminders.ValueObjects;
+using Reminders.Domain.Events;
 
 namespace Reminders.Domain.Models;
 
@@ -10,10 +11,11 @@ public class Reminder : Aggregate<ReminderId>
     public required int Priority { get; set; }
     public required DateTime NotificationTime { get; set; }
     public required string Status { get; set; }
+    public required NodeId NodeId { get; set; }
 
     #region Reminder
 
-    public static Reminder Create(ReminderId id, string title, string description, DateTime dueDateTime, int priority, DateTime notificationTime, string status)
+    public static Reminder Create(ReminderId id, string title, string description, DateTime dueDateTime, int priority, DateTime notificationTime, string status, NodeId nodeId)
     {
         var reminder = new Reminder
         {
@@ -23,7 +25,8 @@ public class Reminder : Aggregate<ReminderId>
             DueDateTime = dueDateTime,
             Priority = priority,
             NotificationTime = notificationTime,
-            Status = status
+            Status = status,
+            NodeId = nodeId
         };
 
         reminder.AddDomainEvent(new ReminderCreatedEvent(reminder));
