@@ -2,28 +2,31 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Nodes.Infrastructure.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Reminders.Infrastructure.Data;
 
 #nullable disable
 
-namespace Reminders.Infrastructure.Data.Migrations
+namespace Nodes.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(RemindersDbContext))]
-    partial class RemindersDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(NodesDbContext))]
+    [Migration("20250127160618_AddRemindersSerialized")]
+    partial class AddRemindersSerialized
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Reminders")
+                .HasDefaultSchema("Nodes")
                 .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Reminders.Domain.Models.Reminder", b =>
+            modelBuilder.Entity("Nodes.Domain.Models.Node", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -39,8 +42,8 @@ namespace Reminders.Infrastructure.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<DateTime>("DueDateTime")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("Importance")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("timestamp with time zone");
@@ -48,30 +51,25 @@ namespace Reminders.Infrastructure.Data.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("NodeId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("NotificationTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Status")
+                    b.Property<string>("Phase")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("text");
+
+                    b.Property<string>("SerializedReminderIds")
+                        .HasColumnType("text")
+                        .HasColumnName("ReminderIds");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NodeId");
-
-                    b.ToTable("Reminders", "Reminders");
+                    b.ToTable("Nodes", "Nodes");
                 });
 #pragma warning restore 612, 618
         }
