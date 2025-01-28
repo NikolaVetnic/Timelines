@@ -1,3 +1,4 @@
+﻿using System;
 using BuildingBlocks.Domain.Reminders.ValueObjects;
 using BuildingBlocks.Domain.ValueObjects.Ids;
 using Reminders.Application.Entities.Reminders.Commands.CreateReminder;
@@ -30,11 +31,13 @@ public class CreateReminder : ICarterModule
 
 public record CreateReminderRequest
 {
-    public CreateReminderRequest() { }
-
-    public CreateReminderRequest(ReminderDto reminder) => Reminder = reminder;
-
-    public ReminderDto Reminder { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public DateTime DueDateTime { get; set; }
+    public int Priority { get; set; } // todo: This should be an enum common for all Priority properties
+    public DateTime NotificationTime { get; set; }
+    public string Status { get; set; }
+    public NodeId NodeId { get; set; }
 }
 
 public record CreateReminderResponse(ReminderId Id);
