@@ -1,6 +1,5 @@
 using BuildingBlocks.Api.Converters;
 using Files.Application.Extensions;
-using Files.Infrastructure;
 using Files.Infrastructure.Data.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

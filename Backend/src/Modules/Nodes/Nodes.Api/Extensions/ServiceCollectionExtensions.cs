@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data;
 using Nodes.Application.Extensions;
-using Nodes.Infrastructure;
 using Nodes.Infrastructure.Data.Extensions;
 
 namespace Nodes.Api.Extensions;

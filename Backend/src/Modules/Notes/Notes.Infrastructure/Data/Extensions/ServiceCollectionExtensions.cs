@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Notes.Application.Data;
-using Notes.Infrastructure.Data;
 
-namespace Notes.Infrastructure;
+namespace Notes.Infrastructure.Data.Extensions;
 
 public static class ServiceCollectionExtensions
 {

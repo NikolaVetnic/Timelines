@@ -1,6 +1,5 @@
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using BuildingBlocks.Domain.ValueObjects.Ids;
 using Nodes.Application.Entities.Nodes.Commands.CreateNode;
 
 // ReSharper disable ClassNeverInstantiated.Global

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Reminders.Application.Data;
 using Reminders.Application.Extensions;
-using Reminders.Infrastructure;
 using Reminders.Infrastructure.Data.Extensions;
 
 namespace Reminders.Api.Extensions;

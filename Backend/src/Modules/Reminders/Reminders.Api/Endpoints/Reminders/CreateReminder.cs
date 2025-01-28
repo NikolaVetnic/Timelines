@@ -1,7 +1,6 @@
 ﻿using System;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.ValueObjects;
-using BuildingBlocks.Domain.ValueObjects.Ids;
 using Reminders.Application.Entities.Reminders.Commands.CreateReminder;
 
 // ReSharper disable ClassNeverInstantiated.Global

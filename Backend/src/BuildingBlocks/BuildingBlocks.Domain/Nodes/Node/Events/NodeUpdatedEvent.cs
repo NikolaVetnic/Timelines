@@ -1,6 +1,5 @@
 using BuildingBlocks.Domain.Abstractions;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using BuildingBlocks.Domain.ValueObjects.Ids;
 
 namespace BuildingBlocks.Domain.Nodes.Node.Events;
 
