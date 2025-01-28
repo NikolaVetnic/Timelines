@@ -7,6 +7,7 @@ namespace Nodes.Application.Entities.Nodes.Queries.ListNodes;
 
 internal class ListNodesHandler(INodesDbContext dbContext) : IQueryHandler<ListNodesQuery, ListNodesResult>
 {
+    // todo: Refactor so that Services are used
     public async Task<ListNodesResult> Handle(ListNodesQuery query, CancellationToken cancellationToken)
     {
         var pageIndex = query.PaginationRequest.PageIndex;

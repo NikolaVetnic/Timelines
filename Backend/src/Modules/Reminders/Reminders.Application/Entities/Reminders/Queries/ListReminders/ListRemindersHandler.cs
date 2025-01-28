@@ -8,6 +8,7 @@ namespace Reminders.Application.Entities.Reminders.Queries.ListReminders;
 
 public class ListRemindersHandler(IRemindersDbContext dbContext, INodesService nodesService) : IQueryHandler<ListRemindersQuery, ListRemindersResult>
 {
+    // todo: Refactor so that Services are used
     public async Task<ListRemindersResult> Handle(ListRemindersQuery query, CancellationToken cancellationToken)
     {
         var pageIndex = query.PaginationRequest.PageIndex;
