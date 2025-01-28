@@ -1,20 +1,17 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
-using Nodes.Application.Data;
+using Nodes.Application.Data.Abstractions;
 using Nodes.Infrastructure.Data;
-using Nodes.Infrastructure.Data.Interceptors;
+using Nodes.Infrastructure.Data.Repositories;
 
 namespace Nodes.Infrastructure;
 
-public static class DependencyInjection
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructureServices
         (this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
-        
-        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
         // Add Node-specific DbContext
         services.AddDbContext<NodesDbContext>((serviceProvider, options) =>
@@ -25,6 +22,7 @@ public static class DependencyInjection
 
         // Register DbContext interface
         services.AddScoped<INodesDbContext, NodesDbContext>();
+        services.AddScoped<INodesRepository, NodesRepository>();
 
         return services;
     }

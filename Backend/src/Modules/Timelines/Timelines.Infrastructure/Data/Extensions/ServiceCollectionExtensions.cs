@@ -1,30 +1,26 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
-using Files.Application.Data;
-using Files.Infrastructure.Data;
-using Files.Infrastructure.Data.Interceptors;
+using Timelines.Application.Data;
+using Timelines.Infrastructure.Data;
 
-namespace Files.Infrastructure;
+namespace Timelines.Infrastructure;
 
-public static class DependencyInjection
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructureServices
         (this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
-
-        // Add File-specific DbContext
-        services.AddDbContext<FilesDbContext>((serviceProvider, options) =>
+        // Add Timeline-specific DbContext
+        services.AddDbContext<TimelinesDbContext>((serviceProvider, options) =>
         {
             options.UseNpgsql(connectionString);
             options.AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
         });
 
         // Register DbContext interface
-        services.AddScoped<IFilesDbContext, FilesDbContext>();
+        services.AddScoped<ITimelinesDbContext, TimelinesDbContext>();
 
         return services;
     }

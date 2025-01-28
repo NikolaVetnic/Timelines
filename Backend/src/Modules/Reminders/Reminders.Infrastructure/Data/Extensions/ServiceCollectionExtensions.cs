@@ -1,30 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
-using Timelines.Application.Data;
-using Timelines.Infrastructure.Data;
-using Timelines.Infrastructure.Data.Interceptors;
+using Reminders.Application.Data.Abstractions;
+using Reminders.Infrastructure.Data;
+using Reminders.Infrastructure.Data.Repositories;
 
-namespace Timelines.Infrastructure;
+namespace Reminders.Infrastructure;
 
-public static class DependencyInjection
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructureServices
         (this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
-
-        // Add Timeline-specific DbContext
-        services.AddDbContext<TimelinesDbContext>((serviceProvider, options) =>
+        // Add Reminder-specific DbContext
+        services.AddDbContext<RemindersDbContext>((serviceProvider, options) =>
         {
             options.UseNpgsql(connectionString);
             options.AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
         });
 
         // Register DbContext interface
-        services.AddScoped<ITimelinesDbContext, TimelinesDbContext>();
+        services.AddScoped<IRemindersDbContext, RemindersDbContext>();
+        services.AddScoped<IRemindersRepository, RemindersRepository>();
 
         return services;
     }
