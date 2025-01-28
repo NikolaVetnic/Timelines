@@ -1,10 +1,11 @@
-﻿using Reminders.Application.Entities.Reminders.Dtos;
+﻿using BuildingBlocks.Domain.Nodes.Node.Dtos;
+using BuildingBlocks.Domain.Reminders.Dtos;
 
 namespace Reminders.Application.Entities.Reminders.Extensions;
 
 public static class ReminderExtensions
 {
-    public static ReminderDto ToReminderDto(this Reminder reminder)
+    public static ReminderDto ToReminderDto(this Reminder reminder, NodeBaseDto node)
     {
         return new ReminderDto(
             reminder.Id.ToString(),
@@ -13,11 +14,7 @@ public static class ReminderExtensions
             reminder.DueDateTime,
             reminder.Priority,
             reminder.NotificationTime,
-            reminder.Status);
-    }
-
-    public static IEnumerable<ReminderDto> ToReminderDtoList(this IEnumerable<Reminder> reminders)
-    {
-        return reminders.Select(ToReminderDto);
+            reminder.Status,
+            node);
     }
 }
