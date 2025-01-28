@@ -1,4 +1,4 @@
-﻿namespace Reminders.Application.Data;
+﻿namespace Reminders.Application.Data.Abstractions;
 
 public interface IRemindersDbContext
 {
