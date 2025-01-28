@@ -1,0 +1,103 @@
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: var(--noteHeader);
+    color: var(--enmBlue);
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    font-size: 0.9rem;
+    border: none;
+    text-align: left;
+}
+
+.notes-header-closed {
+    border-radius: 5px;
+}
+
+.notes-header-opened {
+    border-radius: 5px 5px 0px 0px;
+}
+
+.notes-header:hover {
+    color: var(--backGroundHeader);
+}
+
+.notes-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--enmBlue);
+}
+
+.notes-header:hover h4 {
+    color: var(--backGroundHeader);
+}
+
+
+.notes-header span {
+    font-size: 1.2rem;
+}
+
+.add-note-button {
+    margin-bottom: 10px;
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    font-size: 0.9rem;
+}
+
+.add-note-button:hover {
+    background: #218838;
+}
+
+.notes-container {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    border-radius: 0px 0px 5px 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.note-item {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.2s ease-in-out, background 0.3s ease-in-out;
+}
+
+.note-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.note-content p {
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.remove-note-button {
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+.remove-note-button:hover {
+    color: white;
+}
+
+.note-content-button-area {
+    display: flex;
+}
