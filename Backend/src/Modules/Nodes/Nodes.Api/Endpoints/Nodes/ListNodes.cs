@@ -1,4 +1,5 @@
 using BuildingBlocks.Application.Pagination;
+using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using Nodes.Application.Entities.Nodes.Queries.ListNodes;
 
 namespace Nodes.Api.Endpoints.Nodes;

@@ -1,5 +1,5 @@
 using BuildingBlocks.Application.Pagination;
-using Nodes.Application.Entities.Nodes.Dtos;
+using BuildingBlocks.Domain.Nodes.Node.Dtos;
 
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable NotAccessedPositionalProperty.Global

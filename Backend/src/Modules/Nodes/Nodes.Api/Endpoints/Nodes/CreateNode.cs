@@ -1,3 +1,4 @@
+using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.ValueObjects.Ids;
 using Nodes.Application.Entities.Nodes.Commands.CreateNode;
 

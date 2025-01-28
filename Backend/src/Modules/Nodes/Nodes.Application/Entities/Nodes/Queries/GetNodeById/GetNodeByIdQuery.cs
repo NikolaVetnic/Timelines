@@ -1,8 +1,8 @@
-// ReSharper disable ClassNeverInstantiated.Global
-
-using Nodes.Application.Entities.Nodes.Dtos;
+using BuildingBlocks.Domain.Nodes.Node.Dtos;
 
 namespace Nodes.Application.Entities.Nodes.Queries.GetNodeById;
+
+// ReSharper disable ClassNeverInstantiated.Global
 
 public record GetNodeByIdQuery(NodeId Id) : IQuery<GetNodeByIdResult>
 {

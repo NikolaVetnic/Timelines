@@ -1,4 +1,4 @@
-﻿using Reminders.Application.Entities.Reminders.Dtos;
+using BuildingBlocks.Domain.Reminders.ValueObjects;
 
 namespace Reminders.Application.Entities.Reminders.Commands.CreateReminder;
 
