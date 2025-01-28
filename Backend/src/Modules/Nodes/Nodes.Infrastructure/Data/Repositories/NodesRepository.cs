@@ -20,3 +20,4 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 }
+
