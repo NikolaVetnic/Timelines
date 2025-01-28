@@ -47,6 +47,7 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
     const updatedReminders = reminders.filter(reminder => reminder.id !== id);
     setReminders(updatedReminders);
     updateLocalStorage(updatedReminders);
+    setTimeout(() => onToggle(), 0);
     toast.error("Reminder deleted!");
   };
 
@@ -63,6 +64,7 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
     const updatedReminders = [...reminders, newReminder];
     setReminders(updatedReminders);
     updateLocalStorage(updatedReminders);
+    setTimeout(() => onToggle(), 0);
     toast.success("New reminder added!");
   };
 

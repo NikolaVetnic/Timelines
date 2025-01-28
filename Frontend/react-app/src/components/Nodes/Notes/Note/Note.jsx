@@ -53,6 +53,7 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
       setNotes(updatedNotes);
       updateLocalStorage(updatedNotes);
     }
+    setTimeout(() => onToggle(), 0);
     closeNoteEditor();
   };
 
