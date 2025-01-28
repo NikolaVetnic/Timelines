@@ -66,16 +66,3 @@
     justify-content: space-between;
     align-items: center;
 }
-
-.remove-reminder-button {
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.remove-reminder-button:hover {
-    background: #b02a37;
-}

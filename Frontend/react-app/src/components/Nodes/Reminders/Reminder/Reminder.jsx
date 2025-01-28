@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import RemoveButton from "../../../../core/components/buttons/RemoveButton/RemoveButton";
 import CreateReminderModal from "../../../../core/components/modals/CreateReminderModal/CreateReminderModal";
 import "./Reminder.css";
 
@@ -48,7 +49,6 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
     setReminders(updatedReminders);
     updateLocalStorage(updatedReminders);
     setTimeout(() => onToggle(), 0);
-    toast.error("Reminder deleted!");
   };
 
   const openCreateModal = (e) => {
@@ -90,7 +90,7 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
                 <p><strong>Notify At:</strong> {new Date(reminder.notifyAt).toLocaleString()}</p>
                 <p><strong>Priority:</strong> {reminder.priority}</p>
               </div>
-              <button className="remove-reminder-button" onClick={() => handleRemoveReminder(reminder.id)}>✖</button>
+              <RemoveButton id={reminder.id} onRemove={handleRemoveReminder} />
             </div>
           ))}
         </div>

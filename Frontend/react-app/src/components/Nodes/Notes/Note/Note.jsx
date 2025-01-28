@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
+import RemoveButton from "../../../../core/components/buttons/RemoveButton/RemoveButton";
 import CreateNoteModal from "../../../../core/components/modals/CreateNoteModal/CreateNoteModal";
 import NoteEditor from "../../../../core/components/modals/NoteEditorModal/NoteEditorModal";
 import "./Note.css";
@@ -53,7 +54,6 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
       setNotes(updatedNotes);
       updateLocalStorage(updatedNotes);
     }
-    setTimeout(() => onToggle(), 0);
     closeNoteEditor();
   };
 
@@ -87,6 +87,7 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
 
   const saveNewNote = (newNote) => {
     const updatedNotes = [...notes, newNote];
+    setTimeout(() => onToggle(), 0);
     setNotes(updatedNotes);
     updateLocalStorage(updatedNotes);
   };
@@ -111,7 +112,7 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
               <div className="note-content">
                 <p>{note.title}</p>
                 <div className="note-content-button-area">
-                  <button className="remove-note-button" onClick={() => handleRemoveNote(note.id)}>✖</button>
+                  <RemoveButton id={note.id} onRemove={() => handleRemoveNote(note.id)} />
                   <EditButton onClick={() => openNoteEditor(note)} />
                 </div>
               </div>
