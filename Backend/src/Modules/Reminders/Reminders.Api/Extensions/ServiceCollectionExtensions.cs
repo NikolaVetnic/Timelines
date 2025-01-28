@@ -1,6 +1,8 @@
 using BuildingBlocks.Api.Converters;
+using BuildingBlocks.Application.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Reminders.Application.Data;
 using Reminders.Application.Extensions;
 using Reminders.Infrastructure;
 
@@ -21,6 +23,8 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
         TypeAdapterConfig.GlobalSettings.Scan(typeof(ReminderIdConverter).Assembly);
+        
+        services.AddScoped<IRemindersService, RemindersService>();
 
         return services;
     }
