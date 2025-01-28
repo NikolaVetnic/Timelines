@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
+using BuildingBlocks.Domain.Reminders.Dtos;
 
-namespace Nodes.Application.Entities.Nodes.Dtos;
+namespace BuildingBlocks.Domain.Nodes.Node.Dtos;
 
 public class NodeDto(
     string? id,
@@ -27,4 +28,6 @@ public class NodeDto(
     [JsonPropertyName("categories")] public List<string> Categories { get; } = categories;
 
     [JsonPropertyName("tags")] public List<string> Tags { get; } = tags;
+    
+    [JsonPropertyName("reminders")] public List<ReminderBaseDto> Reminders { get; } = [];
 }

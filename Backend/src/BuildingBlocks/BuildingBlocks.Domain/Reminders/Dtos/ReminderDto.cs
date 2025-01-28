@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
+using BuildingBlocks.Domain.Nodes.Node.Dtos;
 
-namespace Reminders.Application.Entities.Reminders.Dtos;
+namespace BuildingBlocks.Domain.Reminders.Dtos;
 
 public class ReminderDto(
     string? id,
@@ -9,7 +10,8 @@ public class ReminderDto(
     DateTime dueDateTime,
     int priority,
     DateTime notificationTime,
-    string status)
+    string status,
+    NodeBaseDto node) // todo: Refactor this so that it extends ReminderBaseDto
 {
     [JsonPropertyName("id")] public string? Id { get; } = id;
 
@@ -24,4 +26,6 @@ public class ReminderDto(
     [JsonPropertyName("notificationTime")] public DateTime NotificationTime { get; } = notificationTime;
 
     [JsonPropertyName("status")] public string Status { get; } = status;
+    
+    [JsonPropertyName("node")] public NodeBaseDto Node { get; set; } = node;
 }
