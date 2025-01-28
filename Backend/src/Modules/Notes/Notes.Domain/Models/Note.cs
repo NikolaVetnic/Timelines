@@ -31,7 +31,7 @@ public class Note : Aggregate<NoteId>
     }
 
     public void Update(string title, string content, DateTime timestamp,
-        List<Note> related, string[] sharedWith, bool isPublic)
+        string[] sharedWith, bool isPublic)
     {
         Title = title;
         Content = content;
