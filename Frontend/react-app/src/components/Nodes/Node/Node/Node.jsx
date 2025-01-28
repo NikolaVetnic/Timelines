@@ -1,4 +1,5 @@
 import React, { forwardRef, useState } from "react";
+import Note from "../../Notes/Note/Note";
 import Categories from "../Categories/Categories";
 import Description from "../Description/Description";
 import EditableTitle from "../EditableTitle/EditableTitle";
@@ -6,19 +7,20 @@ import Importance from "../Importance/Importance";
 import Tags from "../Tags/Tags";
 import Timestamp from "../Timestamp/Timestamp";
 
+import Reminder from "../../Reminders/Reminder/Reminder";
 import "./Node.css";
 
-const Node = forwardRef(({ item, onToggle, isModalActive, setModalActive, openNodeId, setOpenNodeId }, ref) => {
+const Node = forwardRef(({ item, onToggle, isModalActive, setModalActive, openNodeId, setOpenNodeId, timelineId }, ref) => {
     const isOpen = openNodeId === item.id;
     const [categories, setCategories] = useState(item.categories);
     const [tags, setTags] = useState(item.tags);
     const [description, setDescription] = useState(item.description);
     const [timestamp, setTimestamp] = useState(item.timestamp);
     const [title, setTitle] = useState(item.title);
+    const [notes, setNotes] = useState(item.notes || []);
 
     const toggleCard = () => {
         if (isModalActive) return;
-
         if (isOpen) {
             setOpenNodeId(null);
         } else {
@@ -68,6 +70,18 @@ const Node = forwardRef(({ item, onToggle, isModalActive, setModalActive, openNo
                         tags={tags}
                         onUpdateTags={setTags}
                         setModalActive={setModalActive}
+                    />
+                    <Note
+                        nodeId={item.id}
+                        timelineId={timelineId}
+                        notes={notes} 
+                        setNotes={setNotes}
+                        onToggle={onToggle}
+                    />
+                    <Reminder
+                        nodeId={item.id}
+                        timelineId={timelineId}
+                        onToggle={onToggle}
                     />
                 </div>
             )}
