@@ -1,4 +1,6 @@
-﻿namespace Reminders.Application.Entities.Reminders.Commands.DeleteReminder;
+﻿using BuildingBlocks.Domain.Reminders.ValueObjects;
+
+namespace Reminders.Application.Entities.Reminders.Commands.DeleteReminder;
 
 public record DeleteReminderCommand(ReminderId Id) : ICommand<DeleteReminderResult>
 {

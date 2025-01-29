@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using Nodes.Application.Entities.Nodes.Queries.GetNodeById;
 
 namespace Nodes.Api.Endpoints.Nodes;

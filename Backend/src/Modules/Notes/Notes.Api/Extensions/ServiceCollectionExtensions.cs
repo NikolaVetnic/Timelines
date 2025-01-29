@@ -2,7 +2,7 @@ using BuildingBlocks.Api.Converters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Notes.Application.Extensions;
-using Notes.Infrastructure;
+using Notes.Infrastructure.Data.Extensions;
 
 namespace Notes.Api.Extensions;
 

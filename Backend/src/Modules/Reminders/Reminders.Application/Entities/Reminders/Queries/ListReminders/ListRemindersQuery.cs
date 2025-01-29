@@ -1,5 +1,5 @@
 ﻿using BuildingBlocks.Application.Pagination;
-using Reminders.Application.Entities.Reminders.Dtos;
+using BuildingBlocks.Domain.Reminders.Dtos;
 
 // ReSharper disable ClassNeverInstantiated.Global
 

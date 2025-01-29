@@ -1,11 +1,13 @@
 using BuildingBlocks.Application.Pagination;
-using Nodes.Application.Entities.Nodes.Dtos;
+using BuildingBlocks.Domain.Nodes.Node.Dtos;
+using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Extensions;
 
 namespace Nodes.Application.Entities.Nodes.Queries.ListNodes;
 
 internal class ListNodesHandler(INodesDbContext dbContext) : IQueryHandler<ListNodesQuery, ListNodesResult>
 {
+    // todo: Refactor so that Services are used
     public async Task<ListNodesResult> Handle(ListNodesQuery query, CancellationToken cancellationToken)
     {
         var pageIndex = query.PaginationRequest.PageIndex;

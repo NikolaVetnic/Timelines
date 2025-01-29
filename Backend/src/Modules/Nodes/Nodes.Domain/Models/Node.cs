@@ -1,11 +1,17 @@
-﻿using Nodes.Domain.Events;
+﻿using System.Text.Json;
+using BuildingBlocks.Domain.Nodes.Node.Events;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Reminders.ValueObjects;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Nodes.Domain.Models;
 
+// ReSharper disable NullableWarningSuppressionIsUsed
+
 public class Node : Aggregate<NodeId>
 {
-    private readonly List<string> _categories = [];
-    private readonly List<string> _tags = [];
+    private readonly List<string> _categories = new();
+    private readonly List<string> _tags = new();
 
     public IReadOnlyList<string> Categories => _categories.AsReadOnly();
     public IReadOnlyList<string> Tags => _tags.AsReadOnly();
@@ -15,6 +21,7 @@ public class Node : Aggregate<NodeId>
     public required DateTime Timestamp { get; set; }
     public required int Importance { get; set; }
     public required string Phase { get; set; }
+    public List<ReminderId> ReminderIds { get; set; } = [];
 
     #region Node
 
@@ -37,7 +44,9 @@ public class Node : Aggregate<NodeId>
         foreach (var tag in tags)
             node.AddTag(tag);
 
-        node.AddDomainEvent(new NodeCreatedEvent(node));
+        node.ReminderIds = [];
+
+        node.AddDomainEvent(new NodeCreatedEvent(node.Id));
 
         return node;
     }
@@ -51,7 +60,23 @@ public class Node : Aggregate<NodeId>
         Importance = importance;
         Phase = phase;
 
-        AddDomainEvent(new NodeUpdatedEvent(this));
+        AddDomainEvent(new NodeUpdatedEvent(Id));
+    }
+
+    #endregion
+
+    #region Reminders
+
+    public void AddReminder(ReminderId reminderId)
+    {
+        if (!ReminderIds.Contains(reminderId))
+            ReminderIds.Add(reminderId);
+    }
+
+    public void RemoveReminder(ReminderId reminderId)
+    {
+        if (ReminderIds.Contains(reminderId))
+            ReminderIds.Remove(reminderId);
     }
 
     #endregion
@@ -84,3 +109,7 @@ public class Node : Aggregate<NodeId>
 
     #endregion
 }
+
+public class ReminderIdListConverter() : ValueConverter<List<ReminderId>, string>(
+    list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),
+    json => JsonSerializer.Deserialize<List<ReminderId>>(json, new JsonSerializerOptions()) ?? new List<ReminderId>());
