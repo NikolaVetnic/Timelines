@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Timeline from "./components/Timelines/Timeline/Timeline";
 import TimelineSelect from "./components/Timelines/TimelineSelect/TimelineSelect";
-import useReminders from "./core/hooks/UseReminders";
+import useReminders from "./core/hooks/Reminders/UseReminders";
 import useTimelineData from "./core/hooks/UseTimelineData";
 import "./styles/App.css";
 
