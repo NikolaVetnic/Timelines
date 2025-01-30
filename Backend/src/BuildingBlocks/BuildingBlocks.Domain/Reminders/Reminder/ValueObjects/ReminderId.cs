@@ -29,7 +29,7 @@ public class ReminderIdJsonConverter : JsonConverter<ReminderId>
 
                 return ReminderId.Of(guid);
             }
-        case JsonTokenType.StartObject:
+            case JsonTokenType.StartObject:
             {
                 using var jsonDoc = JsonDocument.ParseValue(ref reader);
 
