@@ -22,18 +22,7 @@ const timelineData = [
         },
         categories: ["Planning", "Kickoff"],
         tags: ["project-start", "planning"],
-        files: [
-          {
-            id: "F1",
-            name: "Kickoff Image",
-            description: "Image of the project kickoff meeting",
-            type: "image/jpeg",
-            size: 1024,
-            owner: "Admin",
-            content: "binary_data_here",
-            isPublic: true,
-          },
-        ],
+        files: [],
         notes: [],
       },
       {
@@ -53,18 +42,7 @@ const timelineData = [
         },
         categories: ["UI/UX", "Review"],
         tags: ["design-phase", "approval"],
-        files: [
-          {
-            id: "F2",
-            name: "Design Screenshot",
-            description: "Final design approval document",
-            type: "image/png",
-            size: 2048,
-            owner: "Designer",
-            content: "binary_data_here",
-            isPublic: false,
-          },
-        ],
+        files: [],
         notes: [],
       },
       {

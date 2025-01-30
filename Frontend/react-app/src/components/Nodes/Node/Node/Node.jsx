@@ -1,13 +1,13 @@
 import React, { forwardRef, useState } from "react";
+import File from "../../Files/File/File";
 import Note from "../../Notes/Note/Note";
+import Reminder from "../../Reminders/Reminder/Reminder";
 import Categories from "../Categories/Categories";
 import Description from "../Description/Description";
 import EditableTitle from "../EditableTitle/EditableTitle";
 import Importance from "../Importance/Importance";
 import Tags from "../Tags/Tags";
 import Timestamp from "../Timestamp/Timestamp";
-
-import Reminder from "../../Reminders/Reminder/Reminder";
 import "./Node.css";
 
 const Node = forwardRef(({ item, onToggle, isModalActive, setModalActive, openNodeId, setOpenNodeId, timelineId }, ref) => {
@@ -79,6 +79,11 @@ const Node = forwardRef(({ item, onToggle, isModalActive, setModalActive, openNo
                         onToggle={onToggle}
                     />
                     <Reminder
+                        nodeId={item.id}
+                        timelineId={timelineId}
+                        onToggle={onToggle}
+                    />
+                    <File
                         nodeId={item.id}
                         timelineId={timelineId}
                         onToggle={onToggle}
