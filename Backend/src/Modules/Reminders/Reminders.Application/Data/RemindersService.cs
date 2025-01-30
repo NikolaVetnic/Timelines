@@ -1,6 +1,6 @@
 using BuildingBlocks.Application.Data;
-using BuildingBlocks.Domain.Reminders.Dtos;
-using BuildingBlocks.Domain.Reminders.ValueObjects;
+using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
+using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using Reminders.Application.Data.Abstractions;

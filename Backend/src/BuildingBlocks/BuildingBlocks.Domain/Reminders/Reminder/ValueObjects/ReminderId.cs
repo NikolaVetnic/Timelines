@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using BuildingBlocks.Domain.Abstractions;
 
-namespace BuildingBlocks.Domain.Reminders.ValueObjects;
+namespace BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 
 [JsonConverter(typeof(ReminderIdJsonConverter))]
 public class ReminderId : StronglyTypedId
@@ -22,27 +22,27 @@ public class ReminderIdJsonConverter : JsonConverter<ReminderId>
         switch (reader.TokenType)
         {
             case JsonTokenType.String:
-            {
-                var guidString = reader.GetString();
-                if (!Guid.TryParse(guidString, out var guid))
-                    throw new JsonException($"Invalid GUID format for ReminderId: {guidString}");
+                {
+                    var guidString = reader.GetString();
+                    if (!Guid.TryParse(guidString, out var guid))
+                        throw new JsonException($"Invalid GUID format for ReminderId: {guidString}");
 
-                return ReminderId.Of(guid);
-            }
+                    return ReminderId.Of(guid);
+                }
             case JsonTokenType.StartObject:
-            {
-                using var jsonDoc = JsonDocument.ParseValue(ref reader);
+                {
+                    using var jsonDoc = JsonDocument.ParseValue(ref reader);
 
-                if (!jsonDoc.RootElement.TryGetProperty("id", out JsonElement idElement))
-                    throw new JsonException("Expected property 'id' not found.");
+                    if (!jsonDoc.RootElement.TryGetProperty("id", out JsonElement idElement))
+                        throw new JsonException("Expected property 'id' not found.");
 
-                var guidString = idElement.GetString();
+                    var guidString = idElement.GetString();
 
-                if (!Guid.TryParse(guidString, out var guid))
-                    throw new JsonException($"Invalid GUID format for ReminderId: {guidString}");
+                    if (!Guid.TryParse(guidString, out var guid))
+                        throw new JsonException($"Invalid GUID format for ReminderId: {guidString}");
 
-                return ReminderId.Of(guid);
-            }
+                    return ReminderId.Of(guid);
+                }
             default:
                 throw new JsonException(
                     $"Unexpected token parsing ReminderId. Expected String or StartObject, got {reader.TokenType}.");

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using BuildingBlocks.Domain.Nodes.Node.Events;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using BuildingBlocks.Domain.Reminders.ValueObjects;
+using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Nodes.Domain.Models;

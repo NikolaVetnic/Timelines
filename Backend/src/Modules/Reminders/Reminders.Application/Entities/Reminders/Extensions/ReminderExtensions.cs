@@ -1,5 +1,5 @@
 ﻿using BuildingBlocks.Domain.Nodes.Node.Dtos;
-using BuildingBlocks.Domain.Reminders.Dtos;
+using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 
 namespace Reminders.Application.Entities.Reminders.Extensions;
 

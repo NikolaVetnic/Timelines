@@ -1,6 +1,6 @@
 ﻿using BuildingBlocks.Application.Data;
 using BuildingBlocks.Application.Pagination;
-using BuildingBlocks.Domain.Reminders.Dtos;
+using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using Reminders.Application.Data.Abstractions;
 using Reminders.Application.Entities.Reminders.Extensions;
 

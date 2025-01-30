@@ -1,5 +1,5 @@
 ﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using BuildingBlocks.Domain.Reminders.ValueObjects;
+using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Reminders.Domain.Events;
 
 namespace Reminders.Domain.Models;

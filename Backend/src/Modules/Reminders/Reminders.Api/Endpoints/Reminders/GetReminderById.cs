@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using BuildingBlocks.Domain.Reminders.Dtos;
+using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using Reminders.Application.Entities.Reminders.Queries.GetReminderById;
 
 namespace Reminders.Api.Endpoints.Reminders;
