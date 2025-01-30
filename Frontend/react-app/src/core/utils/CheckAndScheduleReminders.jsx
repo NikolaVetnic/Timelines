@@ -20,7 +20,7 @@ export const checkAndScheduleReminders = (reminders, setReminders) => {
             setTimeout(() => {
                 toast.info(` Reminder: ${reminder.title} \nDescription: ${reminder.description || "No description provided."}`, {
                     position: "top-right",
-                    autoClose: 5000,
+                    autoClose: 60000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
