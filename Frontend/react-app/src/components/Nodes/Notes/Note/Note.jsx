@@ -107,17 +107,17 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
       {isNotesExpanded && (
         <div className="notes-container">
           <button className="add-note-button" onClick={openCreateModal}>+</button>
-          {notes.map((note) => (
+          {notes.length > 0 ?notes.map((note) => (
             <div key={note.id} className="note-item">
               <div className="note-content">
                 <p>{note.title}</p>
                 <div className="note-content-button-area">
-                  <RemoveButton id={note.id} onRemove={() => handleRemoveNote(note.id)} />
+                  <RemoveButton id={note.id} onRemove={() => handleRemoveNote(note.id)} message={"Note removed."}/>
                   <EditButton onClick={() => openNoteEditor(note)} />
                 </div>
               </div>
             </div>
-          ))}
+          )) : <p>There are no available notes.</p>}
         </div>
       )}
 

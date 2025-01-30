@@ -83,16 +83,16 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
       {isRemindersExpanded && (
         <div className="reminders-container">
           <button className="add-reminder-button" onClick={openCreateModal}>+</button>
-          {reminders.map((reminder) => (
+          {reminders.length > 0 ?reminders.map((reminder) => (
             <div key={reminder.id} className="reminder-item">
               <div className="reminder-content">
                 <p>{reminder.title}</p>
                 <p><strong>Notify At:</strong> {new Date(reminder.notifyAt).toLocaleString()}</p>
                 <p><strong>Priority:</strong> {reminder.priority}</p>
               </div>
-              <RemoveButton id={reminder.id} onRemove={handleRemoveReminder} />
+              <RemoveButton id={reminder.id} onRemove={handleRemoveReminder} message="Reminder removed."/>
             </div>
-          ))}
+          )) : <p>There are no current reminders.</p>}
         </div>
       )}
 
