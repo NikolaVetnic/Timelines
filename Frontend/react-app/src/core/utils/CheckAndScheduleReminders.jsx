@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-export const checkAndScheduleReminders = (reminders, setReminders) => {
+const checkAndScheduleReminders = ( setReminders ) => {
     const now = new Date();
     const savedTimelineData = JSON.parse(localStorage.getItem("timelineData")) || [];
 
@@ -44,3 +44,5 @@ export const checkAndScheduleReminders = (reminders, setReminders) => {
         }
     });
 };
+
+export default checkAndScheduleReminders;
