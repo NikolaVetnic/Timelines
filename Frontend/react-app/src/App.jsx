@@ -1,62 +1,46 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Timeline from "./components/Timelines/Timeline/Timeline";
 import TimelineSelect from "./components/Timelines/TimelineSelect/TimelineSelect";
-import { checkAndScheduleReminders } from "./core/utils/CheckAndScheduleReminders";
-import timelineData from "./data/timelineData";
+import useReminders from "./core/hooks/UseReminders";
+import useTimelineData from "./core/hooks/UseTimelineData";
 import "./styles/App.css";
 
-const saveTimelineData = () => {
-    if (!localStorage.getItem("timelineData")) {
-        const serializedData = JSON.stringify(timelineData, (key, value) =>
-            value instanceof Date ? value.toISOString() : value
-        );
-        localStorage.setItem("timelineData", serializedData);
-        console.log("📂 Timeline data initialized in localStorage");
-    }
-};
-
 function App() {
+    const [timelineData, setTimelineData] = useTimelineData();
     const [selectedTimeline, setSelectedTimeline] = useState(null);
-    const [reminders, setReminders] = useState([]);
-    const remindersRef = useRef([]);
-
-    const extractRemindersFromNodes = (data) => {
-        return data.flatMap((timeline) =>
-            timeline.nodes?.flatMap((node) => node.reminders || []) || []
-        );
-    };
+    useReminders(timelineData);
 
     const handleTimelineSelect = (selectedOption) => {
-        const foundTimeline = timelineData.find((timeline) => timeline.id === selectedOption.value);
-        setSelectedTimeline(foundTimeline ? { ...foundTimeline, nodes: [...foundTimeline.nodes] } : null);
+        const foundTimeline = timelineData.find(timeline => timeline.id === selectedOption.value);
+        setSelectedTimeline(foundTimeline || null);
     };
 
-    useEffect(() => {
-        saveTimelineData();
-        const savedTimelineData = JSON.parse(localStorage.getItem("timelineData")) || [];
-
-        const extractedReminders = extractRemindersFromNodes(savedTimelineData);
-        setReminders(extractedReminders);
-        remindersRef.current = extractedReminders;
-    }, []);
+    const updateSelectedTimeline = useCallback(() => {
+        setSelectedTimeline((prevSelected) => {
+            if (!prevSelected) return null;
+            return timelineData.find(t => t.id === prevSelected.id) || null;
+        });
+    }, [timelineData]);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            checkAndScheduleReminders(remindersRef.current, setReminders);
-        }, 60000);
-        
-        return () => clearInterval(interval);
-    }, []);
+        updateSelectedTimeline();
+    }, [updateSelectedTimeline]);
 
     return (
         <div className="app-container">
             <ToastContainer />
             <div className="app-content">
                 <TimelineSelect onTimelineSelect={handleTimelineSelect} />
-                <Timeline selectedTimeline={selectedTimeline} />
+                <Timeline 
+                    selectedTimeline={selectedTimeline} 
+                    setSelectedTimeline={setSelectedTimeline} 
+                    setTimelineData={setTimelineData} 
+                    timelineData={timelineData}
+                    updateSelectedTimeline={updateSelectedTimeline}
+                />
             </div>
         </div>
     );
