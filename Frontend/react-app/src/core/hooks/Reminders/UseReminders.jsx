@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import checkAndScheduleReminders from "../utils/CheckAndScheduleReminders";
+import checkAndScheduleReminders from "../../utils/CheckAndScheduleReminders";
 
 const useReminders = (timelineData) => {
     const [reminders, setReminders] = useState([]);
