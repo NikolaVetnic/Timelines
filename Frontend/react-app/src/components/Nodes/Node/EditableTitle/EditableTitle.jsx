@@ -1,11 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
 import "./EditableTitle.css";
 
-const EditableTitle = ({ title, onUpdateTitle, className }) => {
+const LOCAL_STORAGE_KEY = "timelineData";
+
+const EditableTitle = ({ timelineId, nodeId, className }) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [localTitle, setLocalTitle] = useState(title);
+    const [localTitle, setLocalTitle] = useState("");
     const [isHovered, setIsHovered] = useState(false);
+
+    useEffect(() => {
+        try {
+            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            const timeline = storedData.find(t => t.id === timelineId);
+            const node = timeline?.nodes.find(n => n.id === nodeId);
+            if (node?.title) {
+                setLocalTitle(node.title);
+            }
+        } catch (error) {
+            console.error("Error loading title:", error);
+        }
+    }, [timelineId, nodeId]);
+
+    const updateLocalStorage = (newTitle) => {
+        try {
+            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            const timelineIndex = storedData.findIndex(t => t.id === timelineId);
+
+            if (timelineIndex !== -1) {
+                const nodeIndex = storedData[timelineIndex].nodes.findIndex(n => n.id === nodeId);
+                if (nodeIndex !== -1) {
+                    storedData[timelineIndex].nodes[nodeIndex].title = newTitle;
+                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedData));
+                }
+            }
+        } catch (error) {
+            console.error("Error saving title:", error);
+        }
+    };
 
     const setEditing = (isActive) => {
         setIsEditing(isActive);
@@ -18,16 +50,19 @@ const EditableTitle = ({ title, onUpdateTitle, className }) => {
         setLocalTitle(e.target.value);
     };
 
+    const handleSaveTitle = () => {
+        setEditing(false);
+        updateLocalStorage(localTitle);
+    };
+
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
-            setEditing(false);
-            onUpdateTitle(localTitle);
+            handleSaveTitle();
         }
     };
 
     const handleBlur = () => {
-        setEditing(false);
-        onUpdateTitle(localTitle);
+        handleSaveTitle();
     };
 
     return isEditing ? (
@@ -46,7 +81,7 @@ const EditableTitle = ({ title, onUpdateTitle, className }) => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <h3 className="editable-title">{localTitle}</h3>
+            <h3 className="editable-title">{localTitle || "Untitled"}</h3>
             {isHovered && (
                 <EditButton
                     className="editable-title-edit-icon"

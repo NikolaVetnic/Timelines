@@ -33,6 +33,8 @@ const Node = forwardRef(({ item, onToggle, isModalActive, setModalActive, openNo
         <div className={`timeline-node ${isOpen ? "open" : ""}`} ref={ref}>
             <div className="node-header" onClick={toggleCard}>
                 <EditableTitle
+                    nodeId={item.id}
+                    timelineId={timelineId}
                     title={title}
                     onUpdateTitle={(newTitle) => setTitle(newTitle)}
                     className="timeline-title"
@@ -42,16 +44,22 @@ const Node = forwardRef(({ item, onToggle, isModalActive, setModalActive, openNo
             {isOpen && (
                 <div className="node-content">
                     <Description
+                        nodeId={item.id}
+                        timelineId={timelineId}
                         description={description}
                         onUpdateDescription={setDescription}
                         setModalActive={setModalActive}
                     />
                     <Timestamp
+                        nodeId={item.id}
+                        timelineId={timelineId}
                         initialValue={timestamp}
                         onSave={(newTimestamp) => setTimestamp(newTimestamp)}
                         setModalActive={setModalActive}
                     />
                     <Importance
+                        nodeId={item.id}
+                        timelineId={timelineId} 
                         initialValue={item.importance}
                         onSave={(newImportance) =>
                             console.log("Saved Importance:", newImportance)
@@ -62,11 +70,15 @@ const Node = forwardRef(({ item, onToggle, isModalActive, setModalActive, openNo
                         <strong>Phase:</strong> {item.phase.title}
                     </p>
                     <Categories
+                        nodeId={item.id}
+                        timelineId={timelineId}
                         categories={categories}
                         onUpdateCategories={setCategories}
                         setModalActive={setModalActive}
                     />
                     <Tags
+                        nodeId={item.id}
+                        timelineId={timelineId}
                         tags={tags}
                         onUpdateTags={setTags}
                         setModalActive={setModalActive}

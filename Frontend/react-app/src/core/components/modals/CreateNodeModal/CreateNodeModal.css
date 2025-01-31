@@ -38,7 +38,7 @@
 
 .create-node-modal-content input,
 .create-node-modal-content textarea {
-    width: 100%;
+    width: 94%;
     padding: 8px;
     margin-top: 5px;
     border: 1px solid #ccc;
@@ -69,6 +69,7 @@
 
 .multi-input-container button {
     padding: 6px 10px;
+    height: 33px;
     border: none;
     border-radius: 5px;
     background: #007bff;
@@ -95,6 +96,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s ease-in-out;
+    margin-right: 5px;
     margin-left: 10px;
 }
 

@@ -37,14 +37,34 @@ const CreateNodeModal = ({ isOpen, onClose, selectedTimeline, setTimelineData, t
     };
 
     const handleSaveTags = (tags) => {
-        setNodeData((prevData) => ({ ...prevData, tags }));
+        const formattedTags = formatTags(tags);
+        setNodeData((prevData) => ({ ...prevData, tags: formattedTags }));
         setIsTagsModalOpen(false);
     };
-
+    
     const handleSaveCategories = (categories) => {
-        setNodeData((prevData) => ({ ...prevData, categories }));
+        const formattedCategories = formatCategories(categories);
+        setNodeData((prevData) => ({ ...prevData, categories: formattedCategories }));
         setIsCategoriesModalOpen(false);
     };
+    
+    const formatTags = (tags) => {
+        return tags
+            .map(tag => tag.trim().toLowerCase().replace(/\s+/g, "-"))
+            .filter(tag => tag.length > 0);
+    };
+
+    const formatCategories = (categories) => {
+        return categories
+            .map(category => 
+                category
+                    .trim()
+                    .toLowerCase()
+                    .replace(/\b\w/g, char => char.toUpperCase())
+            )
+            .filter(category => category.length > 0);
+    };
+
 
     const handleSave = () => {
         if (!selectedTimeline) return;
@@ -95,13 +115,13 @@ const CreateNodeModal = ({ isOpen, onClose, selectedTimeline, setTimelineData, t
                 <label>Tags:</label>
                 <div className="multi-input-container">
                     <input type="text" value={nodeData.tags.join(", ")} readOnly />
-                    <button type="button" onClick={() => setIsTagsModalOpen(true)}>➕ Add Tags</button>
+                    <button type="button" onClick={() => setIsTagsModalOpen(true)}>Add Tags</button>
                 </div>
 
                 <label>Categories:</label>
                 <div className="multi-input-container">
                     <input type="text" value={nodeData.categories.join(", ")} readOnly />
-                    <button type="button" onClick={() => setIsCategoriesModalOpen(true)}>➕ Add Categories</button>
+                    <button type="button" onClick={() => setIsCategoriesModalOpen(true)}>Add Categories</button>
                 </div>
 
                 <div className="create-node-modal-actions">

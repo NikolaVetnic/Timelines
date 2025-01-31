@@ -6,7 +6,7 @@ import "./Timestamp.css";
 
 const LOCAL_STORAGE_KEY = "timelineData";
 
-const Timestamp = ({ timelineId, nodeId, onUpdateTimestamp, setModalActive }) => {
+const Timestamp = ({ timelineId, nodeId, setModalActive }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [localTimestamp, setLocalTimestamp] = useState(null);
 
@@ -48,7 +48,6 @@ const Timestamp = ({ timelineId, nodeId, onUpdateTimestamp, setModalActive }) =>
     const handleSaveTimestamp = (newTimestamp) => {
         setLocalTimestamp(newTimestamp);
         updateLocalStorage(newTimestamp);
-        onUpdateTimestamp(newTimestamp);
         setModalActive(false);
     };
 
