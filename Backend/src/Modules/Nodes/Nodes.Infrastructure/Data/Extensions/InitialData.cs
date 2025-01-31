@@ -1,4 +1,5 @@
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 namespace Nodes.Infrastructure.Data.Extensions;
 
@@ -15,7 +16,8 @@ internal static class InitialData
                 DateTime.UtcNow,
                 0,
                 ["court", "complaint"],
-                ["investigation", "interview"]
+                ["investigation", "interview"],
+                TimelineId.Of(Guid.Parse("d87c1c54-b287-4a82-b45b-65db1d71e2fd"))
             ),
 
             Node.Create(
@@ -26,7 +28,8 @@ internal static class InitialData
                 DateTime.UtcNow,
                 1,
                 ["court", "hearing"],
-                ["witness", "vital"]
+                ["witness", "vital"],
+                TimelineId.Of(Guid.Parse("f739b2c7-883e-46c6-917c-d29114e3e017"))
             )
         };
 }
