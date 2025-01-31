@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
+using Timelines.Application.Data.Abstractions;
 using Timelines.Application.Entities.Timelines.Extensions;
 
 namespace Timelines.Application.Entities.Timelines.Queries.ListTimelines;

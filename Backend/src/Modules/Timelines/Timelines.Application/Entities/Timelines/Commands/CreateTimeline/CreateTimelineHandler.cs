@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
+using Timelines.Application.Data.Abstractions;
 
 namespace Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
