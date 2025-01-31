@@ -1,6 +1,7 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
 
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 namespace Timelines.Application.Entities.Timelines.Queries.GetTimelineById;
 

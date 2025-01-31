@@ -1,4 +1,6 @@
-﻿namespace Timelines.Application.Entities.Timelines.Commands.DeleteTimeline;
+﻿using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
+
+namespace Timelines.Application.Entities.Timelines.Commands.DeleteTimeline;
 
 public record DeleteTimelineCommand(TimelineId Id) : ICommand<DeleteTimelineResult>
 {

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Timelines.Infrastructure.Data.Configurations;
 

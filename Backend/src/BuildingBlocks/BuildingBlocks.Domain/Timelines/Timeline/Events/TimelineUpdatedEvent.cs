@@ -1,5 +1,5 @@
 ﻿using BuildingBlocks.Domain.Abstractions;
-using BuildingBlocks.Domain.ValueObjects.Ids;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 namespace BuildingBlocks.Domain.Timelines.Timeline.Events;
 

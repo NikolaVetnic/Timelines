@@ -1,4 +1,6 @@
-﻿namespace Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
+﻿using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
+
+namespace Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
 internal class CreateTimelineHandler(ITimelinesDbContext dbContext) : ICommandHandler<CreateTimelineCommand, CreateTimelineResult>
 {

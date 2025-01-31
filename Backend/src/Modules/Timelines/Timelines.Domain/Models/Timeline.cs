@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Domain.Timelines.Timeline.Events;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 namespace Timelines.Domain.Models;
 
