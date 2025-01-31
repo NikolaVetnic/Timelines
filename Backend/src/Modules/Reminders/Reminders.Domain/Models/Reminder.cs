@@ -1,6 +1,6 @@
 ﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using BuildingBlocks.Domain.Reminders.ValueObjects;
-using Reminders.Domain.Events;
+using BuildingBlocks.Domain.Reminders.Reminder.Events;
+using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 
 namespace Reminders.Domain.Models;
 
@@ -30,7 +30,7 @@ public class Reminder : Aggregate<ReminderId>
             NodeId = nodeId
         };
 
-        reminder.AddDomainEvent(new ReminderCreatedEvent(reminder));
+        reminder.AddDomainEvent(new ReminderCreatedEvent(reminder.Id));
 
         return reminder;
     }
@@ -44,7 +44,7 @@ public class Reminder : Aggregate<ReminderId>
         NotificationTime = notificationTime;
         Status = status;
 
-        AddDomainEvent(new ReminderUpdatedEvent(this));
+        AddDomainEvent(new ReminderUpdatedEvent(Id));
     }
 
     #endregion

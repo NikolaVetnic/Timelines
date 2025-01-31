@@ -1,5 +1,5 @@
 ﻿using BuildingBlocks.Application.Data;
-using BuildingBlocks.Domain.Reminders.ValueObjects;
+using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Reminders.Application.Data.Abstractions;
 
 namespace Reminders.Application.Entities.Reminders.Commands.CreateReminder;

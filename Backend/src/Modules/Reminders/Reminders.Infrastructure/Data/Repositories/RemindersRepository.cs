@@ -1,4 +1,4 @@
-using BuildingBlocks.Domain.Reminders.ValueObjects;
+using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Reminders.Application.Data.Abstractions;
 using Reminders.Application.Entities.Reminders.Exceptions;
 

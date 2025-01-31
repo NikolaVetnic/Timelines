@@ -1,4 +1,4 @@
-using BuildingBlocks.Domain.Reminders.ValueObjects;
+using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 
 namespace Reminders.Application.Data.Abstractions;
 

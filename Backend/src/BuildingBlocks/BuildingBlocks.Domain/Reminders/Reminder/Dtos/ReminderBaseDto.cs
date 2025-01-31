@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace BuildingBlocks.Domain.Reminders.Dtos;
+namespace BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 
 public class ReminderBaseDto(
     string? id,
