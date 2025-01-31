@@ -10,7 +10,7 @@ public class NodeBaseDto(
     int importance,
     string phase,
     List<string> categories,
-    List<string> tags) // todo: Refactor this so that it extends NodeBaseDto
+    List<string> tags)
 {
     [JsonPropertyName("id")] public string? Id { get; } = id;
 

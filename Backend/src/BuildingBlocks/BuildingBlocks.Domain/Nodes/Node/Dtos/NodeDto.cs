@@ -11,23 +11,7 @@ public class NodeDto(
     int importance,
     string phase,
     List<string> categories,
-    List<string> tags)
+    List<string> tags) : NodeBaseDto(id, title, description, timestamp, importance, phase, categories, tags)
 {
-    [JsonPropertyName("id")] public string? Id { get; } = id;
-
-    [JsonPropertyName("title")] public string Title { get; } = title;
-
-    [JsonPropertyName("description")] public string Description { get; } = description;
-
-    [JsonPropertyName("timestamp")] public DateTime Timestamp { get; } = timestamp;
-
-    [JsonPropertyName("importance")] public int Importance { get; } = importance;
-
-    [JsonPropertyName("phase")] public string Phase { get; } = phase;
-
-    [JsonPropertyName("categories")] public List<string> Categories { get; } = categories;
-
-    [JsonPropertyName("tags")] public List<string> Tags { get; } = tags;
-    
     [JsonPropertyName("reminders")] public List<ReminderBaseDto> Reminders { get; } = [];
 }
