@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Domain.ValueObjects.Ids;
+﻿using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
+using BuildingBlocks.Domain.ValueObjects.Ids;
 using Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
 // ReSharper disable ClassNeverInstantiated.Global
