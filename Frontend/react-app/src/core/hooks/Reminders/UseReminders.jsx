@@ -17,8 +17,8 @@ const useReminders = (timelineData) => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            checkAndScheduleReminders(remindersRef.current, setReminders);
-        }, 60000);
+            checkAndScheduleReminders(setReminders);
+        }, 30000);
         
         return () => clearInterval(interval);
     }, []);
