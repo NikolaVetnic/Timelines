@@ -1,4 +1,4 @@
-﻿using Timelines.Domain.Events;
+﻿using BuildingBlocks.Domain.Timelines.Timeline.Events;
 
 namespace Timelines.Domain.Models;
 
@@ -16,7 +16,7 @@ public class Timeline : Aggregate<TimelineId>
             Title = title
         };
 
-        timeline.AddDomainEvent(new TimelineCreatedEvent(timeline));
+        timeline.AddDomainEvent(new TimelineCreatedEvent(timeline.Id));
 
         return timeline;
     }
@@ -25,7 +25,7 @@ public class Timeline : Aggregate<TimelineId>
     {
         Title = title;
 
-        AddDomainEvent(new TimelineUpdatedEvent(this));
+        AddDomainEvent(new TimelineUpdatedEvent(Id));
     }
 
     #endregion
