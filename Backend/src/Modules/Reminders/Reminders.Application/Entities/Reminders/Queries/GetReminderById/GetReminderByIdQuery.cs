@@ -1,7 +1,7 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
 
-using BuildingBlocks.Domain.Reminders.Dtos;
-using BuildingBlocks.Domain.Reminders.ValueObjects;
+using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
+using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 
 namespace Reminders.Application.Entities.Reminders.Queries.GetReminderById;
 

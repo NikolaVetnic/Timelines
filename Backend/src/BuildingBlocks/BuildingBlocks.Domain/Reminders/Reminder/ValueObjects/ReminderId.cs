@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using BuildingBlocks.Domain.Abstractions;
 
-namespace BuildingBlocks.Domain.Reminders.ValueObjects;
+namespace BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 
 [JsonConverter(typeof(ReminderIdJsonConverter))]
 public class ReminderId : StronglyTypedId
