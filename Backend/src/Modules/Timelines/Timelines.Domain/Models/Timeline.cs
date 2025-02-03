@@ -38,13 +38,13 @@ public class Timeline : Aggregate<TimelineId>
 
     #region Nodes
 
-    public void AddNodes(NodeId nodeId)
+    public void AddNode(NodeId nodeId)
     {
         if (!NodeIds.Contains(nodeId))
             NodeIds.Add(nodeId);
     }
 
-    public void RemoveNodes(NodeId nodeId)
+    public void RemoveNode(NodeId nodeId)
     {
         if (NodeIds.Contains(nodeId))
             NodeIds.Remove(nodeId);
