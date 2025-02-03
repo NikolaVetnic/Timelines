@@ -1,4 +1,5 @@
-﻿using Timelines.Application.Entities.Timelines.Exceptions;
+﻿using Timelines.Application.Data.Abstractions;
+using Timelines.Application.Entities.Timelines.Exceptions;
 
 namespace Timelines.Application.Entities.Timelines.Commands.DeleteTimeline;
 

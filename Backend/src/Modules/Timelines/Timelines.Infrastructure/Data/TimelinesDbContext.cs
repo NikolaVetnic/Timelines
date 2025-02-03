@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Timelines.Application.Data;
+using Timelines.Application.Data.Abstractions;
 
 namespace Timelines.Infrastructure.Data;
 

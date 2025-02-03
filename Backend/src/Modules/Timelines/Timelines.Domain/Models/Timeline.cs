@@ -1,10 +1,14 @@
-﻿using Timelines.Domain.Events;
+﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Timeline.Events;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 namespace Timelines.Domain.Models;
 
 public class Timeline : Aggregate<TimelineId>
 {
     public required string Title { get; set; }
+
+    public List<NodeId> NodeIds { get; set; } = [];
 
     #region Timeline
 
@@ -16,7 +20,9 @@ public class Timeline : Aggregate<TimelineId>
             Title = title
         };
 
-        timeline.AddDomainEvent(new TimelineCreatedEvent(timeline));
+        timeline.NodeIds = [];
+
+        timeline.AddDomainEvent(new TimelineCreatedEvent(timeline.Id));
 
         return timeline;
     }
@@ -25,7 +31,23 @@ public class Timeline : Aggregate<TimelineId>
     {
         Title = title;
 
-        AddDomainEvent(new TimelineUpdatedEvent(this));
+        AddDomainEvent(new TimelineUpdatedEvent(Id));
+    }
+
+    #endregion
+
+    #region Nodes
+
+    public void AddNode(NodeId nodeId)
+    {
+        if (!NodeIds.Contains(nodeId))
+            NodeIds.Add(nodeId);
+    }
+
+    public void RemoveNode(NodeId nodeId)
+    {
+        if (NodeIds.Contains(nodeId))
+            NodeIds.Remove(nodeId);
     }
 
     #endregion

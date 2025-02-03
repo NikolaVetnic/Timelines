@@ -2,6 +2,7 @@
 using BuildingBlocks.Domain.Nodes.Node.Events;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Nodes.Domain.Models;
@@ -22,11 +23,12 @@ public class Node : Aggregate<NodeId>
     public required int Importance { get; set; }
     public required string Phase { get; set; }
     public List<ReminderId> ReminderIds { get; set; } = [];
+    public required TimelineId TimelineId { get; set; }
 
     #region Node
 
     public static Node Create(NodeId id, string title, string description, string phase,
-        DateTime timestamp, int importance, List<string> categories, List<string> tags)
+        DateTime timestamp, int importance, List<string> categories, List<string> tags, TimelineId timelineId)
     {
         var node = new Node
         {
@@ -35,7 +37,8 @@ public class Node : Aggregate<NodeId>
             Description = description,
             Timestamp = timestamp,
             Importance = importance,
-            Phase = phase
+            Phase = phase,
+            TimelineId = timelineId
         };
 
         foreach (var category in categories)

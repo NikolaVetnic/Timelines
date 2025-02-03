@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
-using Timelines.Application.Data;
+using Timelines.Application.Data.Abstractions;
 
 namespace Timelines.Infrastructure.Data.Extensions;
 

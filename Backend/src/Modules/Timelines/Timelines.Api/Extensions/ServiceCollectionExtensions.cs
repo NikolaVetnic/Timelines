@@ -1,6 +1,8 @@
 using BuildingBlocks.Api.Converters;
+using BuildingBlocks.Application.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Timelines.Application.Data;
 using Timelines.Application.Extensions;
 using Timelines.Infrastructure.Data.Extensions;
 
@@ -21,6 +23,8 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
         TypeAdapterConfig.GlobalSettings.Scan(typeof(TimelineIdConverter).Assembly);
+
+        services.AddScoped<ITimelinesService, TimelinesService>();
 
         return services;
     }
