@@ -9,7 +9,6 @@ const NoteEditor = ({ selectedNote, editorContent, setEditorContent, handleSaveN
   return ReactDOM.createPortal(
     <div className="note-overlay">
       <div className="note-overlay-content">
-        {/* Header with Buttons */}
         <div className="note-header">
           <h2>{selectedNote.title}</h2>
           <div className="note-buttons">
@@ -18,11 +17,10 @@ const NoteEditor = ({ selectedNote, editorContent, setEditorContent, handleSaveN
           </div>
         </div>
         
-        {/* Markdown Editor */}
         <div className="editor-container">
           <MDEditor
             value={editorContent}
-            onChange={(val) => setEditorContent(val?.toString() || "")} // Convert to string
+            onChange={(val) => setEditorContent(val?.toString() || "")}
             height="100%"
           />
         </div>
