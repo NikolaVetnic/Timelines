@@ -22,13 +22,14 @@ internal static class CreateNodeCommandExtensions
     {
         return Node.Create(
             NodeId.Of(Guid.NewGuid()),
-            command.Node.Title,
-            command.Node.Description,
-            command.Node.Phase,
-            command.Node.Timestamp,
-            command.Node.Importance,
-            command.Node.Categories,
-            command.Node.Tags
+            command.Title,
+            command.Description,
+            command.Phase,
+            command.Timestamp,
+            command.Importance,
+            command.Categories,
+            command.Tags,
+            command.TimelineId
         );
     }
 }

@@ -19,9 +19,10 @@ public class Node : Aggregate<NodeId>
 
     public required string Title { get; set; }
     public required string Description { get; set; }
+    public required string Phase { get; set; }
     public required DateTime Timestamp { get; set; }
     public required int Importance { get; set; }
-    public required string Phase { get; set; }
+
     public List<ReminderId> ReminderIds { get; set; } = [];
     public required TimelineId TimelineId { get; set; }
 
