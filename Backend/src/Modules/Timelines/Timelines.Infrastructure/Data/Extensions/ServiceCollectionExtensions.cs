@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Timelines.Application.Data.Abstractions;
+using Timelines.Infrastructure.Data.Repositories;
 
 namespace Timelines.Infrastructure.Data.Extensions;
 
@@ -20,7 +21,7 @@ public static class ServiceCollectionExtensions
 
         // Register DbContext interface
         services.AddScoped<ITimelinesDbContext, TimelinesDbContext>();
-        services.AddScoped<ITimelinesRepository, ITimelinesRepository>();
+        services.AddScoped<ITimelinesRepository, TimelinesRepository>();
 
         return services;
     }

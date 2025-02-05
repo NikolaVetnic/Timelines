@@ -4,7 +4,7 @@ using Timelines.Application.Entities.Timelines.Exceptions;
 
 namespace Timelines.Infrastructure.Data.Repositories;
 
-public class TimelineRepository(ITimelinesDbContext dbContext) : ITimelinesRepository
+public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepository
 {
     public async Task<Timeline> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
