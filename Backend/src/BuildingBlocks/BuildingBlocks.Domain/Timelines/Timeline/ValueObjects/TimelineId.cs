@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using BuildingBlocks.Domain.Abstractions;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
@@ -12,6 +13,26 @@ public class TimelineId : StronglyTypedId
     public static TimelineId Of(Guid value) => new(value);
 
     public override string ToString() => Value.ToString();
+
+    public override bool Equals(object? obj)
+    {
+        return obj is TimelineId other && Value == other.Value;
+    }
+
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
+    }
+}
+
+public class TimelineIdValueConverter : ValueConverter<TimelineId, Guid>
+{
+    public TimelineIdValueConverter()
+        : base(
+            timelineId => timelineId.Value, // Convert from NodeId to Guid
+            guid => TimelineId.Of(guid)) // Convert from Guid to NodeId
+    {
+    }
 }
 
 public class TimelineIdJsonConverter : JsonConverter<TimelineId>
