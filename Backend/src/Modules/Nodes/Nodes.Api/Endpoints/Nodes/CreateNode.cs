@@ -1,5 +1,8 @@
+using System;
+using System.Collections.Generic;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Nodes.Application.Entities.Nodes.Commands.CreateNode;
 
 // ReSharper disable ClassNeverInstantiated.Global
@@ -30,11 +33,14 @@ public class CreateNode : ICarterModule
 
 public class CreateNodeRequest
 {
-    public CreateNodeRequest() { }
-
-    public CreateNodeRequest(NodeDto node) => Node = node;
-    
-    public NodeDto Node { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public DateTime Timestamp { get; set; }
+    public int Importance { get; set; }
+    public string Phase { get; set; }
+    public List<string> Categories { get; set; }
+    public List<string> Tags { get; set; }
+    public TimelineId TimelineId { get; set; }
 }
 
 public record CreateNodeResponse(NodeId Id);
