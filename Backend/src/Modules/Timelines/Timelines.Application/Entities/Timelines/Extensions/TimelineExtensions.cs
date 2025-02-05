@@ -1,4 +1,4 @@
-﻿using Timelines.Application.Entities.Timelines.Dtos;
+﻿using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 
 namespace Timelines.Application.Entities.Timelines.Extensions;
 

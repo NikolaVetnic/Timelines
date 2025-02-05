@@ -2,28 +2,31 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Nodes.Infrastructure.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using Timelines.Infrastructure.Data;
 
 #nullable disable
 
-namespace Nodes.Infrastructure.Data.Migrations
+namespace Timelines.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(NodesDbContext))]
-    partial class NodesDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(TimelinesDbContext))]
+    [Migration("20250205132743_AddNodes")]
+    partial class AddNodes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Nodes")
+                .HasDefaultSchema("Timelines")
                 .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Nodes.Domain.Models.Node", b =>
+            modelBuilder.Entity("Timelines.Domain.Models.Timeline", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -34,44 +37,23 @@ namespace Nodes.Infrastructure.Data.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<int>("Importance")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<string>("Phase")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ReminderIds")
+                    b.Property<string>("NodeIds")
                         .HasColumnType("text")
-                        .HasColumnName("ReminderIds");
-
-                    b.Property<Guid>("TimelineId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnName("NodeIds");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TimelineId");
-
-                    b.ToTable("Nodes", "Nodes");
+                    b.ToTable("Timelines", "Timelines");
                 });
 #pragma warning restore 612, 618
         }

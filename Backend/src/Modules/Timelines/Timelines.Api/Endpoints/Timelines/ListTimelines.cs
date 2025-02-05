@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Application.Pagination;
+using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 using Timelines.Application.Entities.Timelines.Queries.ListTimelines;
 
 namespace Timelines.Api.Endpoints.Timelines;

@@ -40,6 +40,10 @@ namespace Timelines.Infrastructure.Data.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
+                    b.Property<string>("NodeIds")
+                        .HasColumnType("text")
+                        .HasColumnName("NodeIds");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");

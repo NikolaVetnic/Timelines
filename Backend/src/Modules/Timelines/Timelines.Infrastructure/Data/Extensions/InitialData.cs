@@ -1,4 +1,6 @@
-﻿namespace Timelines.Infrastructure.Data.Extensions;
+﻿using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
+
+namespace Timelines.Infrastructure.Data.Extensions;
 
 internal static class InitialData
 {

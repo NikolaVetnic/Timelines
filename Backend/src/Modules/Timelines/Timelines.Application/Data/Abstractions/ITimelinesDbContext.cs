@@ -1,4 +1,4 @@
-﻿namespace Timelines.Application.Data;
+﻿namespace Timelines.Application.Data.Abstractions;
 
 public interface ITimelinesDbContext
 {

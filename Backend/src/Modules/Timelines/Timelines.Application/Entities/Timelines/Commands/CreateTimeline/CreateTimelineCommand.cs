@@ -1,4 +1,5 @@
-﻿using Timelines.Application.Entities.Timelines.Dtos;
+﻿using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 namespace Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
