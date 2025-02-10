@@ -16,5 +16,5 @@ public class NodeDto(
     TimelineBaseDto timeline) : NodeBaseDto(id, title, description, timestamp, importance, phase, categories, tags)
 {
     [JsonPropertyName("reminders")] public List<ReminderBaseDto> Reminders { get; } = [];
-    [JsonPropertyName("timelines")] public TimelineBaseDto Timelines { get; set; } = timeline;
+    [JsonPropertyName("timelines")] public TimelineBaseDto Timeline { get; set; } = timeline;
 }
