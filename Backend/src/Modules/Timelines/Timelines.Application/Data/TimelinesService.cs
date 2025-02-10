@@ -11,7 +11,7 @@ namespace Timelines.Application.Data;
 
 public class TimelinesService(ITimelinesRepository timelinesRepository, IServiceProvider serviceProvider) : ITimelinesService
 {
-    public async Task<TimelineDto> GetTimelineById(TimelineId timelineId, CancellationToken cancellationToken)
+    public async Task<TimelineDto> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
         var timelineDto = timeline.ToTimelineDto();

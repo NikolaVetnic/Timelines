@@ -6,7 +6,7 @@ namespace BuildingBlocks.Application.Data;
 
 public interface ITimelinesService
 {
-    Task<TimelineDto> GetTimelineById(TimelineId timelineId, CancellationToken cancellationToken);
+    Task<TimelineDto> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken);
     Task<TimelineBaseDto> GetTimelineBaseDtoAsync(TimelineId timelineId, CancellationToken cancellationToken);
     Task AddNode(TimelineId timelineId, NodeId nodeId, CancellationToken cancellationToken);
 }

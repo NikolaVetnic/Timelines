@@ -7,7 +7,7 @@ internal class GetTimelineByIdHandler(ITimelinesService timelinesService) : IQue
 {
     public async Task<GetTimelineByIdResult> Handle(GetTimelineByIdQuery query, CancellationToken cancellationToken)
     {
-        var timelineDto = await timelinesService.GetTimelineById(query.Id, cancellationToken);
+        var timelineDto = await timelinesService.GetTimelineByIdAsync(query.Id, cancellationToken);
 
         if (timelineDto is null)
             throw new TimelineNotFoundException(query.Id.ToString());
