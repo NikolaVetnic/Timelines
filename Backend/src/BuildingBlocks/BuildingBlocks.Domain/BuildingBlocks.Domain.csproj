@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Notes\Note\Events\" />
     <Folder Include="Notes\Note\ValueObjects\" />
   </ItemGroup>
 
