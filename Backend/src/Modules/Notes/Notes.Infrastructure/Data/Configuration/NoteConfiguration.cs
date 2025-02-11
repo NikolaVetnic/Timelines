@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Notes.Infrastructure.Data.Configuration;
 

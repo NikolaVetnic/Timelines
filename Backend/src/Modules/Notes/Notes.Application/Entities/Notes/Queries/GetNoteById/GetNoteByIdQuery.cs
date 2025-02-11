@@ -1,6 +1,7 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
 
 using BuildingBlocks.Domain.Notes.Note.Dtos;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 
 namespace Notes.Application.Entities.Notes.Queries.GetNoteById;
 

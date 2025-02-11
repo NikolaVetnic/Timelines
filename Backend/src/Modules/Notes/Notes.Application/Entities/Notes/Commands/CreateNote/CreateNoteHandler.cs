@@ -1,4 +1,6 @@
-﻿namespace Notes.Application.Entities.Notes.Commands.CreateNote;
+﻿using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+
+namespace Notes.Application.Entities.Notes.Commands.CreateNote;
 
 internal class CreateNoteHandler(INotesDbContext dbContext)
     : ICommandHandler<CreateNoteCommand, CreateNoteResult>

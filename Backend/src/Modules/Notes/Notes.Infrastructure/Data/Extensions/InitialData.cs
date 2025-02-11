@@ -1,4 +1,6 @@
-﻿namespace Notes.Infrastructure.Data.Extensions;
+﻿using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+
+namespace Notes.Infrastructure.Data.Extensions;
 
 internal static class InitialData
 {

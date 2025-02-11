@@ -1,5 +1,5 @@
 ﻿using BuildingBlocks.Domain.Notes.Note.Dtos;
-using BuildingBlocks.Domain.ValueObjects.Ids;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Notes.Application.Entities.Notes.Commands.CreateNote;
 
 namespace Notes.Api.Endpoints.Notes;
