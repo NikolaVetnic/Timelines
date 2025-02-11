@@ -1,5 +1,21 @@
-﻿namespace BuildingBlocks.Domain.Notes.Note.Dtos;
+﻿using System.Text.Json.Serialization;
 
-public class NoteBaseDto
+namespace BuildingBlocks.Domain.Notes.Note.Dtos;
+
+public class NoteBaseDto(
+    string? id,
+    string title,
+    string content, 
+    DateTime timestamp,
+    int importance)
 {
+    [JsonPropertyName("id")] public string? Id { get; } = id;
+
+    [JsonPropertyName("title")] public string Title { get; } = title;
+
+    [JsonPropertyName("title")] public string Content { get; } = content;
+
+    [JsonPropertyName("timestamp")] public DateTime Timestamp { get; } = timestamp;
+
+    [JsonPropertyName("importance")] public int Importance { get; } = importance;
 }
