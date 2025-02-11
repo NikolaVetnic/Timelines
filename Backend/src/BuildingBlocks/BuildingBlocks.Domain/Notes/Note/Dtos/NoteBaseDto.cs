@@ -13,7 +13,7 @@ public class NoteBaseDto(
 
     [JsonPropertyName("title")] public string Title { get; } = title;
 
-    [JsonPropertyName("title")] public string Content { get; } = content;
+    [JsonPropertyName("content")] public string Content { get; } = content;
 
     [JsonPropertyName("timestamp")] public DateTime Timestamp { get; } = timestamp;
 
