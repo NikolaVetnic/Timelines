@@ -13,6 +13,9 @@ public class CreateNoteCommandValidator : AbstractValidator<CreateNoteCommand>
     {
         RuleFor(x => x.Note.Title).NotEmpty().WithMessage("Title is required.");
         RuleFor(x => x.Note.Content).NotEmpty().WithMessage("Content is required.");
-        RuleFor(x => x.Note.Importance).NotEmpty().WithMessage("Importance level is required.");
+        RuleFor(x => x.Note.Timestamp).NotEmpty().WithMessage("Timestamp is required.");
+        RuleFor(x => x.Note.Owner).NotEmpty().WithMessage("Owner is required.");
+        RuleFor(x => x.Note.IsPublic).NotEmpty().WithMessage("Please specify whether the note is public or private.");
+
     }
 }

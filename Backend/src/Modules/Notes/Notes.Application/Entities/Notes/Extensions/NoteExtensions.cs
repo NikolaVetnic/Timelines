@@ -11,7 +11,10 @@ public static class NoteExtensions
             note.Title,
             note.Content,
             note.Timestamp,
-            note.Importance);
+            note.Owner,
+            note.RelatedNotes,
+            note.SharedWith,
+            note.IsPublic);
     }
 
     public static IEnumerable<NoteDto> ToNodeDtoList(this IEnumerable<Note> notes)

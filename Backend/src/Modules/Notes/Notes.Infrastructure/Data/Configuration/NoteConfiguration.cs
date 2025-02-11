@@ -14,6 +14,9 @@ public class NoteConfiguration : IEntityTypeConfiguration<Note>
         builder.Property(n => n.Title);
         builder.Property(n => n.Content);
         builder.Property(n => n.Timestamp);
-        builder.Property(n => n.Importance);
+        builder.Property(n => n.Owner);
+        builder.Property(n => n.RelatedNotes);
+        builder.Property(n => n.SharedWith);
+        builder.Property(n => n.IsPublic);
     }
 }

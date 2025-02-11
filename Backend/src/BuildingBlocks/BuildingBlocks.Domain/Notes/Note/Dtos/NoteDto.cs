@@ -1,11 +1,15 @@
-﻿namespace BuildingBlocks.Domain.Notes.Note.Dtos;
+﻿using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+
+namespace BuildingBlocks.Domain.Notes.Note.Dtos;
 
 public class NoteDto(
-    string id,
+    string? id,
     string title,
     string content,
     DateTime timestamp,
-    int importance) : NoteBaseDto(id, title, content, timestamp, importance)
+    string owner,
+    List<NoteId> relatedNotes,
+    List<string> sharedWith,
+    bool isPublic) : NoteBaseDto(id, title, content, timestamp, owner, relatedNotes, sharedWith, isPublic)
 {
-
 }

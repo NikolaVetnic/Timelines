@@ -12,7 +12,9 @@ internal static class InitialData
                 "Check time!",
                 "Check for the exact time of the Court Proceedings.",
                 DateTime.UtcNow,
-                0
+                "Timo",
+                ["Michael", "Dirk"],
+                false
             ),
 
             Note.Create(
@@ -20,7 +22,9 @@ internal static class InitialData
                 "Additional documents",
                 "Make sure you bring both folders.",
                 DateTime.UtcNow,
-                1
+                "Thomas",
+                ["Daniel","Claus"],
+                true
             )
         };
 }
