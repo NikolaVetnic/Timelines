@@ -1,6 +1,6 @@
 ﻿namespace BuildingBlocks.Domain.Notes.Note.Dtos;
 
-public record NoteDto(
+public class NoteDto(
     string Id,
     string Title,
     string Content,
