@@ -17,10 +17,9 @@ public class NodesService(INodesRepository nodesRepository, IServiceProvider ser
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
 
         var timelineService = serviceProvider.GetRequiredService<ITimelinesService>();
-        var timeline = timelineService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
-        var timelineBaseDto = timeline.Adapt<TimelineBaseDto>();
+        var timeline = await timelineService.GetTimelineBaseDtoAsync(node.TimelineId, cancellationToken);
 
-        var nodeDto = node.ToNodeDto(timelineBaseDto);
+        var nodeDto = node.ToNodeDto(timeline);
 
         var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
 
