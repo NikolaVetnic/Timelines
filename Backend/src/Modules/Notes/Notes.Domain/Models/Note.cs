@@ -1,5 +1,7 @@
 ﻿using BuildingBlocks.Domain.Notes.Note.Events;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Text.Json;
 
 namespace Notes.Domain.Models;
 
@@ -80,3 +82,13 @@ public class Note : Aggregate<NoteId>
 
     #endregion
 }
+
+public class RelatedNoteIdListConverter() : ValueConverter<List<NoteId>, string>(
+    list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),
+    json => JsonSerializer.Deserialize<List<NoteId>>(json, new JsonSerializerOptions()) ?? new List<NoteId>());
+
+public class StringListConverter() : ValueConverter<List<string>, string>(
+    list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),
+    json => JsonSerializer.Deserialize<List<string>>(json, new JsonSerializerOptions()) ?? new List<string>());
+
+
