@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.Domain.Abstractions;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 
@@ -13,28 +12,7 @@ public class NoteId : StronglyTypedId
     public static NoteId Of(Guid value) => new(value);
 
     public override string ToString() => Value.ToString();
-
-    public override bool Equals(object? obj)
-    {
-        return obj is NoteId other && Value == other.Value;
-    }
-
-    public override int GetHashCode()
-    {
-        return Value.GetHashCode();
-    }
 }
-
-public class NoteIdValueConverter : ValueConverter<NoteId, Guid>
-{
-    public NoteIdValueConverter()
-        : base(
-            noteId => noteId.Value, // Convert from NoteId to Guid
-            guid => NoteId.Of(guid)) // Convert from Guid to NoteId
-    {
-    }
-}
-
 
 public class NoteIdJsonConverter : JsonConverter<NoteId>
 {
@@ -44,27 +22,27 @@ public class NoteIdJsonConverter : JsonConverter<NoteId>
         switch (reader.TokenType)
         {
             case JsonTokenType.String:
-                {
-                    var guidString = reader.GetString();
-                    if (!Guid.TryParse(guidString, out var guid))
-                        throw new JsonException($"Invalid GUID format for NoteId: {guidString}");
+            {
+                var guidString = reader.GetString();
+                if (!Guid.TryParse(guidString, out var guid))
+                    throw new JsonException($"Invalid GUID format for NoteId: {guidString}");
 
-                    return NoteId.Of(guid);
-                }
+                return NoteId.Of(guid);
+            }
             case JsonTokenType.StartObject:
-                {
-                    using var jsonDoc = JsonDocument.ParseValue(ref reader);
+            {
+                using var jsonDoc = JsonDocument.ParseValue(ref reader);
 
-                    if (!jsonDoc.RootElement.TryGetProperty("id", out JsonElement idElement))
-                        throw new JsonException("Expected property 'id' not found.");
+                if (!jsonDoc.RootElement.TryGetProperty("id", out JsonElement idElement))
+                    throw new JsonException("Expected property 'id' not found.");
 
-                    var guidString = idElement.GetString();
+                var guidString = idElement.GetString();
 
-                    if (!Guid.TryParse(guidString, out var guid))
-                        throw new JsonException($"Invalid GUID format for NoteId: {guidString}");
+                if (!Guid.TryParse(guidString, out var guid))
+                    throw new JsonException($"Invalid GUID format for NoteId: {guidString}");
 
-                    return NoteId.Of(guid);
-                }
+                return NoteId.Of(guid);
+            }
             default:
                 throw new JsonException(
                     $"Unexpected token parsing NoteId. Expected String or StartObject, got {reader.TokenType}.");
