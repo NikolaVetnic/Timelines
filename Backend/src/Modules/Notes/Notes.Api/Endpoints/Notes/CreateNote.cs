@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Domain.Notes.Note.Dtos;
+﻿using System;
+using System.Collections.Generic;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Notes.Application.Entities.Notes.Commands.CreateNote;
 
@@ -24,6 +25,14 @@ public class CreateNote : ICarterModule
     }
 }
 
-public record CreateNoteRequest(NoteDto Note);
+public record CreateNoteRequest
+{
+    public string Title { get; set; }
+    public string Content { get; set; }
+    public DateTime Timestamp { get; set; }
+    public string Owner { get; set; }
+    public List<string> SharedWith { get; set; }
+    public bool IsPublic { get; set; }
+}
 
 public record CreateNoteResponse(NoteId Id);

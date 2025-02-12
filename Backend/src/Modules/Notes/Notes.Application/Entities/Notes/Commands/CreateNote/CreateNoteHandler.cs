@@ -23,12 +23,12 @@ internal static class CreateNoteCommandExtensions
     {
         return Note.Create(
             NoteId.Of(Guid.NewGuid()),
-            command.Note.Title,
-            command.Note.Content,
-            command.Note.Timestamp,
-            command.Note.Owner,
-            command.Note.SharedWith,
-            command.Note.IsPublic
+            command.Title,
+            command.Content,
+            command.Timestamp,
+            command.Owner,
+            command.SharedWith,
+            command.IsPublic
         );
     }
 }
