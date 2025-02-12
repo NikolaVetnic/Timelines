@@ -1,7 +1,6 @@
 ﻿using Notes.Application.Data.Abstractions;
 using System.Reflection;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 
 namespace Notes.Infrastructure.Data;
 
