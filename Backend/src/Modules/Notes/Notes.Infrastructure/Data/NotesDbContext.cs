@@ -1,5 +1,6 @@
 ﻿using Notes.Application.Data.Abstractions;
 using System.Reflection;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 
 namespace Notes.Infrastructure.Data;
 
@@ -40,6 +41,14 @@ public class NotesDbContext(DbContextOptions<NotesDbContext> options)
                 .HasConversion(new StringListConverter())
                 .HasColumnName("SharedWith")
                 .IsRequired(false);
+
+            entity.Property(r => r.NodeId).IsRequired();
+            entity.HasIndex(r => r.NodeId); // Add an index for efficient querying
+
+            // Configure NodeId with the value converter
+            entity.Property(r => r.NodeId)
+                .HasConversion(new NoteIdValueConverter()) // Apply the value converter
+                .IsRequired();
 
         });
 

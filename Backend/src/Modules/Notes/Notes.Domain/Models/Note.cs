@@ -2,6 +2,7 @@
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Text.Json;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 
 namespace Notes.Domain.Models;
 
@@ -14,10 +15,11 @@ public class Note : Aggregate<NoteId>
     public List<NoteId> RelatedNotes { get; set; } = [];
     public List<string> SharedWith { get; set; } = [];
     public required bool IsPublic { get; set; }
+    public required NodeId NodeId { get; set; }
 
     #region Note
 
-    public static Note Create(NoteId id, string title, string content, DateTime timestamp, string owner, List<string> sharedWith, bool isPublic)
+    public static Note Create(NoteId id, string title, string content, DateTime timestamp, string owner, List<string> sharedWith, bool isPublic, NodeId nodeId)
     {
         var note = new Note
         {
@@ -26,7 +28,8 @@ public class Note : Aggregate<NoteId>
             Content = content,
             Timestamp = timestamp,
             Owner = owner,
-            IsPublic = isPublic
+            IsPublic = isPublic,
+            NodeId = nodeId
         };
 
         foreach (var user in sharedWith)
@@ -90,5 +93,3 @@ public class RelatedNoteIdListConverter() : ValueConverter<List<NoteId>, string>
 public class StringListConverter() : ValueConverter<List<string>, string>(
     list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),
     json => JsonSerializer.Deserialize<List<string>>(json, new JsonSerializerOptions()) ?? new List<string>());
-
-
