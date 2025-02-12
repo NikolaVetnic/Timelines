@@ -4,8 +4,7 @@ using Notes.Application.Data.Abstractions;
 
 namespace Notes.Application.Entities.Notes.Commands.CreateNote;
 
-internal class CreateNoteHandler(INotesDbContext dbContext, INodesService nodeService)
-    : ICommandHandler<CreateNoteCommand, CreateNoteResult>
+internal class CreateNoteHandler(INotesDbContext dbContext, INodesService nodesService) : ICommandHandler<CreateNoteCommand, CreateNoteResult>
 {
     public async Task<CreateNoteResult> Handle(CreateNoteCommand command, CancellationToken cancellationToken)
     {
@@ -14,7 +13,7 @@ internal class CreateNoteHandler(INotesDbContext dbContext, INodesService nodeSe
         dbContext.Notes.Add(note);
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        await nodeService.AddNote(note.NodeId, note.Id, cancellationToken);
+        await nodesService.AddNote(note.NodeId, note.Id, cancellationToken);
 
         return new CreateNoteResult(note.Id);
     }
