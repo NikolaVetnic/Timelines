@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.Application.Data;
-using Notes.Application.Data;
 
 namespace Notes.Infrastructure.Data.Extensions;
 
