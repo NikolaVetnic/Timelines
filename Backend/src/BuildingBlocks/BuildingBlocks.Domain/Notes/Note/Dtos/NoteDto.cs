@@ -15,5 +15,5 @@ public class NoteDto(
     bool isPublic,
     NodeBaseDto node) : NoteBaseDto(id, title, content, timestamp, owner, relatedNotes, sharedWith, isPublic)
 {
-    [JsonPropertyName("note")] public NodeBaseDto Node { get; set; } = node;
+    [JsonPropertyName("node")] public NodeBaseDto Node { get; set; } = node;
 }
