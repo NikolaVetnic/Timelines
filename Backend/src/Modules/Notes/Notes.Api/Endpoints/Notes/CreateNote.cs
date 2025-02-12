@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Notes.Application.Entities.Notes.Commands.CreateNote;
 
@@ -33,6 +34,7 @@ public record CreateNoteRequest
     public string Owner { get; set; }
     public List<string> SharedWith { get; set; }
     public bool IsPublic { get; set; }
+    public NodeId NodeId { get; set; }
 }
 
 public record CreateNoteResponse(NoteId Id);

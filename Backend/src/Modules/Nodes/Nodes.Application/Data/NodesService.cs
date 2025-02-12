@@ -1,6 +1,7 @@
 using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,14 @@ public class NodesService(INodesRepository nodesRepository, IServiceProvider ser
             nodeDto.Reminders.Add(reminder);
         }
 
+        var notesService = serviceProvider.GetRequiredService<INotesService>();
+
+        foreach (var noteId in node.NoteIds)
+        {
+            var note = await notesService.GetNoteBaseByIdAsync(noteId, cancellationToken);
+            nodeDto.Notes.Add(note);
+        }
+
         return nodeDto;
     }
 
@@ -39,6 +48,14 @@ public class NodesService(INodesRepository nodesRepository, IServiceProvider ser
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
         node.AddReminder(reminderId);
+
+        await nodesRepository.UpdateNodeAsync(node, cancellationToken);
+    }
+
+    public async Task AddNote(NodeId nodeId, NoteId noteId, CancellationToken cancellationToken)
+    {
+        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        node.AddNote(noteId);
 
         await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }

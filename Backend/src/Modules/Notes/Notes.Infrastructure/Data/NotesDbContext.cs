@@ -1,5 +1,6 @@
 ﻿using Notes.Application.Data.Abstractions;
 using System.Reflection;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 
 namespace Notes.Infrastructure.Data;
@@ -47,7 +48,7 @@ public class NotesDbContext(DbContextOptions<NotesDbContext> options)
 
             // Configure NodeId with the value converter
             entity.Property(r => r.NodeId)
-                .HasConversion(new NoteIdValueConverter()) // Apply the value converter
+                .HasConversion(new NodeIdValueConverter()) // Apply the value converter
                 .IsRequired();
 
         });

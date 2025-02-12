@@ -1,9 +1,10 @@
-﻿using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+﻿using BuildingBlocks.Application.Data;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Notes.Application.Data.Abstractions;
 
 namespace Notes.Application.Entities.Notes.Commands.CreateNote;
 
-internal class CreateNoteHandler(INotesDbContext dbContext)
+internal class CreateNoteHandler(INotesDbContext dbContext, INodesService nodeService)
     : ICommandHandler<CreateNoteCommand, CreateNoteResult>
 {
     public async Task<CreateNoteResult> Handle(CreateNoteCommand command, CancellationToken cancellationToken)
@@ -12,6 +13,8 @@ internal class CreateNoteHandler(INotesDbContext dbContext)
 
         dbContext.Notes.Add(note);
         await dbContext.SaveChangesAsync(cancellationToken);
+
+        await nodeService.AddNote(note.NodeId, note.Id, cancellationToken);
 
         return new CreateNoteResult(note.Id);
     }
@@ -28,7 +31,8 @@ internal static class CreateNoteCommandExtensions
             command.Timestamp,
             command.Owner,
             command.SharedWith,
-            command.IsPublic
+            command.IsPublic,
+            command.NodeId
         );
     }
 }

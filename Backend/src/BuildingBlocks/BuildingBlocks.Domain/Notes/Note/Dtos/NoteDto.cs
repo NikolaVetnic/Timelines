@@ -1,4 +1,6 @@
-﻿using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+﻿using System.Text.Json.Serialization;
+using BuildingBlocks.Domain.Nodes.Node.Dtos;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 
 namespace BuildingBlocks.Domain.Notes.Note.Dtos;
 
@@ -10,6 +12,8 @@ public class NoteDto(
     string owner,
     List<NoteId> relatedNotes,
     List<string> sharedWith,
-    bool isPublic) : NoteBaseDto(id, title, content, timestamp, owner, relatedNotes, sharedWith, isPublic)
+    bool isPublic,
+    NodeBaseDto node) : NoteBaseDto(id, title, content, timestamp, owner, relatedNotes, sharedWith, isPublic)
 {
+    [JsonPropertyName("note")] public NodeBaseDto Node { get; set; } = node;
 }
