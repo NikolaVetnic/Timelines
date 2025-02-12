@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+using Notes.Application.Data.Abstractions;
 
 namespace Notes.Application.Entities.Notes.Commands.CreateNote;
 

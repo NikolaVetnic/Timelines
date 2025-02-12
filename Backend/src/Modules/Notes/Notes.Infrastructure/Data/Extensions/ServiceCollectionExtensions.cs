@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
-using Notes.Application.Data;
+using Notes.Application.Data.Abstractions;
 
 namespace Notes.Infrastructure.Data.Extensions;
 

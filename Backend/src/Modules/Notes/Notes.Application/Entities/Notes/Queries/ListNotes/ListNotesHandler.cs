@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.Notes.Note.Dtos;
+using Notes.Application.Data.Abstractions;
 using Notes.Application.Entities.Notes.Extensions;
 
 namespace Notes.Application.Entities.Notes.Queries.ListNotes;

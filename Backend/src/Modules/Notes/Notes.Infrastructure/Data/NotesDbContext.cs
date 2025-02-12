@@ -1,4 +1,4 @@
-﻿using Notes.Application.Data;
+﻿using Notes.Application.Data.Abstractions;
 using System.Reflection;
 
 namespace Notes.Infrastructure.Data;
