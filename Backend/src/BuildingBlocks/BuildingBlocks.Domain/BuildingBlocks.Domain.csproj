@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Files\File\Events\" />
     <Folder Include="Files\File\ValueObjects\" />
   </ItemGroup>
 
