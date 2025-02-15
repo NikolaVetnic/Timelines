@@ -7,4 +7,7 @@ public class FileAssetDto(
     string type,
     string owner,
     string description,
-    List<string> sharedWith);
+    List<string> sharedWith) : FileAssetBaseDto(id, name, size, type, owner, description, sharedWith)
+{
+
+}
