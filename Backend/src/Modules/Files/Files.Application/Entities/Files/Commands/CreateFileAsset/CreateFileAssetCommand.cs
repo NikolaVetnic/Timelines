@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Domain.Files.File.Dtos;
+using BuildingBlocks.Domain.Files.File.ValueObjects;
 
 namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
 

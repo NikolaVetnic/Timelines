@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Domain.Files.File.Events;
+using BuildingBlocks.Domain.Files.File.ValueObjects;
 
 namespace Files.Domain.Models;
 

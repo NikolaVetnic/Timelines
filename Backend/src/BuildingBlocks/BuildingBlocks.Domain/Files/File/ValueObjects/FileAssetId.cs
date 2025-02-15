@@ -1,6 +1,6 @@
 ﻿using BuildingBlocks.Domain.Abstractions;
 
-namespace BuildingBlocks.Domain.ValueObjects.Ids;
+namespace BuildingBlocks.Domain.Files.File.ValueObjects;
 
 public class FileAssetId : StronglyTypedId
 {
