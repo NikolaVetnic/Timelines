@@ -123,11 +123,11 @@ const File = ({ nodeId, timelineId, onToggle }) => {
   const handlePreview = (file) => {
     if (file.type.startsWith("image/")) {
       const previewWindow = window.open();
-      previewWindow.document.write(`<img src="${file.url}" style="max-width:100%;" />`);
+      previewWindow.document.writeln(`<img src="${file.url}" style="max-width:100%;" />`);
     } 
     else if (file.type === "application/pdf") {
       const previewWindow = window.open();
-      previewWindow.document.write(`
+      previewWindow.document.writeln(`
         <embed src="${file.url}" type="application/pdf" width="100%" height="100%" style="border:none;">
       `);
     }
@@ -136,9 +136,9 @@ const File = ({ nodeId, timelineId, onToggle }) => {
         .then(response => response.text())
         .then(text => {
           const previewWindow = window.open();
-          previewWindow.document.write(`<pre style="white-space: pre-wrap;">${text}</pre>`);
+          previewWindow.document.writeln(`<pre style="white-space: pre-wrap;">${text}</pre>`);
         })
-        .catch(error => toast.error("❌ Error loading text file."));
+        .catch(() => toast.error("❌ Error loading text file."));
     }
     else if (
       file.name.endsWith(".doc") || file.name.endsWith(".docx") || 
