@@ -6,6 +6,7 @@ import RemoveButton from "../../../../core/components/buttons/RemoveButton/Remov
 import "./File.css";
 
 const LOCAL_STORAGE_KEY = "timelineData";
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 const File = ({ nodeId, timelineId, onToggle }) => {
   const [files, setFiles] = useState([]);
@@ -42,22 +43,32 @@ const File = ({ nodeId, timelineId, onToggle }) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result); // Base64 encoding
+      reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
   };
   
   const onDrop = useCallback(
     async (acceptedFiles) => {
+      const validFiles = acceptedFiles.filter(file => {
+        if (file.size > MAX_FILE_SIZE) {
+          toast.error(`❌ File "${file.name}" exceeds the 10MB limit.`);
+          return false;
+        }
+        return true;
+      });
+  
+      if (validFiles.length === 0) return;
+  
       const newFiles = await Promise.all(
-        acceptedFiles.map(async (file) => {
-          const base64 = await fileToBase64(file); // Convert to Base64
+        validFiles.map(async (file) => {
+          const base64 = await fileToBase64(file);
           return {
             id: new Date().getTime().toString(),
             name: file.name,
             size: file.size,
             type: file.type,
-            url: base64, // Store Base64 instead of Blob URL
+            url: base64,
           };
         })
       );
