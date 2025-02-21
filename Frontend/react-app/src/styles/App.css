@@ -5,20 +5,20 @@
     --enmOrange: #e76a29;
     --enmBlue: #1d377f;
     --enmGray: #908f8f;
-    --backGroundHeader: #007bff;
+    --backgroundHeader: #007bff;
     --noteHeader: #E5FFDE;
     --remindersHeader: #475B5A;
     --filesHeader: #DDC4DD;
-    --Success: #4cae4c;
-    --Error: #c9302c;
-    --BackgroundStripe: #333;
+    --success: #4cae4c;
+    --error: #c9302c;
+    --backgroundStripe: #333;
 }
 
 /* Body Styling */
 body {
     font-family: 'Arial', sans-serif;
     background-color: var(--enmGray);
-    color: var(--BackgroundStripe);
+    color: var(--backgroundStripe);
     margin: 0;
     padding: 0;
     overflow: hidden;

@@ -22,7 +22,7 @@
 }
 
 .notes-header:hover {
-    color: var(--backGroundHeader);
+    color: var(--backgroundHeader);
 }
 
 .notes-header h4 {
@@ -32,7 +32,7 @@
 }
 
 .notes-header:hover h4 {
-    color: var(--backGroundHeader);
+    color: var(--backgroundHeader);
 }
 
 

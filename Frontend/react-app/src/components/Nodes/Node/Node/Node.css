@@ -26,7 +26,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: var(--backGroundHeader);
+    background-color: var(--backgroundHeader);
     color: #fff;
     cursor: pointer;
 }
