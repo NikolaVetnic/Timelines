@@ -65,7 +65,6 @@ const CreateNodeModal = ({ isOpen, onClose, selectedTimeline, setTimelineData, t
             .filter(category => category.length > 0);
     };
 
-
     const handleSave = () => {
         if (!selectedTimeline) return;
 

@@ -82,7 +82,6 @@ const File = ({ nodeId, timelineId, onToggle }) => {
     [files, onToggle, updateLocalStorage]
   );
   
-
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
@@ -152,7 +151,6 @@ const File = ({ nodeId, timelineId, onToggle }) => {
       toast.error("❌ Preview not supported for this file type.");
     }
   };
-  
   
   return (
     <div className="files-section">

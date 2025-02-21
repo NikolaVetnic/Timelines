@@ -55,7 +55,6 @@ const Tags = ({ timelineId, nodeId, setModalActive }) => {
         setModalActive(false);
     };
     
-
     return (
         <div className="tags-container">
             <div>
