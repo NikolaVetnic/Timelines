@@ -5,8 +5,8 @@ const recalculateStrip = (nodesRef) => {
 
         if (!firstNode || !lastNode) return {};
 
-        const topOffset = firstNode.offsetTop + firstNode.offsetHeight / 1;
-        const bottomOffset = lastNode.offsetTop + lastNode.offsetHeight / 1;
+        const topOffset = firstNode.offsetTop + firstNode.offsetHeight;
+        const bottomOffset = lastNode.offsetTop + lastNode.offsetHeight;
 
         return {
             top: `${topOffset}px`,
