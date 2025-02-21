@@ -21,7 +21,9 @@ body {
     color: var(--BackgroundStripe);
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    overflow: hidden;
+    height: 100%;
+
 }
 
 /* App Container Styling */
@@ -41,7 +43,6 @@ body {
     align-items: center;
     width: 800px;
     background-color: #fff;
-    border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 0 auto;
