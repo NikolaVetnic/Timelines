@@ -43,11 +43,11 @@ const Timeline = ({ selectedTimeline, setSelectedTimeline, setTimelineData, time
             <div className="timeline-strip" ref={stripRef} style={stripStyle}></div>
     
             <div className="timeline-nodes">
-                {selectedTimeline.nodes.map((item, index) => (
+                {selectedTimeline.nodes.map((node, index) => (
                     <Node
                         timelineId={selectedTimeline.id}
-                        key={item.id}
-                        item={item}
+                        key={node.id}
+                        node={node}
                         ref={(el) => {
                             if (el) {
                                 nodesRef.current[index] = el;
