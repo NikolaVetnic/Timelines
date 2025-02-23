@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { DAY } from "../../../data/constants";
 import checkAndScheduleReminders from "../../utils/CheckAndScheduleReminders";
 
 const useReminders = (timelineData) => {
@@ -18,7 +19,7 @@ const useReminders = (timelineData) => {
 
         const updateReminders = () => {
             checkAndScheduleReminders(setReminders);
-            setInterval(() => checkAndScheduleReminders(setReminders), 24 * 60 * 60 * 1000);
+            setInterval(() => checkAndScheduleReminders(setReminders), DAY);
         };
         
         const midnightTimeout = setTimeout(updateReminders, timeUntilMidnight);
