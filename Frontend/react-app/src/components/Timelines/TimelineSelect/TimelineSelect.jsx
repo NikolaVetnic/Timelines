@@ -6,7 +6,6 @@ const TimelineSelect = ({ onTimelineSelect }) => {
     const [selectedTimeline, setSelectedTimeline] = useState(null);
     const [timelineOptions, setTimelineOptions] = useState([]);
 
-    // todo: connect to backend
     useEffect(() => {
         const storedData = localStorage.getItem("timelineData");
         if (storedData) {

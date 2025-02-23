@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
-import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
+import "react-toastify/dist/ReactToastify.css";
 import RemoveButton from "../../../../core/components/buttons/RemoveButton/RemoveButton";
 import CreateReminderModal from "../../../../core/components/modals/CreateReminderModal/CreateReminderModal";
-
 import "./Reminder.css";
-import "react-toastify/dist/ReactToastify.css";
+
+const LOCAL_STORAGE_KEY = "timelineData";
 
 const Reminder = ({ nodeId, timelineId, onToggle }) => {
   const [isRemindersExpanded, setIsRemindersExpanded] = useState(false);

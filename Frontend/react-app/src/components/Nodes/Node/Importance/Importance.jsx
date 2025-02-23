@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-
-import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
 import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
 import IntegerModal from "../../../../core/components/modals/IntegerModal/IntegerModal";
 
 import "./Importance.css";
 
+const LOCAL_STORAGE_KEY = "timelineData";
+
 const Importance = ({ timelineId, nodeId, setModalActive }) => {
     const [importance, setImportance] = useState(0);
     const [isModalOpen, setModalOpen] = useState(false);
 
-    // todo: connect to backend
     useEffect(() => {
         try {
             const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];

@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { LOCAL_STORAGE_KEY } from "../../../data/constants";
+const LOCAL_STORAGE_KEY = "timelineData";
 
 const useLocalNotes = (timelineId, nodeId) => {
   const [notes, setNotes] = useState([]);
 
-  // todo: connect to backend
   useEffect(() => {
     try {
       const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];

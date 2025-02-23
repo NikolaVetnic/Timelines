@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-
 import InputStringModal from "../InputStringModal/InputStringModal";
-
 import "./CreateNodeModal.css";
 
 const CreateNodeModal = ({ isOpen, onClose, selectedTimeline, setTimelineData, timelineData, updateSelectedTimeline }) => {
