@@ -1,11 +1,25 @@
 import { toast } from "react-toastify";
 
-const checkAndScheduleReminders = ( setReminders ) => {
+const checkAndScheduleReminders = (setReminders) => {
     const now = new Date();
+    const todayYear = now.getFullYear();
+    const todayMonth = now.getMonth();
+    const todayDate = now.getDate();
+
     const savedTimelineData = JSON.parse(localStorage.getItem("timelineData")) || [];
 
     const extractedReminders = savedTimelineData.flatMap(timeline =>
-        timeline.nodes?.flatMap(node => node.reminders || []) || []
+        timeline.nodes?.flatMap(node =>
+            (node.reminders || []).filter(reminder => {
+                const reminderDate = new Date(reminder.notifyAt);
+                return (
+                    reminderDate.getFullYear() === todayYear &&
+                    reminderDate.getMonth() === todayMonth &&
+                    reminderDate.getDate() === todayDate &&
+                    !reminder.notified
+                );
+            })
+        ) || []
     );
 
     setReminders(extractedReminders);
@@ -16,7 +30,7 @@ const checkAndScheduleReminders = ( setReminders ) => {
         const reminderTime = new Date(reminder.notifyAt);
         const timeUntilReminder = reminderTime - now;
 
-        if (!reminder.notified && timeUntilReminder > 0) {
+        if (timeUntilReminder > 0) {
             setTimeout(() => {
                 toast.info(` Reminder: ${reminder.title} \nDescription: ${reminder.description || "No description provided."}`, {
                     position: "top-right",
@@ -29,6 +43,7 @@ const checkAndScheduleReminders = ( setReminders ) => {
 
                 updatedReminders[index] = { ...reminder, notified: true };
 
+                // Mark reminder as notified in localStorage
                 savedTimelineData.forEach(timeline => {
                     timeline.nodes?.forEach(node => {
                         if (node.reminders) {

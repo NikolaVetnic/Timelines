@@ -7,6 +7,7 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder }) => {
   const [description, setDescription] = useState("");
   const [notifyAt, setNotifyAt] = useState("");
   const [priority, setPriority] = useState(1);
+  const [notified, setNotified] = useState(false);
 
   const handleSave = () => {
     if (!title.trim() || !notifyAt) {
@@ -19,6 +20,7 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder }) => {
       title,
       description,
       notifyAt,
+      notified,
       priority,
     };
 
@@ -26,6 +28,7 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder }) => {
     closeModal();
     setTitle("");
     setDescription("");
+    setNotified(false);
     setNotifyAt("");
     setPriority(1);
   };

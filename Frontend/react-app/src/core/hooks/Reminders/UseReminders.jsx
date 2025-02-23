@@ -1,26 +1,28 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import checkAndScheduleReminders from "../../utils/CheckAndScheduleReminders";
 
 const useReminders = (timelineData) => {
     const [reminders, setReminders] = useState([]);
-    const remindersRef = useRef([]);
 
     useEffect(() => {
         if (timelineData.length > 0) {
-            const extractedReminders = timelineData.flatMap(timeline =>
-                timeline.nodes?.flatMap(node => node.reminders || []) || []
-            );
-            setReminders(extractedReminders);
-            remindersRef.current = extractedReminders;
+            checkAndScheduleReminders(setReminders);
         }
     }, [timelineData]);
 
     useEffect(() => {
-        const interval = setInterval(() => {
+        const now = new Date();
+        const timeUntilMidnight =
+            new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0) - now;
+
+        const updateReminders = () => {
             checkAndScheduleReminders(setReminders);
-        }, 30000);
+            setInterval(() => checkAndScheduleReminders(setReminders), 24 * 60 * 60 * 1000);
+        };
         
-        return () => clearInterval(interval);
+        const midnightTimeout = setTimeout(updateReminders, timeUntilMidnight);
+
+        return () => clearTimeout(midnightTimeout);
     }, []);
 
     return reminders;
