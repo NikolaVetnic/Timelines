@@ -28,6 +28,7 @@ const Timestamp = ({ timelineId, nodeId, setModalActive }) => {
         setModalActive(isActive);
     };
 
+    // todo: connect to backend
     const updateLocalStorage = (newTimestamp) => {
         try {
             const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];

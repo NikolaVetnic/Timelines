@@ -24,6 +24,7 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
     }
   }, [timelineId, nodeId]);
 
+  // todo: connect to backend
   const updateLocalStorage = (updatedReminders) => {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storedData) {

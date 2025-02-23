@@ -22,6 +22,7 @@ const EditableTitle = ({ timelineId, nodeId, className }) => {
         }
     }, [timelineId, nodeId]);
 
+    // todo: connect to backend
     const updateLocalStorage = (newTitle) => {
         try {
             const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];

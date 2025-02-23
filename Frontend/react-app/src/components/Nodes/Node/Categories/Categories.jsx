@@ -30,6 +30,7 @@ const Categories = ({ timelineId, nodeId, setModalActive }) => {
         setModalActive(isActive);
     };
 
+    // todo: connect to backend
     const updateLocalStorage = (newCategories) => {
         try {
             const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];

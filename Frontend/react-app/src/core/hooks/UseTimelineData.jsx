@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import initialTimelineData from "../../data/timelineData";
 
+// todo: connect to backend
 const getStoredTimelineData = () => {
     try {
         const savedData = localStorage.getItem("timelineData");
@@ -12,6 +13,7 @@ const getStoredTimelineData = () => {
     }
 };
 
+// todo: connect to backend
 const saveTimelineData = (data) => {
     if (!data) return;
 
@@ -25,6 +27,7 @@ const saveTimelineData = (data) => {
     }
 };
 
+// todo: connect to backend
 const useTimelineData = () => {
     const [timelineData, setTimelineData] = useState([]);
 

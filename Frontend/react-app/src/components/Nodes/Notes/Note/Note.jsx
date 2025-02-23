@@ -18,6 +18,7 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
     onToggle();
   };
 
+  // todo: connect to backend
   const handleSaveNote = () => {
     if (selectedNote) {
       const updatedNotes = notes.map(note =>

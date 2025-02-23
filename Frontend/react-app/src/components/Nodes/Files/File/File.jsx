@@ -24,6 +24,7 @@ const File = ({ nodeId, timelineId, onToggle }) => {
     }
   }, [timelineId, nodeId]);
 
+  // todo: connect to backend
   const updateLocalStorage = useCallback((updatedFiles) => {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storedData) {
