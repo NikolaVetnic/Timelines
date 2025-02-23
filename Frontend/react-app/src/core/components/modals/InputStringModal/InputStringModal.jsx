@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "./InputStringModal.css";
 
 import CancelButton from "../../buttons/CancelButton/CancelButton";
 import SaveButton from "../../buttons/SaveButton/SaveButton";
+
+import "./InputStringModal.css";
 
 const InputStringModal = ({
     isOpen,

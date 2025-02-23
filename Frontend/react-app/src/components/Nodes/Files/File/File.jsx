@@ -1,17 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import RemoveButton from "../../../../core/components/buttons/RemoveButton/RemoveButton";
-import "./File.css";
 
-const LOCAL_STORAGE_KEY = "timelineData";
-const MAX_FILE_SIZE = 10 * 1024 * 1024;
+import { MAX_FILE_SIZE, LOCAL_STORAGE_KEY } from "../../../../data/constants";
+import RemoveButton from "../../../../core/components/buttons/RemoveButton/RemoveButton";
+
+import "./File.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const File = ({ nodeId, timelineId, onToggle }) => {
   const [files, setFiles] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
 
+  // todo: connect to backend
   useEffect(() => {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storedData) {

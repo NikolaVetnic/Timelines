@@ -6,6 +6,7 @@ const checkAndScheduleReminders = (setReminders) => {
     const todayMonth = now.getMonth();
     const todayDate = now.getDate();
 
+    // todo: connect to backend
     const savedTimelineData = JSON.parse(localStorage.getItem("timelineData")) || [];
 
     const extractedReminders = savedTimelineData.flatMap(timeline =>

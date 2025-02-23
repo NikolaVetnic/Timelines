@@ -1,6 +1,7 @@
 import MDEditor from "@uiw/react-md-editor";
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+
 import "./CreateNoteModal.css";
 
 const CreateNoteModal = ({ isOpen, closeModal, saveNote }) => {

@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
+
+import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
 import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
 import DatePickerModal from "../../../../core/components/modals/DatePickerModal/DatePickerModal";
 
 import "./Timestamp.css";
 
-const LOCAL_STORAGE_KEY = "timelineData";
-
 const Timestamp = ({ timelineId, nodeId, setModalActive }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [localTimestamp, setLocalTimestamp] = useState(null);
 
+    // todo: connect to backend
     useEffect(() => {
         try {
             const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];

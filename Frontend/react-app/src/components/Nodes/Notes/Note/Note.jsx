@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+
 import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
 import RemoveButton from "../../../../core/components/buttons/RemoveButton/RemoveButton";
 import CreateNoteModal from "../../../../core/components/modals/CreateNoteModal/CreateNoteModal";
 import NoteEditor from "../../../../core/components/modals/NoteEditorModal/NoteEditorModal";
 import useLocalNotes from "../../../../core/hooks/Note/UseLocalNotes";
+
 import "./Note.css";
 
 const Note = ({ nodeId, timelineId, onToggle }) => {

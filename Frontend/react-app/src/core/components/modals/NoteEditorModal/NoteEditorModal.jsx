@@ -1,6 +1,7 @@
 import MDEditor from "@uiw/react-md-editor";
 import React from "react";
 import ReactDOM from "react-dom";
+
 import "./NoteEditorModal.css";
 
 const NoteEditor = ({ selectedNote, editorContent, setEditorContent, handleSaveNote, closeNoteEditor }) => {

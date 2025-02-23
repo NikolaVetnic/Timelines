@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "./TextAreaModal.css";
 
 import CancelButton from "../../buttons/CancelButton/CancelButton";
 import SaveButton from "../../buttons/SaveButton/SaveButton";
+
+import "./TextAreaModal.css";
 
 const TextAreaModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
     const [value, setValue] = useState(initialValue);

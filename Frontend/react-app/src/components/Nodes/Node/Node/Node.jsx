@@ -1,4 +1,5 @@
 import React, { forwardRef, useState } from "react";
+
 import File from "../../Files/File/File";
 import Note from "../../Notes/Note/Note";
 import Reminder from "../../Reminders/Reminder/Reminder";
@@ -8,6 +9,7 @@ import EditableTitle from "../EditableTitle/EditableTitle";
 import Importance from "../Importance/Importance";
 import Tags from "../Tags/Tags";
 import Timestamp from "../Timestamp/Timestamp";
+
 import "./Node.css";
 
 const Node = forwardRef(({ node, onToggle, isModalActive, setModalActive, openNodeId, setOpenNodeId, timelineId }, ref) => {
