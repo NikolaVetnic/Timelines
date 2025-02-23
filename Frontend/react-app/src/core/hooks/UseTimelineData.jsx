@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+
 import initialTimelineData from "../../data/timelineData";
 
 // todo: connect to backend

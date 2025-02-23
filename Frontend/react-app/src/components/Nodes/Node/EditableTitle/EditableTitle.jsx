@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
-import "./EditableTitle.css";
 
-const LOCAL_STORAGE_KEY = "timelineData";
+import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
+import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
+
+import "./EditableTitle.css";
 
 const EditableTitle = ({ timelineId, nodeId, className }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [localTitle, setLocalTitle] = useState("");
     const [isHovered, setIsHovered] = useState(false);
 
+    // todo: connect to backend
     useEffect(() => {
         try {
             const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];

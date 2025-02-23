@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "./IntegerModal.css";
 
 import CancelButton from "../../buttons/CancelButton/CancelButton";
 import SaveButton from "../../buttons/SaveButton/SaveButton";
+
+import "./IntegerModal.css";
 
 const IntegerModal = ({ isOpen, onClose, onSave, initialValue }) => {
     const [value, setValue] = useState(initialValue);
