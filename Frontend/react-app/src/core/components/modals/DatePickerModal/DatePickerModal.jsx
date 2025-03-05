@@ -8,6 +8,7 @@ import SaveButton from "../../buttons/SaveButton/SaveButton";
 import "./DatePickerModal.css";
 
 const DatePickerModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
+    const root = "datepicker-modal";
     const [selectedDate, setSelectedDate] = useState(new Date(initialValue));
     const [isChanged, setIsChanged] = useState(false);
 
@@ -33,10 +34,10 @@ const DatePickerModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
     if (!isOpen) return null;
 
     return (
-        <div className={`datepicker-modal-overlay ${isOpen ? "show" : ""}`}>
-            <div className="datepicker-modal">
+        <div className={`${root}-overlay ${isOpen ? "show" : ""}`}>
+            <div className={`${root}`}>
                 <h3>{title}</h3>
-                <div className="datepicker-content">
+                <div>
                     <DatePicker
                         selected={selectedDate}
                         onChange={handleDateChange}
@@ -44,7 +45,7 @@ const DatePickerModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
                         inline
                     />
                 </div>
-                <div className="datepicker-modal-actions">
+                <div className={`${root}-actions`}>
                     <CancelButton onClick={onClose} />
                     <SaveButton onClick={handleSave} disabled={!isChanged} />
                 </div>

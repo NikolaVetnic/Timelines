@@ -17,16 +17,15 @@
     transition: transform 0.3s ease;
 }
 
-.timeline-node:hover {
+.timeline-node:not(.open):hover {
     transform: translateY(-5px);
 }
-
 .node-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: #007bff;
+    background-color: var(--backgroundHeader);
     color: #fff;
     cursor: pointer;
 }
@@ -46,7 +45,7 @@
 }
 
 .node-header span {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
 }
 
 .node-header:hover .editable-title {
@@ -63,7 +62,6 @@
     padding: 15px 20px;
     cursor: default;
     text-align: left;
-    height: 280px;
 }
 
 .node-content img {

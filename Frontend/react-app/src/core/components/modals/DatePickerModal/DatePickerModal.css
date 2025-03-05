@@ -38,10 +38,6 @@
     text-align: center;
 }
 
-.react-datepicker {
-    margin: 0 auto;
-}
-
 .datepicker-modal-actions {
     display: flex;
     justify-content: flex-end;
