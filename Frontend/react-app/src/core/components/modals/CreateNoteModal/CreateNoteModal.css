@@ -30,7 +30,7 @@
     border-bottom: 1px solid #ccc;
 }
 
-.note-title-input {
+.create-note-modal-title-input {
     width: 98.5%;
     padding: 8px;
     font-size: 1rem;
@@ -41,19 +41,20 @@
     border-radius: 5px;
 }
 
-.editor-container {
+.create-note-modal-editor-container {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 
-.modal-buttons {
+.create-note-modal-buttons {
     display: flex;
     justify-content: end;
+    gap: 5px;
     margin-top: 15px;
 }
 
-.save-button {
+.create-note-modal-save-button {
     background: #007bff;
     color: white;
     border: none;
@@ -63,11 +64,11 @@
     transition: background 0.3s ease-in-out;
 }
 
-.save-button:hover {
+.create-note-modal-save-button:hover {
     background: #0056b3;
 }
 
-.close-button {
+.create-note-modal-close-button {
     background: #dc3545;
     color: white;
     border: none;
@@ -77,6 +78,6 @@
     transition: background 0.3s ease-in-out;
 }
 
-.close-button:hover {
+.create-note-modal-close-button:hover {
     background: #b02a37;
 }

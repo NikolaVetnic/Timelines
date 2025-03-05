@@ -9,6 +9,7 @@ import "./Reminder.css";
 import "react-toastify/dist/ReactToastify.css";
 
 const Reminder = ({ nodeId, timelineId, onToggle }) => {
+  const root = "reminder";
   const [isRemindersExpanded, setIsRemindersExpanded] = useState(false);
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const [reminders, setReminders] = useState([]);
@@ -71,11 +72,9 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
   };
 
   return (
-    <div className="reminders-section">
-      <button
-        className={`reminders-header ${
-          isRemindersExpanded ? "reminder-headers-opened" : "reminder-headers-closed"
-        }`}
+    <div className={`${root}-section`}>
+     <button
+        className={`${root}-header ${root}-${isRemindersExpanded ? "headers-opened" : "headers-closed"}`}
         onClick={toggleRemindersSection}
       >
         <h4>Reminders</h4>
@@ -83,11 +82,11 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
       </button>
 
       {isRemindersExpanded && (
-        <div className="reminders-container">
-          <button className="add-reminder-button" onClick={openCreateModal}>+</button>
+        <div className={`${root}-container`}>
+          <button className={`${root}-add-button`} onClick={openCreateModal}>+</button>
           {reminders.length > 0 ?reminders.map((reminder) => (
-            <div key={reminder.id} className="reminder-item">
-              <div className="reminder-content">
+            <div key={reminder.id} className={`${root}-item`}>
+              <div className={`${root}-content`}>
                 <p>{reminder.title}</p>
                 <p><strong>Notify At:</strong> {new Date(reminder.notifyAt).toLocaleString()}</p>
                 <p><strong>Priority:</strong> {reminder.priority}</p>

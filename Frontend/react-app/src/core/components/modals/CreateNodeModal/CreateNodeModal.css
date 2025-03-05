@@ -55,7 +55,7 @@
     border-color: #007bff;
 }
 
-.multi-input-container {
+.create-node-modal-multi-input-container {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -67,7 +67,7 @@
     cursor: not-allowed;
 }
 
-.multi-input-container button {
+.create-node-modal-multi-input-container button {
     padding: 6px 10px;
     height: 33px;
     border: none;
@@ -78,7 +78,7 @@
     transition: background 0.3s ease-in-out;
 }
 
-.multi-input-container button:hover {
+.create-node-modal-multi-input-container button:hover {
     background: #0056b3;
 }
 

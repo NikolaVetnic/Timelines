@@ -5,6 +5,7 @@ import Node from "../../Nodes/Node/Node/Node";
 import "./Timeline.css";
 
 const Timeline = ({ selectedTimeline, setSelectedTimeline, setTimelineData, timelineData, updateSelectedTimeline }) => {
+    const root = "timeline";
     const stripRef = useRef(null);
     const nodesRef = useRef([]);
     const [stripStyle, setStripStyle] = useState({});
@@ -34,15 +35,15 @@ const Timeline = ({ selectedTimeline, setSelectedTimeline, setTimelineData, time
     }
 
     return (
-        <div className="timeline-container" key={selectedTimeline.id}>
-            <div className="timeline-header">
-                <h2 className="timeline-title">{selectedTimeline.title}</h2>
-                <button className="add-node-btn" onClick={() => setIsCreateModalActive(true)}>➕ Add Node</button>
+        <div className={`${root}-container`} key={selectedTimeline.id}>
+            <div className={`${root}-header`}>
+                <h2 className={`${root}-title`}>{selectedTimeline.title}</h2>
+                <button className={`${root}-add-node-btn`} onClick={() => setIsCreateModalActive(true)}>➕ Add Node</button>
             </div>
     
-            <div className="timeline-strip" ref={stripRef} style={stripStyle}></div>
+            <div className={`${root}-strip`} ref={stripRef} style={stripStyle}></div>
     
-            <div className="timeline-nodes">
+            <div className={`${root}-nodes`}>
                 {selectedTimeline.nodes.map((node, index) => (
                     <Node
                         timelineId={selectedTimeline.id}

@@ -6,6 +6,7 @@ import SaveButton from "../../buttons/SaveButton/SaveButton";
 import "./TextAreaModal.css";
 
 const TextAreaModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
+    const root = "text-area-modal";
     const [value, setValue] = useState(initialValue);
     const [isChanged, setIsChanged] = useState(false);
 
@@ -28,8 +29,8 @@ const TextAreaModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="text-area-modal-overlay">
-            <div className="text-area-modal">
+        <div className={`${root}-overlay`}>
+            <div className={`${root}`}>
                 <h3>{title}</h3>
                 <textarea
                     rows="4"
@@ -37,7 +38,7 @@ const TextAreaModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
                     onChange={handleInputChange}
                     placeholder="Input text"
                 ></textarea>
-                <div className="text-area-modal-actions">
+                <div className={`${root}-actions`}>
                     <CancelButton onClick={onClose} />
                     <SaveButton onClick={handleSave} disabled={!isChanged} />
                 </div>

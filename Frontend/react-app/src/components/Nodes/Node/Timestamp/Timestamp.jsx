@@ -7,6 +7,7 @@ import DatePickerModal from "../../../../core/components/modals/DatePickerModal/
 import "./Timestamp.css";
 
 const Timestamp = ({ timelineId, nodeId, setModalActive }) => {
+    const root = "timestamp";
     const [isModalOpen, setModalOpen] = useState(false);
     const [localTimestamp, setLocalTimestamp] = useState(null);
 
@@ -54,7 +55,7 @@ const Timestamp = ({ timelineId, nodeId, setModalActive }) => {
     };
 
     return (
-        <div className="timestamp-container">
+        <div className={`${root}-container`}>
             <div>
                 <strong>Timestamp:</strong> {localTimestamp ? localTimestamp.toLocaleDateString() : "Not Set"}
             </div>

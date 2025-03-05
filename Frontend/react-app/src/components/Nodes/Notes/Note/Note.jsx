@@ -9,6 +9,7 @@ import useLocalNotes from "../../../../core/hooks/Note/UseLocalNotes";
 import "./Note.css";
 
 const Note = ({ nodeId, timelineId, onToggle }) => {
+  const root = "note";
   const { notes, setNotes, updateLocalStorage } = useLocalNotes(timelineId, nodeId);
   const [isNotesExpanded, setIsNotesExpanded] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
@@ -64,9 +65,9 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
   };
 
   return (
-    <div className="notes-section">
+    <div className={`${root}-section`}>
       <button
-        className={`notes-header ${isNotesExpanded ? "notes-header-opened" : "notes-header-closed"}`}
+        className={`${root}-header ${root}-${isNotesExpanded ? "header-opened" : "header-closed"}`}
         onClick={toggleNotesSection}
       >
         <h4>Notes</h4>
@@ -74,14 +75,14 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
       </button>
 
       {isNotesExpanded && (
-        <div className="notes-container">
-          <button className="add-note-button" onClick={openCreateModal}>+</button>
+        <div className={`${root}-container`}>
+          <button className={`${root}-add-button`} onClick={openCreateModal}>+</button>
           {notes.length > 0 ? (
             notes.map((note) => (
-              <div key={note.id} className="note-item">
-                <div className="note-content">
+              <div key={note.id} className={`${root}-item`}>
+                <div className={`${root}-content`}>
                   <p>{note.title}</p>
-                  <div className="note-content-button-area">
+                  <div className={`${root}-content-button-area`}>
                     <RemoveButton id={note.id} onRemove={() => handleRemoveNote(note.id)} message="Note removed." />
                     <EditButton onClick={() => openNoteEditor(note)} />
                   </div>

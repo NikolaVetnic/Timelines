@@ -11,7 +11,7 @@ const Tags = ({ timelineId, nodeId, setModalActive }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [localTags, setLocalTags] = useState([]);
 
-    // todo: connect to backend
+cd     // todo: connect to backend
     useEffect(() => {
         try {
             const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];

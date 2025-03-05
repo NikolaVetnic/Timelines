@@ -5,14 +5,16 @@ import ReactDOM from "react-dom";
 import "./NoteEditorModal.css";
 
 const NoteEditor = ({ selectedNote, editorContent, setEditorContent, handleSaveNote, closeNoteEditor }) => {
+  const root = "note-modal";
+
   if (!selectedNote) return null;
 
   return ReactDOM.createPortal(
-    <div className="note-overlay">
-      <div className="note-overlay-content">
-        <div className="note-header">
+    <div className={`${root}-overlay`}>
+      <div className={`${root}-overlay-content`}>
+        <div className={`${root}-header`}>
           <h2>{selectedNote.title}</h2>
-          <div className="note-buttons">
+          <div className={`${root}-buttons`}>
             <button onClick={handleSaveNote}>Save</button>
             <button onClick={closeNoteEditor}>Close</button>
           </div>

@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import "./CreateReminderModal.css";
 
 const CreateReminderModal = ({ isOpen, closeModal, saveReminder }) => {
+  const root = "create-reminder-modal";
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [notifyAt, setNotifyAt] = useState("");
@@ -37,43 +38,43 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder }) => {
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
-    <div className="create-reminder-modal-overlay">
-      <div className="create-reminder-modal-content">
+    <div className={`${root}-overlay`}>
+      <div className={`${root}-content`}>
         <h3>Create Reminder</h3>
         <input
           type="text"
           placeholder="Reminder Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="reminder-title-input"
+          className={`${root}-title-input`}
         />
         <textarea
           placeholder="Description (Optional)"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="reminder-description-input"
+          className={`${root}-description-input`}
         />
-        <label className="create-reminder-modal-label">Notify At:</label>
+        <label className={`${root}-label`}>Notify At:</label>
         <input
           type="datetime-local"
           value={notifyAt}
           onChange={(e) => setNotifyAt(e.target.value)}
-          className="reminder-datetime-input"
+          className={`${root}-datetime-input`}
         />
-        <label className="create-reminder-modal-label">Priority:</label>
+        <label className={`${root}-label`}>Priority:</label>
         <select
           value={priority}
           onChange={(e) => setPriority(Number(e.target.value))}
-          className="reminder-priority-input"
+          className={`${root}-priority-input`}
         >
           <option value={1}>Low</option>
           <option value={2}>Medium</option>
           <option value={3}>High</option>
         </select>
 
-        <div className="modal-buttons">
-          <button className="save-button" onClick={handleSave}>Save</button>
-          <button className="close-button" onClick={closeModal}>Cancel</button>
+        <div className={`${root}-buttons`}>
+          <button className={`${root}-save-button`} onClick={handleSave}>Save</button>
+          <button className={`${root}-close-button`} onClick={closeModal}>Cancel</button>
         </div>
       </div>
     </div>,

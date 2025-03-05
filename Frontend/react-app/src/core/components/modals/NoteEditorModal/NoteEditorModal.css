@@ -1,4 +1,4 @@
-.note-overlay {
+.note-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
     z-index: 10000;
 }
 
-.note-overlay-content {
+.note-modal-overlay-content {
     background: white;
     padding: 20px;
     border-radius: 10px;
@@ -22,7 +22,7 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.note-header {
+.note-modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,12 +30,12 @@
     border-bottom: 1px solid #ccc;
 }
 
-.note-buttons {
+.note-modal-buttons {
     display: flex;
     gap: 10px;
 }
 
-.note-buttons button {
+.note-modal-buttons button {
     background: #007bff;
     color: white;
     border: none;
@@ -45,7 +45,7 @@
     transition: background 0.3s ease-in-out;
 }
 
-.note-buttons button:hover {
+.note-modal-buttons button:hover {
     background: #0056b3;
 }
 

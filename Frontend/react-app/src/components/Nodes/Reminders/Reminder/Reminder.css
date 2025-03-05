@@ -1,4 +1,4 @@
-.reminders-header {
+.reminder-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,36 +14,36 @@
     text-align: left;
 }
 
-.reminder-headers-opened {
+.reminder-header-opened {
     border-radius: 5px 5px 0px 0px;
 }
 
-.reminder-headers-closed {
+.reminder-header-closed {
     border-radius: 5px;
 }
 
-.reminders-header:hover {
+.reminder-header:hover {
     color: lightgray
 }
 
-.reminders-header h4 {
+.reminder-header h4 {
     margin: 0;
     font-size: 1rem;
     color: white
 }
 
-.reminders-header:hover h4 {
+.reminder-header:hover h4 {
     color: lightgray
 }
 
-.reminders-container {
+.reminder-container {
     background: #f9f9f9;
     padding: 10px;
     border: 1px solid lightgray;
     border-radius: 0 0 5px 5px;
 }
 
-.add-reminder-button {
+.reminder-add-button {
     background: #28a745;
     color: white;
     border: none;
@@ -53,7 +53,7 @@
     margin-bottom: 10px;
 }
 
-.add-reminder-button:hover {
+.reminder-add-button:hover {
     background: #218838;
 }
 

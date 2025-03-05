@@ -13,6 +13,7 @@ const InputStringModal = ({
     title = "Input String",
     placeholder = "Input String...",
 }) => {
+    const root = "input-string-modal";
     const [value, setValue] = useState(initialValue);
     const [isChanged, setIsChanged] = useState(false);
 
@@ -37,7 +38,7 @@ const InputStringModal = ({
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay" onClick={onClose}>
+        <div className={`${root}-overlay`} onClick={onClose}>
             <div className="modal" onClick={(e) => e.stopPropagation()}>
                 <h3>{title}</h3>
                 <textarea
@@ -47,7 +48,7 @@ const InputStringModal = ({
                     placeholder={placeholder}
                     autoFocus
                 ></textarea>
-                <div className="modal-actions">
+                <div className={`${root}-actions`}>
                     <CancelButton onClick={onClose} />
                     <SaveButton onClick={handleSave} disabled={!isChanged} />
                 </div>

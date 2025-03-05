@@ -5,6 +5,7 @@ import InputStringModal from "../InputStringModal/InputStringModal";
 import "./CreateNodeModal.css";
 
 const CreateNodeModal = ({ isOpen, onClose, selectedTimeline, setTimelineData, timelineData, updateSelectedTimeline }) => {
+    const root = "create-node-modal";
     const [isModalOpen, setModalOpen] = useState(isOpen);
     const [nodeData, setNodeData] = useState({
         id: Date.now().toString(),
@@ -81,11 +82,8 @@ const CreateNodeModal = ({ isOpen, onClose, selectedTimeline, setTimelineData, t
         });
 
         localStorage.setItem("timelineData", JSON.stringify(updatedTimelines));
-
         setTimelineData(updatedTimelines);
-
         updateSelectedTimeline();
-
         closeModal();
     };
 
@@ -114,20 +112,20 @@ const CreateNodeModal = ({ isOpen, onClose, selectedTimeline, setTimelineData, t
                 <input type="number" name="importance" min="1" max="5" value={nodeData.importance} onChange={handleChange} />
 
                 <label>Tags:</label>
-                <div className="multi-input-container">
+                <div className={`${root}-multi-input-container`}>
                     <input type="text" value={nodeData.tags.join(", ")} readOnly />
-                    <button type="button" onClick={() => setIsTagsModalOpen(true)}>Add Tags</button>
+                    <button type="button" onClick={() => setIsTagsModalOpen(true)}>Add</button>
                 </div>
 
                 <label>Categories:</label>
-                <div className="multi-input-container">
+                <div className={`${root}-multi-input-container`}>
                     <input type="text" value={nodeData.categories.join(", ")} readOnly />
-                    <button type="button" onClick={() => setIsCategoriesModalOpen(true)}>Add Categories</button>
+                    <button type="button" onClick={() => setIsCategoriesModalOpen(true)}>Add</button>
                 </div>
 
-                <div className="create-node-modal-actions">
-                    <button className="create-node-modal-save-btn" onClick={handleSave}>Save</button>
-                    <button className="create-node-modal-cancel-btn" onClick={closeModal}>Cancel</button>
+                <div className={`${root}-actions`}>
+                    <button className={`${root}-save-btn`} onClick={handleSave}>Save</button>
+                    <button className={`${root}-cancel-btn`} onClick={closeModal}>Cancel</button>
                 </div>
             </div>
 

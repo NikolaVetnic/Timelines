@@ -1,4 +1,4 @@
-.notes-header {
+.note-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -13,34 +13,34 @@
     text-align: left;
 }
 
-.notes-header-closed {
+.note-header-closed {
     border-radius: 5px;
 }
 
-.notes-header-opened {
+.note-header-opened {
     border-radius: 5px 5px 0px 0px;
 }
 
-.notes-header:hover {
+.note-header:hover {
     color: var(--backgroundHeader);
 }
 
-.notes-header h4 {
+.note-header h4 {
     margin: 0;
     font-size: 1rem;
     color: var(--enmBlue);
 }
 
-.notes-header:hover h4 {
+.note-header:hover h4 {
     color: var(--backgroundHeader);
 }
 
 
-.notes-header span {
+.note-header span {
     font-size: 1.2rem;
 }
 
-.add-note-button {
+.note-add-button {
     margin-bottom: 10px;
     background: #28a745;
     color: white;
@@ -52,11 +52,11 @@
     font-size: 0.9rem;
 }
 
-.add-note-button:hover {
+.note-add-button:hover {
     background: #218838;
 }
 
-.notes-container {
+.note-container {
     padding: 10px;
     border: 1px solid #ddd;
     background: #f9f9f9;

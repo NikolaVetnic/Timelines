@@ -6,6 +6,7 @@ import SaveButton from "../../buttons/SaveButton/SaveButton";
 import "./IntegerModal.css";
 
 const IntegerModal = ({ isOpen, onClose, onSave, initialValue }) => {
+    const root = "integer-modal";
     const [value, setValue] = useState(initialValue);
     const [isChanged, setIsChanged] = useState(false);
 
@@ -38,25 +39,15 @@ const IntegerModal = ({ isOpen, onClose, onSave, initialValue }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="integer-modal-overlay">
-            <div className="integer-modal">
+        <div className={`${root}-overlay`}>
+            <div className={`${root}`}>
                 <h3>Edit Value</h3>
-                <div className="integer-controls">
-                    <button
-                        className="integer-button"
-                        onClick={handleDecrement}
-                    >
-                        -
-                    </button>
-                    <span className="integer-value">{value}</span>
-                    <button
-                        className="integer-button"
-                        onClick={handleIncrement}
-                    >
-                        +
-                    </button>
+                <div className={`${root}-controls`}>
+                    <button className={`${root}-button`} onClick={handleDecrement}>-</button>
+                    <span className={`${root}-value`}>{value}</span>
+                    <button className={`${root}-button`} onClick={handleIncrement}>+</button>
                 </div>
-                <div className="integer-modal-actions">
+                <div className={`${root}-actions`}>
                     <CancelButton onClick={onClose} />
                     <SaveButton onClick={handleSave} disabled={!isChanged} />
                 </div>

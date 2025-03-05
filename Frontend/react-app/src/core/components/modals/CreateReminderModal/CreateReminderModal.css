@@ -23,9 +23,9 @@
     animation: fadeIn 0.3s ease-in-out;
 }
 
-.reminder-title-input,
-.reminder-description-input,
-.reminder-datetime-input {
+.create-reminder-modal-title-input,
+.create-reminder-modal-description-input,
+.create-reminder-modal-datetime-input {
     width: 95%;
     padding: 8px;
     font-size: 1rem;
@@ -33,7 +33,7 @@
     border-radius: 5px;
 }
 
-.reminder-description-input {
+.create-reminder-modal-description-input {
     margin-top: 10px;
 }
 
@@ -45,26 +45,27 @@
     display: block;
 }
 
-.reminder-priority-input {
-    width: 97.5%;
+.create-reminder-modal-priority-input {
+    width: 99%;
     padding: 8px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-.reminder-description-input {
+.create-reminder-modal-description-input {
     resize: none;
     height: 60px;
 }
 
-.modal-buttons {
+.create-reminder-modal-buttons {
     display: flex;
     justify-content: flex-end;
+    margin-top: 10px;
     gap: 10px;
 }
 
-.save-button {
+.create-reminder-modal-save-button {
     background: #007bff;
     color: white;
     border: none;
@@ -73,11 +74,11 @@
     cursor: pointer;
 }
 
-.save-button:hover {
+.create-reminder-modal-save-button:hover {
     background: #0056b3;
 }
 
-.close-button {
+.create-reminder-modal-close-button {
     background: #dc3545;
     color: white;
     border: none;
@@ -86,6 +87,6 @@
     cursor: pointer;
 }
 
-.close-button:hover {
+.create-reminder-modal-close-button:hover {
     background: #b02a37;
 }

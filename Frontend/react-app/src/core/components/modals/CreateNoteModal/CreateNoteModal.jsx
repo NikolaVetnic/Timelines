@@ -5,6 +5,7 @@ import ReactDOM from "react-dom";
 import "./CreateNoteModal.css";
 
 const CreateNoteModal = ({ isOpen, closeModal, saveNote }) => {
+  const root = "create-note-modal";
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -33,25 +34,25 @@ const CreateNoteModal = ({ isOpen, closeModal, saveNote }) => {
   };
 
   return ReactDOM.createPortal(
-    <div className="create-note-modal-overlay">
-      <div className="create-note-modal-content">
-        <h2 className="create-note-modal-header">Create New Note</h2>
+    <div className={`${root}-overlay`}>
+      <div className={`${root}-content`}>
+        <h2 className={`${root}-header`}>Create New Note</h2>
         
         <input 
           type="text" 
           placeholder="Note Title" 
           value={title} 
           onChange={(e) => setTitle(e.target.value)} 
-          className="note-title-input"
+          className={`${root}-title-input`}
         />
 
-        <div className="editor-container">
+        <div className={`${root}-editor-container`}>
           <MDEditor value={content} onChange={setContent} height="100%" />
         </div>
 
-        <div className="modal-buttons">
-          <button className="close-button" onClick={closeModal}>Cancel</button>
-          <button className="save-button" onClick={handleSave}>Create</button>
+        <div className={`${root}-buttons`}>
+          <button className={`${root}-close-button`} onClick={closeModal}>Cancel</button>
+          <button className={`${root}-save-button`} onClick={handleSave}>Create</button>
         </div>
       </div>
     </div>,

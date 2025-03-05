@@ -3,6 +3,7 @@ import Select from "react-select";
 import "./TimelineSelect.css";
 
 const TimelineSelect = ({ onTimelineSelect }) => {
+    const root = "timeline-select";
     const [selectedTimeline, setSelectedTimeline] = useState(null);
     const [timelineOptions, setTimelineOptions] = useState([]);
 
@@ -30,7 +31,7 @@ const TimelineSelect = ({ onTimelineSelect }) => {
     };
 
     return (
-        <div className="dropdown-container">
+        <div className={`${root}-dropdown-container`}>
             <Select
                 options={timelineOptions}
                 value={selectedTimeline}

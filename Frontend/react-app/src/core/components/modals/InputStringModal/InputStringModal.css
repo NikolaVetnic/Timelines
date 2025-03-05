@@ -1,4 +1,4 @@
-.modal-overlay {
+.input-string-modal-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
     z-index: 2000;
 }
 
-.modal {
+.input-string-modal {
     background: #fff;
     padding: 20px;
     border-radius: 12px;
@@ -24,11 +24,11 @@
     gap: 10px;
 }
 
-.modal h3 {
+.input-string-modal h3 {
     margin-top: 0;
 }
 
-.modal textarea {
+.input-string-modal textarea {
     width: 100%;
     max-width: 100%;
     padding: 10px;
@@ -39,7 +39,7 @@
     box-sizing: border-box;
 }
 
-.modal-actions {
+.input-string-modal-actions {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
