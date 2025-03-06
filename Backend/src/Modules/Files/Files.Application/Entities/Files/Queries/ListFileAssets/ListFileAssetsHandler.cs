@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.Files.File.Dtos;
+using Files.Application.Data.Abstractions;
 using Files.Application.Entities.Files.Extensions;
 
 namespace Files.Application.Entities.Files.Queries.ListFileAssets;

@@ -1,4 +1,5 @@
-﻿using Files.Application.Entities.Files.Exceptions;
+﻿using Files.Application.Data.Abstractions;
+using Files.Application.Entities.Files.Exceptions;
 
 namespace Files.Application.Entities.Files.Commands.DeleteFileAsset;
 

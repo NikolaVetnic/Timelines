@@ -1,5 +1,5 @@
-﻿using Files.Application.Data;
-using System.Reflection;
+﻿using System.Reflection;
+using Files.Application.Data.Abstractions;
 
 namespace Files.Infrastructure.Data;
 
@@ -19,6 +19,13 @@ public class FilesDbContext(DbContextOptions<FilesDbContext> options) :
         builder.Entity<FileAsset>(entity =>
         {
             entity.ToTable("Files"); // Specify table name within the schema
+
+            entity.HasKey(f => f.Id);
+            entity.Property(f => f.Name);
+            entity.Property(f => f.Size);
+            entity.Property(f => f.Type);
+            entity.Property(f => f.Owner);
+            entity.Property(f => f.Description);
         });
 
         // Apply all configurations taken from classes that implement IEntityTypeConfiguration<>
