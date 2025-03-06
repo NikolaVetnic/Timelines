@@ -13,8 +13,8 @@ internal static class InitialData
                 "Check time!",
                 "Check for the exact time of the Court Proceedings.",
                 DateTime.UtcNow,
-                "Timo",
-                ["Michael", "Dirk"],
+                "Alice",
+                ["Bob", "Carol"],
                 false,
                 NodeId.Of(Guid.Parse("2df76835-c92b-45d0-9232-61901c4abe97"))
             ),
@@ -24,8 +24,8 @@ internal static class InitialData
                 "Additional documents",
                 "Make sure you bring both folders.",
                 DateTime.UtcNow,
-                "Thomas",
-                ["Daniel","Claus"],
+                "Dagmar",
+                ["Eivor","Feofan"],
                 true,
                 NodeId.Of(Guid.Parse("6968d886-9e39-4fc0-9f2c-a5fbc1548970"))
             )
