@@ -1,5 +1,6 @@
 using BuildingBlocks.Api.Converters;
 using BuildingBlocks.Application.Data;
+using Files.Application.Data;
 using Files.Application.Extensions;
 using Files.Infrastructure.Data.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +24,7 @@ public static class ServiceCollectionExtensions
     {
         TypeAdapterConfig.GlobalSettings.Scan(typeof(FileIdConverter).Assembly);
 
-        services.AddScoped<IFileAssetsService, IFileAssetsService>();
+        services.AddScoped<IFileAssetsService, FileAssetsService>();
 
         return services;
     }
