@@ -1,4 +1,6 @@
-﻿namespace Files.Infrastructure.Data.Extensions;
+﻿using BuildingBlocks.Application.Data;
+
+namespace Files.Infrastructure.Data.Extensions;
 
 public static class DatabaseExtensions
 {
@@ -7,21 +9,25 @@ public static class DatabaseExtensions
         using var scope = services.CreateScope();
         var scopedProvider = scope.ServiceProvider;
 
-        var context = scopedProvider.GetRequiredService<FilesDbContext>();
+        var fileDbContext = scopedProvider.GetRequiredService<FilesDbContext>();
+        var nodesService = scopedProvider.GetRequiredService<INodesService>();
 
         // Apply migrations
-        await context.Database.MigrateAsync();
+        await fileDbContext.Database.MigrateAsync();
 
         // Seed initial data if necessary
-        await SeedAsync(context);
+        await SeedAsync(fileDbContext, nodesService);
     }
 
-    private static async Task SeedAsync(FilesDbContext context)
+    private static async Task SeedAsync(FilesDbContext context, INodesService nodesService)
     {
         if (await context.FileAssets.AnyAsync())
             return;
 
         await context.AddRangeAsync(InitialData.FileAssets);
         await context.SaveChangesAsync();
+
+        foreach (var initialFileAsset in InitialData.FileAssets)
+            await nodesService.AddFileAsset(initialFileAsset.NodeId, initialFileAsset.Id, CancellationToken.None);
     }
 }
