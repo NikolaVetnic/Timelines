@@ -1,4 +1,5 @@
 ﻿using Files.Application.Data.Abstractions;
+using Files.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 
@@ -20,6 +21,7 @@ public static class ServiceCollectionExtensions
 
         // Register DbContext interface
         services.AddScoped<IFilesDbContext, FilesDbContext>();
+        services.AddScoped<IFilesRepository, FileAssetsRepository>();
 
         return services;
     }
