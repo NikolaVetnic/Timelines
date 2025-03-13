@@ -28,7 +28,7 @@ public class FileAssetBaseDto(
 
     [JsonPropertyName("content")] public byte[] Content { get; } = content;
 
-    [JsonPropertyName("type")] public bool IsPublic { get; } = isPublic;
+    [JsonPropertyName("isPublic")] public bool IsPublic { get; } = isPublic;
 
     [JsonPropertyName("sharedWith")] public List<string> SharedWith { get; } = sharedWith;
 }
