@@ -2,7 +2,6 @@
 using BuildingBlocks.Domain.Files.File.Dtos;
 using BuildingBlocks.Domain.Files.File.ValueObjects;
 using Files.Application.Data.Abstractions;
-using Files.Application.Entities.Files.Extensions;
 using Mapster;
 
 namespace Files.Application.Data;
@@ -12,7 +11,7 @@ public class FileAssetsService(IFilesRepository filesRepository, IServiceProvide
     public async Task<FileAssetDto> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken)
     {
         var file = await filesRepository.GetFileAssetByIdAsync(fileAssetId, cancellationToken);
-        var fileDto = file.ToFileAssetDto();
+        var fileDto = file.Adapt<FileAssetDto>();
 
         return fileDto;
     }

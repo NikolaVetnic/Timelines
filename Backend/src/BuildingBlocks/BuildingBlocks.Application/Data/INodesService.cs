@@ -1,3 +1,4 @@
+using BuildingBlocks.Domain.Files.File.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
@@ -9,4 +10,5 @@ public interface INodesService
     Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
     Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
     Task AddReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken);
+    Task AddFileAsset(NodeId nodeId, FileAssetId fileAssetId, CancellationToken cancellationToken);
 }

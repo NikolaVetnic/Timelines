@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.Domain.Enums;
 using BuildingBlocks.Domain.Files.File.Events;
 using BuildingBlocks.Domain.Files.File.ValueObjects;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 
 namespace Files.Domain.Models;
 
@@ -17,11 +18,12 @@ public class FileAsset : Aggregate<FileAssetId>
     public required string Owner { get; set; }
     public required byte[] Content { get; set; }
     public required bool IsPublic { get; set; }
+    public required NodeId NodeId { get; set; }
 
 
     #region File
 
-    public static FileAsset Create(FileAssetId id, string name, string description, float size, EFileType type, string owner, byte[] content, bool isPublic, List<string> sharedWith)
+    public static FileAsset Create(FileAssetId id, string name, string description, float size, EFileType type, string owner, byte[] content, bool isPublic, List<string> sharedWith, NodeId nodeId)
     {
         var file = new FileAsset
         {
@@ -32,7 +34,8 @@ public class FileAsset : Aggregate<FileAssetId>
             Type = type,
             Owner = owner,
             Content = content,
-            IsPublic = isPublic
+            IsPublic = isPublic,
+            NodeId = nodeId
         };
 
         foreach (var person in sharedWith)

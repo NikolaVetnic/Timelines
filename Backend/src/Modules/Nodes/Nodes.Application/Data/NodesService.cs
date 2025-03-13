@@ -1,4 +1,5 @@
 using BuildingBlocks.Application.Data;
+using BuildingBlocks.Domain.Files.File.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
@@ -17,11 +18,18 @@ public class NodesService(INodesRepository nodesRepository, IServiceProvider ser
         var nodeDto = node.ToNodeDto();
 
         var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
+        var fileAssetsService = serviceProvider.GetRequiredService<IFileAssetsService>();
 
         foreach (var reminderId in node.ReminderIds)
         {
             var reminder = await remindersService.GetReminderBaseByIdAsync(reminderId, cancellationToken);
             nodeDto.Reminders.Add(reminder);
+        }
+
+        foreach (var fileAssetId in node.FileAssetIds)
+        {
+            var fileAsset = await fileAssetsService.GetFileAssetByIdAsync(fileAssetId, cancellationToken);
+            nodeDto.FileAssets.Add(fileAsset);
         }
 
         return nodeDto;
@@ -40,6 +48,13 @@ public class NodesService(INodesRepository nodesRepository, IServiceProvider ser
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
         node.AddReminder(reminderId);
 
+        await nodesRepository.UpdateNodeAsync(node, cancellationToken);
+    }
+
+    public async Task AddFileAsset(NodeId nodeId, FileAssetId fileAssetId, CancellationToken cancellationToken)
+    {
+        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        node.AddFileAsset(fileAssetId);
         await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
 }

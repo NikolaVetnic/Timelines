@@ -21,7 +21,7 @@ public static class ServiceCollectionExtensions
 
         // Register DbContext interface
         services.AddScoped<IFilesDbContext, FilesDbContext>();
-        services.AddScoped<IFilesRepository, FileAssetsRepository>();
+        services.AddScoped<IFilesRepository, FilesRepository>();
 
         return services;
     }

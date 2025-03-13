@@ -39,6 +39,10 @@ namespace Nodes.Infrastructure.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
+                    b.Property<string>("FileAssetIds")
+                        .HasColumnType("text")
+                        .HasColumnName("FileAssetIds");
+
                     b.Property<int>("Importance")
                         .HasColumnType("integer");
 
@@ -52,7 +56,7 @@ namespace Nodes.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("SerializedReminderIds")
+                    b.Property<string>("ReminderIds")
                         .HasColumnType("text")
                         .HasColumnName("ReminderIds");
 

@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.Domain.Enums;
 using BuildingBlocks.Domain.Files.File.ValueObjects;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 
 namespace Files.Infrastructure.Data.Extensions;
 
@@ -17,7 +18,8 @@ internal static class InitialData
                 "Owner1",
                 [],
                 true,
-                ["User1", "User2"]
+                ["User1", "User2"],
+                NodeId.Of(Guid.Parse("2df76835-c92b-45d0-9232-61901c4abe97"))
             ),
 
             FileAsset.Create(
@@ -29,7 +31,8 @@ internal static class InitialData
                 "Owner2",
                 [],
                 true,
-                ["User3", "User4"]
+                ["User3", "User4"],
+                NodeId.Of(Guid.Parse("6968d886-9e39-4fc0-9f2c-a5fbc1548970"))
             )
         };
 }

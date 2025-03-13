@@ -26,7 +26,7 @@ public class FileAssetBaseDto(
 
     [JsonPropertyName("owner")] public string Owner { get; } = owner;
 
-    [JsonPropertyName("owner")] public byte[] Content { get; } = content;
+    [JsonPropertyName("content")] public byte[] Content { get; } = content;
 
     [JsonPropertyName("type")] public bool IsPublic { get; } = isPublic;
 

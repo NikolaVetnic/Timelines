@@ -4,7 +4,7 @@ using Files.Application.Entities.Files.Exceptions;
 
 namespace Files.Infrastructure.Data.Repositories;
 
-public class FileAssetsRepository(IFilesDbContext dbContext) : IFilesRepository
+public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
 {
     public async Task<FileAsset> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken)
     {

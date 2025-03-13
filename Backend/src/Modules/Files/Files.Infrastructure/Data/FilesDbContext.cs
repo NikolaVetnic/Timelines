@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Files.Application.Data.Abstractions;
 
 namespace Files.Infrastructure.Data;
@@ -26,6 +27,14 @@ public class FilesDbContext(DbContextOptions<FilesDbContext> options) :
             entity.Property(f => f.Type);
             entity.Property(f => f.Owner);
             entity.Property(f => f.Description);
+
+            entity.Property(r => r.NodeId).IsRequired();
+            entity.HasIndex(r => r.NodeId); // Add an index for efficient querying
+
+            // Configure NodeId with the value converter
+            entity.Property(r => r.NodeId)
+                .HasConversion(new NodeIdValueConverter()) // Apply the value converter
+                .IsRequired();
         });
 
         // Apply all configurations taken from classes that implement IEntityTypeConfiguration<>

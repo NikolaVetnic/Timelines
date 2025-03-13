@@ -1,10 +1,10 @@
-﻿using BuildingBlocks.Domain.Files.File.ValueObjects;
+﻿using BuildingBlocks.Application.Data;
+using BuildingBlocks.Domain.Files.File.ValueObjects;
 using Files.Application.Data.Abstractions;
 
 namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
 
-internal class CreateFileAssetHandler(IFilesDbContext dbContext) :
-    ICommandHandler<CreateFileAssetCommand, CreateFileAssetResult>
+internal class CreateFileAssetHandler(IFilesDbContext dbContext, INodesService nodesService) : ICommandHandler<CreateFileAssetCommand, CreateFileAssetResult>
 {
     public async Task<CreateFileAssetResult> Handle(CreateFileAssetCommand command, CancellationToken cancellationToken)
     {
@@ -12,6 +12,8 @@ internal class CreateFileAssetHandler(IFilesDbContext dbContext) :
 
         dbContext.FileAssets.Add(fileAsset);
         await dbContext.SaveChangesAsync(cancellationToken);
+
+        await nodesService.AddFileAsset(fileAsset.NodeId, fileAsset.Id, cancellationToken);
 
         return new CreateFileAssetResult(fileAsset.Id);
     }
@@ -23,14 +25,15 @@ internal static class CreateFileAssetCommandExtensions
     {
         return FileAsset.Create(
             FileAssetId.Of(Guid.NewGuid()),
-            command.FileAsset.Name,
-            command.FileAsset.Description,
-            command.FileAsset.Size,
-            command.FileAsset.Type,
-            command.FileAsset.Owner,
-            command.FileAsset.Content,
-            command.FileAsset.IsPublic,
-            command.FileAsset.SharedWith
+            command.Name,
+            command.Description,
+            command.Size,
+            command.Type,
+            command.Owner,
+            command.Content,
+            command.IsPublic,
+            command.SharedWith,
+            command.NodeId
         );
     }
 }
