@@ -24,10 +24,12 @@ internal static class CreateFileAssetCommandExtensions
         return FileAsset.Create(
             FileAssetId.Of(Guid.NewGuid()),
             command.FileAsset.Name,
+            command.FileAsset.Description,
             command.FileAsset.Size,
             command.FileAsset.Type,
             command.FileAsset.Owner,
-            command.FileAsset.Description,
+            command.FileAsset.Content,
+            command.FileAsset.IsPublic,
             command.FileAsset.SharedWith
         );
     }

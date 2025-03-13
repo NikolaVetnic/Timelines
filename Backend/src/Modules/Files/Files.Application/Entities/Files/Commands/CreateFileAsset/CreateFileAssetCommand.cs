@@ -20,8 +20,7 @@ public class CreateFileCommandValidator : AbstractValidator<CreateFileAssetComma
             .GreaterThan(0).WithMessage("Size must be greater than 0.");
 
         RuleFor(x => x.FileAsset.Type)
-            .NotEmpty().WithMessage("Type is required.")
-            .MaximumLength(100).WithMessage("Type must not exceed 100 characters.");
+            .NotEmpty().WithMessage("Type is required.");
 
         RuleFor(x => x.FileAsset.Owner)
             .NotEmpty().WithMessage("Owner is required.")
