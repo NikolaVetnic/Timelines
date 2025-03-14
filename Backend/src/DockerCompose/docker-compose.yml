@@ -1,6 +1,4 @@
-﻿version: "3.4"
-
-name: timelines
+﻿name: timelines
 
 services:
   core.db:
