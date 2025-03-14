@@ -42,4 +42,12 @@ public class TimelinesService(ITimelinesRepository timelinesRepository, IService
 
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
     }
+
+    public async Task RemoveNode(TimelineId timelineId, NodeId nodeId, CancellationToken cancellationToken)
+    {
+        var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
+        timeline.RemoveNode(nodeId);
+
+        await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
+    }
 }
