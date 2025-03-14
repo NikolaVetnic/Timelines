@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using BuildingBlocks.Domain.Abstractions;
 using System.Text.Json.Serialization;
-using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 
 namespace BuildingBlocks.Domain.Files.File.ValueObjects;
 

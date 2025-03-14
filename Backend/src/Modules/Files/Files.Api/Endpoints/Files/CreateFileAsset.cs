@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BuildingBlocks.Domain.Enums;
-using BuildingBlocks.Domain.Files.File.Dtos;
 using BuildingBlocks.Domain.Files.File.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Files.Application.Entities.Files.Commands.CreateFileAsset;
