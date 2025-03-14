@@ -11,4 +11,5 @@ public interface INodesService
     Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
     Task AddReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken);
     Task AddNote(NodeId nodeId, NoteId noteId, CancellationToken cancellationToken);
+    Task RemoveNote(NodeId nodeId, NoteId noteId, CancellationToken cancellationToken);
 }

@@ -59,4 +59,12 @@ public class NodesService(INodesRepository nodesRepository, IServiceProvider ser
 
         await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
+
+    public async Task RemoveNote(NodeId nodeId, NoteId noteId, CancellationToken cancellationToken)
+    {
+        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        node.RemoveNote(noteId);
+
+        await nodesRepository.UpdateNodeAsync(node, cancellationToken);
+    }
 }
