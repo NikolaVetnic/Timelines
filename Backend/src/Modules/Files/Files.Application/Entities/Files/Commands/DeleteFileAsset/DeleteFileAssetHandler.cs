@@ -15,10 +15,8 @@ public class DeleteFileAssetHandler(IFilesDbContext dbContext, INodesService nod
         if (fileAsset is null)
             throw new FileAssetNotFoundException(command.Id.ToString());
 
-
-        await nodesService.RemoveFileAsset(fileAsset.NodeId, fileAsset.Id, cancellationToken);
-
         dbContext.FileAssets.Remove(fileAsset);
+        await nodesService.RemoveFileAsset(fileAsset.NodeId, fileAsset.Id, cancellationToken);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
