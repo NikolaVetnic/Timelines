@@ -12,6 +12,16 @@ public class NoteId : StronglyTypedId
     public static NoteId Of(Guid value) => new(value);
 
     public override string ToString() => Value.ToString();
+
+    public override bool Equals(object? obj)
+    {
+        return obj is NoteId other && Value == other.Value;
+    }
+
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
+    }
 }
 
 public class NoteIdJsonConverter : JsonConverter<NoteId>
