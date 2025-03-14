@@ -12,11 +12,11 @@ public static class DatabaseExtensions
     {
         if (!env.IsDevelopment()) 
             return;
-        
+
+        await services.MigrateAndSeedTimelinesDatabaseAsync();
         await services.MigrateAndSeedFilesDatabaseAsync();
         await services.MigrateAndSeedNodesDatabaseAsync();
         await services.MigrateAndSeedNotesDatabaseAsync();
         await services.MigrateAndSeedRemindersDatabaseAsync();
-        await services.MigrateAndSeedTimelinesDatabaseAsync();
     }
 }
