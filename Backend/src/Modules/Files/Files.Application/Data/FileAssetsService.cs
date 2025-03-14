@@ -20,7 +20,7 @@ public class FileAssetsService(IFilesRepository filesRepository, IServiceProvide
         return fileDto;
     }
 
-    public async Task<FileAssetBaseDto> GetFileAssetBaseById(FileAssetId fileAssetId, CancellationToken cancellationToken)
+    public async Task<FileAssetBaseDto> GetFileAssetBaseByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken)
     {
         var file = await filesRepository.GetFileAssetByIdAsync(fileAssetId, cancellationToken);
         var fileBaseDto = file.Adapt<FileAssetBaseDto>();

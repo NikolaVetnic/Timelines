@@ -28,7 +28,7 @@ public class NodesService(INodesRepository nodesRepository, IServiceProvider ser
 
         foreach (var fileAssetId in node.FileAssetIds)
         {
-            var fileAsset = await fileAssetsService.GetFileAssetByIdAsync(fileAssetId, cancellationToken);
+            var fileAsset = await fileAssetsService.GetFileAssetBaseByIdAsync(fileAssetId, cancellationToken);
             nodeDto.FileAssets.Add(fileAsset);
         }
 
