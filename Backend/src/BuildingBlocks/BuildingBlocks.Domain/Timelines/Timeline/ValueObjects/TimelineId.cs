@@ -29,8 +29,8 @@ public class TimelineIdValueConverter : ValueConverter<TimelineId, Guid>
 {
     public TimelineIdValueConverter()
         : base(
-            timelineId => timelineId.Value, // Convert from NodeId to Guid
-            guid => TimelineId.Of(guid)) // Convert from Guid to NodeId
+            timelineId => timelineId.Value, // Convert from TimelineId to Guid
+            guid => TimelineId.Of(guid)) // Convert from Guid to TimelineId
     {
     }
 }
