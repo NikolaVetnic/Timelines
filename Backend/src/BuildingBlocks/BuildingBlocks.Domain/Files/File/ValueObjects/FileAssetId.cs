@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using BuildingBlocks.Domain.Abstractions;
 using System.Text.Json.Serialization;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 
 namespace BuildingBlocks.Domain.Files.File.ValueObjects;
 
@@ -12,6 +13,16 @@ public class FileAssetId : StronglyTypedId
     public static FileAssetId Of(Guid value) => new(value);
 
     public override string ToString() => Value.ToString();
+
+    public override bool Equals(object? obj)
+    {
+        return obj is FileAssetId other && Value == other.Value;
+    }
+
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
+    }
 }
 
 public class FileAssetIdJsonConverter : JsonConverter<FileAssetId>
