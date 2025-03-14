@@ -12,9 +12,9 @@ public static class DatabaseExtensions
     {
         if (!env.IsDevelopment()) 
             return;
-        
-        await services.MigrateAndSeedFilesDatabaseAsync();
+
         await services.MigrateAndSeedNodesDatabaseAsync();
+        await services.MigrateAndSeedFilesDatabaseAsync();
         await services.MigrateAndSeedNotesDatabaseAsync();
         await services.MigrateAndSeedRemindersDatabaseAsync();
         await services.MigrateAndSeedTimelinesDatabaseAsync();

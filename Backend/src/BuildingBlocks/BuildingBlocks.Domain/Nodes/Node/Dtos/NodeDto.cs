@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using BuildingBlocks.Domain.Files.File.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 
 namespace BuildingBlocks.Domain.Nodes.Node.Dtos;
@@ -14,4 +15,6 @@ public class NodeDto(
     List<string> tags) : NodeBaseDto(id, title, description, timestamp, importance, phase, categories, tags)
 {
     [JsonPropertyName("reminders")] public List<ReminderBaseDto> Reminders { get; } = [];
+
+    [JsonPropertyName("fileAssets")] public List<FileAssetBaseDto> FileAssets { get; } = [];
 }

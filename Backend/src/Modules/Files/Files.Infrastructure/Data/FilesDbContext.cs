@@ -1,5 +1,6 @@
-﻿using Files.Application.Data;
-using System.Reflection;
+﻿using System.Reflection;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using Files.Application.Data.Abstractions;
 
 namespace Files.Infrastructure.Data;
 
@@ -19,6 +20,21 @@ public class FilesDbContext(DbContextOptions<FilesDbContext> options) :
         builder.Entity<FileAsset>(entity =>
         {
             entity.ToTable("Files"); // Specify table name within the schema
+
+            entity.HasKey(f => f.Id);
+            entity.Property(f => f.Name);
+            entity.Property(f => f.Size);
+            entity.Property(f => f.Type);
+            entity.Property(f => f.Owner);
+            entity.Property(f => f.Description);
+
+            entity.Property(r => r.NodeId).IsRequired();
+            entity.HasIndex(r => r.NodeId); // Add an index for efficient querying
+
+            // Configure NodeId with the value converter
+            entity.Property(r => r.NodeId)
+                .HasConversion(new NodeIdValueConverter()) // Apply the value converter
+                .IsRequired();
         });
 
         // Apply all configurations taken from classes that implement IEntityTypeConfiguration<>

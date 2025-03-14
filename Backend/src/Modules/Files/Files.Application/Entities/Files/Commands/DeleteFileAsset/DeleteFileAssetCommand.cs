@@ -1,4 +1,6 @@
-﻿namespace Files.Application.Entities.Files.Commands.DeleteFileAsset;
+﻿using BuildingBlocks.Domain.Files.File.ValueObjects;
+
+namespace Files.Application.Entities.Files.Commands.DeleteFileAsset;
 
 public record DeleteFileAssetCommand(FileAssetId Id) : ICommand<DeleteFileAssetResult>
 {
