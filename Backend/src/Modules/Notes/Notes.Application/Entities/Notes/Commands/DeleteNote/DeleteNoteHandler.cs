@@ -1,9 +1,10 @@
-﻿using Notes.Application.Data.Abstractions;
+﻿using BuildingBlocks.Application.Data;
+using Notes.Application.Data.Abstractions;
 using Notes.Application.Entities.Notes.Exceptions;
 
 namespace Notes.Application.Entities.Notes.Commands.DeleteNote;
 
-public class DeleteNoteHandler(INotesDbContext dbContext) : ICommandHandler<DeleteNoteCommand, DeleteNoteResult>
+public class DeleteNoteHandler(INotesDbContext dbContext, INodesService nodesService) : ICommandHandler<DeleteNoteCommand, DeleteNoteResult>
 {
     public async Task<DeleteNoteResult> Handle(DeleteNoteCommand command, CancellationToken cancellationToken)
     {
@@ -15,6 +16,8 @@ public class DeleteNoteHandler(INotesDbContext dbContext) : ICommandHandler<Dele
             throw new NoteNotFoundException(command.Id.ToString());
 
         dbContext.Notes.Remove(note);
+        await nodesService.RemoveNote(note.NodeId, note.Id, cancellationToken);
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return new DeleteNoteResult(true);
