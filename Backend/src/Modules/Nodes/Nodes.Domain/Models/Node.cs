@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using BuildingBlocks.Domain.Nodes.Node.Events;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -22,6 +23,7 @@ public class Node : Aggregate<NodeId>
     public required int Importance { get; set; }
     public required string Phase { get; set; }
     public List<ReminderId> ReminderIds { get; set; } = [];
+    public List<NoteId> NoteIds { get; set; } = [];
 
     #region Node
 
@@ -45,6 +47,7 @@ public class Node : Aggregate<NodeId>
             node.AddTag(tag);
 
         node.ReminderIds = [];
+        node.NoteIds = [];
 
         node.AddDomainEvent(new NodeCreatedEvent(node.Id));
 
@@ -81,6 +84,22 @@ public class Node : Aggregate<NodeId>
 
     #endregion
 
+    #region Notes
+
+    public void AddNote(NoteId noteId)
+    {
+        if (!NoteIds.Contains(noteId))
+            NoteIds.Add(noteId);
+    }
+
+    public void RemoveNote(NoteId noteId)
+    {
+        if (NoteIds.Contains(noteId))
+            NoteIds.Remove(noteId);
+    }
+
+    #endregion
+
     #region Categories
 
     private void AddCategory(string category)
@@ -113,3 +132,7 @@ public class Node : Aggregate<NodeId>
 public class ReminderIdListConverter() : ValueConverter<List<ReminderId>, string>(
     list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),
     json => JsonSerializer.Deserialize<List<ReminderId>>(json, new JsonSerializerOptions()) ?? new List<ReminderId>());
+
+public class NoteIdListConverter() : ValueConverter<List<NoteId>, string>(
+    list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),
+    json => JsonSerializer.Deserialize<List<NoteId>>(json, new JsonSerializerOptions()) ?? new List<NoteId>());

@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using BuildingBlocks.Domain.Notes.Note.Dtos;
 using Notes.Application.Entities.Notes.Queries.GetNoteById;
 
 namespace Notes.Api.Endpoints.Notes;

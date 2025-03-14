@@ -35,6 +35,15 @@ public class NodesDbContext(DbContextOptions<NodesDbContext> options) :
                 .HasConversion(new ReminderIdListConverter())
                 .HasColumnName("ReminderIds")
                 .IsRequired(false);
+
+            // Map the NoteIds as a collection of IDs
+            entity.Ignore(n => n.NoteIds); // This prevents EF from expecting a navigation property
+            entity.Property(n => n.Id).ValueGeneratedNever(); // Ensures IDs are managed externally
+
+            entity.Property(e => e.NoteIds)
+                .HasConversion(new NoteIdListConverter())
+                .HasColumnName("NoteIds")
+                .IsRequired(false);
         });
 
         // Apply all configurations taken from classes that implement IEntityTypeConfiguration<>
