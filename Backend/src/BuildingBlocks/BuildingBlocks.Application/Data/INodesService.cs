@@ -11,4 +11,5 @@ public interface INodesService
     Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
     Task AddReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken);
     Task AddFileAsset(NodeId nodeId, FileAssetId fileAssetId, CancellationToken cancellationToken);
+    Task RemoveFileAsset(NodeId nodeId, FileAssetId fileAssetId, CancellationToken cancellationToken);
 }

@@ -57,4 +57,11 @@ public class NodesService(INodesRepository nodesRepository, IServiceProvider ser
         node.AddFileAsset(fileAssetId);
         await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
+
+    public async Task RemoveFileAsset(NodeId nodeId, FileAssetId fileAssetId, CancellationToken cancellationToken)
+    {
+        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        node.RemoveFileAsset(fileAssetId);
+        await nodesRepository.UpdateNodeAsync(node, cancellationToken);
+    }
 }
