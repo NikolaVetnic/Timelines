@@ -27,4 +27,4 @@ public class GetFileAssetById : ICarterModule
 
 // ReSharper disable once ClassNeverInstantiated.Global
 // ReSharper disable once NotAccessedPositionalProperty.Global
-public record GetFileAssetByIdResponse([property: JsonPropertyName("file")] FileAssetDto FileAssetDto);
+public record GetFileAssetByIdResponse([property: JsonPropertyName("fileAssets")] FileAssetDto FileAssetDto);

@@ -3,6 +3,7 @@ using BuildingBlocks.Domain.Files.File.Dtos;
 using BuildingBlocks.Domain.Files.File.ValueObjects;
 using Files.Application.Data.Abstractions;
 using Mapster;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Files.Application.Data;
 
@@ -12,6 +13,9 @@ public class FileAssetsService(IFilesRepository filesRepository, IServiceProvide
     {
         var file = await filesRepository.GetFileAssetByIdAsync(fileAssetId, cancellationToken);
         var fileDto = file.Adapt<FileAssetDto>();
+
+        var node = await serviceProvider.GetRequiredService<INodesService>().GetNodeBaseByIdAsync(file.NodeId, cancellationToken);
+        fileDto.Node = node;
 
         return fileDto;
     }
