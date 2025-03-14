@@ -2,6 +2,7 @@ using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data.Abstractions;
@@ -14,7 +15,11 @@ public class NodesService(INodesRepository nodesRepository, IServiceProvider ser
     public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
-        var nodeDto = node.ToNodeDto();
+
+        var timelineService = serviceProvider.GetRequiredService<ITimelinesService>();
+        var timeline = await timelineService.GetTimelineBaseDtoAsync(node.TimelineId, cancellationToken);
+
+        var nodeDto = node.ToNodeDto(timeline);
 
         var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
 

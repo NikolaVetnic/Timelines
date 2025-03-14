@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Timelines.Application.Entities.Timelines.Dtos;
+namespace BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 
-public class TimelineDto(
+public class TimelineBaseDto(
     string? id,
     string title)
 {

@@ -12,7 +12,7 @@ public class GetNodeById : ICarterModule
         app.MapGet("/Nodes/{nodeId}", async (string nodeId, ISender sender) =>
         {
             var result = await sender.Send(new GetNodeByIdQuery(nodeId));
-            var response = result.Adapt<GetNodeByIdResponse>();
+            var response = new GetNodeByIdResponse(result.NodeDto);
 
             return Results.Ok(response);
         })

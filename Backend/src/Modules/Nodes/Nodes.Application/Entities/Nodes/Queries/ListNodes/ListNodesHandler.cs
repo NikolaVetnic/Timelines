@@ -1,3 +1,4 @@
+using BuildingBlocks.Application.Data;
 using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using Nodes.Application.Data.Abstractions;
@@ -5,7 +6,7 @@ using Nodes.Application.Entities.Nodes.Extensions;
 
 namespace Nodes.Application.Entities.Nodes.Queries.ListNodes;
 
-internal class ListNodesHandler(INodesDbContext dbContext) : IQueryHandler<ListNodesQuery, ListNodesResult>
+internal class ListNodesHandler(INodesDbContext dbContext, ITimelinesService timelinesService) : IQueryHandler<ListNodesQuery, ListNodesResult>
 {
     // todo: Refactor so that Services are used
     public async Task<ListNodesResult> Handle(ListNodesQuery query, CancellationToken cancellationToken)
@@ -22,11 +23,17 @@ internal class ListNodesHandler(INodesDbContext dbContext) : IQueryHandler<ListN
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
 
+        var nodeDtos = nodes.Select(n =>
+        {
+            var timeline = timelinesService.GetTimelineBaseDtoAsync(n.TimelineId, cancellationToken).GetAwaiter().GetResult();
+            return n.ToNodeDto(timeline);
+        }).ToList();
+
         return new ListNodesResult(
             new PaginatedResult<NodeDto>(
                 pageIndex,
                 pageSize,
                 totalCount,
-                nodes.ToNodeDtoList()));
+                nodeDtos));
     }
 }

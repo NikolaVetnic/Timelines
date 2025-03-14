@@ -11,7 +11,7 @@ public class ListNodes : ICarterModule
         app.MapGet("/Nodes", async ([AsParameters] PaginationRequest query, ISender sender) =>
         {
             var result = await sender.Send(new ListNodesQuery(query));
-            var response = result.Adapt<ListNodesResponse>();
+            var response = new ListNodesResponse(result.Nodes);
 
             return Results.Ok(response);
         })
