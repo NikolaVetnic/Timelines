@@ -15,4 +15,11 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Entities\Phases\Commands\CreatePhase\" />
+      <Folder Include="Entities\Phases\Commands\DeletePhase\" />
+      <Folder Include="Entities\Phases\Queries\GetPhaseById\" />
+      <Folder Include="Entities\Phases\Queries\ListPhases\" />
+    </ItemGroup>
+
 </Project>

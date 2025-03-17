@@ -1,6 +1,6 @@
 ﻿using BuildingBlocks.Domain.Exceptions;
 
-namespace Nodes.Domain.ValueObjects.Ids;
+namespace BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
 
 public record PhaseId
 {

@@ -20,12 +20,12 @@ public class Node : Aggregate<NodeId>
     public required string Description { get; set; }
     public required DateTime Timestamp { get; set; }
     public required int Importance { get; set; }
-    public required string Phase { get; set; }
+    public required Phase Phase { get; set; }
     public List<ReminderId> ReminderIds { get; set; } = [];
 
     #region Node
 
-    public static Node Create(NodeId id, string title, string description, string phase,
+    public static Node Create(NodeId id, string title, string description, Phase phase,
         DateTime timestamp, int importance, List<string> categories, List<string> tags)
     {
         var node = new Node
@@ -52,7 +52,7 @@ public class Node : Aggregate<NodeId>
     }
 
     public void Update(string title, string description, DateTime timestamp,
-        int importance, string phase)
+        int importance, Phase phase)
     {
         Title = title;
         Description = description;
