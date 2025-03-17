@@ -1,6 +1,8 @@
 ﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Text.Json;
 
 namespace Nodes.Domain.Models;
 
@@ -46,4 +48,6 @@ public class Phase : Entity<PhaseId>
     }
 }
 
-
+public class NodeIdListConverter() : ValueConverter<List<NodeId>, string>(
+    list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),
+    json => JsonSerializer.Deserialize<List<NodeId>>(json, new JsonSerializerOptions()) ?? new List<NodeId>());

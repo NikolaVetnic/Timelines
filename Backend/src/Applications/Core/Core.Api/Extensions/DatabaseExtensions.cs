@@ -1,5 +1,5 @@
 using Files.Infrastructure.Data.Extensions;
-using Nodes.Infrastructure.Data.Extensions;
+using Nodes.Infrastructure.Data.Extensions.Nodes;
 using Notes.Infrastructure.Data.Extensions;
 using Reminders.Infrastructure.Data.Extensions;
 using Timelines.Infrastructure.Data.Extensions;

@@ -1,7 +1,7 @@
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
 
-namespace Nodes.Infrastructure.Data.Extensions;
+namespace Nodes.Infrastructure.Data.Extensions.Nodes;
 
 internal static class InitialData
 {
