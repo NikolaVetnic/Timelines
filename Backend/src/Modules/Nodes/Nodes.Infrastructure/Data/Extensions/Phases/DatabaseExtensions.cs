@@ -2,7 +2,7 @@
 
 public static class DatabaseExtensions
 {
-    public static async Task MigrateAndSeedNodesDatabaseAsync(this IServiceProvider services)
+    public static async Task MigrateAndSeedPhasesDatabaseAsync(this IServiceProvider services)
     {
         using var scope = services.CreateScope();
         var scopedProvider = scope.ServiceProvider;

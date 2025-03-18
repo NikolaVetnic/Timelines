@@ -1,8 +1,8 @@
 ﻿namespace Nodes.Application.Data.Abstractions;
 
-public interface IPhaseDbContext
+public interface IPhasesDbContext
 {
-    DbSet<Phase> Phase { get; }
+    DbSet<Phase> Phases { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

@@ -16,7 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Entities\Phases\Commands\CreatePhase\" />
       <Folder Include="Entities\Phases\Commands\DeletePhase\" />
       <Folder Include="Entities\Phases\Queries\GetPhaseById\" />
       <Folder Include="Entities\Phases\Queries\ListPhases\" />

@@ -5,7 +5,6 @@ using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data.Abstractions;
-using Nodes.Application.Entities.Nodes.Extensions;
 
 namespace Nodes.Application.Data;
 
@@ -14,7 +13,7 @@ public class NodesService(INodesRepository nodesRepository, IServiceProvider ser
     public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
-        var nodeDto = node.ToNodeDto();
+        var nodeDto = node.Adapt<NodeDto>();
 
         var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
 

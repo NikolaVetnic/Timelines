@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using BuildingBlocks.Domain.Nodes.Node.Events;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -20,13 +21,12 @@ public class Node : Aggregate<NodeId>
     public required string Description { get; set; }
     public required DateTime Timestamp { get; set; }
     public required int Importance { get; set; }
-    public required Phase Phase { get; set; }
+    public required PhaseId PhaseId { get; set; }
     public List<ReminderId> ReminderIds { get; set; } = [];
 
     #region Node
 
-    public static Node Create(NodeId id, string title, string description, Phase phase,
-        DateTime timestamp, int importance, List<string> categories, List<string> tags)
+    public static Node Create(NodeId id, string title, string description, DateTime timestamp, int importance, List<string> categories, List<string> tags, PhaseId phaseId)
     {
         var node = new Node
         {
@@ -35,7 +35,7 @@ public class Node : Aggregate<NodeId>
             Description = description,
             Timestamp = timestamp,
             Importance = importance,
-            Phase = phase
+            PhaseId = phaseId
         };
 
         foreach (var category in categories)
@@ -52,13 +52,13 @@ public class Node : Aggregate<NodeId>
     }
 
     public void Update(string title, string description, DateTime timestamp,
-        int importance, Phase phase)
+        int importance, PhaseId phaseId)
     {
         Title = title;
         Description = description;
         Timestamp = timestamp;
         Importance = importance;
-        Phase = phase;
+        PhaseId = phaseId;
 
         AddDomainEvent(new NodeUpdatedEvent(Id));
     }

@@ -1,5 +1,6 @@
 using Files.Infrastructure.Data.Extensions;
 using Nodes.Infrastructure.Data.Extensions.Nodes;
+using Nodes.Infrastructure.Data.Extensions.Phases;
 using Notes.Infrastructure.Data.Extensions;
 using Reminders.Infrastructure.Data.Extensions;
 using Timelines.Infrastructure.Data.Extensions;
@@ -18,5 +19,6 @@ public static class DatabaseExtensions
         await services.MigrateAndSeedNotesDatabaseAsync();
         await services.MigrateAndSeedRemindersDatabaseAsync();
         await services.MigrateAndSeedTimelinesDatabaseAsync();
+        await services.MigrateAndSeedPhasesDatabaseAsync();
     }
 }

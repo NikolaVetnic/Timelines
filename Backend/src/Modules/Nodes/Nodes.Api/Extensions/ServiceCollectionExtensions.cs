@@ -25,6 +25,7 @@ public static class ServiceCollectionExtensions
         TypeAdapterConfig.GlobalSettings.Scan(typeof(NodeIdConverter).Assembly);
         
         services.AddScoped<INodesService, NodesService>();
+        services.AddScoped<IPhasesService, PhaseService>();
 
         return services;
     }

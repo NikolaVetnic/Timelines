@@ -24,11 +24,11 @@ internal static class CreateNodeCommandExtensions
             NodeId.Of(Guid.NewGuid()),
             command.Node.Title,
             command.Node.Description,
-            command.Node.Phase,
             command.Node.Timestamp,
             command.Node.Importance,
             command.Node.Categories,
-            command.Node.Tags
+            command.Node.Tags,
+            command.Node.Phase
         );
     }
 }
