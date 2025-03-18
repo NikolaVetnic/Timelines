@@ -3,8 +3,7 @@ using Nodes.Application.Data.Abstractions;
 
 namespace Nodes.Infrastructure.Data;
 
-public class NodesDbContext(DbContextOptions<NodesDbContext> options) :
-    DbContext(options), INodesDbContext
+public class NodesDbContext(DbContextOptions<NodesDbContext> options) : DbContext(options), INodesDbContext
 {
     public DbSet<Node> Nodes { get; init; }
 

@@ -3,9 +3,9 @@ using System.Reflection;
 
 namespace Nodes.Infrastructure.Data;
 
-public class PhaseDbContext(DbContextOptions<PhaseDbContext> options) : DbContext(options), IPhaseDbContext
+public class PhasesDbContext(DbContextOptions<PhasesDbContext> options) : DbContext(options), IPhasesDbContext
 {
-    public DbSet<Phase> Phase { get; }
+    public DbSet<Phase> Phases { get; init; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
