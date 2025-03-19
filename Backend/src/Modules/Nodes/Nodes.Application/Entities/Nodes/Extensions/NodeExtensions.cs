@@ -1,4 +1,4 @@
-using Nodes.Application.Entities.Nodes.Dtos;
+using BuildingBlocks.Domain.Nodes.Node.Dtos;
 
 namespace Nodes.Application.Entities.Nodes.Extensions;
 

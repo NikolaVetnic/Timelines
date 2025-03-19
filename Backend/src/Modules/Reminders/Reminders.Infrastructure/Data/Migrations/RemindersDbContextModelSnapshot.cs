@@ -48,6 +48,9 @@ namespace Reminders.Infrastructure.Data.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
+                    b.Property<Guid>("NodeId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("NotificationTime")
                         .HasColumnType("timestamp with time zone");
 
@@ -65,6 +68,8 @@ namespace Reminders.Infrastructure.Data.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NodeId");
 
                     b.ToTable("Reminders", "Reminders");
                 });

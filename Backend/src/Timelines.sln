@@ -94,6 +94,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Timelines", "Timelines", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timelines.Integration", "Tests\Timelines\Timelines.Integration\Timelines.Integration.csproj", "{A7233786-83EC-480E-9ADC-FB1104259D0D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.Infrastructure", "BuildingBlocks\BuildingBlocks.Infrastructure\BuildingBlocks.Infrastructure.csproj", "{D08117BF-C399-4F14-8BC3-5FED819DE548}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -216,6 +218,10 @@ Global
 		{A7233786-83EC-480E-9ADC-FB1104259D0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7233786-83EC-480E-9ADC-FB1104259D0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7233786-83EC-480E-9ADC-FB1104259D0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D08117BF-C399-4F14-8BC3-5FED819DE548}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D08117BF-C399-4F14-8BC3-5FED819DE548}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D08117BF-C399-4F14-8BC3-5FED819DE548}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D08117BF-C399-4F14-8BC3-5FED819DE548}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -258,5 +264,6 @@ Global
 		{74519517-34C3-4E05-84B4-041CD8EFCD73} = {E783BF30-869C-45B7-A479-FAF3A5D9F19A}
 		{EB66444D-5810-4BF4-9E06-84F8EFD94416} = {FC2E36AE-2129-4B8B-890F-0090F296AA3F}
 		{A7233786-83EC-480E-9ADC-FB1104259D0D} = {EB66444D-5810-4BF4-9E06-84F8EFD94416}
+		{D08117BF-C399-4F14-8BC3-5FED819DE548} = {0224C1F2-CC52-4048-87F2-B9D12499AAC9}
 	EndGlobalSection
 EndGlobal

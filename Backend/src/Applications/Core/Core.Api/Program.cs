@@ -1,5 +1,6 @@
 using BuildingBlocks.Application.Exceptions.Handlers;
 using BuildingBlocks.Domain;
+using BuildingBlocks.Infrastructure.Extensions;
 using Carter;
 using Core.Api.Extensions;
 using Core.Api.Sdk;
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerDocumentation();
 
 builder.Services.AddCarter();
 builder.Services.AddModules(builder.Configuration);
+builder.Services.AddInterceptors();
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Reminders.Infrastructure.Data.Configurations;
 

@@ -1,4 +1,6 @@
-﻿using BuildingBlocks.Domain.ValueObjects.Ids;
+﻿using System;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Reminders.Application.Entities.Reminders.Commands.CreateReminder;
 
 // ReSharper disable ClassNeverInstantiated.Global
@@ -29,11 +31,13 @@ public class CreateReminder : ICarterModule
 
 public record CreateReminderRequest
 {
-    public CreateReminderRequest() { }
-
-    public CreateReminderRequest(ReminderDto reminder) => Reminder = reminder;
-
-    public ReminderDto Reminder { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public DateTime DueDateTime { get; set; }
+    public int Priority { get; set; } // todo: This should be an enum common for all Priority properties
+    public DateTime NotificationTime { get; set; }
+    public string Status { get; set; }
+    public NodeId NodeId { get; set; }
 }
 
 public record CreateReminderResponse(ReminderId Id);

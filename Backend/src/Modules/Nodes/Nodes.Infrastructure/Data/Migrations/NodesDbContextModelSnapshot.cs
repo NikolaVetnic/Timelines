@@ -52,6 +52,10 @@ namespace Nodes.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("SerializedReminderIds")
+                        .HasColumnType("text")
+                        .HasColumnName("ReminderIds");
+
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("timestamp with time zone");
 
