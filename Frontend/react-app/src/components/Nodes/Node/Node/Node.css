@@ -1,4 +1,4 @@
-.timeline-node {
+.node-timeline {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -8,7 +8,7 @@
     position: relative;
 }
 
-.timeline-node {
+.node-timeline {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -17,7 +17,7 @@
     transition: transform 0.3s ease;
 }
 
-.timeline-node:hover {
+.node-timeline:not(.open):hover {
     transform: translateY(-5px);
 }
 
@@ -26,7 +26,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: #007bff;
+    background-color: var(--backgroundHeader);
     color: #fff;
     cursor: pointer;
 }
@@ -46,7 +46,7 @@
 }
 
 .node-header span {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
 }
 
 .node-header:hover .editable-title {
@@ -63,7 +63,6 @@
     padding: 15px 20px;
     cursor: default;
     text-align: left;
-    height: 280px;
 }
 
 .node-content img {
