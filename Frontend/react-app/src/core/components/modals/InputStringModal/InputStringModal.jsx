@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import CancelButton from "../../buttons/CancelButton/CancelButton";
-import SaveButton from "../../buttons/SaveButton/SaveButton";
+import TextButton from "../../buttons/TextButton/TextButton";
 
 import "./InputStringModal.css";
 
@@ -39,7 +38,7 @@ const InputStringModal = ({
 
     return (
         <div className={`${root}-overlay`} onClick={onClose}>
-            <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <div className={`${root}`} onClick={(e) => e.stopPropagation()}>
                 <h3>{title}</h3>
                 <textarea
                     rows="4"
@@ -52,7 +51,7 @@ const InputStringModal = ({
                     <TextButton onClick={onClose} text="Cancel" color="default" />
                     <TextButton onClick={handleSave} text="Save" color="green" disabled={!isChanged}/>
                 </div>
-            </div>
+            </div>  
         </div>
     );
 };
