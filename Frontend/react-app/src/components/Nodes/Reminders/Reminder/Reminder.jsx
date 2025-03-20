@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
-import RemoveButton from "../../../../core/components/buttons/RemoveButton/RemoveButton";
+import RemindersList from "../../../../core/components/lists/RemindersList/RemindersList";
 import CreateReminderModal from "../../../../core/components/modals/CreateReminderModal/CreateReminderModal";
+import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
 
-import "./Reminder.css";
 import "react-toastify/dist/ReactToastify.css";
+import "./Reminder.css";
 
 const Reminder = ({ nodeId, timelineId, onToggle }) => {
   const root = "reminder";
@@ -82,19 +82,12 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
       </button>
 
       {isRemindersExpanded && (
-        <div className={`${root}-container`}>
-          <button className={`${root}-add-button`} onClick={openCreateModal}>+</button>
-          {reminders.length > 0 ?reminders.map((reminder) => (
-            <div key={reminder.id} className={`${root}-item`}>
-              <div className={`${root}-content`}>
-                <p>{reminder.title}</p>
-                <p><strong>Notify At:</strong> {new Date(reminder.notifyAt).toLocaleString()}</p>
-                <p><strong>Priority:</strong> {reminder.priority}</p>
-              </div>
-              <RemoveButton id={reminder.id} onRemove={handleRemoveReminder} message="Reminder removed."/>
-            </div>
-          )) : <p>There are no current reminders.</p>}
-        </div>
+        <RemindersList
+          root={root}
+          reminders={reminders}
+          openCreateModal={openCreateModal}
+          handleRemoveReminder={handleRemoveReminder}
+        />
       )}
 
       <CreateReminderModal 
