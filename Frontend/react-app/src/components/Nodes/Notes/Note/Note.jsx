@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
-import RemoveButton from "../../../../core/components/buttons/RemoveButton/RemoveButton";
+import NotesList from "../../../../core/components/lists/NotesList/NotesList";
 import CreateNoteModal from "../../../../core/components/modals/CreateNoteModal/CreateNoteModal";
 import NoteEditor from "../../../../core/components/modals/NoteEditorModal/NoteEditorModal";
 import useLocalNotes from "../../../../core/hooks/Note/UseLocalNotes";
@@ -75,24 +74,13 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
       </button>
 
       {isNotesExpanded && (
-        <div className={`${root}-container`}>
-          <button className={`${root}-add-button`} onClick={openCreateModal}>+</button>
-          {notes.length > 0 ? (
-            notes.map((note) => (
-              <div key={note.id} className={`${root}-item`}>
-                <div className={`${root}-content`}>
-                  <p>{note.title}</p>
-                  <div className={`${root}-content-button-area`}>
-                    <RemoveButton id={note.id} onRemove={() => handleRemoveNote(note.id)} message="Note removed." />
-                    <EditButton onClick={() => openNoteEditor(note)} />
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p>There are no available notes.</p>
-          )}
-        </div>
+        <NotesList
+          root={root}
+          notes={notes}
+          openCreateModal={openCreateModal}
+          handleRemoveNote={handleRemoveNote}
+          openNoteEditor={openNoteEditor}
+        />
       )}
 
       <CreateNoteModal isOpen={isCreateModalOpen} closeModal={closeCreateModal} saveNote={saveNewNote} />
