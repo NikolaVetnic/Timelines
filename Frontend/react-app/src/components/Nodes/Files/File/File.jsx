@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./File.css";
 
 const File = ({ nodeId, timelineId, onToggle }) => {
+  const root = "file";
   const [files, setFiles] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -155,45 +156,45 @@ const File = ({ nodeId, timelineId, onToggle }) => {
   };
   
   return (
-    <div className="files-section">
-      <button className={`files-header ${isExpanded ? "open" : "closed"}`} onClick={toggleExpansion}>
+    <div className={`${root}-section`}>
+      <button className={`${root}-header ${isExpanded ? "open" : "closed"}`} onClick={toggleExpansion}>
         <h4>Files</h4>
         <span>{isExpanded ? "-" : "+"}</span>
       </button>
 
       {isExpanded && (
-        <div className="files-content">
-          <div className="dropzone-container" {...getRootProps()}>
+        <div className={`${root}-content`}>
+          <div className={`${root}-dropzone-container`} {...getRootProps()}>
             <input {...getInputProps()} />
             <p>Drag & drop files here, or click to select files</p>
           </div>
 
-          <div className="files-container">
+          <div className={`${root}-container`}>
             {files.length > 0 ? (
               files.map((file) => (
-                <div key={file.id} className="file-item">
-                  <div className="file-content">
+                <div key={file.id} className={`${root}-item`}>
+                  <div className={`${root}-content`}>
                     <p>{file.name}</p>
                     <p><strong>Size:</strong> {Math.round(file.size / 1024)} KB</p>
 
                     {file.type.startsWith("image/") && (
-                      <img src={file.url} alt={file.name} className="file-preview" />
+                      <img src={file.url} alt={file.name} className={`${root}-preview`} />
                     )}
 
                     {file.type === "application/pdf" && (
-                      <embed src={file.url} type="application/pdf" className="file-preview-pdf" />
+                      <embed src={file.url} type="application/pdf" className={`${root}-preview-pdf`} />
                     )}
 
                     {file.type === "text/plain" && (
-                      <iframe title="Preview a document/picture." src={file.url} className="file-preview-text"></iframe>
+                      <iframe title="Preview a document/picture." src={file.url} className={`${root}-preview-text`}></iframe>
                     )}
                   </div>
 
-                  <div className="file-buttons">
-                    <button className="preview-button" onClick={() => handlePreview(file)}>
+                  <div className={`${root}-buttons`}>
+                    <button className={`${root}-preview-button`} onClick={() => handlePreview(file)}>
                       Preview
                     </button>
-                    <button className="download-button" onClick={() => handleDownload(file)}>
+                    <button className={`${root}-download-button`} onClick={() => handleDownload(file)}>
                       Download
                     </button>
                     <TextButton onClick={() => handleRemoveFile(file.id)} text="X" color="red" />

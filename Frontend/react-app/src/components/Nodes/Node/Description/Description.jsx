@@ -9,6 +9,7 @@ import "./Description.css";
 
 
 const Description = ({ timelineId, nodeId, setModalActive }) => {
+    const root = "description";
     const [isModalOpen, setModalOpen] = useState(false);
     const [localDescription, setLocalDescription] = useState("");
 
@@ -56,7 +57,7 @@ const Description = ({ timelineId, nodeId, setModalActive }) => {
     };
 
     return (
-        <div className="description-container">
+        <div className={`${root}-container`}>
             <div>
                 <strong>Description:</strong> {localDescription || "No Description Set"}
             </div>

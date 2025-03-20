@@ -1,4 +1,4 @@
-.files-header {
+.file-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,36 +15,36 @@
     border-radius: 5px;
 }
 
-.files-header.open {
+.file-header.open {
     border-radius: 5px 5px 0px 0px;
 }
 
-.files-header.closed {
+.file-header.closed {
     border-radius: 5px;
 }
 
-.files-header:hover {
+.file-header:hover {
     color: var(--backgroundHeader);
 }
 
-.files-header h4 {
+.file-header h4 {
     margin: 0;
     font-size: 1rem;
     color: var(--enmBlue);
 }
 
-.files-header:hover h4 {
+.file-header:hover h4 {
     color: var(--backgroundHeader);
 }
 
-.files-content {
+.file-content {
     background: #f9f9f9;
     padding: 10px;
     border: 1px solid lightgray;
     border-radius: 0 0 5px 5px;
 }
 
-.dropzone-container {
+.file-dropzone-container {
     border: 2px dashed #ccc;
     padding: 20px;
     text-align: center;
@@ -52,7 +52,7 @@
     cursor: pointer;
 }
 
-.files-container {
+.file-container {
     background: #f9f9f9;
     padding: 10px;
     border: 1px solid lightgray;
@@ -113,7 +113,7 @@
     margin-left: 10px;
 }
 
-.preview-button {
+.file-preview-button {
     background: #007bff;
     color: white;
     text-decoration: none;
@@ -121,11 +121,11 @@
     border-radius: 5px;
 }
 
-.preview-button:hover {
+.file-preview-button:hover {
     background: #0056b3;
 }
 
-.download-button {
+.file-download-button {
     background: #28a745;
     color: white;
     border: none;
@@ -134,6 +134,6 @@
     cursor: pointer;
 }
 
-.download-button:hover {
+.file-download-button:hover {
     background: #218838;
 }

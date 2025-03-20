@@ -13,6 +13,7 @@ import Timestamp from "../Timestamp/Timestamp";
 import "./Node.css";
 
 const Node = forwardRef(({ node, onToggle, isModalActive, setModalActive, openNodeId, setOpenNodeId, timelineId }, ref) => {
+    const root = "node";
     const isOpen = openNodeId === node.id;
     const [categories, setCategories] = useState(node.categories);
     const [tags, setTags] = useState(node.tags);
@@ -32,19 +33,18 @@ const Node = forwardRef(({ node, onToggle, isModalActive, setModalActive, openNo
     };
 
     return (
-        <div className={`timeline-node ${isOpen ? "open" : ""}`} ref={ref}>
+        <div className={`${root}-timeline ${isOpen ? "open" : ""}`} ref={ref}>
             <div className="node-header" onClick={toggleCard}>
                 <EditableTitle
                     nodeId={node.id}
                     timelineId={timelineId}
                     title={title}
                     onUpdateTitle={(newTitle) => setTitle(newTitle)}
-                    className="timeline-title"
                 />
                 <span>{isOpen ? "-" : "+"}</span>
             </div>
             {isOpen && (
-                <div className="node-content">
+                <div className={`${root}-content`}>
                     <Description
                         nodeId={node.id}
                         timelineId={timelineId}

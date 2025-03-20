@@ -7,6 +7,7 @@ import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
 import "./EditableTitle.css";
 
 const EditableTitle = ({ timelineId, nodeId, className }) => {
+    const root = "editable-title";
     const [isEditing, setIsEditing] = useState(false);
     const [localTitle, setLocalTitle] = useState("");
     const [isHovered, setIsHovered] = useState(false);
@@ -76,18 +77,18 @@ const EditableTitle = ({ timelineId, nodeId, className }) => {
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onBlur={handleBlur}
-            className={`editable-title ${className}`}
+            className={`${root} ${className}`}
             autoFocus
         />
     ) : (
         <div
-            className={`editable-title-container ${className}`}
+            className={`${root}-container ${className}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <h3 className="editable-title">{localTitle || "Untitled"}</h3>
+            <h3 className={`${root}`}>{localTitle || "Untitled"}</h3>
             {isHovered && (
-                <IconButton className="editable-title-edit-icon" onClick={(e) => {
+                <IconButton className={`${root}-edit-icon`} onClick={(e) => {
                     e.stopPropagation();
                     setEditing(true);
                 }} icon={<CiEdit />} title="Edit" />

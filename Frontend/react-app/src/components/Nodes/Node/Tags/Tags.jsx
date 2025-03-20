@@ -9,6 +9,7 @@ import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
 import "./Tags.css";
 
 const Tags = ({ timelineId, nodeId, setModalActive }) => {
+    const root = "tags";
     const [isModalOpen, setModalOpen] = useState(false);
     const [localTags, setLocalTags] = useState([]);
 
@@ -58,14 +59,14 @@ const Tags = ({ timelineId, nodeId, setModalActive }) => {
     };
     
     return (
-        <div className="tags-container">
+        <div className={`${root}-container`}>
             <div>
                 <strong>Tags:</strong>{" "}
                 {localTags.length > 0 ? (
                     localTags.map((tag, index) => (
                         <span
                             key={index}
-                            className="tag-badge"
+                            className={`${root}-badge`}
                             style={{ backgroundColor: convertStringToColor(tag) }}
                         >
                             {tag}

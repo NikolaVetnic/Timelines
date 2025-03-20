@@ -8,6 +8,7 @@ import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
 import "./Importance.css";
 
 const Importance = ({ timelineId, nodeId, setModalActive }) => {
+    const root = "importance"
     const [importance, setImportance] = useState(0);
     const [isModalOpen, setModalOpen] = useState(false);
 
@@ -55,8 +56,8 @@ const Importance = ({ timelineId, nodeId, setModalActive }) => {
     };
 
     return (
-        <div className="importance-container">
-            <div className="importance-content">
+        <div className={`${root}-container`}>
+            <div className={`${root}-content`}>
                 <strong>Importance:</strong> {importance}
             </div>
             <IconButton onClick={() => setModalState(true)} icon={<CiEdit />} title="Edit" />
