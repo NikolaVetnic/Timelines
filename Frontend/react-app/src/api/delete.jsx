@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 /**
- * Delete a data by ID
+ * Delete data by ID
  * @param {string} apiUrl - The base API URL
  * @param {string} exactPath - Remaining path
  * @param {string} id - The ID of the timeline to delete

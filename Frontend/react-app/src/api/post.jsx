@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 /**
- * Create a new data
+ * Create new data
  * @param {string} apiUrl - The base API URL
  * @param {string} exactPath - Remaining path
  * @param {Object} data - The timeline data to send
