@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
+
+import TimelineHeader from "../../../core/components/headers/TimelineHeader.jsx/TimelineHeader";
 import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
 import recalculateStrip from "../../../core/utils/RecalculateStrip";
 import Node from "../../Nodes/Node/Node/Node";
+
 import "./Timeline.css";
 
 const Timeline = ({ selectedTimeline, setSelectedTimeline, setTimelineData, timelineData, updateSelectedTimeline }) => {
@@ -36,10 +39,7 @@ const Timeline = ({ selectedTimeline, setSelectedTimeline, setTimelineData, time
 
     return (
         <div className={`${root}-container`} key={selectedTimeline.id}>
-            <div className={`${root}-header`}>
-                <h2 className={`${root}-title`}>{selectedTimeline.title}</h2>
-                <button className={`${root}-add-node-btn`} onClick={() => setIsCreateModalActive(true)}>➕ Add Node</button>
-            </div>
+            <TimelineHeader root={root} selectedTimeline={selectedTimeline} setIsCreateModalActive={setIsCreateModalActive} />
     
             <div className={`${root}-strip`} ref={stripRef} style={stripStyle}></div>
     
