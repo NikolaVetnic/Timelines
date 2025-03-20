@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 /**
- * Get a list of timelines with pagination
+ * Get a list of data with pagination
  * @param {string} apiUrl - The base API URL
  * @param {string} exactPath - Remaining path
  * @param {number} pageIndex - Page index (default is 0)
@@ -27,7 +27,7 @@ const getAll = async (apiUrl, exactPath, pageIndex = 0, pageSize = 10) => {
 };
 
 /**
- * Get a timeline by ID
+ * Get a data by ID
  * @param {string} apiUrl - The base API URL
  * @param {string} exactPath - Remaining path from API URL to Id
  * @param {string} id - The ID of the timeline to fetch
