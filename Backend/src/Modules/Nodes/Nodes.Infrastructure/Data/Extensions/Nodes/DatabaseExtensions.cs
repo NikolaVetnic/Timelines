@@ -1,4 +1,4 @@
-namespace Nodes.Infrastructure.Data.Extensions;
+namespace Nodes.Infrastructure.Data.Extensions.Nodes;
 
 public static class DatabaseExtensions
 {

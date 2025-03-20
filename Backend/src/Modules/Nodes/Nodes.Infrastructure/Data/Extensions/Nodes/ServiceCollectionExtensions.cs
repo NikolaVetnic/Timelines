@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Nodes.Application.Data.Abstractions;
 using Nodes.Infrastructure.Data.Repositories;
 
-namespace Nodes.Infrastructure.Data.Extensions;
+namespace Nodes.Infrastructure.Data.Extensions.Nodes;
 
 public static class ServiceCollectionExtensions
 {

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data;
 using Nodes.Application.Extensions;
-using Nodes.Infrastructure.Data.Extensions;
+using Nodes.Infrastructure.Data.Extensions.Nodes;
 
 namespace Nodes.Api.Extensions;
 
@@ -25,6 +25,7 @@ public static class ServiceCollectionExtensions
         TypeAdapterConfig.GlobalSettings.Scan(typeof(NodeIdConverter).Assembly);
         
         services.AddScoped<INodesService, NodesService>();
+        services.AddScoped<IPhasesService, PhaseService>();
 
         return services;
     }
