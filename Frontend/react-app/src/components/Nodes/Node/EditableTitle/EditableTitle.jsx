@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { CiEdit } from "react-icons/ci";
 
+import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
 import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
-import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
 
 import "./EditableTitle.css";
 
@@ -86,13 +87,10 @@ const EditableTitle = ({ timelineId, nodeId, className }) => {
         >
             <h3 className="editable-title">{localTitle || "Untitled"}</h3>
             {isHovered && (
-                <EditButton
-                    className="editable-title-edit-icon"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setEditing(true);
-                    }}
-                />
+                <IconButton className="editable-title-edit-icon" onClick={(e) => {
+                    e.stopPropagation();
+                    setEditing(true);
+                }} icon={<CiEdit />} title="Edit" />
             )}
         </div>
     );

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import CancelButton from "../../buttons/CancelButton/CancelButton";
-import SaveButton from "../../buttons/SaveButton/SaveButton";
+import TextButton from "../../buttons/TextButton/TextButton";
 
 import "./DatePickerModal.css";
 
@@ -46,8 +45,8 @@ const DatePickerModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
                     />
                 </div>
                 <div className={`${root}-actions`}>
-                    <CancelButton onClick={onClose} />
-                    <SaveButton onClick={handleSave} disabled={!isChanged} />
+                    <TextButton onClick={onClose} text="Cancel" color="default" />
+                    <TextButton onClick={handleSave} text="Save" color="green" disabled={!isChanged}/>
                 </div>
             </div>
         </div>

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { CiEdit } from "react-icons/ci";
 
-import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
-import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
+import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
 import TextAreaModal from "../../../../core/components/modals/TextAreaModal/TextAreaModal";
+import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
 
 import "./Description.css";
 
@@ -59,7 +60,7 @@ const Description = ({ timelineId, nodeId, setModalActive }) => {
             <div>
                 <strong>Description:</strong> {localDescription || "No Description Set"}
             </div>
-            <EditButton onClick={() => setModalState(true)} />
+            <IconButton onClick={() => setModalState(true)} icon={<CiEdit />} title="Edit" />
             <TextAreaModal
                 isOpen={isModalOpen}
                 onClose={() => setModalState(false)}

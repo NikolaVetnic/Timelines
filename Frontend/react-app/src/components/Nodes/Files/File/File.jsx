@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 
-import { MAX_FILE_SIZE, LOCAL_STORAGE_KEY } from "../../../../data/constants";
-import RemoveButton from "../../../../core/components/buttons/RemoveButton/RemoveButton";
+import TextButton from "../../../../core/components/buttons/TextButton/TextButton";
+import { LOCAL_STORAGE_KEY, MAX_FILE_SIZE } from "../../../../data/constants";
 
-import "./File.css";
 import "react-toastify/dist/ReactToastify.css";
+import "./File.css";
 
 const File = ({ nodeId, timelineId, onToggle }) => {
   const [files, setFiles] = useState([]);
@@ -196,7 +196,7 @@ const File = ({ nodeId, timelineId, onToggle }) => {
                     <button className="download-button" onClick={() => handleDownload(file)}>
                       Download
                     </button>
-                    <RemoveButton id={file.id} onRemove={() => handleRemoveFile(file.id)} />
+                    <TextButton onClick={() => handleRemoveFile(file.id)} text="X" color="red" />
                   </div>
                 </div>
               ))

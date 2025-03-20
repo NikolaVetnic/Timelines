@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { CiEdit } from "react-icons/ci";
 
-import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
-import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
+import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
 import InputStringModal from "../../../../core/components/modals/InputStringModal/InputStringModal";
 import convertStringToColor from "../../../../core/utils/ConvertStringToColor";
-
+import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
 
 import "./Categories.css";
 
@@ -73,7 +73,7 @@ const Categories = ({ timelineId, nodeId, setModalActive }) => {
                     <span>No Categories Set</span>
                 )}
             </div>
-            <EditButton onClick={() => setModalState(true)} />
+            <IconButton onClick={() => setModalState(true)} icon={<CiEdit />} title="Edit" />
             <InputStringModal
                 isOpen={isModalOpen}
                 onClose={() => setModalState(false)}

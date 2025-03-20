@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import CancelButton from "../../buttons/CancelButton/CancelButton";
-import SaveButton from "../../buttons/SaveButton/SaveButton";
+import TextButton from "../../buttons/TextButton/TextButton";
 
 import "./IntegerModal.css";
 
@@ -48,8 +47,8 @@ const IntegerModal = ({ isOpen, onClose, onSave, initialValue }) => {
                     <button className={`${root}-button`} onClick={handleIncrement}>+</button>
                 </div>
                 <div className={`${root}-actions`}>
-                    <CancelButton onClick={onClose} />
-                    <SaveButton onClick={handleSave} disabled={!isChanged} />
+                    <TextButton onClick={onClose} text="Cancel" color="default" />
+                    <TextButton onClick={handleSave} text="Save" color="green" disabled={!isChanged}/>
                 </div>
             </div>
         </div>

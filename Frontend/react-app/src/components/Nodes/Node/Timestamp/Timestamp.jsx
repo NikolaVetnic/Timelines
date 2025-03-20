@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { CiEdit } from "react-icons/ci";
 
-import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
-import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
+import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
 import DatePickerModal from "../../../../core/components/modals/DatePickerModal/DatePickerModal";
+import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
 
 import "./Timestamp.css";
 
@@ -59,7 +60,7 @@ const Timestamp = ({ timelineId, nodeId, setModalActive }) => {
             <div>
                 <strong>Timestamp:</strong> {localTimestamp ? localTimestamp.toLocaleDateString() : "Not Set"}
             </div>
-            <EditButton onClick={() => setModalState(true)} />
+            <IconButton onClick={() => setModalState(true)} icon={<CiEdit />} title="Edit" />
             <DatePickerModal
                 isOpen={isModalOpen}
                 onClose={() => setModalState(false)}

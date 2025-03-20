@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { CiEdit } from "react-icons/ci";
 
-import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
-import EditButton from "../../../../core/components/buttons/EditButton/EditButton";
+import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
 import IntegerModal from "../../../../core/components/modals/IntegerModal/IntegerModal";
+import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
 
 import "./Importance.css";
 
@@ -58,7 +59,7 @@ const Importance = ({ timelineId, nodeId, setModalActive }) => {
             <div className="importance-content">
                 <strong>Importance:</strong> {importance}
             </div>
-            <EditButton onClick={() => setModalState(true)} />
+            <IconButton onClick={() => setModalState(true)} icon={<CiEdit />} title="Edit" />
             <IntegerModal
                 isOpen={isModalOpen}
                 onClose={() => setModalState(false)}

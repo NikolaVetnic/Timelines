@@ -49,8 +49,8 @@ const InputStringModal = ({
                     autoFocus
                 ></textarea>
                 <div className={`${root}-actions`}>
-                    <CancelButton onClick={onClose} />
-                    <SaveButton onClick={handleSave} disabled={!isChanged} />
+                    <TextButton onClick={onClose} text="Cancel" color="default" />
+                    <TextButton onClick={handleSave} text="Save" color="green" disabled={!isChanged}/>
                 </div>
             </div>
         </div>
