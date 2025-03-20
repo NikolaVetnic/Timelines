@@ -30,7 +30,7 @@
     text-align: center;
 }
 
-.integer-controls {
+.integer-modal-controls {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -61,7 +61,7 @@
     background-color: #cf5a22;
 }
 
-.integer-modal-modal-actions {
+.integer-modal-actions {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
