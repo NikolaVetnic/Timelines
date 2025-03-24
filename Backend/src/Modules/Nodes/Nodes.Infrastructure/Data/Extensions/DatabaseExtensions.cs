@@ -1,5 +1,3 @@
-using BuildingBlocks.Application.Data;
-
 namespace Nodes.Infrastructure.Data.Extensions;
 
 public static class DatabaseExtensions
