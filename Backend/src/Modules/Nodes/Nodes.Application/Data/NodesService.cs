@@ -55,4 +55,18 @@ public class NodesService(INodesRepository nodesRepository, IServiceProvider ser
         await nodesRepository.RemoveNode(node, cancellationToken);
         await timelineService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
     }
+
+    public async Task<List<NodeBaseDto>> GetNodeRangeByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        var nodesService = serviceProvider.GetRequiredService<INodesService>();
+        var nodesBaseDto = new List<NodeBaseDto>();
+
+        foreach (var nodeId in nodeIds)
+        {
+            var node = await nodesService.GetNodeBaseByIdAsync(nodeId, cancellationToken);
+            nodesBaseDto.Add(node);
+        }
+
+        return nodesBaseDto;
+    }
 }

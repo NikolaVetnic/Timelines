@@ -14,17 +14,11 @@ public class TimelinesService(ITimelinesRepository timelinesRepository, IService
     public async Task<TimelineDto> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
-        var timelineDto = timeline.ToTimelineDto();
-
         var nodesService = serviceProvider.GetRequiredService<INodesService>();
 
-        foreach (var nodeId in timeline.NodeIds)
-        {
-            var node = await nodesService.GetNodeBaseByIdAsync(nodeId, cancellationToken);
-            timelineDto.Nodes.Add(node);
-        }
+        var nodes = await nodesService.GetNodeRangeByIdsAsync(timeline.NodeIds, cancellationToken);
 
-        return timelineDto;
+        return timeline.ToTimelineDtoWith(nodes);
     }
 
     public async Task<TimelineBaseDto> GetTimelineBaseDtoAsync(TimelineId timelineId, CancellationToken cancellationToken)

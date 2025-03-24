@@ -10,4 +10,6 @@ public interface INodesService
     Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
     Task AddReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken);
     Task RemoveNode(NodeId nodeId, CancellationToken cancellationToken);
+    Task<List<NodeBaseDto>> GetNodeRangeByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
+
 }
