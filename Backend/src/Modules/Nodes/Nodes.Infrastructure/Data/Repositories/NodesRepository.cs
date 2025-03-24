@@ -6,7 +6,7 @@ namespace Nodes.Infrastructure.Data.Repositories;
 
 public class NodesRepository(INodesDbContext dbContext) : INodesRepository
 {
-    public async Task<Node> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken = default)
+    async Task<Node> INodesRepository.GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
         return await dbContext.Nodes
                    .AsNoTracking()
@@ -19,5 +19,10 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
         dbContext.Nodes.Update(node);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
-}
 
+    public async Task RemoveNode(Node node, CancellationToken cancellationToken)
+    {
+        dbContext.Nodes.Remove(node);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+}
