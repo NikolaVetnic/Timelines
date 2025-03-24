@@ -10,24 +10,20 @@ public static class DatabaseExtensions
         var scopedProvider = scope.ServiceProvider;
 
         var nodesDbContext = scopedProvider.GetRequiredService<NodesDbContext>();
-        var timelineService = scopedProvider.GetRequiredService<ITimelinesService>();
 
         // Apply migrations
         await nodesDbContext.Database.MigrateAsync();
 
         // Seed initial data if necessary
-        await SeedAsync(nodesDbContext, timelineService);
+        await SeedAsync(nodesDbContext);
     }
 
-    private static async Task SeedAsync(NodesDbContext context, ITimelinesService timelineService)
+    private static async Task SeedAsync(NodesDbContext context)
     {
         if (await context.Nodes.AnyAsync())
             return;
 
         await context.AddRangeAsync(InitialData.Nodes);
         await context.SaveChangesAsync();
-
-        foreach (var initialTimeline in InitialData.Nodes)
-            await timelineService.AddNode(initialTimeline.TimelineId, initialTimeline.Id, CancellationToken.None);
     }
 }
