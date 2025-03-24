@@ -9,17 +9,19 @@ namespace Timelines.Domain.Models;
 public class Timeline : Aggregate<TimelineId>
 {
     public required string Title { get; set; }
+    public required string Description { get; set; }
 
     public List<NodeId> NodeIds { get; set; } = [];
 
     #region Timeline
 
-    public static Timeline Create(TimelineId id, string title)
+    public static Timeline Create(TimelineId id, string title, string description)
     {
         var timeline = new Timeline
         {
             Id = id,
-            Title = title
+            Title = title,
+            Description = description
         };
 
         timeline.NodeIds = [];
