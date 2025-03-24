@@ -4,12 +4,12 @@ import axios from 'axios';
  * Create new data
  * @param {string} apiUrl - The base API URL
  * @param {string} exactPath - Remaining path
- * @param {Object} data - The timeline data to send
- * @returns {Promise<Object>} - Returns created timeline response
+ * @param {Object} data - The data to send
+ * @returns {Promise<Object>} - Returns created data response
  */
 const Post = async (apiUrl, exactPath, data) => {
   try {
-    const response = await axios.post(`${apiUrl}${exactPath}`, { data: data }, {
+    const response = await axios.post(`${apiUrl}${exactPath}`, data, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
