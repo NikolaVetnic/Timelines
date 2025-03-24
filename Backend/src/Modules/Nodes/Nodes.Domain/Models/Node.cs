@@ -36,9 +36,9 @@ public class Node : Aggregate<NodeId>
             Id = id,
             Title = title,
             Description = description,
+            Phase = phase,
             Timestamp = timestamp,
             Importance = importance,
-            Phase = phase,
             TimelineId = timelineId
         };
 
