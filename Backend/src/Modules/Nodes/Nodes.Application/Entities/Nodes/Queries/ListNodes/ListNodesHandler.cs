@@ -1,8 +1,6 @@
 using BuildingBlocks.Application.Data;
 using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
-using Nodes.Application.Data.Abstractions;
-using Nodes.Application.Entities.Nodes.Extensions;
 
 namespace Nodes.Application.Entities.Nodes.Queries.ListNodes;
 
