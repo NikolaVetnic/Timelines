@@ -1,5 +1,4 @@
-﻿using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
-using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
+﻿using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
 // ReSharper disable ClassNeverInstantiated.Global
@@ -28,13 +27,10 @@ public class CreateTimeline : ICarterModule
     }
 }
 
-public record CreateTimelineRequest
+public class CreateTimelineRequest
 {
-    public CreateTimelineRequest() { }
-
-    public CreateTimelineRequest(TimelineDto timeline) => Timeline = timeline;
-
-    public TimelineDto Timeline { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
 }
 
 public record CreateTimelineResponse(TimelineId Id);
