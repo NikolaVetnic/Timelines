@@ -17,7 +17,7 @@ internal static class InitialData
             new()
             {
                 Id = TimelineId.Of(Guid.Parse("f739b2c7-883e-46c6-917c-d29114e3e017")),
-                Title = "Timeline 1",
+                Title = "Timeline 2",
                 NodeIds = [NodeId.Of(Guid.Parse("6968d886-9e39-4fc0-9f2c-a5fbc1548970"))]
             }
         };
