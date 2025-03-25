@@ -1,7 +1,10 @@
 using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
+using BuildingBlocks.Domain.ValueObjects.Ids;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data.Abstractions;
@@ -68,5 +71,12 @@ public class NodesService(INodesRepository nodesRepository, IServiceProvider ser
         }
 
         return nodesBaseDto;
+    }
+
+    public async Task<List<NodeBaseDto>> GetNodesBaseBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken)
+    {
+        var nodes = await nodesRepository.GetNodesBelongingToTimelineIdsAsync(timelineIds, cancellationToken);
+        var nodeBaseDtos = nodes.Adapt<List<NodeBaseDto>>();
+        return nodeBaseDtos;
     }
 }

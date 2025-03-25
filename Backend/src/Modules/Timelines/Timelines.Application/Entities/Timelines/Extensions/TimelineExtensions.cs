@@ -13,6 +13,17 @@ public static class TimelineExtensions
             timeline.Description);
     }
 
+    public static TimelineDto ToTimelineDto(this Timeline timeline, IEnumerable<NodeBaseDto> nodes)
+    {
+        return new TimelineDto(
+            timeline.Id.ToString(),
+            timeline.Title,
+            timeline.Description)
+        {
+            Nodes = nodes.ToList()
+        };
+    }
+
     public static IEnumerable<TimelineDto> ToTimelineDtoList(this IEnumerable<Timeline> timelines)
     {
         return timelines.Select(ToTimelineDto);

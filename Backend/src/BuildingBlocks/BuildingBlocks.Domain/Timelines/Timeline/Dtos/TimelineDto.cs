@@ -11,5 +11,5 @@ public class TimelineDto(
 {
     public TimelineDto() : this(null, string.Empty, string.Empty) { }
 
-    [JsonPropertyName("nodes")] public List<NodeBaseDto> Nodes { get; } = [];
+    [JsonPropertyName("nodes")] public List<NodeBaseDto> Nodes { get; set; } = [];
 }

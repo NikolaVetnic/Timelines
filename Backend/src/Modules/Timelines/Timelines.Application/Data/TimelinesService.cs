@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Application.Data;
+using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
@@ -13,21 +14,28 @@ public class TimelinesService(ITimelinesRepository timelinesRepository, INodesSe
     public async Task<List<TimelineDto>> ListTimelinesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         var timelines = await timelinesRepository.ListTimelinessPaginatedAsync(pageIndex, pageSize, cancellationToken);
-        var timelinesDtos = timelines.ToTimelineDtoList().ToList();
 
-        // todo: super dirty and terrible, needs lots of improvement
-        foreach (var timelineDto in timelinesDtos)
-        {
-            var timelineId = TimelineId.Of(Guid.Parse(timelineDto.Id ?? string.Empty));
+        var nodes = await nodesService.GetNodesBaseBelongingToTimelineIdsAsync(timelines.Select(t => t.Id), cancellationToken);
 
-            foreach (var nodeId in timelines.First(n => Equals(n.Id, timelineId)).NodeIds)
-            {
-                var reminder = await nodesService.GetNodeBaseByIdAsync(nodeId, cancellationToken);
-                timelineDto.Nodes.Add(reminder);
-            }
-        }
+        var timelineDtos = timelines.Select(t =>
+                t.ToTimelineDto(
+                    nodes
+                        .Where(n => t.NodeIds.Select(id => id.ToString()).Contains(n.Id))
+                        .Select(n => new NodeBaseDto(
+                            id: n.Id!.ToString(),
+                            title: n.Title,
+                            description: n.Description,
+                            phase: n.Phase,
+                            timestamp: n.Timestamp,
+                            importance: n.Importance,
+                            categories: n.Categories,
+                            tags: n.Tags)
+                        )
+                        .ToList()
+                ))
+            .ToList();
 
-        return timelinesDtos;
+        return timelineDtos;
     }
 
     public async Task<TimelineDto> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
