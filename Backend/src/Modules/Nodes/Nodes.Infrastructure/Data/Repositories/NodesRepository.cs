@@ -7,7 +7,17 @@ namespace Nodes.Infrastructure.Data.Repositories;
 
 public class NodesRepository(INodesDbContext dbContext) : INodesRepository
 {
-    async Task<Node> INodesRepository.GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    public async Task<List<Node>> ListNodesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Nodes
+            .AsNoTracking()
+            .OrderBy(n => n.Timestamp)
+            .Skip(pageSize * pageIndex)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken: cancellationToken);
+    }
+
+    public async Task<Node> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken = default)
     {
         return await dbContext.Nodes
                    .AsNoTracking()
@@ -15,11 +25,17 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
                throw new NodeNotFoundException(nodeId.ToString());
     }
 
+    public async Task<long> NodeCountAsync(CancellationToken cancellationToken)
+    {
+        return await dbContext.Nodes.LongCountAsync(cancellationToken);
+    }
+
     public async Task UpdateNodeAsync(Node node, CancellationToken cancellationToken = default)
     {
         dbContext.Nodes.Update(node);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
+}
 
     public async Task RemoveNode(Node node, CancellationToken cancellationToken)
     {

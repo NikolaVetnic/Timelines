@@ -1,3 +1,4 @@
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Reminders.Application.Data.Abstractions;
 using Reminders.Application.Entities.Reminders.Exceptions;
@@ -12,5 +13,13 @@ public class RemindersRepository(IRemindersDbContext dbContext) : IRemindersRepo
                    .AsNoTracking()
                    .SingleOrDefaultAsync(r => r.Id == reminderId, cancellationToken) ??
                throw new ReminderNotFoundException(reminderId.ToString());
+    }
+    
+    public async Task<IEnumerable<Reminder>> GetRemindersBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        return await dbContext.Reminders
+            .AsNoTracking()
+            .Where(r => nodeIds.Contains(r.NodeId))
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 }
