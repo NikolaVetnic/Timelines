@@ -35,5 +35,4 @@ public class RemindersService(IServiceProvider serviceProvider, IRemindersReposi
         var reminderBaseDtos = reminders.Adapt<List<ReminderBaseDto>>();
         return reminderBaseDtos;
     }
-
 }
