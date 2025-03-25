@@ -75,4 +75,11 @@ public class TimelinesService(ITimelinesRepository timelinesRepository, INodesSe
 
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
     }
+
+    public async Task<List<TimelineBaseDto>> GetTimelinesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        var timelines = await timelinesRepository.GetTimelinesBelongingToNodeIdsAsync(nodeIds, cancellationToken);
+        var timelineBaseDtos = timelines.Adapt<List<TimelineBaseDto>>();
+        return timelineBaseDtos;
+    }
 }

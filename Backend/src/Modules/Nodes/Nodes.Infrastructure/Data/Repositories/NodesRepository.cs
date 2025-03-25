@@ -35,7 +35,6 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
         dbContext.Nodes.Update(node);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
-}
 
     public async Task RemoveNode(Node node, CancellationToken cancellationToken)
     {
@@ -45,11 +44,9 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
 
     public async Task<IEnumerable<Node>> GetNodesBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken)
     {
-        {
-            return await dbContext.Nodes
+        return await dbContext.Nodes
             .AsNoTracking()
-                .Where(n => timelineIds.Contains(n.TimelineId))
-                .ToListAsync(cancellationToken: cancellationToken);
-        }
+            .Where(n => timelineIds.Contains(n.TimelineId))
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 }

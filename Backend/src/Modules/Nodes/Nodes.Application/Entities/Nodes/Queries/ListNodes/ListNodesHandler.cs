@@ -15,12 +15,6 @@ internal class ListNodesHandler(INodesService nodesService) : IQueryHandler<List
 
         var nodes = await nodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
 
-        var nodeDtos = nodes.Select(n =>
-        {
-            var timeline = timelinesService.GetTimelineBaseDtoAsync(n.TimelineId, cancellationToken).GetAwaiter().GetResult();
-            return n.ToNodeDto(timeline);
-        }).ToList();
-
         return new ListNodesResult(
             new PaginatedResult<NodeDto>(
                 pageIndex,

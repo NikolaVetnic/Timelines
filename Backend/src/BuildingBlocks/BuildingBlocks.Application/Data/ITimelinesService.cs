@@ -12,4 +12,5 @@ public interface ITimelinesService
     Task<long> CountTimelinesAsync(CancellationToken cancellationToken);
     Task AddNode(TimelineId timelineId, NodeId nodeId, CancellationToken cancellationToken);
     Task RemoveNode(TimelineId timelineId, NodeId nodeId, CancellationToken cancellationToken);
+    Task<List<TimelineBaseDto>> GetTimelinesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 }

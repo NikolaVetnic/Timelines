@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
+﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Timelines.Application.Data.Abstractions;
 using Timelines.Application.Entities.Timelines.Exceptions;
 
@@ -32,5 +33,17 @@ public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepo
     {
         dbContext.Timelines.Update(timeline);
         await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<Timeline>> GetTimelinesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds,
+        CancellationToken cancellationToken)
+    {
+        return await Task.Run(() =>
+                dbContext.Timelines
+                    .AsNoTracking()
+                    .AsEnumerable()
+                    .Where(t => t.NodeIds.Any(nodeId => nodeIds.Contains(nodeId)))
+                    .ToList(),
+            cancellationToken);
     }
 }
