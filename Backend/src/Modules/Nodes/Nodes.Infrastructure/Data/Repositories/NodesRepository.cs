@@ -1,4 +1,5 @@
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Exceptions;
 
@@ -24,5 +25,15 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
     {
         dbContext.Nodes.Remove(node);
         await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<Node>> GetNodesBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken)
+    {
+        {
+            return await dbContext.Nodes
+            .AsNoTracking()
+                .Where(n => timelineIds.Contains(n.TimelineId))
+                .ToListAsync(cancellationToken: cancellationToken);
+        }
     }
 }
