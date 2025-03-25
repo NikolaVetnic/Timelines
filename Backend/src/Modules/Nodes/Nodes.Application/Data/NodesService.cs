@@ -1,34 +1,44 @@
 using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Mapster;
-using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Extensions;
+
+// ReSharper disable NullableWarningSuppressionIsUsed
 
 namespace Nodes.Application.Data;
 
 public class NodesService(INodesRepository nodesRepository, IRemindersService remindersService) : INodesService
 {
-    public async Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    public async Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize,
+        CancellationToken cancellationToken)
     {
         var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, cancellationToken);
-        var nodesDtos = nodes.ToNodeDtoList().ToList();
+        
+        var reminders = await remindersService
+            .GetRemindersBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
-        // todo: super dirty and terrible, needs lots of improvement
-        foreach (var nodeDto in nodesDtos)
-        {
-            var nodeId = NodeId.Of(Guid.Parse(nodeDto.Id ?? string.Empty));
+        var nodeDtos = nodes.Select(n =>
+                n.ToNodeDto(
+                    reminders
+                        .Where(r => n.ReminderIds.Select(id => id.ToString()).Contains(r.Id))
+                        .Select(r => new ReminderBaseDto(
+                            id: r.Id!.ToString(),
+                            title: r.Title,
+                            description: r.Description,
+                            dueDateTime: r.DueDateTime,
+                            priority: r.Priority,
+                            notificationTime: r.NotificationTime,
+                            status: r.Status)
+                        )
+                        .ToList()
+                ))
+            .ToList();
 
-            foreach (var reminderId in nodes.First(n => Equals(n.Id, nodeId)).ReminderIds)
-            {
-                var reminder = await remindersService.GetReminderBaseByIdAsync(reminderId, cancellationToken);
-                nodeDto.Reminders.Add(reminder);
-            }
-        }
-
-        return nodesDtos;
+        return nodeDtos;
     }
 
     public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
