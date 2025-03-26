@@ -11,11 +11,8 @@ namespace Nodes.Domain.Models;
 
 public class Node : Aggregate<NodeId>
 {
-    private readonly List<string> _categories = new();
-    private readonly List<string> _tags = new();
-
-    public IReadOnlyList<string> Categories => _categories.AsReadOnly();
-    public IReadOnlyList<string> Tags => _tags.AsReadOnly();
+    public List<string> Categories { get; set; } = [];
+    public List<string> Tags { get; set; } = [];
 
     public required string Title { get; set; }
     public required string Description { get; set; }
@@ -89,12 +86,12 @@ public class Node : Aggregate<NodeId>
 
     private void AddCategory(string category)
     {
-        _categories.Add(category);
+        Categories.Add(category);
     }
 
     private void RemoveCategory(string category)
     {
-        _categories.Remove(category);
+        Categories.Remove(category);
     }
 
     #endregion
@@ -103,12 +100,12 @@ public class Node : Aggregate<NodeId>
 
     private void AddTag(string tag)
     {
-        _tags.Add(tag);
+        Tags.Add(tag);
     }
 
     private void RemoveTag(string tag)
     {
-        _tags.Remove(tag);
+        Tags.Remove(tag);
     }
 
     #endregion
