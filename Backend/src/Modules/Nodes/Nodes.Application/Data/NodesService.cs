@@ -15,6 +15,7 @@ namespace Nodes.Application.Data;
 
 public class NodesService(INodesRepository nodesRepository, IRemindersService remindersService, ITimelinesService timelinesService) : INodesService
 {
+    #region List
     public async Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, cancellationToken);
@@ -46,7 +47,19 @@ public class NodesService(INodesRepository nodesRepository, IRemindersService re
 
         return nodeDtos;
     }
+
+    public async Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        return (await nodesRepository.GetNodesByIdsAsync(nodeIds, cancellationToken)).Select(n => n.ToNodeBaseDto()).ToList();
+    }
+
+    public async Task<long> CountNodesAsync(CancellationToken cancellationToken)
+    {
+        return await nodesRepository.NodeCountAsync(cancellationToken);
+    }
+    #endregion
     
+    #region Get
     public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
@@ -63,16 +76,9 @@ public class NodesService(INodesRepository nodesRepository, IRemindersService re
 
     public async Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
-        var nodeBaseDto = node.Adapt<NodeBaseDto>();
-
-        return nodeBaseDto;
+        return (await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken)).ToNodeBaseDto();
     }
-
-    public async Task<long> CountNodesAsync(CancellationToken cancellationToken)
-    {
-        return await nodesRepository.NodeCountAsync(cancellationToken);
-    }
+    #endregion
 
     public async Task AddReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken)
     {
@@ -90,15 +96,12 @@ public class NodesService(INodesRepository nodesRepository, IRemindersService re
         await timelinesService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
     }
 
-    public async Task<List<NodeBaseDto>> GetNodeRangeByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
-    {
-        return (await nodesRepository.GetNodesByIdsAsync(nodeIds, cancellationToken)).Select(n => n.ToNodeBaseDto()).ToList();
-    }
-
+    #region Relationships
     public async Task<List<NodeBaseDto>> GetNodesBaseBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken)
     {
         var nodes = await nodesRepository.GetNodesBelongingToTimelineIdsAsync(timelineIds, cancellationToken);
         var nodeBaseDtos = nodes.Adapt<List<NodeBaseDto>>();
         return nodeBaseDtos;
     }
+    #endregion
 }

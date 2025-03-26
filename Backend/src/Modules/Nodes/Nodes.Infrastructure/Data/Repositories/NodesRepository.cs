@@ -7,6 +7,7 @@ namespace Nodes.Infrastructure.Data.Repositories;
 
 public class NodesRepository(INodesDbContext dbContext) : INodesRepository
 {
+    #region List
     public async Task<List<Node>> ListNodesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
     {
         return await dbContext.Nodes
@@ -17,6 +18,13 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
+    public async Task<long> NodeCountAsync(CancellationToken cancellationToken)
+    {
+        return await dbContext.Nodes.LongCountAsync(cancellationToken);
+    }
+    #endregion
+
+    #region Get
     public async Task<Node> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken = default)
     {
         return await dbContext.Nodes
@@ -32,11 +40,7 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
             .Where(n => nodeIds.Contains(n.Id))
             .ToListAsync(cancellationToken);
     }
-
-    public async Task<long> NodeCountAsync(CancellationToken cancellationToken)
-    {
-        return await dbContext.Nodes.LongCountAsync(cancellationToken);
-    }
+    #endregion
 
     public async Task UpdateNodeAsync(Node node, CancellationToken cancellationToken = default)
     {
@@ -50,6 +54,7 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
+    #region Relationships
     public async Task<IEnumerable<Node>> GetNodesBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken)
     {
         return await dbContext.Nodes
@@ -57,4 +62,5 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
             .Where(n => timelineIds.Contains(n.TimelineId))
             .ToListAsync(cancellationToken: cancellationToken);
     }
+    #endregion
 }

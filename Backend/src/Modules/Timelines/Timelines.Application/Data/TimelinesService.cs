@@ -42,7 +42,7 @@ public class TimelinesService(ITimelinesRepository timelinesRepository, INodesSe
     {
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
 
-        var nodes = await nodesService.GetNodeRangeByIdsAsync(timeline.NodeIds, cancellationToken);
+        var nodes = await nodesService.GetNodesByIdsAsync(timeline.NodeIds, cancellationToken);
 
         return timeline.ToTimelineDtoWith(nodes);
     }
