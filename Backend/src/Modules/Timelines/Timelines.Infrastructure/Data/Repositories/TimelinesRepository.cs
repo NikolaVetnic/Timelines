@@ -7,6 +7,7 @@ namespace Timelines.Infrastructure.Data.Repositories;
 
 public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepository
 {
+    #region List
     public async Task<List<Timeline>> ListTimelinessPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.Timelines
@@ -16,6 +17,13 @@ public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepo
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
+    public async Task<long> TimelineCountAsync(CancellationToken cancellationToken)
+    {
+        return await dbContext.Timelines.LongCountAsync(cancellationToken);
+    }
+    #endregion
+
+    #region Get
     public async Task<Timeline> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
         return await dbContext.Timelines
@@ -23,11 +31,8 @@ public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepo
                    .SingleOrDefaultAsync(t => t.Id == timelineId, cancellationToken) ??
                throw new TimelineNotFoundException(timelineId.ToString());
     }
+    #endregion
 
-    public async Task<long> TimelineCountAsync(CancellationToken cancellationToken)
-    {
-        return await dbContext.Timelines.LongCountAsync(cancellationToken);
-    }
 
     public async Task UpdateTimelineAsync(Timeline timeline, CancellationToken cancellationToken)
     {
@@ -41,6 +46,7 @@ public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepo
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
+    #region Relationships
     public async Task<IEnumerable<Timeline>> GetTimelinesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds,
         CancellationToken cancellationToken)
     {
@@ -52,4 +58,5 @@ public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepo
                     .ToList(),
             cancellationToken);
     }
+    #endregion
 }
