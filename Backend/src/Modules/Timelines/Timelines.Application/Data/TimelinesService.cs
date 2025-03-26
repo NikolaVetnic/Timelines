@@ -4,16 +4,19 @@ using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Mapster;
+using Microsoft.Extensions.DependencyInjection;
 using Timelines.Application.Data.Abstractions;
 using Timelines.Application.Entities.Timelines.Extensions;
 
 namespace Timelines.Application.Data;
 
-public class TimelinesService(ITimelinesRepository timelinesRepository, INodesService nodesService) : ITimelinesService
+public class TimelinesService(IServiceProvider serviceProvider, ITimelinesRepository timelinesRepository) : ITimelinesService
 {
     #region List
     public async Task<List<TimelineDto>> ListTimelinesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
+        var nodesService = serviceProvider.GetRequiredService<INodesService>();
+
         var timelines = await timelinesRepository.ListTimelinessPaginatedAsync(pageIndex, pageSize, cancellationToken);
 
         var nodes = await nodesService.GetNodesBaseBelongingToTimelineIdsAsync(timelines.Select(t => t.Id), cancellationToken);
@@ -48,6 +51,7 @@ public class TimelinesService(ITimelinesRepository timelinesRepository, INodesSe
     #region Get
     public async Task<TimelineDto> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
+        var nodesService = serviceProvider.GetRequiredService<INodesService>();
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
 
         var nodes = await nodesService.GetNodesByIdsAsync(timeline.NodeIds, cancellationToken);
