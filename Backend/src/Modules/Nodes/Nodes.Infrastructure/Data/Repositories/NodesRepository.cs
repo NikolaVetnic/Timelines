@@ -25,6 +25,14 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
                throw new NodeNotFoundException(nodeId.ToString());
     }
 
+    public async Task<List<Node>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        return await dbContext.Nodes
+            .AsNoTracking()
+            .Where(n => nodeIds.Contains(n.Id))
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<long> NodeCountAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Nodes.LongCountAsync(cancellationToken);

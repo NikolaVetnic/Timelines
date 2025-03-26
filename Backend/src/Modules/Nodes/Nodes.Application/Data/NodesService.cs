@@ -3,11 +3,9 @@ using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
-using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 using Mapster;
-using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Extensions;
 
@@ -15,7 +13,7 @@ using Nodes.Application.Entities.Nodes.Extensions;
 
 namespace Nodes.Application.Data;
 
-public class NodesService(INodesRepository nodesRepository, IRemindersService remindersService, IServiceProvider serviceProvider) : INodesService
+public class NodesService(INodesRepository nodesRepository, IRemindersService remindersService, ITimelinesService timelinesService) : INodesService
 {
     public async Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
@@ -24,9 +22,7 @@ public class NodesService(INodesRepository nodesRepository, IRemindersService re
         var reminders = await remindersService
             .GetRemindersBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
-        var timelineService = serviceProvider.GetRequiredService<ITimelinesService>();
-
-        var timelines = await timelineService
+        var timelines = await timelinesService
             .GetTimelinesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
         var nodeDtos = nodes.Select(n =>
@@ -53,16 +49,12 @@ public class NodesService(INodesRepository nodesRepository, IRemindersService re
     
     public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        // todo: refactor this to match ListNodesPaginated
-        
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
-        var timelineService = serviceProvider.GetRequiredService<ITimelinesService>();
+        
+        var reminders = await remindersService
+            .GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
 
-        var timeline = await timelineService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
-        var reminders = new List<ReminderBaseDto>();
-
-        foreach (var reminderId in node.ReminderIds)
-            reminders.Add(await remindersService.GetReminderBaseByIdAsync(reminderId, cancellationToken));
+        var timeline = await timelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
 
         var nodeDto = node.ToNodeDto(reminders, timeline);
 
@@ -93,24 +85,14 @@ public class NodesService(INodesRepository nodesRepository, IRemindersService re
     public async Task RemoveNode(NodeId nodeId, CancellationToken cancellationToken)
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
-        var timelineService = serviceProvider.GetRequiredService<ITimelinesService>();
 
         await nodesRepository.RemoveNode(node, cancellationToken);
-        await timelineService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
+        await timelinesService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
     }
 
     public async Task<List<NodeBaseDto>> GetNodeRangeByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
-        var nodesService = serviceProvider.GetRequiredService<INodesService>();
-        var nodesBaseDto = new List<NodeBaseDto>();
-
-        foreach (var nodeId in nodeIds)
-        {
-            var node = await nodesService.GetNodeBaseByIdAsync(nodeId, cancellationToken);
-            nodesBaseDto.Add(node);
-        }
-
-        return nodesBaseDto;
+        return (await nodesRepository.GetNodesByIdsAsync(nodeIds, cancellationToken)).Select(n => n.ToNodeBaseDto()).ToList();
     }
 
     public async Task<List<NodeBaseDto>> GetNodesBaseBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken)
