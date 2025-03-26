@@ -55,7 +55,7 @@ public class TimelinesService(ITimelinesRepository timelinesRepository, INodesSe
         return timeline.ToTimelineDtoWith(nodes);
     }
 
-    public async Task<TimelineBaseDto> GetTimelineBaseDtoAsync(TimelineId timelineId, CancellationToken cancellationToken)
+    public async Task<TimelineBaseDto> GetTimelineBaseByIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
         var timelineBaseDto = timeline.Adapt<TimelineBaseDto>();
@@ -70,6 +70,12 @@ public class TimelinesService(ITimelinesRepository timelinesRepository, INodesSe
         timeline.AddNode(nodeId);
 
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
+    }
+
+    public async Task RemoveTimeline(TimelineId timelineId, CancellationToken cancellationToken)
+    {
+        var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
+        await timelinesRepository.RemoveTimeline(timeline, cancellationToken);
     }
 
     public async Task RemoveNode(TimelineId timelineId, NodeId nodeId, CancellationToken cancellationToken)

@@ -35,6 +35,12 @@ public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepo
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task RemoveTimeline(Timeline timeline, CancellationToken cancellationToken)
+    {
+        dbContext.Timelines.Remove(timeline);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<IEnumerable<Timeline>> GetTimelinesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds,
         CancellationToken cancellationToken)
     {
