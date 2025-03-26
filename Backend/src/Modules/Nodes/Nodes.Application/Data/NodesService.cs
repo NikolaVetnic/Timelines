@@ -50,23 +50,21 @@ public class NodesService(INodesRepository nodesRepository, IRemindersService re
 
         return nodeDtos;
     }
-
-
-
+    
     public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
+        // todo: refactor this to match ListNodesPaginated
+        
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
         var timelineService = serviceProvider.GetRequiredService<ITimelinesService>();
 
         var timeline = await timelineService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
-
-        var nodeDto = node.ToNodeDto(timeline);
+        var reminders = new List<ReminderBaseDto>();
 
         foreach (var reminderId in node.ReminderIds)
-        {
-            var reminder = await remindersService.GetReminderBaseByIdAsync(reminderId, cancellationToken);
-            nodeDto.Reminders.Add(reminder);
-        }
+            reminders.Add(await remindersService.GetReminderBaseByIdAsync(reminderId, cancellationToken));
+
+        var nodeDto = node.ToNodeDto(reminders, timeline);
 
         return nodeDto;
     }

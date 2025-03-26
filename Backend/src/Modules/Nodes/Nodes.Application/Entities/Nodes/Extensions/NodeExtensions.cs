@@ -6,20 +6,6 @@ namespace Nodes.Application.Entities.Nodes.Extensions;
 
 public static class NodeExtensions
 {
-    public static NodeDto ToNodeDto(this Node node, TimelineBaseDto timeline)
-    {
-        return new NodeDto(
-            node.Id.ToString(),
-            node.Title,
-            node.Description,
-            node.Timestamp,
-            node.Importance,
-            node.Phase,
-            node.Categories.ToList(),
-            node.Tags.ToList(),
-            timeline);
-    }
-    
     public static NodeDto ToNodeDto(this Node node, IEnumerable<ReminderBaseDto> reminders, TimelineBaseDto timeline)
     {
         return new NodeDto(
@@ -30,10 +16,10 @@ public static class NodeExtensions
             node.Importance,
             node.Phase,
             node.Categories.ToList(),
-            node.Tags.ToList(),
-            timeline)
+            node.Tags.ToList())
         {
-            Reminders = reminders.ToList()
+            Reminders = reminders.ToList(),
+            Timeline = timeline
         };
     }
 }
