@@ -6,6 +6,7 @@ using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 using Mapster;
+using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Extensions;
 
@@ -13,7 +14,7 @@ using Nodes.Application.Entities.Nodes.Extensions;
 
 namespace Nodes.Application.Data;
 
-public class NodesService(INodesRepository nodesRepository, IRemindersService remindersService, ITimelinesService timelinesService) : INodesService
+public class NodesService(INodesRepository nodesRepository, IRemindersService remindersService, IServiceProvider serviceProvider) : INodesService
 {
     #region List
     public async Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
@@ -23,6 +24,8 @@ public class NodesService(INodesRepository nodesRepository, IRemindersService re
         var reminders = await remindersService
             .GetRemindersBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
+        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
+        
         var timelines = await timelinesService
             .GetTimelinesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
@@ -67,6 +70,7 @@ public class NodesService(INodesRepository nodesRepository, IRemindersService re
         var reminders = await remindersService
             .GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
 
+        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
         var timeline = await timelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
 
         var nodeDto = node.ToNodeDto(reminders, timeline);
@@ -91,6 +95,7 @@ public class NodesService(INodesRepository nodesRepository, IRemindersService re
     public async Task RemoveNode(NodeId nodeId, CancellationToken cancellationToken)
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
 
         await nodesRepository.RemoveNode(node, cancellationToken);
         await timelinesService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
