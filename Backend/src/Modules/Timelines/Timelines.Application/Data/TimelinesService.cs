@@ -11,6 +11,7 @@ namespace Timelines.Application.Data;
 
 public class TimelinesService(ITimelinesRepository timelinesRepository, INodesService nodesService) : ITimelinesService
 {
+    #region List
     public async Task<List<TimelineDto>> ListTimelinesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         var timelines = await timelinesRepository.ListTimelinessPaginatedAsync(pageIndex, pageSize, cancellationToken);
@@ -38,6 +39,13 @@ public class TimelinesService(ITimelinesRepository timelinesRepository, INodesSe
         return timelineDtos;
     }
 
+    public async Task<long> CountTimelinesAsync(CancellationToken cancellationToken)
+    {
+        return await timelinesRepository.TimelineCountAsync(cancellationToken);
+    }
+    #endregion
+
+    #region Get
     public async Task<TimelineDto> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
@@ -54,11 +62,7 @@ public class TimelinesService(ITimelinesRepository timelinesRepository, INodesSe
 
         return timelineBaseDto;
     }
-
-    public async Task<long> CountTimelinesAsync(CancellationToken cancellationToken)
-    {
-        return await timelinesRepository.TimelineCountAsync(cancellationToken);
-    }
+    #endregion
 
     public async Task AddNode(TimelineId timelineId, NodeId nodeId, CancellationToken cancellationToken)
     {
@@ -76,10 +80,12 @@ public class TimelinesService(ITimelinesRepository timelinesRepository, INodesSe
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
     }
 
+    #region Relationships
     public async Task<List<TimelineBaseDto>> GetTimelinesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         var timelines = await timelinesRepository.GetTimelinesBelongingToNodeIdsAsync(nodeIds, cancellationToken);
         var timelineBaseDtos = timelines.Adapt<List<TimelineBaseDto>>();
         return timelineBaseDtos;
     }
+    #endregion
 }
