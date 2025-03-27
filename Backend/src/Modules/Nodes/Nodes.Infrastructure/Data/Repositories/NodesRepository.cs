@@ -48,9 +48,22 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task RemoveNode(Node node, CancellationToken cancellationToken)
+    public async Task DeleteNode(NodeId nodeId, CancellationToken cancellationToken)
     {
-        dbContext.Nodes.Remove(node);
+        var nodeToDelete = await dbContext.Nodes
+            .FirstAsync(n => n.Id == nodeId, cancellationToken);
+        
+        dbContext.Nodes.Remove(nodeToDelete);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+    
+    public async Task DeleteNodes(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        var nodesToDelete = await dbContext.Nodes
+            .Where(n => nodeIds.Contains(n.Id))
+            .ToListAsync(cancellationToken);
+        
+        dbContext.Nodes.RemoveRange(nodesToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
