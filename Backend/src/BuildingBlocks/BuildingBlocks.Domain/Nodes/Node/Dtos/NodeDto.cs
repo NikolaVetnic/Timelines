@@ -12,9 +12,12 @@ public class NodeDto(
     int importance,
     string phase,
     List<string> categories,
-    List<string> tags) : NodeBaseDto(id, title, description, timestamp, importance, phase, categories, tags)
+    List<string> tags)
+    : NodeBaseDto(id, title, description, timestamp, importance, phase, categories, tags)
 {
-    [JsonPropertyName("reminders")] public List<ReminderBaseDto> Reminders { get; } = [];
+    public NodeDto() : this(null, string.Empty, string.Empty, default, default, string.Empty, [], []) { }
+
+    [JsonPropertyName("reminders")] public List<ReminderBaseDto> Reminders { get; set; } = [];
 
     [JsonPropertyName("notes")] public List<NoteBaseDto> Notes { get; } = [];
 }
