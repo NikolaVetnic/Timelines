@@ -10,16 +10,20 @@ using Timelines.Application.Entities.Timelines.Extensions;
 
 namespace Timelines.Application.Data;
 
-public class TimelinesService(IServiceProvider serviceProvider, ITimelinesRepository timelinesRepository) : ITimelinesService
+public class TimelinesService(IServiceProvider serviceProvider, ITimelinesRepository timelinesRepository)
+    : ITimelinesService
 {
     #region List
-    public async Task<List<TimelineDto>> ListTimelinesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
+
+    public async Task<List<TimelineDto>> ListTimelinesPaginated(int pageIndex, int pageSize,
+        CancellationToken cancellationToken)
     {
         var nodesService = serviceProvider.GetRequiredService<INodesService>();
 
         var timelines = await timelinesRepository.ListTimelinessPaginatedAsync(pageIndex, pageSize, cancellationToken);
 
-        var nodes = await nodesService.GetNodesBaseBelongingToTimelineIdsAsync(timelines.Select(t => t.Id), cancellationToken);
+        var nodes = await nodesService.GetNodesBaseBelongingToTimelineIdsAsync(timelines.Select(t => t.Id),
+            cancellationToken);
 
         var timelineDtos = timelines.Select(t =>
                 t.ToTimelineDto(
@@ -46,9 +50,11 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
     {
         return await timelinesRepository.TimelineCountAsync(cancellationToken);
     }
+
     #endregion
 
     #region Get
+
     public async Task<TimelineDto> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
         var nodesService = serviceProvider.GetRequiredService<INodesService>();
@@ -59,13 +65,15 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
         return timeline.ToTimelineDtoWith(nodes);
     }
 
-    public async Task<TimelineBaseDto> GetTimelineBaseByIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
+    public async Task<TimelineBaseDto> GetTimelineBaseByIdAsync(TimelineId timelineId,
+        CancellationToken cancellationToken)
     {
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
         var timelineBaseDto = timeline.Adapt<TimelineBaseDto>();
 
         return timelineBaseDto;
     }
+
     #endregion
 
     public async Task AddNode(TimelineId timelineId, NodeId nodeId, CancellationToken cancellationToken)
@@ -76,26 +84,31 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
     }
 
-    public async Task RemoveTimeline(TimelineId timelineId, CancellationToken cancellationToken)
-    {
-        var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
-        await timelinesRepository.RemoveTimeline(timeline, cancellationToken);
-    }
-
     public async Task RemoveNode(TimelineId timelineId, NodeId nodeId, CancellationToken cancellationToken)
     {
+        await RemoveNodes(timelineId, [nodeId], cancellationToken);
+    }
+
+    public async Task RemoveNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds,
+        CancellationToken cancellationToken)
+    {
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
-        timeline.RemoveNode(nodeId);
+
+        foreach (var nodeId in nodeIds)
+            timeline.RemoveNode(nodeId);
 
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
     }
 
     #region Relationships
-    public async Task<List<TimelineBaseDto>> GetTimelinesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+
+    public async Task<List<TimelineBaseDto>> GetTimelinesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds,
+        CancellationToken cancellationToken)
     {
         var timelines = await timelinesRepository.GetTimelinesBelongingToNodeIdsAsync(nodeIds, cancellationToken);
         var timelineBaseDtos = timelines.Adapt<List<TimelineBaseDto>>();
         return timelineBaseDtos;
     }
+
     #endregion
 }
