@@ -1,9 +1,11 @@
 using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Mapster;
+using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Extensions;
 
@@ -11,13 +13,14 @@ using Nodes.Application.Entities.Nodes.Extensions;
 
 namespace Nodes.Application.Data;
 
-public class NodesService(INodesRepository nodesRepository, IRemindersService remindersService) : INodesService
+public class NodesService(INodesRepository nodesRepository, IServiceProvider serviceProvider) : INodesService
 {
     public async Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize,
         CancellationToken cancellationToken)
     {
         var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, cancellationToken);
-        
+        var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
+
         var reminders = await remindersService
             .GetRemindersBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
@@ -43,6 +46,8 @@ public class NodesService(INodesRepository nodesRepository, IRemindersService re
 
     public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
+        var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
+
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
         var nodeDto = node.ToNodeDto();
 
