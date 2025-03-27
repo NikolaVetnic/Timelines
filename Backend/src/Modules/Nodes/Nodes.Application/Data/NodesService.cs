@@ -4,7 +4,6 @@ using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
-
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data.Abstractions;
@@ -17,6 +16,7 @@ namespace Nodes.Application.Data;
 public class NodesService(IServiceProvider serviceProvider, INodesRepository nodesRepository) : INodesService
 {
     #region List
+
     public async Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
@@ -52,18 +52,22 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         return nodeDtos;
     }
 
-    public async Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    public async Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds,
+        CancellationToken cancellationToken)
     {
-        return (await nodesRepository.GetNodesByIdsAsync(nodeIds, cancellationToken)).Select(n => n.ToNodeBaseDto()).ToList();
+        return (await nodesRepository.GetNodesByIdsAsync(nodeIds, cancellationToken)).Select(n => n.ToNodeBaseDto())
+            .ToList();
     }
 
     public async Task<long> CountNodesAsync(CancellationToken cancellationToken)
     {
         return await nodesRepository.NodeCountAsync(cancellationToken);
     }
+
     #endregion
     
     #region Get
+
     public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
         var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
@@ -85,6 +89,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     {
         return (await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken)).ToNodeBaseDto();
     }
+
     #endregion
 
     public async Task AddReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken)
@@ -95,21 +100,35 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
 
-    public async Task RemoveNode(NodeId nodeId, CancellationToken cancellationToken)
+    public async Task DeleteNode(NodeId nodeId, CancellationToken cancellationToken)
     {
-        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
 
-        await nodesRepository.RemoveNode(node, cancellationToken);
+        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
         await timelinesService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
+        
+        await nodesRepository.DeleteNode(nodeId, cancellationToken);
+    }
+
+    public async Task DeleteNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        var input = nodeIds.ToList();
+        
+        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
+        await timelinesService.RemoveNodes(timelineId, input, cancellationToken);
+        
+        await nodesRepository.DeleteNodes(input, cancellationToken);
     }
 
     #region Relationships
-    public async Task<List<NodeBaseDto>> GetNodesBaseBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken)
+
+    public async Task<List<NodeBaseDto>> GetNodesBaseBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds,
+        CancellationToken cancellationToken)
     {
         var nodes = await nodesRepository.GetNodesBelongingToTimelineIdsAsync(timelineIds, cancellationToken);
         var nodeBaseDtos = nodes.Adapt<List<NodeBaseDto>>();
         return nodeBaseDtos;
     }
+
     #endregion
 }

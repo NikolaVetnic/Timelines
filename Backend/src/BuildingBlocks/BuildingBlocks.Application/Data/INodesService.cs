@@ -15,7 +15,8 @@ public interface INodesService
     Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
     
     Task AddReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken);
-    Task RemoveNode(NodeId nodeId, CancellationToken cancellationToken);
+    Task DeleteNode(NodeId nodeId, CancellationToken cancellationToken);
+    Task DeleteNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
     
     Task<List<NodeBaseDto>> GetNodesBaseBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken);
 }
