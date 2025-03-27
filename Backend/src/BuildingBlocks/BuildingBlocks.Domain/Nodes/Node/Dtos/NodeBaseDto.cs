@@ -12,19 +12,19 @@ public class NodeBaseDto(
     List<string> categories,
     List<string> tags)
 {
-    [JsonPropertyName("id")] public string? Id { get; } = id;
+    [JsonPropertyName("id")] public string? Id { get; set; } = id;
 
-    [JsonPropertyName("title")] public string Title { get; } = title;
+    [JsonPropertyName("title")] public string Title { get; set; } = title;
 
-    [JsonPropertyName("description")] public string Description { get; } = description;
+    [JsonPropertyName("description")] public string Description { get; set; } = description;
 
-    [JsonPropertyName("timestamp")] public DateTime Timestamp { get; } = timestamp;
+    [JsonPropertyName("timestamp")] public DateTime Timestamp { get; set; } = timestamp;
 
-    [JsonPropertyName("importance")] public int Importance { get; } = importance;
+    [JsonPropertyName("importance")] public int Importance { get; set; } = importance;
 
-    [JsonPropertyName("phase")] public string Phase { get; } = phase;
+    [JsonPropertyName("phase")] public string Phase { get; set; } = phase;
 
-    [JsonPropertyName("categories")] public List<string> Categories { get; } = categories;
+    [JsonPropertyName("categories")] public List<string> Categories { get; set; } = categories;
 
-    [JsonPropertyName("tags")] public List<string> Tags { get; } = tags;
+    [JsonPropertyName("tags")] public List<string> Tags { get; set; } = tags;
 }
