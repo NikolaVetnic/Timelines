@@ -32,17 +32,19 @@ public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepo
                throw new TimelineNotFoundException(timelineId.ToString());
     }
     #endregion
-
-
+    
     public async Task UpdateTimelineAsync(Timeline timeline, CancellationToken cancellationToken)
     {
         dbContext.Timelines.Update(timeline);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task RemoveTimeline(Timeline timeline, CancellationToken cancellationToken)
+    public async Task DeleteTimeline(TimelineId timelineId, CancellationToken cancellationToken)
     {
-        dbContext.Timelines.Remove(timeline);
+        var timelineToDelete = await dbContext.Timelines
+            .FirstAsync(t => t.Id == timelineId, cancellationToken);
+        
+        dbContext.Timelines.Remove(timelineToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
