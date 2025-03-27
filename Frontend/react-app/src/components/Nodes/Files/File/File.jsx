@@ -1,16 +1,20 @@
+import * as pdfjsLib from 'pdfjs-dist';
 import React, { useCallback, useEffect, useState } from "react";
-import { pdfjs } from 'react-pdf';
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 
 import TextButton from "../../../../core/components/buttons/TextButton/TextButton";
 import { LOCAL_STORAGE_KEY, MAX_FILE_SIZE } from "../../../../data/constants";
+import { KEYWORDS } from "../../../../data/keywords/keywrods";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./File.css";
 
 // Configure PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.js",
+  import.meta.url
+).toString();
 
 const File = ({ nodeId, timelineId, onToggle }) => {
   const root = "file";
@@ -20,8 +24,10 @@ const File = ({ nodeId, timelineId, onToggle }) => {
   const [extractedText, setExtractedText] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState("");
-  const [userInfo, setUserInfo] = useState({ firstName: "", lastName: "" });
   const [extractedNames, setExtractedNames] = useState({ firstName: "", lastName: "" });
+  const [customKeywords, setCustomKeywords] = useState("");
+  const [highlightedText, setHighlightedText] = useState("");
+  const [hasAnalyzed, setHasAnalyzed] = useState(false);
 
   // todo: connect to backend
   useEffect(() => {
@@ -187,76 +193,206 @@ const File = ({ nodeId, timelineId, onToggle }) => {
 
   const extractTextFromPdf = async (pdfUrl) => {
     try {
-      const loadingTask = pdfjs.getDocument({ url: pdfUrl });
+      const base64Data = pdfUrl.startsWith('data:application/pdf;base64,') 
+        ? pdfUrl.split(',')[1] 
+        : pdfUrl;
+  
+      const binaryString = atob(base64Data);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+  
+      const loadingTask = pdfjsLib.getDocument({
+        data: bytes,
+        disableAutoFetch: true,
+        disableStream: true
+      });
+      
       const pdf = await loadingTask.promise;
       let text = "";
+    
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
       
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        
-        const pageText = content.items
-          .map(item => {
-            if (item.hasEOL) return item.str + '\n';
-            return item.str + (item.str.endsWith(' ') ? '' : ' ');
-          })
-          .join('')
-          .replace(/\s+/g, ' ')
-          .trim();
-          
-        text += pageText + '\n\n';
-      }
-
-      const names = extractNamesFromText(text);
-      setExtractedNames(names);
+      const pageText = content.items
+        .map(item => {
+          let str = item.str
+            .replace(/\u0000/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+            
+          return item.hasEOL ? str + '\n' : str + ' ';
+        })
+        .join('')
+        .replace(/(\S)-\n(\S)/g, '$1$2')
+        .replace(/\n+/g, '\n');
       
-      return text;
-    } catch (error) {
-      console.error("Error extracting text from PDF:", error);
-      toast.error("❌ Error extracting text from PDF");
-      return "";
+      text += pageText + '\n\n';
     }
-  };  
+
+    text = text
+      .replace(/(\w+)(\u00AD)/g, '$1')
+      .replace(/\s\s+/g, ' ')
+      .replace(/(\S)\s*-\s*(\S)/g, '$1-$2')
+      .replace(/�/g, '')
+      .replace(//g, '')
+      .replace(/(\r\n|\n|\r)/gm, ' ');
+
+    const names = extractNamesFromText(text);
+    setExtractedNames(names);
+    
+    return text;
+  } catch (error) {
+    console.error("Error extracting text from PDF:", error);
+    toast.error("❌ Error extracting text from PDF");
+    return "";
+  }
+  };
   
-    const handleAnalyzePdf = async (file) => {
-      if (file.type !== "application/pdf") {
-        toast.error("❌ Only PDF files can be analyzed");
-        return;
+  const handleAnalyzePdf = async (file) => {
+    if (file.type !== "application/pdf") {
+      toast.error("❌ Only PDF files can be analyzed");
+      return;
+    }
+  
+    try {
+      setSelectedPdf(file);
+      setIsAnalyzing(true);
+      setExtractedText("");
+      setAnalysisResult("");
+      setExtractedNames({ firstName: "", lastName: "" });
+      setHighlightedText("");
+      setCustomKeywords("");
+      setHasAnalyzed(false);
+      
+      toast.info("⏳ Extracting text from PDF...", { autoClose: false });
+      
+      const text = await extractTextFromPdf(file.url);
+      
+      if (!text || text.trim() === "") {
+        throw new Error("No text content found in PDF");
       }
+      
+      setExtractedText(text);
+      setHighlightedText(text);
+      toast.dismiss();
+      toast.success("✅ PDF text extracted successfully!");
+    } catch (error) {
+      console.error("PDF processing error:", error);
+      toast.dismiss();
+      toast.error(`❌ Error processing PDF: ${error.message}`);
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
   
-      try {
-        setSelectedPdf(file);
-        setIsAnalyzing(true);
-        const text = await extractTextFromPdf(file.url);
-        setExtractedText(text);
-      } catch (error) {
-        toast.error("❌ Error processing PDF");
-      } finally {
-        setIsAnalyzing(false);
-      }
-    };
+  const handleAiAnalysis = async () => {
+    if (!extractedText) {
+      toast.error("❌ No text to analyze");
+      return;
+    }
   
-    const handleAiAnalysis = async () => {
-      if (!extractedText) {
-        toast.error("❌ No text to analyze");
-        return;
-      }
+    try {
+      setIsAnalyzing(true);
+      toast.info("🔍 Analyzing document for keywords...", { autoClose: false });
   
-      try {
-        setIsAnalyzing(true);
-        const mockAnalysis = `Analysis for ${extractedNames.firstName} ${extractedNames.lastName}:\n\n` +
-          "The document appears to be a standard PDF file containing text. " +
-          "Key points extracted from the document would be displayed here " +
-          "after processing with AI algorithms.";
+      const foundKeywords = KEYWORDS.filter(keyword => {
+        const regex = new RegExp(`\\b${keyword}\\b`, 'i');
+        return regex.test(extractedText);
+      });
+  
+      const textWithHighlights = KEYWORDS.reduce((text, keyword) => {
+        const regex = new RegExp(`(\\b${keyword}\\b)(?![^<]*>|</mark>)`, 'gi');
+        return text.replace(regex, '<mark class="preloaded">$1</mark>');
+      }, extractedText);
+  
+      const keywordsReport = `Predefined Keywords Found:\n` +
+        `• ${foundKeywords.join("\n• ")}\n\n` +
+        "The highlighted text shows where these keywords appear in the document.";
+  
+      setHighlightedText(textWithHighlights);
+      setAnalysisResult(`Analysis for ${extractedNames.firstName} ${extractedNames.lastName}:\n\n${keywordsReport}`);
+  
+      toast.dismiss();
+      toast.success("✅ Analysis complete!");
+      setHasAnalyzed(true);
+    } catch (error) {
+      console.error("AI analysis error:", error);
+      toast.error("❌ Error during AI analysis");
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const highlightCustomKeywords = () => {
+    if (!customKeywords.trim()) {
+      setAnalysisResult(prev => {
+        if (!prev) return prev;
+        return prev.replace(/Custom Keywords:[\s\S]*?\n\n/, '');
+      });
+      
+      const textWithPredefinedHighlights = KEYWORDS.reduce((text, keyword) => {
+        const regex = new RegExp(`(\\b${keyword}\\b)(?![^<]*>|</mark>)`, 'gi');
+        return text.replace(regex, '<mark class="preloaded">$1</mark>');
+      }, extractedText);
+      
+      setHighlightedText(textWithPredefinedHighlights);
+      return;
+    }
+    
+    try {
+      const userKeywords = customKeywords.split(',')
+      .map(k => k.trim())
+      .filter(k => k.length > 0);
+
+    const cleanText = extractedText.replace(/<mark class=".*?">|<\/mark>/g, '');
+
+    let textWithHighlights = KEYWORDS.reduce((text, keyword) => {
+      const regex = new RegExp(`(\\b${keyword}\\b)(?![^<]*>|</mark>)`, 'gi');
+      return text.replace(regex, '<mark class="preloaded">$1</mark>');
+    }, cleanText);
+
+    textWithHighlights = userKeywords.reduce((text, keyword) => {
+      const sanitizedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regexPattern = `(\\b${sanitizedKeyword}(?:-[\\w]+)*\\b)`;
+      const regex = new RegExp(regexPattern, 'gi');
+      
+      const unmarkedText = text.replace(
+        new RegExp(`<mark class=".*?">${sanitizedKeyword}</mark>`, 'gi'),
+        keyword
+      );
+      
+      return unmarkedText.replace(regex, '<mark class="custom">$1</mark>');
+    }, textWithHighlights);
+
+      const customKeywordsReport = `Custom Keywords:\n` +
+        `• ${userKeywords.join("\n• ")}\n\n`;
+  
+      setHighlightedText(textWithHighlights);
+      
+      setAnalysisResult(prev => {
+        const baseAnalysis = prev ? prev.replace(/Custom Keywords:[\s\S]*?\n\n/, '') : '';
         
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        setAnalysisResult(mockAnalysis);
-      } catch (error) {
-        toast.error("❌ Error during AI analysis");
-      } finally {
-        setIsAnalyzing(false);
-      }
-    };
+        if (baseAnalysis.includes('Predefined Keywords Found:')) {
+          return baseAnalysis.replace(
+            /^(Analysis for .*?\n\n)/,
+            `$1${customKeywordsReport}`
+          );
+        }
+
+        return `Analysis for ${extractedNames.firstName} ${extractedNames.lastName}:\n\n` +
+          `${customKeywordsReport}` +
+          "The highlighted text shows where these keywords appear in the document.";
+      });
+      
+      toast.success(`✅ Highlighted ${userKeywords.length} custom keywords!`);
+    } catch (error) {
+      console.error("Highlighting error:", error);
+      toast.error("❌ Error highlighting keywords");
+    }
+  };
   
     return (
       <div className={`${root}-section`}>
@@ -319,68 +455,90 @@ const File = ({ nodeId, timelineId, onToggle }) => {
             </div>
   
             {selectedPdf && (
-        <div className={`${root}-text-modal`}>
-          <div className={`${root}-text-modal-content`}>
-            <div className={`${root}-text-modal-header`}>
-              <h3>PDF Text: {selectedPdf.name}</h3>
-              <button 
-                className={`${root}-text-modal-close`}
-                onClick={() => {
-                  setSelectedPdf(null);
-                  setExtractedText("");
-                  setAnalysisResult("");
-                  setExtractedNames({ firstName: "", lastName: "" });
-                }}
-              >
-                &times;
-              </button>
-            </div>
-            
-            <div className={`${root}-text-modal-body`}>
-              <div className={`${root}-text-actions`}>
-                <button 
-                  className={`${root}-text-copy`}
-                  onClick={() => {
-                    navigator.clipboard.writeText(extractedText);
-                    toast.success('Text copied to clipboard!');
-                  }}
-                >
-                  Copy Text
-                </button>
-                <button 
-                  className={`${root}-text-analyze`}
-                  onClick={handleAiAnalysis}
-                  disabled={isAnalyzing}
-                >
-                  {isAnalyzing ? 'Analyzing...' : 'Analyze with AI'}
-                </button>
-              </div>
-              
-              {extractedNames.firstName && (
-                <div className={`${root}-extracted-names`}>
-                  <p><strong>First Name:</strong> {extractedNames.firstName}</p>
-                  <p><strong>Last Name:</strong> {extractedNames.lastName}</p>
-                </div>
-              )}
-              
-              <pre className={`${root}-text-content`}>
-                {extractedText}
-              </pre>
-              
-              {analysisResult && (
-                <div className={`${root}-analysis-result`}>
-                  <h4>AI Analysis Result:</h4>
-                  <div className={`${root}-analysis-text`}>
-                    {analysisResult.split('\n').map((line, i) => (
-                      <p key={i}>{line}</p>
-                    ))}
+              <div className={`${root}-text-modal`}>
+                <div className={`${root}-text-modal-content`}>
+                  <div className={`${root}-text-modal-header`}>
+                    <h3>PDF Text: {selectedPdf.name}</h3>
+                    <button 
+                      className={`${root}-text-modal-close`}
+                      onClick={() => {
+                        setSelectedPdf(null);
+                        setExtractedText("");
+                        setAnalysisResult("");
+                        setExtractedNames({ firstName: "", lastName: "" });
+                        setHighlightedText("");
+                        setCustomKeywords("");
+                        setHasAnalyzed(false);
+                      }}
+                    >
+                      &times;
+                    </button>
+                  </div>
+                  
+                  <div className={`${root}-text-modal-body`}>
+                    <div className={`${root}-text-actions`}>
+                      <button 
+                        className={`${root}-text-copy`}
+                        onClick={() => {
+                          navigator.clipboard.writeText(extractedText);
+                          toast.success('Text copied to clipboard!');
+                        }}
+                      >
+                        Copy Text
+                      </button>
+                      <button 
+                        className={`${root}-text-analyze`}
+                        onClick={handleAiAnalysis}
+                        disabled={isAnalyzing}
+                      >
+                        {isAnalyzing ? 'Analyzing...' : 'Analyze with AI'}
+                      </button>
+                    </div>
+                    
+                    {extractedNames.firstName && (
+                      <div className={`${root}-extracted-names`}>
+                        <p><strong>First Name:</strong> {extractedNames.firstName}</p>
+                        <p><strong>Last Name:</strong> {extractedNames.lastName}</p>
+                      </div>
+                    )}
+
+                    {hasAnalyzed && (
+                      <div className={`${root}-custom-keywords`}>
+                        <input
+                          type="text"
+                          placeholder="Enter custom keywords (comma separated)"
+                          value={customKeywords}
+                          onChange={(e) => setCustomKeywords(e.target.value)}
+                        />
+                        <button 
+                          className={`${root}-highlight-button`}
+                          onClick={highlightCustomKeywords}
+                          disabled={isAnalyzing}
+                        >
+                          Highlight Custom Keywords
+                        </button>
+                      </div>
+                    )}
+                                  
+                    <pre 
+                      className={`${root}-text-content`}
+                      dangerouslySetInnerHTML={{ __html: highlightedText || extractedText }} 
+                    />
+                    
+                    {analysisResult && (
+                      <div className={`${root}-analysis-result`}>
+                        <h4>AI Analysis Result:</h4>
+                        <div className={`${root}-analysis-text`}>
+                          {analysisResult.split('\n').map((line, i) => (
+                            <p key={i}>{line}</p>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+              </div>
+            )}
           </div>
         )}
       </div>

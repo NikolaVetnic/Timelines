@@ -1,308 +1,398 @@
 .file-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: var(--filesHeader);
-    color: var(--enmBlue);
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-    font-size: 0.9rem;
-    border: none;
-    text-align: left;
-    border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: var(--filesHeader);
+  color: var(--enmBlue);
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  font-size: 0.9rem;
+  border: none;
+  text-align: left;
+  border-radius: 5px;
 }
 
 .file-header.open {
-    border-radius: 5px 5px 0px 0px;
+  border-radius: 5px 5px 0px 0px;
 }
 
 .file-header.closed {
-    border-radius: 5px;
+  border-radius: 5px;
 }
 
 .file-header:hover {
-    color: var(--backgroundHeader);
+  color: var(--backgroundHeader);
 }
 
 .file-header h4 {
-    margin: 0;
-    font-size: 1rem;
-    color: var(--enmBlue);
+  margin: 0;
+  font-size: 1rem;
+  color: var(--enmBlue);
 }
 
 .file-header:hover h4 {
-    color: var(--backgroundHeader);
+  color: var(--backgroundHeader);
 }
 
 .file-content {
-    background: #f9f9f9;
-    padding: 10px;
-    border: 1px solid lightgray;
-    border-radius: 0 0 5px 5px;
+  background: #f9f9f9;
+  padding: 10px;
+  border: 1px solid lightgray;
+  border-radius: 0 0 5px 5px;
 }
 
 .file-dropzone-container {
-    border: 2px dashed #ccc;
-    padding: 20px;
-    text-align: center;
-    margin-top: 10px;
-    cursor: pointer;
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  margin-top: 10px;
+  cursor: pointer;
 }
 
 .file-container {
-    background: #f9f9f9;
-    padding: 10px;
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    margin-top: 10px;
+  background: #f9f9f9;
+  padding: 10px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  margin-top: 10px;
 }
 
 .file-item {
-    background: white;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .file-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: white;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .file-content {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .file-preview {
-    max-width: 100px;
-    max-height: 100px;
-    margin-top: 5px;
-    border-radius: 5px;
+  max-width: 100px;
+  max-height: 100px;
+  margin-top: 5px;
+  border-radius: 5px;
 }
 
 .file-preview-pdf {
-    width: 100px;
-    height: 100px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
+  width: 100px;
+  height: 100px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
 }
 
 .file-preview-text {
-    width: 200px;
-    height: 100px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    overflow: auto;
+  width: 200px;
+  height: 100px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  overflow: auto;
 }
 
 .file-buttons {
-    display: flex;
-    gap: 5px;
-    margin-left: 10px;
+  display: flex;
+  gap: 5px;
+  margin-left: 10px;
 }
 
 .file-preview-button {
-    background: #007bff;
-    color: white;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 5px;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
 .file-preview-button:hover {
-    background: #0056b3;
+  background: #0056b3;
 }
 
 .file-download-button {
-    background: #28a745;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .file-download-button:hover {
-    background: #218838;
+  background: #218838;
 }
 
 /* Add these new styles to your existing File.css */
 
 /* PDF Text Viewer Modal */
 .file-text-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    padding: 20px;
-  }
-  
-  .file-text-modal-content {
-    background: white;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 900px;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  }
-  
-  .file-text-modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    border-bottom: 1px solid #eee;
-    background: #f8f9fa;
-    border-radius: 8px 8px 0 0;
-  }
-  
-  .file-text-modal-header h3 {
-    margin: 0;
-    color: #333;
-    font-size: 1.2rem;
-  }
-  
-  .file-text-modal-close {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #666;
-    padding: 0 10px;
-  }
-  
-  .file-text-modal-close:hover {
-    color: #333;
-  }
-  
-  .file-text-modal-body {
-    padding: 20px;
-    overflow-y: auto;
-    flex-grow: 1;
-  }
-  
-  .file-text-actions {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-  }
-  
-  .file-text-copy {
-    background: #17a2b8;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-  }
-  
-  .file-text-copy:hover {
-    background: #138496;
-  }
-  
-  .file-text-analyze {
-    background: #6f42c1;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-  }
-  
-  .file-text-analyze:hover {
-    background: #5a32a3;
-  }
-  
-  .file-text-analyze:disabled {
-    background: #a0a0a0;
-    cursor: not-allowed;
-  }
-  
-  .file-text-content {
-    background: #f8f9fa;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 15px;
-    white-space: pre-wrap;
-    font-family: 'Courier New', monospace;
-    line-height: 1.5;
-    margin: 15px 0;
-    max-height: 300px;
-    overflow-y: auto;
-  }
-  
-  .file-user-info {
-    display: flex;
-    gap: 10px;
-    margin: 15px 0;
-  }
-  
-  .file-user-info input {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    flex: 1;
-    font-size: 0.9rem;
-  }
-  
-  .file-analysis-result {
-    margin-top: 20px;
-    padding: 15px;
-    background: #f0f8ff;
-    border-radius: 4px;
-    border-left: 4px solid #007bff;
-  }
-  
-  .file-analysis-result h4 {
-    margin-top: 0;
-    color: #007bff;
-  }
-  
-  .file-analysis-text {
-    line-height: 1.6;
-  }
-  
-  .file-analysis-text p {
-    margin: 8px 0;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
 
-  /* Extracted Names Section */
+.file-text-modal-content {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.file-text-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  background: #f8f9fa;
+  border-radius: 8px 8px 0 0;
+}
+
+.file-text-modal-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.file-text-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  padding: 0 10px;
+}
+
+.file-text-modal-close:hover {
+  color: #333;
+}
+
+.file-text-modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.file-text-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.file-text-copy {
+  background: #17a2b8;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.file-text-copy:hover {
+  background: #138496;
+}
+
+.file-text-analyze {
+  background: #6f42c1;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.file-text-analyze:hover {
+  background: #5a32a3;
+}
+
+.file-text-analyze:disabled {
+  background: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.file-text-content {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  white-space: pre-wrap;
+  font-family: 'Courier New', monospace;
+  line-height: 1.5;
+  margin: 15px 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.file-user-info {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.file-user-info input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.file-analysis-result {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f0f8ff;
+  border-radius: 4px;
+  border-left: 4px solid #007bff;
+}
+
+.file-analysis-result h4 {
+  margin-top: 0;
+  color: #007bff;
+}
+
+.file-analysis-text {
+  line-height: 1.6;
+}
+
+.file-analysis-text p {
+  margin: 8px 0;
+}
+
+/* Extracted Names Section */
 .file-extracted-names {
-    background: #f0f8ff;
-    padding: 10px 15px;
-    border-radius: 4px;
-    margin: 15px 0;
-    border-left: 3px solid #007bff;
-  }
-  
-  .file-extracted-names p {
-    margin: 5px 0;
-    font-size: 0.95rem;
-  }
-  
-  .file-extracted-names strong {
-    color: #007bff;
-    margin-right: 5px;
-  }
+  background: #f0f8ff;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin: 15px 0;
+  border-left: 3px solid #007bff;
+}
+
+.file-extracted-names p {
+  margin: 5px 0;
+  font-size: 0.95rem;
+}
+
+.file-extracted-names strong {
+  color: #007bff;
+  margin-right: 5px;
+}
+
+/* Highlight styling */
+mark {
+  background-color: #ffeb3b;
+  padding: 0 2px;
+  border-radius: 2px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Keyword highlighting styles */
+mark.preloaded {
+  background-color: #ffeb3b;
+  /* Yellow for preloaded keywords */
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+mark.custom {
+  background-color: #ff9800;
+  /* Orange for custom keywords */
+  padding: 0 2px;
+  border-radius: 2px;
+  color: white;
+}
+
+/* Custom keywords input */
+.file-custom-keywords {
+  margin: 15px 0;
+  display: flex;
+  gap: 10px;
+}
+
+.file-custom-keywords input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.file-highlight-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.file-highlight-button:hover {
+  background-color: #3e8e41;
+}
+
+.file-highlight-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* In your File.css */
+mark.preloaded {
+  background-color: #FFFF00;
+  /* Yellow */
+  color: #000000;
+  padding: 0 2px;
+}
+
+mark.custom {
+  background-color: #FFA500;
+  /* Orange */
+  color: #000000;
+  padding: 0 2px;
+}
+
+.pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+mark.preloaded,
+mark.custom {
+  display: inline-block;
+  line-height: 1.2;
+}
+
+.analysis-text {
+  white-space: pre-wrap;
+  background: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
