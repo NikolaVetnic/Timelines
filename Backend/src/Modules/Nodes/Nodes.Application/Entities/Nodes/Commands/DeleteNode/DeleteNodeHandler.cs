@@ -12,7 +12,7 @@ public class DeleteNodeHandler(INodesService nodesService) : ICommandHandler<Del
         if (node is null)
             throw new NodeNotFoundException(command.Id.ToString());
 
-        await nodesService.RemoveNode(command.Id, cancellationToken);
+        await nodesService.DeleteNode(node.Id, cancellationToken);
 
         return new DeleteNodeResult(true);
     }
