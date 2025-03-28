@@ -5,6 +5,14 @@ import pluginReact from "eslint-plugin-react";
 
 export default defineConfig([
   { 
+    settings: {
+      'import/resolver': {
+        node: {
+          paths: ['src'],
+          extensions: ['.js', '.jsx']
+        }
+      }
+    },
     files: ["**/*.{js,mjs,cjs,jsx}"],
     languageOptions: { 
       globals: globals.browser 
