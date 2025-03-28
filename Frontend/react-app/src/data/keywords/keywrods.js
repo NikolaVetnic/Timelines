@@ -12,5 +12,5 @@ export const KEYWORDS = [
   "jurisdiction",
   "Student Developer",
   "UI5",
-  "MYSQL",
+  "Docker",
 ];
