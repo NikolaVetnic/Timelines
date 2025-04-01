@@ -12,4 +12,5 @@ public interface INotesRepository
 
     Task UpdateNoteAsync(Note note, CancellationToken cancellationToken);
     Task RemoveNote(Note note, CancellationToken cancellationToken);
+    Task DeleteNote(NoteId noteId, CancellationToken cancellationToken);
 }

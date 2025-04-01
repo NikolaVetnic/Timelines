@@ -52,4 +52,13 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
         dbContext.Notes.Remove(note);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task DeleteNote(NoteId noteId, CancellationToken cancellationToken)
+    {
+        var noteToDelete = await dbContext.Notes
+            .FirstAsync(n => n.Id == noteId, cancellationToken);
+
+        dbContext.Notes.Remove(noteToDelete);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
 }

@@ -27,4 +27,9 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
 
         return noteBaseDto;
     }
+
+    public async Task DeleteNote(NoteId noteId, CancellationToken cancellationToken)
+    {
+        await notesRepository.DeleteNote(noteId, cancellationToken);
+    }
 }
