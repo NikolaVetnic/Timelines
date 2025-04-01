@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 using Timelines.Application.Entities.Timelines.Queries.GetTimelineById;
 
 namespace Timelines.Api.Endpoints.Timelines;

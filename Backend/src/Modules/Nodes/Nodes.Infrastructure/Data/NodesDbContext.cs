@@ -1,4 +1,5 @@
 using System.Reflection;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Nodes.Application.Data.Abstractions;
 
 namespace Nodes.Infrastructure.Data;
@@ -35,6 +36,14 @@ public class NodesDbContext(DbContextOptions<NodesDbContext> options) :
                 .HasConversion(new ReminderIdListConverter())
                 .HasColumnName("ReminderIds")
                 .IsRequired(false);
+
+            entity.Property(r => r.TimelineId).IsRequired();
+            entity.HasIndex(r => r.TimelineId); // Add an index for efficient querying
+
+            entity.Property(r => r.TimelineId)
+                .HasConversion(new TimelineIdValueConverter()) // Apply the value converter
+                .IsRequired();
+
 
             // Map the NoteIds as a collection of IDs
             entity.Ignore(n => n.NoteIds); // This prevents EF from expecting a navigation property

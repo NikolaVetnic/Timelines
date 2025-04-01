@@ -1,9 +1,13 @@
-﻿using Timelines.Application.Entities.Timelines.Dtos;
+﻿using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 namespace Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public record CreateTimelineCommand(TimelineDto Timeline) : ICommand<CreateTimelineResult>;
+public record CreateTimelineCommand : ICommand<CreateTimelineResult>
+{
+    public required string Title { get; set; }
+    public required string Description { get; set; }
+}
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
 public record CreateTimelineResult(TimelineId Id);
@@ -12,7 +16,7 @@ public class CreateTimelineCommandValidator : AbstractValidator<CreateTimelineCo
 {
     public CreateTimelineCommandValidator()
     {
-        RuleFor(x => x.Timeline.Title).NotEmpty().WithMessage("Title is required.");
+        RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required.");
 
         // ToDo: Add remaining Timeline command validators
     }

@@ -4,6 +4,7 @@ using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data.Abstractions;
@@ -13,50 +14,66 @@ using Nodes.Application.Entities.Nodes.Extensions;
 
 namespace Nodes.Application.Data;
 
-public class NodesService(INodesRepository nodesRepository, IServiceProvider serviceProvider) : INodesService
+public class NodesService(IServiceProvider serviceProvider, INodesRepository nodesRepository) : INodesService
 {
-    public async Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize,
-        CancellationToken cancellationToken)
+    #region List
+
+    public async Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
-        var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, cancellationToken);
         var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
+        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
+
+        var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, cancellationToken);
 
         var reminders = await remindersService
             .GetRemindersBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
+        var timelines = await timelinesService
+            .GetTimelinesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
+
         var nodeDtos = nodes.Select(n =>
-                n.ToNodeDto(
-                    reminders
-                        .Where(r => n.ReminderIds.Select(id => id.ToString()).Contains(r.Id))
-                        .Select(r => new ReminderBaseDto(
-                            id: r.Id!.ToString(),
-                            title: r.Title,
-                            description: r.Description,
-                            dueDateTime: r.DueDateTime,
-                            priority: r.Priority,
-                            notificationTime: r.NotificationTime,
-                            status: r.Status)
-                        )
-                        .ToList()
-                ))
-            .ToList();
+            n.ToNodeDto(
+                reminders
+                    .Where(r => n.ReminderIds.Select(id => id.ToString()).Contains(r.Id))
+                    .Select(r => new ReminderBaseDto(
+                        id: r.Id!.ToString(),
+                        title: r.Title,
+                        description: r.Description,
+                        dueDateTime: r.DueDateTime,
+                        priority: r.Priority,
+                        notificationTime: r.NotificationTime,
+                        status: r.Status)
+                    )
+                    .ToList(),
+                timelines
+                    .First(t => t.Id == n.TimelineId.ToString())
+            )
+        ).ToList();
 
         return nodeDtos;
     }
 
-    public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    public async Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds,
+        CancellationToken cancellationToken)
     {
+        return (await nodesRepository.GetNodesByIdsAsync(nodeIds, cancellationToken)).Select(n => n.ToNodeBaseDto())
+            .ToList();
+    }
         var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
 
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
         var nodeDto = node.ToNodeDto();
 
-        foreach (var reminderId in node.ReminderIds)
-        {
-            var reminder = await remindersService.GetReminderBaseByIdAsync(reminderId, cancellationToken);
-            nodeDto.Reminders.Add(reminder);
-        }
+    public async Task<long> CountNodesAsync(CancellationToken cancellationToken)
+    {
+        return await nodesRepository.NodeCountAsync(cancellationToken);
+    }
 
+    #endregion
+    
+    #region Get
+
+    public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
         var notesService = serviceProvider.GetRequiredService<INotesService>();
 
         foreach (var noteId in node.NoteIds)
@@ -70,16 +87,27 @@ public class NodesService(INodesRepository nodesRepository, IServiceProvider ser
 
     public async Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
+        var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
+        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
+
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
-        var nodeBaseDto = node.Adapt<NodeBaseDto>();
+        
+        var reminders = await remindersService
+            .GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
 
-        return nodeBaseDto;
+        var timeline = await timelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
+
+        var nodeDto = node.ToNodeDto(reminders, timeline);
+
+        return nodeDto;
     }
 
-    public async Task<long> CountNodesAsync(CancellationToken cancellationToken)
+    public async Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return await nodesRepository.NodeCountAsync(cancellationToken);
+        return (await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken)).ToNodeBaseDto();
     }
+
+    #endregion
 
     public async Task AddReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken)
     {
@@ -88,6 +116,38 @@ public class NodesService(INodesRepository nodesRepository, IServiceProvider ser
 
         await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
+
+    public async Task DeleteNode(NodeId nodeId, CancellationToken cancellationToken)
+    {
+        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+
+        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
+        await timelinesService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
+        
+        await nodesRepository.DeleteNode(nodeId, cancellationToken);
+    }
+
+    public async Task DeleteNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        var input = nodeIds.ToList();
+        
+        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
+        await timelinesService.RemoveNodes(timelineId, input, cancellationToken);
+        
+        await nodesRepository.DeleteNodes(input, cancellationToken);
+    }
+
+    #region Relationships
+
+    public async Task<List<NodeBaseDto>> GetNodesBaseBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds,
+        CancellationToken cancellationToken)
+    {
+        var nodes = await nodesRepository.GetNodesBelongingToTimelineIdsAsync(timelineIds, cancellationToken);
+        var nodeBaseDtos = nodes.Adapt<List<NodeBaseDto>>();
+        return nodeBaseDtos;
+    }
+
+    #endregion
 
     public async Task AddNote(NodeId nodeId, NoteId noteId, CancellationToken cancellationToken)
     {
