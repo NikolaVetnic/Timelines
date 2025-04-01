@@ -59,31 +59,20 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         return (await nodesRepository.GetNodesByIdsAsync(nodeIds, cancellationToken)).Select(n => n.ToNodeBaseDto())
             .ToList();
     }
-        var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
-
-        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
-        var nodeDto = node.ToNodeDto();
 
     public async Task<long> CountNodesAsync(CancellationToken cancellationToken)
     {
         return await nodesRepository.NodeCountAsync(cancellationToken);
     }
 
+    public Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
     #endregion
     
     #region Get
-
-    public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
-        var notesService = serviceProvider.GetRequiredService<INotesService>();
-
-        foreach (var noteId in node.NoteIds)
-        {
-            var note = await notesService.GetNoteBaseByIdAsync(noteId, cancellationToken);
-            nodeDto.Notes.Add(note);
-        }
-
-        return nodeDto;
-    }
 
     public async Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
@@ -100,11 +89,6 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         var nodeDto = node.ToNodeDto(reminders, timeline);
 
         return nodeDto;
-    }
-
-    public async Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
-    {
-        return (await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken)).ToNodeBaseDto();
     }
 
     #endregion
