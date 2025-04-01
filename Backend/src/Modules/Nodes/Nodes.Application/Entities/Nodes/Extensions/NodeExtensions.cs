@@ -1,4 +1,5 @@
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
+using BuildingBlocks.Domain.Notes.Note.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 
@@ -19,7 +20,7 @@ public static class NodeExtensions
             node.Tags.ToList());
     }
     
-    public static NodeDto ToNodeDto(this Node node, IEnumerable<ReminderBaseDto> reminders, TimelineBaseDto timeline)
+    public static NodeDto ToNodeDto(this Node node, IEnumerable<ReminderBaseDto> reminders, TimelineBaseDto timeline, IEnumerable<NoteBaseDto> notes)
     {
         return new NodeDto(
             node.Id.ToString(),
@@ -32,7 +33,8 @@ public static class NodeExtensions
             node.Tags.ToList())
         {
             Reminders = reminders.ToList(),
-            Timeline = timeline
+            Timeline = timeline,
+            Notes = notes.ToList()
         };
     }
 }

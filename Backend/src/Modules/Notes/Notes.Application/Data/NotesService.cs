@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Application.Data;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Notes.Note.Dtos;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Mapster;
@@ -31,5 +32,12 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
     public async Task DeleteNote(NoteId noteId, CancellationToken cancellationToken)
     {
         await notesRepository.DeleteNote(noteId, cancellationToken);
+    }
+
+    public async Task<List<NoteBaseDto>> GetNotesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        var notes = await notesRepository.GetNotesBelongingToNodeIdsAsync(nodeIds, cancellationToken);
+        var noteBaseDtos = notes.Adapt<List<NoteBaseDto>>();
+        return noteBaseDtos;
     }
 }

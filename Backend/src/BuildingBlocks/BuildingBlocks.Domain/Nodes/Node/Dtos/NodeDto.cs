@@ -22,5 +22,5 @@ public class NodeDto(
 
     [JsonPropertyName("timelines")] public required TimelineBaseDto Timeline { get; set; }
 
-    [JsonPropertyName("notes")] public List<NoteBaseDto> Notes { get; } = [];
+    [JsonPropertyName("notes")] public List<NoteBaseDto> Notes { get; set; } = [];
 }

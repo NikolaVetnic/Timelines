@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 
 namespace Notes.Application.Data.Abstractions;
 
@@ -13,4 +14,5 @@ public interface INotesRepository
     Task UpdateNoteAsync(Note note, CancellationToken cancellationToken);
     Task RemoveNote(Note note, CancellationToken cancellationToken);
     Task DeleteNote(NoteId noteId, CancellationToken cancellationToken);
+    Task<IEnumerable<Note>> GetNotesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 }

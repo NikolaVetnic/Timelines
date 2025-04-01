@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Notes.Application.Data.Abstractions;
 using Notes.Application.Entities.Notes.Exceptions;
 
@@ -60,5 +61,13 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
 
         dbContext.Notes.Remove(noteToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<Note>> GetNotesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        return await dbContext.Notes
+            .AsNoTracking()
+            .Where(n => nodeIds.Contains(n.NodeId))
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 }
