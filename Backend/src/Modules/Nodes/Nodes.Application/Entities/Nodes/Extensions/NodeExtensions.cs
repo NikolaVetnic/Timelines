@@ -1,12 +1,14 @@
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
+using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
+using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 
 namespace Nodes.Application.Entities.Nodes.Extensions;
 
 public static class NodeExtensions
 {
-    public static NodeDto ToNodeDto(this Node node)
+    public static NodeBaseDto ToNodeBaseDto(this Node node)
     {
-        return new NodeDto(
+        return new NodeBaseDto(
             node.Id.ToString(),
             node.Title,
             node.Description,
@@ -16,9 +18,21 @@ public static class NodeExtensions
             node.Categories.ToList(),
             node.Tags.ToList());
     }
-
-    public static IEnumerable<NodeDto> ToNodeDtoList(this IEnumerable<Node> nodes)
+    
+    public static NodeDto ToNodeDto(this Node node, IEnumerable<ReminderBaseDto> reminders, TimelineBaseDto timeline)
     {
-        return nodes.Select(ToNodeDto);
+        return new NodeDto(
+            node.Id.ToString(),
+            node.Title,
+            node.Description,
+            node.Timestamp,
+            node.Importance,
+            node.Phase,
+            node.Categories.ToList(),
+            node.Tags.ToList())
+        {
+            Reminders = reminders.ToList(),
+            Timeline = timeline
+        };
     }
 }

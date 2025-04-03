@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Timelines.Application.Data;
+using Timelines.Application.Data.Abstractions;
 
 namespace Timelines.Infrastructure.Data;
 
@@ -19,6 +19,18 @@ public class TimelinesDbContext(DbContextOptions<TimelinesDbContext> options) :
         builder.Entity<Timeline>(entity =>
         {
             entity.ToTable("Timelines"); // Specify table name within the schema
+
+            entity.HasKey(t => t.Id);
+            entity.Property(t => t.Title).IsRequired();
+
+            // Map the ReminderIds as a collection of IDs
+            entity.Ignore(t => t.NodeIds); // This prevents EF from expecting a navigation property
+            entity.Property(t => t.Id).ValueGeneratedNever();  // Ensures IDs are managed externally
+
+            entity.Property(t => t.NodeIds)
+                .HasConversion(new NodeIdListConverter())
+                .HasColumnName("NodeIds")
+                .IsRequired(false);
         });
 
         // Apply all configurations taken from classes that implement IEntityTypeConfiguration<>

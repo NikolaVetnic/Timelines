@@ -2,6 +2,7 @@
 using BuildingBlocks.Domain.Nodes.Node.Events;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Nodes.Domain.Models;
@@ -10,32 +11,32 @@ namespace Nodes.Domain.Models;
 
 public class Node : Aggregate<NodeId>
 {
-    private readonly List<string> _categories = new();
-    private readonly List<string> _tags = new();
-
-    public IReadOnlyList<string> Categories => _categories.AsReadOnly();
-    public IReadOnlyList<string> Tags => _tags.AsReadOnly();
+    public List<string> Categories { get; set; } = [];
+    public List<string> Tags { get; set; } = [];
 
     public required string Title { get; set; }
     public required string Description { get; set; }
+    public required string Phase { get; set; }
     public required DateTime Timestamp { get; set; }
     public required int Importance { get; set; }
-    public required string Phase { get; set; }
+
     public List<ReminderId> ReminderIds { get; set; } = [];
+    public required TimelineId TimelineId { get; set; }
 
     #region Node
 
     public static Node Create(NodeId id, string title, string description, string phase,
-        DateTime timestamp, int importance, List<string> categories, List<string> tags)
+        DateTime timestamp, int importance, List<string> categories, List<string> tags, TimelineId timelineId)
     {
         var node = new Node
         {
             Id = id,
             Title = title,
             Description = description,
+            Phase = phase,
             Timestamp = timestamp,
             Importance = importance,
-            Phase = phase
+            TimelineId = timelineId
         };
 
         foreach (var category in categories)
@@ -85,12 +86,12 @@ public class Node : Aggregate<NodeId>
 
     private void AddCategory(string category)
     {
-        _categories.Add(category);
+        Categories.Add(category);
     }
 
     private void RemoveCategory(string category)
     {
-        _categories.Remove(category);
+        Categories.Remove(category);
     }
 
     #endregion
@@ -99,12 +100,12 @@ public class Node : Aggregate<NodeId>
 
     private void AddTag(string tag)
     {
-        _tags.Add(tag);
+        Tags.Add(tag);
     }
 
     private void RemoveTag(string tag)
     {
-        _tags.Remove(tag);
+        Tags.Remove(tag);
     }
 
     #endregion

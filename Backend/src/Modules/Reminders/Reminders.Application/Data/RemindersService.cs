@@ -1,4 +1,5 @@
 using BuildingBlocks.Application.Data;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Mapster;
@@ -26,5 +27,12 @@ public class RemindersService(IServiceProvider serviceProvider, IRemindersReposi
         var reminderBaseDto = reminder.Adapt<ReminderBaseDto>();
         
         return reminderBaseDto;
+    }
+    
+    public async Task<List<ReminderBaseDto>> GetRemindersBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        var reminders = await remindersRepository.GetRemindersBelongingToNodeIdsAsync(nodeIds, cancellationToken);
+        var reminderBaseDtos = reminders.Adapt<List<ReminderBaseDto>>();
+        return reminderBaseDtos;
     }
 }

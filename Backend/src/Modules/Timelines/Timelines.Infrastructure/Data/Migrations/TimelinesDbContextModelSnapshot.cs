@@ -34,11 +34,19 @@ namespace Timelines.Infrastructure.Data.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
+
+                    b.Property<string>("NodeIds")
+                        .HasColumnType("text")
+                        .HasColumnName("NodeIds");
 
                     b.Property<string>("Title")
                         .IsRequired()

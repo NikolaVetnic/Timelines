@@ -12,7 +12,7 @@ public static class DatabaseExtensions
     {
         if (!env.IsDevelopment()) 
             return;
-        
+
         await services.MigrateAndSeedFilesDatabaseAsync();
         await services.MigrateAndSeedNodesDatabaseAsync();
         await services.MigrateAndSeedNotesDatabaseAsync();
