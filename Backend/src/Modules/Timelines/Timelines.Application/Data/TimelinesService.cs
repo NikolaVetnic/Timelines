@@ -20,7 +20,7 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
     {
         var nodesService = serviceProvider.GetRequiredService<INodesService>();
 
-        var timelines = await timelinesRepository.ListTimelinessPaginatedAsync(pageIndex, pageSize, cancellationToken);
+        var timelines = await timelinesRepository.ListTimelinesPaginatedAsync(pageIndex, pageSize, cancellationToken);
 
         var nodes = await nodesService.GetNodesBaseBelongingToTimelineIdsAsync(timelines.Select(t => t.Id),
             cancellationToken);
