@@ -1,6 +1,3 @@
-/* App.css */
-
-/* Define global color variables */
 :root {
     --enmOrange: #e76a29;
     --enmBlue: #1d377f;
@@ -10,42 +7,48 @@
     --BackgroundStripe: #333;
 }
 
-/* Body Styling */
-body {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
     font-family: 'Arial', sans-serif;
     background-color: var(--enmGray);
     color: var(--BackgroundStripe);
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
+    overflow: hidden;
 }
 
-/* App Container Styling */
 .app-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-    height: 100vh;
+    height: 100%;
     background-color: var(--enmGray);
 }
 
-/* White Active Area */
 .app-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 800px;
+    max-width: 100%;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin: 0 auto;
-    height: 100%;
-    overflow-y: auto;
+    height: calc(100vh);
+    max-height: calc(100vh);
+    overflow: hidden;
 }
 
-/* Buttons */
+.content-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    padding: 5px;
+    min-height: 0;
+}
+
 button {
     background-color: var(--enmOrange);
     color: #fff;
@@ -60,7 +63,6 @@ button:hover {
     background-color: #cf5a22;
 }
 
-/* Links */
 a {
     color: var(--enmBlue);
     text-decoration: none;
@@ -71,13 +73,7 @@ a:hover {
     color: #14265e;
 }
 
-/* Headings */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
     color: var(--enmBlue);
-    margin: 0;
+    margin-bottom: 15px;
 }
