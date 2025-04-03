@@ -6,6 +6,8 @@ export const KEYWORDS = [
   "contract",
   "agreement",
   "signature",
+  "constructors",
+  "Vladimir Vuckovic",
   // Serbian Cyrillic keywords
   "уговор",
   "потпис",
@@ -13,6 +15,9 @@ export const KEYWORDS = [
   // Serbian Latin keywords
   "SUP",
   "MARKA I TIP",
+  "ОСПОРЕНИ АКТИ ДРЖАВНИХ ОРГАНА:",
+  "Дражен Медојевић",
+  "Мироје Јовановић"
 ];
 
 export const ACCEPTED_FILE_TYPES = {

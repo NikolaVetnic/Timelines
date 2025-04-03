@@ -2,17 +2,17 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 
-import {
-  ACCEPTED_FILE_TYPES,
-  LOCAL_STORAGE_KEY,
-  KEYWORDS,
-  MAX_FILE_SIZE,
-} from "../../../../data/constants";
-import { extractTextFromPdf } from "../../../../core/utils/ExtractTextFromPDF";
 import OCRModal from "../../../../core/components/modals/OCRModal/OCRModal";
-import FilesList from "../FileList/FileList";
 import { extractNamesFromText } from "../../../../core/utils/ExtractNameFromText";
 import { extractTextFromImage } from "../../../../core/utils/ExtractTextFromImage";
+import { extractTextFromPdf } from "../../../../core/utils/ExtractTextFromPDF";
+import {
+  ACCEPTED_FILE_TYPES,
+  KEYWORDS,
+  LOCAL_STORAGE_KEY,
+  MAX_FILE_SIZE,
+} from "../../../../data/constants";
+import FilesList from "../FileList/FileList";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./File.css";
@@ -250,68 +250,91 @@ const File = ({ nodeId, timelineId, onToggle }) => {
       toast.error("❌ No text to analyze");
       return;
     }
-
+  
     try {
       setIsAnalyzing(true);
       toast.info("🔍 Analyzing document for keywords...", { autoClose: false });
-
-      // 1. Perform keyword analysis
+  
+      // Clean the text first by removing any existing marks
+      const cleanText = extractedText.replace(/<mark class=".*?">|<\/mark>/g, "");
+  
+      // 1. Highlight predefined keywords (using the improved logic from highlightCustomKeywords)
+      let textWithHighlights = KEYWORDS.reduce((text, keyword) => {
+        const regex = new RegExp(
+          `(\\b${keyword}\\b|[^\\w]${keyword}[^\\w])`,
+          "gi"
+        );
+        return text.replace(regex, (match) => {
+          if (match.toLowerCase() === keyword.toLowerCase()) {
+            return `<mark class="preloaded">${match}</mark>`;
+          } else {
+            return (
+              match[0] +
+              `<mark class="preloaded">${match.slice(1, -1)}</mark>` +
+              match.slice(-1)
+            );
+          }
+        });
+      }, cleanText);
+  
+      // 2. Perform keyword analysis (using the more accurate counting method)
       const keywordResults = KEYWORDS.map((keyword) => {
-        const matches = extractedText.match(new RegExp(keyword, "gi")) || [];
+        const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const regex = new RegExp(
+          `(\\b${escapedKeyword}\\b|[^\\w]${escapedKeyword}[^\\w])`,
+          "gi"
+        );
+        const matches = (cleanText.match(regex) || []);
         return {
           keyword,
           found: matches.length > 0,
           count: matches.length,
-          examples: matches.slice(0, 3),
+          examples: matches.slice(0, 3).map(m => m.trim())
         };
       });
-
+  
       const foundKeywords = keywordResults.filter((k) => k.found);
-
-      // 2. Generate highlighted text
-      const textWithHighlights = KEYWORDS.reduce((text, keyword) => {
-        const regex = new RegExp(`(\\b${keyword}\\b)(?![^<]*>|</mark>)`, "gi");
-        return text.replace(regex, '<mark class="preloaded">$1</mark>');
-      }, extractedText);
-
+  
       // 3. Create text report
       const keywordsReport =
         `Predefined Keywords Found:\n` +
-        `• ${foundKeywords
-          .map((k) => `${k.keyword} (${k.count}x)`)
-          .join("\n• ")}\n\n` +
+        (foundKeywords.length > 0
+          ? `• ${foundKeywords
+              .map((k) => `${k.keyword} (${k.count}x)`)
+              .join("\n• ")}\n\n`
+          : "No predefined keywords found\n\n") +
         "The highlighted text shows where these keywords appear in the document.";
-
-      // 4. Generate structured JSON data in the exact desired format
+  
+      // 4. Generate structured JSON data
       const analysisJson = {
-        drzavljanstvo: "Црна Гора", // You'll need to extract this from the text
+        drzavljanstvo: "Црна Гора",
         zastupnici: [
           {
-            ime: "Мироје", // Replace with actual extracted data
+            ime: "Мироје",
             prezime: "Јованивић",
           },
           {
-            ime: "Драшен",
+            ime: "Дражен",
             prezime: "Медојевић",
           },
         ],
         nadlezni: [
           {
-            naziv: "Апелациони суд Црне Горе", // Replace with actual extracted data
+            naziv: "Апелациони суд Црне Горе",
           },
           {
             naziv: "Виши суд у Подгорици",
           },
         ],
       };
-
+  
       // 5. Update state with both formats
       setHighlightedText(textWithHighlights);
       setAnalysisResult({
         textReport: `Analysis for ${extractedNames.firstName} ${extractedNames.lastName}:\n\n${keywordsReport}`,
         jsonData: analysisJson,
       });
-
+  
       toast.dismiss();
       toast.success("✅ Analysis complete!");
       setHasAnalyzed(true);
