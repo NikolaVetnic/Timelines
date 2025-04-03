@@ -1,4 +1,5 @@
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Exceptions;
@@ -75,5 +76,11 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
             .Where(n => timelineIds.Contains(n.TimelineId))
             .ToListAsync(cancellationToken: cancellationToken);
     }
+
+    public Task<IEnumerable<Node>> GetNodesBelongingToNotesIdsAsync(IEnumerable<NoteId> noteIds, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
     #endregion
 }

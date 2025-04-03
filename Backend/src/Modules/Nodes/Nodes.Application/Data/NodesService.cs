@@ -53,7 +53,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
                 timelines
                     .First(t => t.Id == n.TimelineId.ToString()),
                 notes
-                    .Where(r => n.ReminderIds.Select(id => id.ToString()).Contains(r.Id))
+                    .Where(r => n.NoteIds.Select(id => id.ToString()).Contains(r.Id))
                     .Select(r => new NoteBaseDto(
                         id: r.Id!.ToString(),
                         title: r.Title,
@@ -161,6 +161,13 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         CancellationToken cancellationToken)
     {
         var nodes = await nodesRepository.GetNodesBelongingToTimelineIdsAsync(timelineIds, cancellationToken);
+        var nodeBaseDtos = nodes.Adapt<List<NodeBaseDto>>();
+        return nodeBaseDtos;
+    }
+
+    public async Task<List<NodeBaseDto>> GetNodesBaseBelongingToNoteIdsAsync(IEnumerable<NoteId> noteIds, CancellationToken cancellationToken)
+    {
+        var nodes = await nodesRepository.GetNodesBelongingToNotesIdsAsync(noteIds, cancellationToken);
         var nodeBaseDtos = nodes.Adapt<List<NodeBaseDto>>();
         return nodeBaseDtos;
     }
