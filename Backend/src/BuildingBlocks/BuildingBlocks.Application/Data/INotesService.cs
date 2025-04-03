@@ -1,5 +1,4 @@
-﻿using BuildingBlocks.Domain.Nodes.Node.Dtos;
-using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Notes.Note.Dtos;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 
