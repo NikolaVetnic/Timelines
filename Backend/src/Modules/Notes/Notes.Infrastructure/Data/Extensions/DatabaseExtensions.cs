@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Application.Data;
-
-namespace Notes.Infrastructure.Data.Extensions;
+﻿namespace Notes.Infrastructure.Data.Extensions;
 
 public static class DatabaseExtensions
 {
@@ -10,24 +8,20 @@ public static class DatabaseExtensions
         var scopedProvider = scope.ServiceProvider;
 
         var notesDbContext = scopedProvider.GetRequiredService<NotesDbContext>();
-        var nodesService = scopedProvider.GetRequiredService<INodesService>();
 
         // Apply migrations
         await notesDbContext.Database.MigrateAsync();
 
         // Seed initial data if necessary
-        await SeedAsync(notesDbContext, nodesService);
+        await SeedAsync(notesDbContext);
     }
 
-    private static async Task SeedAsync(NotesDbContext context, INodesService nodesService)
+    private static async Task SeedAsync(NotesDbContext context)
     {
         if (await context.Notes.AnyAsync())
             return;
 
         await context.AddRangeAsync(InitialData.Notes);
         await context.SaveChangesAsync();
-
-        foreach (var initialNote in InitialData.Notes)
-            await nodesService.AddNote(initialNote.NodeId, initialNote.Id, CancellationToken.None);
     }
 }
