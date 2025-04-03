@@ -1,6 +1,8 @@
 using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Notes.Note.Dtos;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
@@ -21,6 +23,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     {
         var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
         var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
+        var notesService = serviceProvider.GetRequiredService<INotesService>();
 
         var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, cancellationToken);
 
@@ -29,6 +32,9 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
         var timelines = await timelinesService
             .GetTimelinesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
+
+        var notes = await notesService
+            .GetNotesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
         var nodeDtos = nodes.Select(n =>
             n.ToNodeDto(
@@ -45,7 +51,20 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
                     )
                     .ToList(),
                 timelines
-                    .First(t => t.Id == n.TimelineId.ToString())
+                    .First(t => t.Id == n.TimelineId.ToString()),
+                notes
+                    .Where(r => n.NoteIds.Select(id => id.ToString()).Contains(r.Id))
+                    .Select(r => new NoteBaseDto(
+                        id: r.Id!.ToString(),
+                        title: r.Title,
+                        content: r.Content,
+                        timestamp: r.Timestamp,
+                        owner: r.Owner,
+                        relatedNotes: r.RelatedNotes,
+                        sharedWith: r.SharedWith,
+                        isPublic: r.IsPublic)
+                    )
+                    .ToList()
             )
         ).ToList();
 
@@ -64,30 +83,46 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         return await nodesRepository.NodeCountAsync(cancellationToken);
     }
 
-    #endregion
-    
-    #region Get
-
     public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
         var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
+        var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
+        var notesService = serviceProvider.GetRequiredService<INotesService>();
 
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
-        
-        var reminders = await remindersService
-            .GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
 
         var timeline = await timelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
 
-        var nodeDto = node.ToNodeDto(reminders, timeline);
+        var reminders = await remindersService
+            .GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
+
+        var notes = await notesService
+            .GetNotesBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
+
+        var nodeDto = node.ToNodeDto(reminders, timeline, notes);
 
         return nodeDto;
     }
 
+    #endregion
+
+    #region Get
+
     public async Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return (await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken)).ToNodeBaseDto();
+        var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
+        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
+        var notesService = serviceProvider.GetRequiredService<INotesService>();
+
+        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        
+        var reminders = await remindersService.GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
+        var timeline = await timelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
+        var notes = await notesService.GetNotesBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
+
+        var nodeDto = node.ToNodeDto(reminders, timeline, notes);
+
+        return nodeDto;
     }
 
     #endregion
@@ -130,5 +165,28 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         return nodeBaseDtos;
     }
 
+    public async Task<List<NodeBaseDto>> GetNodesBaseBelongingToNoteIdsAsync(IEnumerable<NoteId> noteIds, CancellationToken cancellationToken)
+    {
+        var nodes = await nodesRepository.GetNodesBelongingToNotesIdsAsync(noteIds, cancellationToken);
+        var nodeBaseDtos = nodes.Adapt<List<NodeBaseDto>>();
+        return nodeBaseDtos;
+    }
+
     #endregion
+
+    public async Task AddNote(NodeId nodeId, NoteId noteId, CancellationToken cancellationToken)
+    {
+        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        node.AddNote(noteId);
+
+        await nodesRepository.UpdateNodeAsync(node, cancellationToken);
+    }
+
+    public async Task RemoveNote(NodeId nodeId, NoteId noteId, CancellationToken cancellationToken)
+    {
+        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        node.RemoveNote(noteId);
+
+        await nodesRepository.UpdateNodeAsync(node, cancellationToken);
+    }
 }
