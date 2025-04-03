@@ -1,3 +1,38 @@
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: relative;
+    width: 100%;
+}
+
+.timeline-title {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #2c3e50;
+}
+
+.timeline-header-corner {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #f5f5f5;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-corner-title {
+    font-size: 1rem;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    display: inline-block;
+}
+
 .timeline-strip {
     position: absolute;
     left: 50%;
@@ -57,5 +92,15 @@
 
     .timeline-cards {
         padding-left: 60px;
+    }
+    
+    .timeline-header-corner {
+        position: static;
+        margin-left: 1rem;
+    }
+    
+    .timeline-header {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
