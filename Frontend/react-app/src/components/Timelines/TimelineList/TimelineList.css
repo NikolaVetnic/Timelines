@@ -79,14 +79,21 @@
 .timeline-list-item-title {
     margin: 0 0 0.75rem;
     color: #2c3e50;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     word-break: break-word;
+}
+
+.timeline-list-item-title span{
+    margin: 0 0 0.75rem;
+    font-size: 1.05rem;
+    padding-right: 5px;
+    color: #999;
 }
 
 .timeline-list-item-description {
     margin: 0 0 1rem;
     color: #666;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     line-height: 1.4;
     word-break: break-word;
 }

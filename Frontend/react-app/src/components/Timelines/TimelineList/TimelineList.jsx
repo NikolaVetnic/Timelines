@@ -110,7 +110,12 @@ const TimelineList = () => {
                                 className="timeline-list-item"
                                 onClick={() => handleTimelineClick(timeline)}
                             >
-                                <h3 className="timeline-list-item-title">{timeline.title}</h3>
+                                <h3 className="timeline-list-item-title">
+                                    <span>
+                                        Timeline:
+                                    </span> 
+                                    {timeline.title}
+                                </h3>
                                 <p className="timeline-list-item-description">
                                     {timeline.description || "No description"}
                                 </p>
