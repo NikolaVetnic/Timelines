@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+
+import TextButton from "../../buttons/TextButton/TextButton";
+
 import "./TextAreaModal.css";
 
-import CancelButton from "../../buttons/CancelButton/CancelButton";
-import SaveButton from "../../buttons/SaveButton/SaveButton";
-
 const TextAreaModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
+    const root = "text-area-modal";
     const [value, setValue] = useState(initialValue);
     const [isChanged, setIsChanged] = useState(false);
 
@@ -27,8 +28,8 @@ const TextAreaModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="text-area-modal-overlay">
-            <div className="text-area-modal">
+        <div className={`${root}-overlay`}>
+            <div className={`${root}`}>
                 <h3>{title}</h3>
                 <textarea
                     rows="4"
@@ -36,9 +37,9 @@ const TextAreaModal = ({ isOpen, onClose, onSave, initialValue, title }) => {
                     onChange={handleInputChange}
                     placeholder="Input text"
                 ></textarea>
-                <div className="text-area-modal-actions">
-                    <CancelButton onClick={onClose} />
-                    <SaveButton onClick={handleSave} disabled={!isChanged} />
+                <div className={`${root}-actions`}>
+                    <TextButton onClick={onClose} text="Cancel" color="default" />
+                    <TextButton onClick={handleSave} text="Save" color="green" disabled={!isChanged}/>
                 </div>
             </div>
         </div>

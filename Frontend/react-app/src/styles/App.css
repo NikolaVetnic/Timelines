@@ -5,19 +5,24 @@
     --enmOrange: #e76a29;
     --enmBlue: #1d377f;
     --enmGray: #908f8f;
-    --Success: #4cae4c;
-    --Error: #c9302c;
-    --BackgroundStripe: #333;
+    --backgroundHeader: #007bff;
+    --noteHeader: #E5FFDE;
+    --remindersHeader: #475B5A;
+    --filesHeader: #DDC4DD;
+    --success: #4cae4c;
+    --error: #c9302c;
+    --backgroundStripe: #333;
 }
 
 /* Body Styling */
 body {
     font-family: 'Arial', sans-serif;
     background-color: var(--enmGray);
-    color: var(--BackgroundStripe);
+    color: var(--backgroundStripe);
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    overflow: hidden;
+    height: 100%;
 }
 
 /* App Container Styling */
@@ -37,27 +42,11 @@ body {
     align-items: center;
     width: 800px;
     background-color: #fff;
-    border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 0 auto;
     height: 100%;
     overflow-y: auto;
-}
-
-/* Buttons */
-button {
-    background-color: var(--enmOrange);
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #cf5a22;
 }
 
 /* Links */
