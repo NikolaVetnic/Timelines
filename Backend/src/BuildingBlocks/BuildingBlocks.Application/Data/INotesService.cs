@@ -7,7 +7,7 @@ namespace BuildingBlocks.Application.Data;
 
 public interface INotesService
 {
-    Task<List<NodeDto>> ListNotesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken);
+    Task<List<NoteDto>> ListNotesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<NoteDto> GetNoteByIdAsync(NoteId noteId, CancellationToken cancellationToken);
     Task<NoteBaseDto> GetNoteBaseByIdAsync(NoteId noteId, CancellationToken cancellationToken);
     Task DeleteNote(NoteId noteId, CancellationToken cancellationToken);

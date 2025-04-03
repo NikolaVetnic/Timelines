@@ -22,6 +22,7 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
     {
         return await dbContext.Notes.LongCountAsync(cancellationToken);
     }
+
     #endregion
 
     #region Get

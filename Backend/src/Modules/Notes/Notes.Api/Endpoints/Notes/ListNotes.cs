@@ -9,18 +9,20 @@ public class ListNotes : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/Notes", async ([AsParameters] PaginationRequest query, ISender sender) =>
-            {
-                var result = await sender.Send(new ListNotesQuery(query));
-                var response = result.Adapt<ListNotesResponse>();
+        {
+            var result = await sender.Send(new ListNotesQuery(query));
+            var response = result.Adapt<ListNotesResponse>();
 
-                return Results.Ok(response);
-            })
-            .WithName("ListNotes")
-            .Produces<ListNotesResponse>()
-            .ProducesProblem(StatusCodes.Status400BadRequest)
-            .WithSummary("List Notes")
-            .WithDescription("List Notes");
+            return Results.Ok(response);
+        })
+        .WithName("ListNotes")
+        .Produces<ListNotesResponse>()
+        .ProducesProblem(StatusCodes.Status400BadRequest)
+        .WithSummary("List Notes")
+        .WithDescription("List Notes");
     }
 }
 
+// ReSharper disable once ClassNeverInstantiated.Global
+// ReSharper disable once NotAccessedPositionalProperty.Global
 public record ListNotesResponse(PaginatedResult<NoteDto> Notes);
