@@ -9,33 +9,69 @@
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    opacity: 0;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
 }
 
 .create-timeline-modal-content {
     background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    border-radius: 12px;
+    width: 450px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(-20px);
+    animation: slideUp 0.3s ease-out forwards;
+    position: relative;
+}
+
+@keyframes slideUp {
+    to { transform: translateY(0); }
+}
+
+.create-timeline-modal-header {
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
 }
 
 .create-timeline-modal-input {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .create-timeline-modal-input label {
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 500;
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    color: #555;
 }
 
 .create-timeline-modal-input input {
     width: 100%;
-    padding: 8px;
+    padding: 12px;
     font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.create-timeline-modal-input input:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    outline: none;
+}
+
+.create-timeline-modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .create-timeline-modal-button {
@@ -43,17 +79,88 @@
     background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    margin-top: 10px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.create-timeline-modal-button:hover {
+    background-color: #3e8e41;
+    transform: translateY(-1px);
+}
+
+.create-timeline-modal-button:active {
+    transform: translateY(0);
 }
 
 .create-timeline-modal-button:disabled {
-    background-color: #ddd;
+    background-color: #cccccc;
     cursor: not-allowed;
+    transform: none;
 }
 
 .create-timeline-modal-button-close {
-    background-color: #f44336;
-    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #f5f5f5;
+    color: #555;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.create-timeline-modal-button-close:hover {
+    background-color: #eaeaea;
+}
+
+.create-timeline-error-message {
+    color: #ff4d4f;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    padding-left: 5px;
+}
+
+.create-timeline-input-error {
+    border-color: #ff4d4f !important;
+}
+
+.create-timeline-input-error:focus {
+    box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2) !important;
+}
+
+/* Close button in top-right corner */
+.create-timeline-modal-close-x {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 24px;
+    height: 24px;
+    opacity: 0.5;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.create-timeline-modal-close-x:hover {
+    opacity: 1;
+}
+
+.create-timeline-modal-close-x::before,
+.create-timeline-modal-close-x::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 2px;
+    background-color: #555;
+}
+
+.create-timeline-modal-close-x::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.create-timeline-modal-close-x::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
 }

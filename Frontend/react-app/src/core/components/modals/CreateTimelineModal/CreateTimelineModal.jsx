@@ -1,42 +1,25 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Post from "../../../api/post";
+import TimelineService from "../../../../services/TimelineService";
 import "./CreateTimelineModal.css";
 
-const CreateTimelineModal = ({ onClose }) => {
+const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
   const [title, setTitle] = useState("");
-//   const [description, setDescription] = useState("");
+  const [error, setError] = useState("");
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
+    if (error) setError("");
   };
 
-//   const handleDescriptionChange = (e) => {
-//     setDescription(e.target.value);
-//   };
-
-  const handleSaveTimelineData = async () => {
-    if (!title.trim()) { //|| !description.trim()
-      toast.error("Please enter both title and description.");
-      return;
-    }
-
-    const dataToPost = {
-      Timeline: {
-        Title: title,
-        // Description: description,
-      },
-    };
-
+  const handleCreateTimelineData = async () => {
     try {
-      const apiUrl = "http://localhost:26001";
-      await Post(apiUrl, "/Timelines", dataToPost);
-
-      toast.success("Timeline created successfully!");
+      await TimelineService.createTimeline(title);
       onClose();
+      if (onTimelineCreated) onTimelineCreated(); 
     } catch (error) {
-      toast.error("Failed to create timeline.");
+      setError(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -51,21 +34,12 @@ const CreateTimelineModal = ({ onClose }) => {
             value={title}
             onChange={handleTitleChange}
             placeholder="Enter title"
+            className={error ? "create-timeline-input-error" : ""}
           />
+          {error && <div className="create-timeline-error-message">{error}</div>}
         </div>
 
-        {/* <div className="create-timeline-modal-input">
-          <label htmlFor="description">Description:</label>
-          <input
-            id="description"
-            type="text"
-            value={description}
-            onChange={handleDescriptionChange}
-            placeholder="Enter description"
-          />
-        </div> */}
-
-        <div>
+        <div className="create-timeline-modal-buttons">
           <button
             className="create-timeline-modal-button-close"
             onClick={onClose}
@@ -74,7 +48,8 @@ const CreateTimelineModal = ({ onClose }) => {
           </button>
           <button
             className="create-timeline-modal-button"
-            onClick={handleSaveTimelineData}
+            onClick={handleCreateTimelineData}
+            disabled={!title.trim()}
           >
             Save
           </button>
