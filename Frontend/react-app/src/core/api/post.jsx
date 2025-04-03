@@ -18,7 +18,7 @@ const Post = async (apiUrl, exactPath, data) => {
 
     return response.data;
   } catch (error) {
-    throw error.response ? error.response.data : new Error('Network error');
+    throw error.response ? error.response.data : new Error('Network error, please try again later.');
   }
 };
 
