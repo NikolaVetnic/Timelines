@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./InputStringModal.css";
 
-import CancelButton from "../../buttons/CancelButton/CancelButton";
-import SaveButton from "../../buttons/SaveButton/SaveButton";
+import TextButton from "../../buttons/TextButton/TextButton";
+
+import "./InputStringModal.css";
 
 const InputStringModal = ({
     isOpen,
@@ -12,6 +12,7 @@ const InputStringModal = ({
     title = "Input String",
     placeholder = "Input String...",
 }) => {
+    const root = "input-string-modal";
     const [value, setValue] = useState(initialValue);
     const [isChanged, setIsChanged] = useState(false);
 
@@ -36,8 +37,8 @@ const InputStringModal = ({
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div className={`${root}-overlay`} onClick={onClose}>
+            <div className={`${root}`} onClick={(e) => e.stopPropagation()}>
                 <h3>{title}</h3>
                 <textarea
                     rows="4"
@@ -46,11 +47,11 @@ const InputStringModal = ({
                     placeholder={placeholder}
                     autoFocus
                 ></textarea>
-                <div className="modal-actions">
-                    <CancelButton onClick={onClose} />
-                    <SaveButton onClick={handleSave} disabled={!isChanged} />
+                <div className={`${root}-actions`}>
+                    <TextButton onClick={onClose} text="Cancel" color="default" />
+                    <TextButton onClick={handleSave} text="Save" color="green" disabled={!isChanged}/>
                 </div>
-            </div>
+            </div>  
         </div>
     );
 };

@@ -1,0 +1,139 @@
+.file-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: var(--filesHeader);
+    color: var(--enmBlue);
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    font-size: 0.9rem;
+    border: none;
+    text-align: left;
+    border-radius: 5px;
+}
+
+.file-header.open {
+    border-radius: 5px 5px 0px 0px;
+}
+
+.file-header.closed {
+    border-radius: 5px;
+}
+
+.file-header:hover {
+    color: var(--backgroundHeader);
+}
+
+.file-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--enmBlue);
+}
+
+.file-header:hover h4 {
+    color: var(--backgroundHeader);
+}
+
+.file-content {
+    background: #f9f9f9;
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 0 0 5px 5px;
+}
+
+.file-dropzone-container {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.file-container {
+    background: #f9f9f9;
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.file-item {
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.file-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-preview {
+    max-width: 100px;
+    max-height: 100px;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+.file-preview-pdf {
+    width: 100px;
+    height: 100px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+}
+
+.file-preview-text {
+    width: 200px;
+    height: 100px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    overflow: auto;
+}
+
+.file-buttons {
+    display: flex;
+    gap: 5px;
+    margin-left: 10px;
+}
+
+.file-preview-button {
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.file-preview-button:hover {
+    background: #0056b3;
+}
+
+.file-download-button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.file-download-button:hover {
+    background: #218838;
+}
