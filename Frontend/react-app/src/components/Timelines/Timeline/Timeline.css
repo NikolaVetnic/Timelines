@@ -68,7 +68,6 @@
   width: 4px;
   background-color: var(--enmOrange);
   z-index: 1;
-  transition: height 0.15s ease-out, top 0.15s ease-out;
   will-change: top, height;
 }
 
