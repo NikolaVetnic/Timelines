@@ -30,18 +30,18 @@
     text-align: center;
 }
 
-.integer-controls {
+.integer-modal-controls {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
 }
 
-.integer-value {
+.integer-modal-value {
     color: #333;
 }
 
-.integer-button {
+.integer-modal-button {
     font-family: "Courier New", Courier, monospace;
     font-weight: bold;
     background-color: #e76a29;
@@ -57,7 +57,7 @@
     transition: background-color 0.2s ease;
 }
 
-.integer-button:hover {
+.integer-modal-button:hover {
     background-color: #cf5a22;
 }
 

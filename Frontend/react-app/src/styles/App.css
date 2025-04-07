@@ -2,9 +2,13 @@
     --enmOrange: #e76a29;
     --enmBlue: #1d377f;
     --enmGray: #908f8f;
-    --Success: #4cae4c;
-    --Error: #c9302c;
-    --BackgroundStripe: #333;
+    --backgroundHeader: #007bff;
+    --noteHeader: #E5FFDE;
+    --remindersHeader: #475B5A;
+    --filesHeader: #DDC4DD;
+    --success: #4cae4c;
+    --error: #c9302c;
+    --backgroundStripe: #333;
 }
 
 * {
@@ -13,7 +17,8 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     font-family: 'Arial', sans-serif;
     background-color: var(--enmGray);
@@ -34,7 +39,6 @@ html, body {
     width: 800px;
     max-width: 100%;
     background-color: #fff;
-    border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     height: calc(100vh);
@@ -73,7 +77,12 @@ a:hover {
     color: #14265e;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     color: var(--enmBlue);
     margin-bottom: 15px;
 }

@@ -1,16 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
-
-import timelineData from "../../../data/timelineData";
 import "./TimelineSelect.css";
 
 const TimelineSelect = ({ onTimelineSelect }) => {
+    const root = "timeline-select";
     const [selectedTimeline, setSelectedTimeline] = useState(null);
+    const [timelineOptions, setTimelineOptions] = useState([]);
 
-    const timelineOptions = timelineData.map(timeline => ({
-        value: timeline.id,
-        label: timeline.title,
-    }));
+    // todo: connect to backend
+    useEffect(() => {
+        const storedData = localStorage.getItem("timelineData");
+        if (storedData) {
+            const parsedData = JSON.parse(storedData, (key, value) =>
+                key.includes("timestamp") || key.includes("startDate") ? new Date(value) : value
+            );
+
+            const options = parsedData.map((timeline) => ({
+                value: timeline.id,
+                label: timeline.title,
+            }));
+            setTimelineOptions(options);
+        }
+    }, []);
 
     const handleTimelineChange = (selectedOption) => {
         setSelectedTimeline(selectedOption);
@@ -20,7 +31,7 @@ const TimelineSelect = ({ onTimelineSelect }) => {
     };
 
     return (
-        <div className="dropdown-container">
+        <div className={`${root}-dropdown-container`}>
             <Select
                 options={timelineOptions}
                 value={selectedTimeline}

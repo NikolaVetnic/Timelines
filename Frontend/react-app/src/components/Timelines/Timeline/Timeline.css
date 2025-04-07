@@ -57,6 +57,7 @@
     position: relative;
     width: 800px;
     margin: 0 auto;
+    overflow: hidden;
 }
 
 .timeline-container {
@@ -67,6 +68,7 @@
 .timeline-nodes {
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
     gap: 20px;
     padding: 20px 0;
 }
@@ -93,12 +95,12 @@
     .timeline-cards {
         padding-left: 60px;
     }
-    
+
     .timeline-header-corner {
         position: static;
         margin-left: 1rem;
     }
-    
+
     .timeline-header {
         flex-direction: column;
         align-items: flex-start;

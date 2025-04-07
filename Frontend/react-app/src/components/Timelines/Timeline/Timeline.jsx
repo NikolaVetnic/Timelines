@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import recalculateStrip from "../../../core/utils/RecalculateStrip";
 import TimelineService from "../../../services/TimelineService";
 import Node from "../../Nodes/Node/Node/Node";
+
 import "./Timeline.css";
 
 const Timeline = () => {
@@ -97,7 +98,7 @@ const Timeline = () => {
                 </div>
             )}
         </div>
-    );  
+    );
 };
 
 export default Timeline;
