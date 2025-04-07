@@ -1,50 +1,43 @@
 .editable-title-container {
-    display: flex;
-    align-items: center;
-    cursor: text;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  cursor: text;
+  gap: 8px;
 }
 
 .editable-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    border: none;
-    background: transparent;
-    color: #333;
-    cursor: text;
-    transition: opacity 0.2s ease-in-out;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  background: transparent;
+  color: #333;
+  cursor: text;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .editable-title:focus {
-    outline: none;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f9f9f9;
+  color: #333 !important;
+  background-color: #f9f9f9;
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .editable-title-container:hover .editable-title {
-    color: #fff;
+  color: #fff;
 }
 
 .editable-title-edit-icon {
-    color: #fff;
-    transition: opacity 0.2s ease-in-out;
-    cursor: pointer;
-    opacity: 0;
-    visibility: hidden;
-    flex-shrink: 0;
+  color: #fff;
+  transition: opacity 0.2s ease-in-out;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  flex-shrink: 0;
 }
 
 .editable-title-container:hover .editable-title-edit-icon,
 .editable-title-container:focus-within .editable-title-edit-icon {
-    opacity: 1;
-    visibility: visible;
-}
-
-.editable-title:focus {
-    color: #333 !important;
-    background-color: #f9f9f9;
-    outline: none;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  opacity: 1;
+  visibility: visible;
 }

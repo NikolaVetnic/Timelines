@@ -1,85 +1,57 @@
 .node-timeline {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    cursor: default;
-    transition: transform 0.3s;
-    position: relative;
-}
-
-.node-timeline {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.3s ease;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  position: relative;
 }
 
 .node-timeline:not(.open):hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .node-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background-color: var(--backgroundHeader);
-    color: #fff;
-    cursor: pointer;
-}
-
-.node-header {
-    color: #fff;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: var(--backgroundHeader);
+  color: #fff;
+  cursor: pointer;
 }
 
 .node-header h3 {
-    margin: 0;
-    color: #eee;
-    font-size: 1.2rem;
+  margin: 0;
+  color: #eee;
+  font-size: 1.2rem;
 }
 
 .node-header span {
-    font-size: 1.7rem;
+  font-size: 1.7rem;
 }
 
 .node-header:hover .editable-title {
-    color: #ddd;
-    transition: color 0.2s ease-in-out;
-}
-
-.node-header:hover .editable-title {
-    color: #ddd;
-    transition: color 0.2s ease-in-out;
+  color: #ddd;
+  transition: color 0.2s ease-in-out;
 }
 
 .node-content {
-    padding: 15px 20px;
-    cursor: default;
-    text-align: left;
+  background-color: #fff;
+  padding: 15px 20px;
+  cursor: default;
+  color: #333;
+  text-align: left;
 }
 
 .node-content img {
-    max-width: 100%;
-    margin-top: 10px;
-    border-radius: 4px;
+  max-width: 100%;
+  margin-top: 10px;
+  border-radius: 4px;
 }
 
-.node-content {
-    background-color: #fff;
-    padding: 15px 20px;
-    color: #333;
-    text-align: left;
-}
-
-.node-content img {
-    max-width: 100%;
-    margin-top: 10px;
-    border-radius: 4px;
+.node-phase {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
