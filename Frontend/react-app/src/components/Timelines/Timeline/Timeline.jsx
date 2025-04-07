@@ -6,7 +6,9 @@ import Node from "../../Nodes/Node/Node/Node";
 
 import "./Timeline.css";
 
-const Timeline = ({ selectedTimeline }) => {
+const Timeline = () => {
+  const { id } = useParams();
+  const [timeline, setTimeline] = useState(null);
   const stripRef = useRef(null);
   const nodesRef = useRef([]);
   const [stripStyle, setStripStyle] = useState({});

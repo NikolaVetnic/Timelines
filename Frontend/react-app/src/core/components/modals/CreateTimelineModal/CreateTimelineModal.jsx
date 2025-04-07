@@ -5,6 +5,7 @@ import "./CreateTimelineModal.css";
 
 const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState(""); // New state for description
   const [error, setError] = useState("");
 
   const handleTitleChange = (e) => {
@@ -12,9 +13,13 @@ const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
     if (error) setError("");
   };
 
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
   const handleCreateTimelineData = async () => {
     try {
-      await TimelineService.createTimeline(title);
+      await TimelineService.createTimeline(title, description); // Updated to include description
       onClose();
       if (onTimelineCreated) onTimelineCreated(); 
     } catch (error) {
@@ -26,32 +31,48 @@ const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
   return (
     <div className="create-timeline-modal">
       <div className="create-timeline-modal-content">
+        <div className="create-timeline-modal-header">
+          Create New Timeline
+        </div>
+        
         <div className="create-timeline-modal-input">
-          <label htmlFor="title">Title:</label>
+          <label htmlFor="title">Title*:</label>
           <input
             id="title"
             type="text"
             value={title}
             onChange={handleTitleChange}
-            placeholder="Enter title"
+            placeholder="Enter timeline title"
             className={error ? "create-timeline-input-error" : ""}
           />
-          {error && <div className="create-timeline-error-message">{error}</div>}
         </div>
+
+        <div className="create-timeline-modal-input">
+          <label htmlFor="description">Description:</label>
+          <textarea
+            id="description"
+            value={description}
+            onChange={handleDescriptionChange}
+            placeholder="Enter timeline description (optional)"
+            rows="4"
+          />
+        </div>
+
+        {error && <div className="create-timeline-error-message">{error}</div>}
 
         <div className="create-timeline-modal-buttons">
           <button
             className="create-timeline-modal-button-close"
             onClick={onClose}
           >
-            Close
+            Cancel
           </button>
           <button
             className="create-timeline-modal-button"
             onClick={handleCreateTimelineData}
             disabled={!title.trim()}
           >
-            Save
+            Create Timeline
           </button>
         </div>
       </div>
