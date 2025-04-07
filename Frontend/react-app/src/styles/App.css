@@ -63,10 +63,6 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #cf5a22;
-}
-
 a {
   color: var(--enmBlue);
   text-decoration: none;
