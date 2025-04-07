@@ -12,100 +12,113 @@ import Timestamp from "../Timestamp/Timestamp";
 
 import "./Node.css";
 
-const Node = forwardRef(({ node, onToggle, isModalActive, setModalActive, openNodeId, setOpenNodeId, timelineId }, ref) => {
+const Node = forwardRef(
+  (
+    {
+      node,
+      onToggle,
+      isModalActive,
+      setModalActive,
+      openNodeId,
+      setOpenNodeId,
+      timelineId,
+    },
+    ref
+  ) => {
     const root = "node";
     const isOpen = openNodeId === node.id;
-    const [categories, setCategories] = useState(node.categories);
-    const [tags, setTags] = useState(node.tags);
-    const [description, setDescription] = useState(node.description);
-    const [timestamp, setTimestamp] = useState(node.timestamp);
-    const [title, setTitle] = useState(node.title);
+    const [categories, setCategories] = useState(node.categories || []);
+    const [tags, setTags] = useState(node.tags || []);
+    const [description, setDescription] = useState(node.description || "");
+    const [timestamp, setTimestamp] = useState(node.timestamp || "");
+    const [title, setTitle] = useState(node.title || "Untitled");
     const [notes, setNotes] = useState(node.notes || []);
 
     const toggleCard = () => {
-        if (isModalActive) return;
-        if (isOpen) {
-            setOpenNodeId(null);
-        } else {
-            setOpenNodeId(node.id);
-        }
-        onToggle();
+      if (isModalActive) return;
+      if (isOpen) {
+        setOpenNodeId(null);
+      } else {
+        setOpenNodeId(node.id);
+      }
+      onToggle();
     };
 
     return (
-        <div className={`${root}-timeline ${isOpen ? "open" : ""}`} ref={ref}>
-            <div className="node-header" onClick={toggleCard}>
-                <EditableTitle
-                    nodeId={node.id}
-                    timelineId={timelineId}
-                    title={title}
-                    onUpdateTitle={(newTitle) => setTitle(newTitle)}
-                />
-                <span>{isOpen ? "-" : "+"}</span>
-            </div>
-            {isOpen && (
-                <div className={`${root}-content`}>
-                    <Description
-                        nodeId={node.id}
-                        timelineId={timelineId}
-                        description={description}
-                        onUpdateDescription={setDescription}
-                        setModalActive={setModalActive}
-                    />
-                    <Timestamp
-                        nodeId={node.id}
-                        timelineId={timelineId}
-                        initialValue={timestamp}
-                        onSave={(newTimestamp) => setTimestamp(newTimestamp)}
-                        setModalActive={setModalActive}
-                    />
-                    <Importance
-                        nodeId={node.id}
-                        timelineId={timelineId} 
-                        initialValue={node.importance}
-                        onSave={(newImportance) =>
-                            console.log("Saved Importance:", newImportance)
-                        }
-                        setModalActive={setModalActive}
-                    />
-                    <p>
-                        <strong>Phase:</strong> {node.phase.title}
-                    </p>
-                    <Categories
-                        nodeId={node.id}
-                        timelineId={timelineId}
-                        categories={categories}
-                        onUpdateCategories={setCategories}
-                        setModalActive={setModalActive}
-                    />
-                    <Tags
-                        nodeId={node.id}
-                        timelineId={timelineId}
-                        tags={tags}
-                        onUpdateTags={setTags}
-                        setModalActive={setModalActive}
-                    />
-                    <Note
-                        nodeId={node.id}
-                        timelineId={timelineId}
-                        notes={notes} 
-                        setNotes={setNotes}
-                        onToggle={onToggle}
-                    />
-                    <Reminder
-                        nodeId={node.id}
-                        timelineId={timelineId}
-                        onToggle={onToggle}
-                    />
-                    <File
-                        nodeId={node.id}
-                        timelineId={timelineId}
-                        onToggle={onToggle}
-                    />
-                </div>
-            )}
+      <div className={`${root}-timeline ${isOpen ? "open" : ""}`} ref={ref}>
+        <div className="node-header" onClick={toggleCard}>
+          <EditableTitle
+            nodeId={node.id}
+            timelineId={timelineId}
+            title={title}
+            onUpdateTitle={(newTitle) => setTitle(newTitle)}
+          />
+          <span>{isOpen ? "-" : "+"}</span>
         </div>
+        {isOpen && (
+          <div className={`${root}-content`}>
+            <Description
+              nodeId={node.id}
+              timelineId={timelineId}
+              description={description}
+              onUpdateDescription={setDescription}
+              setModalActive={setModalActive}
+            />
+            <Timestamp
+              nodeId={node.id}
+              timelineId={timelineId}
+              initialValue={timestamp}
+              onSave={(newTimestamp) => setTimestamp(newTimestamp)}
+              setModalActive={setModalActive}
+            />
+            <Importance
+              nodeId={node.id}
+              timelineId={timelineId}
+              initialValue={node.importance}
+              onSave={(newImportance) =>
+                console.log("Saved Importance:", newImportance)
+              }
+              setModalActive={setModalActive}
+            />
+            <p className="node-phase">
+              <strong>Phase:</strong> {node.phase.title}
+            </p>
+            <Categories
+              nodeId={node.id}
+              timelineId={timelineId}
+              categories={categories}
+              onUpdateCategories={setCategories}
+              setModalActive={setModalActive}
+            />
+            <Tags
+              nodeId={node.id}
+              timelineId={timelineId}
+              tags={tags}
+              onUpdateTags={setTags}
+              setModalActive={setModalActive}
+            />
+            <Note
+              nodeId={node.id}
+              timelineId={timelineId}
+              notes={notes}
+              setNotes={setNotes}
+              onToggle={onToggle}
+            />
+            <Reminder
+              nodeId={node.id}
+              timelineId={timelineId}
+              onToggle={onToggle}
+            />
+            <File
+              nodeId={node.id}
+              timelineId={timelineId}
+              onToggle={onToggle}
+            />
+          </div>
+        )}
+      </div>
     );
-});
+  }
+);
 
 export default Node;
