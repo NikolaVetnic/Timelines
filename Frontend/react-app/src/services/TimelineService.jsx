@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import deleteById from "../core/api/delete"; // Import the delete function
+import deleteById from "../core/api/delete";
 import { getAll, getById } from "../core/api/get";
 import Post from "../core/api/post";
 import API_BASE_URL from "../data/constants";
@@ -7,17 +7,15 @@ import API_BASE_URL from "../data/constants";
 class TimelineService {
   static async createTimeline(title, description) {
     const timelineData = {
-      "Timeline": {
-        "Title": title,
-        "Description": description
-      }
+      Title: title,
+      Description: description,
     };
 
-    console.log(timelineData)
+    console.log(timelineData);
 
     try {
       const response = await Post(API_BASE_URL, "/Timelines", timelineData);
-      
+
       if (response.status === 200 || response.status === 201) {
         toast.success("Timeline created successfully!");
         return response.data;
@@ -25,7 +23,11 @@ class TimelineService {
 
       return response.data;
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         throw new Error(error.response.data.message);
       } else {
         throw new Error("Failed to create timeline. Please try again.");
@@ -51,11 +53,11 @@ class TimelineService {
       return {
         items: response.timelines?.data || [],
         totalCount: response.timelines?.count || 0,
-        totalPages: Math.ceil((response.timelines?.count || 0) / pageSize)
+        totalPages: Math.ceil((response.timelines?.count || 0) / pageSize),
       };
     } catch (error) {
       let errorMessage = "Failed to fetch timelines";
-      
+
       if (error.response) {
         if (error.response.status === 404) {
           errorMessage = "No timelines found";
@@ -63,7 +65,7 @@ class TimelineService {
           errorMessage = error.response.data.message;
         }
       }
-      
+
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -80,7 +82,7 @@ class TimelineService {
       return response;
     } catch (error) {
       let errorMessage = "Failed to fetch timeline";
-      
+
       if (error.response) {
         if (error.response.status === 404) {
           errorMessage = "Timeline not found";
@@ -88,7 +90,7 @@ class TimelineService {
           errorMessage = error.response.data.message;
         }
       }
-      
+
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -102,14 +104,14 @@ class TimelineService {
   static async deleteTimeline(id) {
     try {
       const response = await deleteById(API_BASE_URL, "/Timelines/", id);
-      
+
       if (response) {
         toast.success("Timeline deleted successfully!");
         return response;
       }
     } catch (error) {
       let errorMessage = "Failed to delete timeline";
-      
+
       if (error.response) {
         if (error.response.status === 404) {
           errorMessage = "Timeline not found";
@@ -117,7 +119,7 @@ class TimelineService {
           errorMessage = error.response.data.message;
         }
       }
-      
+
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }

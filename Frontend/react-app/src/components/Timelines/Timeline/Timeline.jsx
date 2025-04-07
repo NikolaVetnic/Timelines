@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import { useParams, useNavigate } from "react-router";
+import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
 import recalculateStrip from "../../../core/utils/RecalculateStrip";
 import TimelineService from "../../../services/TimelineService";
 import Node from "../../Nodes/Node/Node/Node";
-
 import "./Timeline.css";
 
 const Timeline = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [timeline, setTimeline] = useState(null);
   const stripRef = useRef(null);
   const nodesRef = useRef([]);
@@ -17,25 +18,31 @@ const Timeline = () => {
   const [isModalActive, setModalActive] = useState(false);
   const [openNodeId, setOpenNodeId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
-  useEffect(() => {
-    const fetchTimeline = async () => {
-      try {
-        const response = await TimelineService.getTimelineById(id);
-        setTimeline(response);
-      } catch (error) {
-        console.error("Error fetching timeline:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchTimeline();
+  const fetchTimeline = useCallback(async () => {
+    try {
+      const response = await TimelineService.getTimelineById(id);
+      setTimeline(response.timeline);
+    } catch (error) {
+      console.error("Error fetching timeline:", error);
+    } finally {
+      setIsLoading(false);
+    }
   }, [id]);
 
   useEffect(() => {
-    if (!timeline) return;
+    const handleResize = () => setUpdateStrip((prev) => !prev);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
+  useEffect(() => {
+    fetchTimeline();
+  }, [fetchTimeline]);
+
+  useEffect(() => {
+    if (!timeline) return;
     nodesRef.current = [];
     setNodesRendered(false);
     setStripStyle({});
@@ -59,29 +66,42 @@ const Timeline = () => {
 
   return (
     <div className="timeline-container" key={timeline.id}>
+      <button className="back-button" onClick={() => navigate(-1)}>
+        &larr; Back
+      </button>
+
       <div className="timeline-header">
         <h2 className="timeline-title">{timeline.title}</h2>
-        <div className="timeline-header-corner">
-          <span className="timeline-corner-title">{timeline.title}</span>
-        </div>
       </div>
 
+      <div className="timeline-actions">
+        <button
+          className="add-node-button"
+          onClick={() => setShowCreateModal(true)}
+        >
+          + Add Node
+        </button>
+      </div>
+
+      <CreateNodeModal
+        isOpen={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        timelineId={id}
+        onNodeCreated={fetchTimeline}
+      />
+
       {timeline.nodes && timeline.nodes.length > 0 ? (
-        <>
-          <div
-            className="timeline-strip"
-            ref={stripRef}
-            style={stripStyle}
-          ></div>
+        <div className="timeline-nodes-container">
+          {timeline.nodes.length > 1 && (
+            <div className="timeline-strip" ref={stripRef} style={stripStyle} />
+          )}
           <div className="timeline-nodes">
-            {timeline.nodes.map((item, index) => (
+            {timeline.nodes.map((node, index) => (
               <Node
-                key={item.id}
-                item={item}
+                key={node.id}
+                node={node}
                 ref={(el) => {
-                  if (el) {
-                    nodesRef.current[index] = el;
-                  }
+                  if (el) nodesRef.current[index] = el;
                   if (index === timeline.nodes.length - 1) {
                     setTimeout(() => setNodesRendered(true), 0);
                   }
@@ -94,11 +114,10 @@ const Timeline = () => {
               />
             ))}
           </div>
-        </>
+        </div>
       ) : (
         <div className="empty-nodes-message">
           <p>This timeline doesn't have any nodes yet.</p>
-          <button className="add-node-button">Add Node</button>
         </div>
       )}
     </div>
