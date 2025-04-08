@@ -184,6 +184,7 @@ const CreateNodeModal = ({ isOpen, onClose, timelineId, onNodeCreated }) => {
           name="tags"
           value={nodeData.tags}
           onChange={handleChange}
+          required
           placeholder="tag1, tag2..."
           error={errors.tags}
         />
@@ -193,6 +194,7 @@ const CreateNodeModal = ({ isOpen, onClose, timelineId, onNodeCreated }) => {
           name="categories"
           value={nodeData.categories}
           onChange={handleChange}
+          required
           placeholder="Category1, Category2..."
           error={errors.categories}
         />
