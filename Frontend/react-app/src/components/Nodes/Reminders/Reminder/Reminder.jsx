@@ -18,8 +18,8 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storedData) {
       const parsedData = JSON.parse(storedData);
-      const timeline = parsedData.find(t => t.id === timelineId);
-      const node = timeline?.nodes.find(n => n.id === nodeId);
+      const timeline = parsedData.find((t) => t.id === timelineId);
+      const node = timeline?.nodes.find((n) => n.id === nodeId);
       if (node) {
         setReminders(node.reminders || []);
       }
@@ -31,11 +31,14 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storedData) {
       const parsedData = JSON.parse(storedData);
-      const timelineIndex = parsedData.findIndex(t => t.id === timelineId);
+      const timelineIndex = parsedData.findIndex((t) => t.id === timelineId);
       if (timelineIndex !== -1) {
-        const nodeIndex = parsedData[timelineIndex].nodes.findIndex(n => n.id === nodeId);
+        const nodeIndex = parsedData[timelineIndex].nodes.findIndex(
+          (n) => n.id === nodeId
+        );
         if (nodeIndex !== -1) {
-          parsedData[timelineIndex].nodes[nodeIndex].reminders = updatedReminders;
+          parsedData[timelineIndex].nodes[nodeIndex].reminders =
+            updatedReminders;
           localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(parsedData));
         }
       }
@@ -43,12 +46,12 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
   };
 
   const toggleRemindersSection = () => {
-    setIsRemindersExpanded(prev => !prev);
+    setIsRemindersExpanded((prev) => !prev);
     onToggle();
   };
 
   const handleRemoveReminder = (id) => {
-    const updatedReminders = reminders.filter(reminder => reminder.id !== id);
+    const updatedReminders = reminders.filter((reminder) => reminder.id !== id);
     setReminders(updatedReminders);
     updateLocalStorage(updatedReminders);
     setTimeout(() => onToggle(), 0);
@@ -73,8 +76,10 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
 
   return (
     <div className={`${root}-section`}>
-     <button
-        className={`${root}-header ${root}-${isRemindersExpanded ? "headers-opened" : "headers-closed"}`}
+      <button
+        className={`${root}-header ${root}-${
+          isRemindersExpanded ? "header-open" : "header-closed"
+        }`}
         onClick={toggleRemindersSection}
       >
         <h4>Reminders</h4>
@@ -90,10 +95,10 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
         />
       )}
 
-      <CreateReminderModal 
-        isOpen={isCreateModalOpen} 
-        closeModal={closeCreateModal} 
-        saveReminder={saveNewReminder} 
+      <CreateReminderModal
+        isOpen={isCreateModalOpen}
+        closeModal={closeCreateModal}
+        saveReminder={saveNewReminder}
       />
     </div>
   );
