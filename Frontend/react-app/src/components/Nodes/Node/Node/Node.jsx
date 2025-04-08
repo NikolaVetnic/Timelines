@@ -49,7 +49,6 @@ const Node = forwardRef(
         <div className="node-header" onClick={toggleCard}>
           <EditableTitle
             nodeId={node.id}
-            timelineId={timelineId}
             title={title}
             onUpdateTitle={(newTitle) => setTitle(newTitle)}
           />
@@ -59,21 +58,18 @@ const Node = forwardRef(
           <div className={`${root}-content`}>
             <Description
               nodeId={node.id}
-              timelineId={timelineId}
               description={description}
               onUpdateDescription={setDescription}
               setModalActive={setModalActive}
             />
             <Timestamp
               nodeId={node.id}
-              timelineId={timelineId}
               initialValue={timestamp}
               onSave={(newTimestamp) => setTimestamp(newTimestamp)}
               setModalActive={setModalActive}
             />
             <Importance
               nodeId={node.id}
-              timelineId={timelineId}
               initialValue={node.importance}
               onSave={(newImportance) =>
                 console.log("Saved Importance:", newImportance)
@@ -85,14 +81,12 @@ const Node = forwardRef(
             </p>
             <Categories
               nodeId={node.id}
-              timelineId={timelineId}
               categories={categories}
               onUpdateCategories={setCategories}
               setModalActive={setModalActive}
             />
             <Tags
               nodeId={node.id}
-              timelineId={timelineId}
               tags={tags}
               onUpdateTags={setTags}
               setModalActive={setModalActive}

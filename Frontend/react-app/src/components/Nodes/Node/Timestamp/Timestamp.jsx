@@ -1,75 +1,74 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-
+import NodeService from "../../../../services/NodeService";
 import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
 import DatePickerModal from "../../../../core/components/modals/DatePickerModal/DatePickerModal";
-import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
-
+import { toast } from "react-toastify";
 import "./Timestamp.css";
 
-const Timestamp = ({ timelineId, nodeId, setModalActive }) => {
-    const root = "timestamp";
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [localTimestamp, setLocalTimestamp] = useState(null);
+const Timestamp = ({ nodeId, setModalActive, initialValue, onSave }) => {
+  const root = "timestamp";
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [localTimestamp, setLocalTimestamp] = useState(
+    initialValue ? new Date(initialValue) : null
+  );
+  const [isLoading, setIsLoading] = useState(false);
 
-    // todo: connect to backend
-    useEffect(() => {
-        try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timeline = storedData.find(t => t.id === timelineId);
-            const node = timeline?.nodes.find(n => n.id === nodeId);
-            if (node?.timestamp) {
-                setLocalTimestamp(new Date(node.timestamp));
-            }
-        } catch (error) {
-            console.error("Error loading timestamp:", error);
-        }
-    }, [timelineId, nodeId]);
+  useEffect(() => {
+    setLocalTimestamp(initialValue ? new Date(initialValue) : null);
+  }, [initialValue]);
 
-    const setModalState = (isActive) => {
-        setModalOpen(isActive);
-        setModalActive(isActive);
-    };
+  const setModalState = (isActive) => {
+    setModalOpen(isActive);
+    setModalActive(isActive);
+  };
 
-    // todo: connect to backend
-    const updateLocalStorage = (newTimestamp) => {
-        try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timelineIndex = storedData.findIndex(t => t.id === timelineId);
-            
-            if (timelineIndex !== -1) {
-                const nodeIndex = storedData[timelineIndex].nodes.findIndex(n => n.id === nodeId);
-                if (nodeIndex !== -1) {
-                    storedData[timelineIndex].nodes[nodeIndex].timestamp = newTimestamp.toISOString();
-                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedData));
-                }
-            }
-        } catch (error) {
-            console.error("Error saving timestamp:", error);
-        }
-    };
+  const handleSaveTimestamp = async (newTimestamp) => {
+    setIsLoading(true);
+    try {
+      const isoString = newTimestamp.toISOString();
 
-    const handleSaveTimestamp = (newTimestamp) => {
-        setLocalTimestamp(newTimestamp);
-        updateLocalStorage(newTimestamp);
-        setModalActive(false);
-    };
+      await NodeService.updateNode(nodeId, { timestamp: isoString });
 
-    return (
-        <div className={`${root}-container`}>
-            <div>
-                <strong>Timestamp:</strong> {localTimestamp ? localTimestamp.toLocaleDateString() : "Not Set"}
-            </div>
-            <IconButton onClick={() => setModalState(true)} icon={<CiEdit />} title="Edit" />
-            <DatePickerModal
-                isOpen={isModalOpen}
-                onClose={() => setModalState(false)}
-                onSave={handleSaveTimestamp}
-                initialValue={localTimestamp || new Date()}
-                title="Edit Timestamp"
-            />
-        </div>
-    );
+      setLocalTimestamp(newTimestamp);
+
+      if (onSave) {
+        onSave(isoString);
+      }
+
+      toast.success("Timestamp updated successfully!");
+    } catch (error) {
+      console.error("Error saving timestamp:", error);
+      toast.error("Failed to update timestamp");
+      setLocalTimestamp(initialValue ? new Date(initialValue) : null);
+    } finally {
+      setIsLoading(false);
+      setModalState(false);
+    }
+  };
+
+  return (
+    <div className={`${root}-container`}>
+      <div>
+        <strong>Timestamp:</strong>{" "}
+        {localTimestamp ? localTimestamp.toLocaleDateString() : "Not Set"}
+      </div>
+      <IconButton
+        onClick={() => setModalState(true)}
+        icon={<CiEdit />}
+        title="Edit"
+        disabled={isLoading}
+      />
+      <DatePickerModal
+        isOpen={isModalOpen}
+        onClose={() => setModalState(false)}
+        onSave={handleSaveTimestamp}
+        initialValue={localTimestamp || new Date()}
+        title="Edit Timestamp"
+        isLoading={isLoading}
+      />
+    </div>
+  );
 };
 
 export default Timestamp;
