@@ -50,23 +50,14 @@ class NodeService {
 
   /**
    * Get all nodes with pagination
-   * @param {number} pageIndex - The page index (default: 0)
-   * @param {number} pageSize - The number of items per page (default: 10)
-   * @returns {Promise<Object>} - { items: [], totalCount: 0, totalPages: 0 }
+   * @returns {Promise<Object>} - { items: [] }
    */
-  static async getAllNodes(pageIndex = 0, pageSize = 10) {
+  static async getAllNodes() {
     try {
-      const response = await getAll(
-        API_BASE_URL,
-        "/Nodes",
-        pageIndex,
-        pageSize
-      );
+      const response = await getAll(API_BASE_URL, "/Nodes");
 
       return {
         items: response.nodes?.data || [],
-        totalCount: response.nodes?.count || 0,
-        totalPages: Math.ceil((response.nodes?.count || 0) / pageSize),
       };
     } catch (error) {
       let errorMessage = "Failed to fetch nodes";
@@ -132,6 +123,33 @@ class NodeService {
       return response.node || response; // Adapt based on your API response structure
     } catch (error) {
       let errorMessage = "Failed to fetch node";
+
+      if (error.response) {
+        if (error.response.status === 404) {
+          errorMessage = "Node not found";
+        } else if (error.response.data?.message) {
+          errorMessage = error.response.data.message;
+        }
+      }
+
+      toast.error(errorMessage);
+      throw new Error(errorMessage);
+    }
+  }
+
+  /**
+   * Update a node
+   * @param {string} id - Node ID to update
+   * @param {Object} updateData - Fields to update
+   * @returns {Promise<Object>} - Updated node data
+   */
+  static async updateNode(id, updateData) {
+    try {
+      const response = await Post(API_BASE_URL, `/Nodes/${id}`, updateData);
+      toast.success("Node updated successfully!");
+      return response.data;
+    } catch (error) {
+      let errorMessage = "Failed to update node";
 
       if (error.response) {
         if (error.response.status === 404) {
