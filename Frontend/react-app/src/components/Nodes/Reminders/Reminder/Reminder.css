@@ -1,68 +1,68 @@
 .reminder-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: var(--remindersHeader);
-    color: white;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-    font-size: 0.9rem;
-    border: none;
-    text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: var(--remindersHeader);
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  font-size: 0.9rem;
+  border: none;
+  text-align: left;
 }
 
-.reminder-header-opened {
-    border-radius: 5px 5px 0px 0px;
+.reminder-header-open {
+  border-radius: 5px 5px 0px 0px;
 }
 
 .reminder-header-closed {
-    border-radius: 5px;
+  border-radius: 5px;
 }
 
 .reminder-header:hover {
-    color: lightgray
+  color: lightgray;
 }
 
 .reminder-header h4 {
-    margin: 0;
-    font-size: 1rem;
-    color: white
+  margin: 0;
+  font-size: 1rem;
+  color: white;
 }
 
 .reminder-header:hover h4 {
-    color: lightgray
+  color: lightgray;
 }
 
 .reminder-container {
-    background: #f9f9f9;
-    padding: 10px;
-    border: 1px solid lightgray;
-    border-radius: 0 0 5px 5px;
+  background: #f9f9f9;
+  padding: 10px;
+  border: 1px solid lightgray;
+  border-radius: 0 0 5px 5px;
 }
 
 .reminder-add-button {
-    background: #28a745;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 10px;
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .reminder-add-button:hover {
-    background: #218838;
+  background: #218838;
 }
 
 .reminder-item {
-    background: white;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
