@@ -1,48 +1,26 @@
-.text-button {
-    width: auto;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: bold;
-    transition: background 0.3s ease-in-out;
+.icon-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  pointer-events: all;
+  padding: 0;
 }
 
-.text-button.default {
-    background: #007bff;
-    color: white;
+.icon-button:disabled {
+  cursor: default !important;
+  pointer-events: none;
 }
 
-.text-button.default:hover:not(.disabled) {
-    background: #0056b3;
+.icon-button:not(:disabled):hover {
+  background-color: var(--hover-color) !important;
+  transform: var(--hover-transform) !important;
 }
 
-.text-button.red {
-    background: #dc3545;
-    color: white;
-}
-
-.text-button.red:hover:not(.disabled) {
-    background: #b02a37;
-}
-
-.text-button.green {
-    background: #28a745;
-    color: white;
-}
-
-.text-button.green:hover:not(.disabled) {
-    background: #218838;
-}
-
-.text-button.disabled {
-    background: #d6d6d6 !important;
-    color: #888 !important;
-    cursor: default !important;
-    pointer-events: none;
+.icon-button svg {
+  fill: currentColor;
+  flex-shrink: 0;
+  object-fit: contain;
 }

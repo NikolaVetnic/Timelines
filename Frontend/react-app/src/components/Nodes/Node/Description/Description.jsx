@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import NodeService from "../../../../services/NodeService";
 import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
-import TextAreaModal from "../../../../core/components/modals/TextAreaModal/TextAreaModal";
+import InputStringModal from "../../../../core/components/modals/InputStringModal/InputStringModal";
 import { toast } from "react-toastify";
 import "./Description.css";
 
@@ -61,13 +61,14 @@ const Description = ({
         title="Edit"
         disabled={isLoading}
       />
-      <TextAreaModal
+      <InputStringModal
         isOpen={isModalOpen}
         onClose={() => setModalState(false)}
         onSave={handleSaveDescription}
         initialValue={localDescription}
         title="Edit Description"
         isLoading={isLoading}
+        placeholder="Entere Description Here."
       />
     </div>
   );

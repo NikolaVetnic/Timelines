@@ -77,13 +77,16 @@ const EditableTitle = ({
       <h3 className={`${root}`}>{localTitle || "Untitled"}</h3>
       {isHovered && (
         <IconButton
+          icon={<CiEdit />}
+          title="Edit"
+          hoverColor="var(--enmOrangeHover)"
+          size="24px"
+          iconSize="18px"
           className={`${root}-edit-icon`}
           onClick={(e) => {
             e.stopPropagation();
             setEditing(true);
           }}
-          icon={<CiEdit />}
-          title="Edit"
         />
       )}
     </div>

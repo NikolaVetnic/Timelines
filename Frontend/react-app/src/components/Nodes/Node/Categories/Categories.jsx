@@ -77,9 +77,10 @@ const Categories = ({
         )}
       </div>
       <IconButton
-        onClick={() => setModalState(true)}
         icon={<CiEdit />}
-        title="Edit"
+        title="Edit Categories"
+        hoverColor="var(--enmBlueHover)"
+        onClick={() => setModalState(true)}
         disabled={isLoading}
       />
       <InputStringModal
