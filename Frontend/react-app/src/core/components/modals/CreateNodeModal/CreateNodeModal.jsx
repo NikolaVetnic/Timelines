@@ -4,7 +4,6 @@ import NodeService from "../../../../services/NodeService";
 import FormField from "../../forms/FormField/FormField";
 import "./CreateNodeModal.css";
 
-// Constants for initial states
 const INITIAL_NODE_DATA = {
   title: "",
   description: "",
@@ -49,7 +48,6 @@ const CreateNodeModal = ({ isOpen, onClose, timelineId, onNodeCreated }) => {
       [name]: value,
     }));
 
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
