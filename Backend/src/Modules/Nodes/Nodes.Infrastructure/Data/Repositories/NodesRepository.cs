@@ -69,17 +69,13 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
     }
 
     #region Relationships
+
     public async Task<IEnumerable<Node>> GetNodesBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken)
     {
         return await dbContext.Nodes
             .AsNoTracking()
             .Where(n => timelineIds.Contains(n.TimelineId))
             .ToListAsync(cancellationToken: cancellationToken);
-    }
-
-    public Task<IEnumerable<Node>> GetNodesBelongingToNotesIdsAsync(IEnumerable<NoteId> noteIds, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
     }
 
     #endregion

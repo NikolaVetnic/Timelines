@@ -165,13 +165,6 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         return nodeBaseDtos;
     }
 
-    public async Task<List<NodeBaseDto>> GetNodesBaseBelongingToNoteIdsAsync(IEnumerable<NoteId> noteIds, CancellationToken cancellationToken)
-    {
-        var nodes = await nodesRepository.GetNodesBelongingToNotesIdsAsync(noteIds, cancellationToken);
-        var nodeBaseDtos = nodes.Adapt<List<NodeBaseDto>>();
-        return nodeBaseDtos;
-    }
-
     #endregion
 
     public async Task AddNote(NodeId nodeId, NoteId noteId, CancellationToken cancellationToken)

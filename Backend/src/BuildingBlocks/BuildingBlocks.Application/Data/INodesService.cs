@@ -23,6 +23,4 @@ public interface INodesService
     Task RemoveNote(NodeId nodeId, NoteId noteId, CancellationToken cancellationToken);
 
     Task<List<NodeBaseDto>> GetNodesBaseBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken);
-    Task<List<NodeBaseDto>> GetNodesBaseBelongingToNoteIdsAsync(IEnumerable<NoteId> noteIds, CancellationToken cancellationToken);
-
 }
