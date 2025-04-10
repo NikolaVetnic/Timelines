@@ -7,7 +7,13 @@ import Node from "../../Nodes/Node/Node/Node";
 
 import "./Timeline.css";
 
-const Timeline = ({ selectedTimeline, setSelectedTimeline, setTimelineData, timelineData, updateSelectedTimeline }) => {
+const Timeline = ({
+    selectedTimeline,
+    setSelectedTimeline,
+    setTimelineData,
+    timelineData,
+    updateSelectedTimeline,
+}) => {
     const root = "timeline";
     const stripRef = useRef(null);
     const nodesRef = useRef([]);
@@ -23,7 +29,7 @@ const Timeline = ({ selectedTimeline, setSelectedTimeline, setTimelineData, time
         nodesRef.current = [];
         setNodesRendered(false);
         setStripStyle({});
-        setUpdateStrip(prev => !prev);
+        setUpdateStrip((prev) => !prev);
     }, [selectedTimeline]);
 
     useEffect(() => {
@@ -34,15 +40,27 @@ const Timeline = ({ selectedTimeline, setSelectedTimeline, setTimelineData, time
     }, [nodesRendered, selectedTimeline, updateStrip]);
 
     if (!selectedTimeline) {
-        return <p>Please select a timeline.</p>;
+        return (
+            <div className={`${root}`}>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Molimo odaberite predmet.</p>
+            </div>
+        );
     }
 
     return (
         <div className={`${root}-container`} key={selectedTimeline.id}>
-            <TimelineHeader root={root} selectedTimeline={selectedTimeline} setIsCreateModalActive={setIsCreateModalActive} />
-    
-            <div className={`${root}-strip`} ref={stripRef} style={stripStyle}></div>
-    
+            <TimelineHeader
+                root={root}
+                selectedTimeline={selectedTimeline}
+                setIsCreateModalActive={setIsCreateModalActive}
+            />
+
+            <div
+                className={`${root}-strip`}
+                ref={stripRef}
+                style={stripStyle}
+            ></div>
+
             <div className={`${root}-nodes`}>
                 {selectedTimeline.nodes.map((node, index) => (
                     <Node
@@ -61,11 +79,11 @@ const Timeline = ({ selectedTimeline, setSelectedTimeline, setTimelineData, time
                         setModalActive={setModalActive}
                         openNodeId={openNodeId}
                         setOpenNodeId={setOpenNodeId}
-                        onToggle={() => setUpdateStrip(prev => !prev)}
+                        onToggle={() => setUpdateStrip((prev) => !prev)}
                     />
                 ))}
             </div>
-    
+
             {isCreateModalActive && (
                 <CreateNodeModal
                     isOpen={isCreateModalActive}

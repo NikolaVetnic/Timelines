@@ -10,14 +10,16 @@ function TimelinePage() {
     useReminders(timelineData);
 
     const handleTimelineSelect = (selectedOption) => {
-        const foundTimeline = timelineData.find(timeline => timeline.id === selectedOption.value);
+        const foundTimeline = timelineData.find(
+            (timeline) => timeline.id === selectedOption.value
+        );
         setSelectedTimeline(foundTimeline || null);
     };
 
     const updateSelectedTimeline = useCallback(() => {
         setSelectedTimeline((prevSelected) => {
             if (!prevSelected) return null;
-            return timelineData.find(t => t.id === prevSelected.id) || null;
+            return timelineData.find((t) => t.id === prevSelected.id) || null;
         });
     }, [timelineData]);
 
@@ -28,10 +30,10 @@ function TimelinePage() {
     return (
         <div>
             <TimelineSelect onTimelineSelect={handleTimelineSelect} />
-            <Timeline 
-                selectedTimeline={selectedTimeline} 
-                setSelectedTimeline={setSelectedTimeline} 
-                setTimelineData={setTimelineData} 
+            <Timeline
+                selectedTimeline={selectedTimeline}
+                setSelectedTimeline={setSelectedTimeline}
+                setTimelineData={setTimelineData}
                 timelineData={timelineData}
                 updateSelectedTimeline={updateSelectedTimeline}
             />

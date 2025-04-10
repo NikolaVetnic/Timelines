@@ -16,9 +16,10 @@ const Tags = ({ timelineId, nodeId, setModalActive }) => {
     // todo: connect to backend
     useEffect(() => {
         try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timeline = storedData.find(t => t.id === timelineId);
-            const node = timeline?.nodes.find(n => n.id === nodeId);
+            const storedData =
+                JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            const timeline = storedData.find((t) => t.id === timelineId);
+            const node = timeline?.nodes.find((n) => n.id === nodeId);
             if (node?.tags) {
                 setLocalTags(node.tags);
             }
@@ -35,14 +36,22 @@ const Tags = ({ timelineId, nodeId, setModalActive }) => {
     // todo: connect to backend
     const updateLocalStorage = (newTags) => {
         try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timelineIndex = storedData.findIndex(t => t.id === timelineId);
+            const storedData =
+                JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            const timelineIndex = storedData.findIndex(
+                (t) => t.id === timelineId
+            );
 
             if (timelineIndex !== -1) {
-                const nodeIndex = storedData[timelineIndex].nodes.findIndex(n => n.id === nodeId);
+                const nodeIndex = storedData[timelineIndex].nodes.findIndex(
+                    (n) => n.id === nodeId
+                );
                 if (nodeIndex !== -1) {
                     storedData[timelineIndex].nodes[nodeIndex].tags = newTags;
-                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedData));
+                    localStorage.setItem(
+                        LOCAL_STORAGE_KEY,
+                        JSON.stringify(storedData)
+                    );
                 }
             }
         } catch (error) {
@@ -51,32 +60,40 @@ const Tags = ({ timelineId, nodeId, setModalActive }) => {
     };
 
     const handleSaveTags = (newTags) => {
-        const formattedTags = newTags.map(tag => tag.trim().toLowerCase().replace(/\s+/g, "-"));
-    
+        const formattedTags = newTags.map((tag) =>
+            tag.trim().toLowerCase().replace(/\s+/g, "-")
+        );
+
         setLocalTags(formattedTags);
         updateLocalStorage(formattedTags);
         setModalActive(false);
     };
-    
+
     return (
         <div className={`${root}-container`}>
             <div>
-                <strong>Tags:</strong>{" "}
+                <strong>Labele:</strong>{" "}
                 {localTags.length > 0 ? (
                     localTags.map((tag, index) => (
                         <span
                             key={index}
                             className={`${root}-badge`}
-                            style={{ backgroundColor: convertStringToColor(tag) }}
+                            style={{
+                                backgroundColor: convertStringToColor(tag),
+                            }}
                         >
                             {tag}
                         </span>
                     ))
                 ) : (
-                    <span>No Tags Set</span>
+                    <span>Labele nisu postavljene</span>
                 )}
             </div>
-            <IconButton onClick={() => setModalState(true)} icon={<CiEdit />} title="Edit" />
+            <IconButton
+                onClick={() => setModalState(true)}
+                icon={<CiEdit />}
+                title="Edit"
+            />
             <InputStringModal
                 isOpen={isModalOpen}
                 onClose={() => setModalState(false)}

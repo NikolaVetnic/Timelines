@@ -12,7 +12,9 @@ const TimelineSelect = ({ onTimelineSelect }) => {
         const storedData = localStorage.getItem("timelineData");
         if (storedData) {
             const parsedData = JSON.parse(storedData, (key, value) =>
-                key.includes("timestamp") || key.includes("startDate") ? new Date(value) : value
+                key.includes("timestamp") || key.includes("startDate")
+                    ? new Date(value)
+                    : value
             );
 
             const options = parsedData.map((timeline) => ({
@@ -36,7 +38,7 @@ const TimelineSelect = ({ onTimelineSelect }) => {
                 options={timelineOptions}
                 value={selectedTimeline}
                 onChange={handleTimelineChange}
-                placeholder="Select a Timeline"
+                placeholder="Odaberite predmet"
                 className="timeline-dropdown"
                 classNamePrefix="react-select"
                 components={{

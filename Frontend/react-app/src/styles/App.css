@@ -6,9 +6,9 @@
     --enmBlue: #1d377f;
     --enmGray: #908f8f;
     --backgroundHeader: #007bff;
-    --noteHeader: #E5FFDE;
-    --remindersHeader: #475B5A;
-    --filesHeader: #DDC4DD;
+    --noteHeader: #e5ffde;
+    --remindersHeader: #475b5a;
+    --filesHeader: #ddc4dd;
     --success: #4cae4c;
     --error: #c9302c;
     --backgroundStripe: #333;
@@ -16,7 +16,7 @@
 
 /* Body Styling */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: "Arial", sans-serif;
     background-color: var(--enmGray);
     color: var(--backgroundStripe);
     margin: 0;
@@ -41,7 +41,7 @@ body {
     flex-direction: column;
     align-items: center;
     width: 800px;
-    background-color: #fff;
+    background-color: #f2f2f2;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 0 auto;

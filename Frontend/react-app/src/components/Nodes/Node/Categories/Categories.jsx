@@ -16,9 +16,10 @@ const Categories = ({ timelineId, nodeId, setModalActive }) => {
     // todo: connect to backend
     useEffect(() => {
         try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timeline = storedData.find(t => t.id === timelineId);
-            const node = timeline?.nodes.find(n => n.id === nodeId);
+            const storedData =
+                JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            const timeline = storedData.find((t) => t.id === timelineId);
+            const node = timeline?.nodes.find((n) => n.id === nodeId);
             if (node?.categories) {
                 setLocalCategories(node.categories);
             }
@@ -35,14 +36,23 @@ const Categories = ({ timelineId, nodeId, setModalActive }) => {
     // todo: connect to backend
     const updateLocalStorage = (newCategories) => {
         try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timelineIndex = storedData.findIndex(t => t.id === timelineId);
+            const storedData =
+                JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            const timelineIndex = storedData.findIndex(
+                (t) => t.id === timelineId
+            );
 
             if (timelineIndex !== -1) {
-                const nodeIndex = storedData[timelineIndex].nodes.findIndex(n => n.id === nodeId);
+                const nodeIndex = storedData[timelineIndex].nodes.findIndex(
+                    (n) => n.id === nodeId
+                );
                 if (nodeIndex !== -1) {
-                    storedData[timelineIndex].nodes[nodeIndex].categories = newCategories;
-                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedData));
+                    storedData[timelineIndex].nodes[nodeIndex].categories =
+                        newCategories;
+                    localStorage.setItem(
+                        LOCAL_STORAGE_KEY,
+                        JSON.stringify(storedData)
+                    );
                 }
             }
         } catch (error) {
@@ -59,13 +69,15 @@ const Categories = ({ timelineId, nodeId, setModalActive }) => {
     return (
         <div className={`${root}-container`}>
             <div>
-                <strong>Categories:</strong>{" "}
+                <strong>Kategorije:</strong>{" "}
                 {localCategories.length > 0 ? (
                     localCategories.map((category, index) => (
                         <span
                             key={index}
                             className={`${root}-badge`}
-                            style={{ backgroundColor: convertStringToColor(category) }}
+                            style={{
+                                backgroundColor: convertStringToColor(category),
+                            }}
                         >
                             {category}
                         </span>
@@ -74,7 +86,11 @@ const Categories = ({ timelineId, nodeId, setModalActive }) => {
                     <span>No Categories Set</span>
                 )}
             </div>
-            <IconButton onClick={() => setModalState(true)} icon={<CiEdit />} title="Edit" />
+            <IconButton
+                onClick={() => setModalState(true)}
+                icon={<CiEdit />}
+                title="Edit"
+            />
             <InputStringModal
                 isOpen={isModalOpen}
                 onClose={() => setModalState(false)}
