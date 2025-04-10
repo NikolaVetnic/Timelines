@@ -20,7 +20,7 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
     {
         var nodesService = serviceProvider.GetRequiredService<INodesService>();
 
-        var timelines = await timelinesRepository.ListTimelinessPaginatedAsync(pageIndex, pageSize, cancellationToken);
+        var timelines = await timelinesRepository.ListTimelinesPaginatedAsync(pageIndex, pageSize, cancellationToken);
 
         var nodes = await nodesService.GetNodesBaseBelongingToTimelineIdsAsync(timelines.Select(t => t.Id),
             cancellationToken);
@@ -89,8 +89,7 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
         await RemoveNodes(timelineId, [nodeId], cancellationToken);
     }
 
-    public async Task RemoveNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds,
-        CancellationToken cancellationToken)
+    public async Task RemoveNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
 

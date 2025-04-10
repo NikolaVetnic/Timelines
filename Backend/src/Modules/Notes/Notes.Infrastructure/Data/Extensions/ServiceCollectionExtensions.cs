@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
-using Notes.Application.Data;
+using Notes.Application.Data.Abstractions;
+using Notes.Infrastructure.Data.Repositories;
 
 namespace Notes.Infrastructure.Data.Extensions;
 
@@ -20,6 +21,7 @@ public static class ServiceCollectionExtensions
 
         // Register DbContext interface
         services.AddScoped<INotesDbContext, NotesDbContext>();
+        services.AddScoped<INotesRepository, NotesRepository>();
 
         return services;
     }

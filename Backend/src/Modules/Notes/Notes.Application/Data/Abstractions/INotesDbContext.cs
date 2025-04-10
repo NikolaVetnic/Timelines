@@ -1,4 +1,4 @@
-﻿namespace Notes.Application.Data;
+﻿namespace Notes.Application.Data.Abstractions;
 
 public interface INotesDbContext
 {
