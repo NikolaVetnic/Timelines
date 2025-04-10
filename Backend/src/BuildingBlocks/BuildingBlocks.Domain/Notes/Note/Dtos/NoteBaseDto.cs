@@ -28,5 +28,4 @@ public class NoteBaseDto(
     [JsonPropertyName("sharedWith")] public List<string> SharedWith { get; } = sharedWith;
 
     [JsonPropertyName("isPublic")] public bool IsPublic { get; } = isPublic;
-
 }
