@@ -23,17 +23,17 @@
 }
 
 .reminder-header:hover {
-    color: lightgray
+    color: lightgray;
 }
 
 .reminder-header h4 {
     margin: 0;
     font-size: 1rem;
-    color: white
+    color: white;
 }
 
 .reminder-header:hover h4 {
-    color: lightgray
+    color: lightgray;
 }
 
 .reminder-container {
@@ -51,6 +51,7 @@
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 10px;
+    font-size: 0.9rem;
 }
 
 .reminder-add-button:hover {

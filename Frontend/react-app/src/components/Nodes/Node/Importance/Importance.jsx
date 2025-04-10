@@ -8,16 +8,17 @@ import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
 import "./Importance.css";
 
 const Importance = ({ timelineId, nodeId, setModalActive }) => {
-    const root = "importance"
+    const root = "importance";
     const [importance, setImportance] = useState(0);
     const [isModalOpen, setModalOpen] = useState(false);
 
     // todo: connect to backend
     useEffect(() => {
         try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timeline = storedData.find(t => t.id === timelineId);
-            const node = timeline?.nodes.find(n => n.id === nodeId);
+            const storedData =
+                JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            const timeline = storedData.find((t) => t.id === timelineId);
+            const node = timeline?.nodes.find((n) => n.id === nodeId);
             if (node?.importance !== undefined) {
                 setImportance(node.importance);
             }
@@ -34,14 +35,23 @@ const Importance = ({ timelineId, nodeId, setModalActive }) => {
     // todo: connect to backend
     const updateLocalStorage = (newImportance) => {
         try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timelineIndex = storedData.findIndex(t => t.id === timelineId);
+            const storedData =
+                JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            const timelineIndex = storedData.findIndex(
+                (t) => t.id === timelineId
+            );
 
             if (timelineIndex !== -1) {
-                const nodeIndex = storedData[timelineIndex].nodes.findIndex(n => n.id === nodeId);
+                const nodeIndex = storedData[timelineIndex].nodes.findIndex(
+                    (n) => n.id === nodeId
+                );
                 if (nodeIndex !== -1) {
-                    storedData[timelineIndex].nodes[nodeIndex].importance = newImportance;
-                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedData));
+                    storedData[timelineIndex].nodes[nodeIndex].importance =
+                        newImportance;
+                    localStorage.setItem(
+                        LOCAL_STORAGE_KEY,
+                        JSON.stringify(storedData)
+                    );
                 }
             }
         } catch (error) {
@@ -58,9 +68,13 @@ const Importance = ({ timelineId, nodeId, setModalActive }) => {
     return (
         <div className={`${root}-container`}>
             <div className={`${root}-content`}>
-                <strong>Importance:</strong> {importance}
+                <strong>Važnost:</strong> {importance}
             </div>
-            <IconButton onClick={() => setModalState(true)} icon={<CiEdit />} title="Edit" />
+            <IconButton
+                onClick={() => setModalState(true)}
+                icon={<CiEdit />}
+                title="Edit"
+            />
             <IntegerModal
                 isOpen={isModalOpen}
                 onClose={() => setModalState(false)}

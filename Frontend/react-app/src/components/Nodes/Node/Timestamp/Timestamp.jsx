@@ -15,9 +15,10 @@ const Timestamp = ({ timelineId, nodeId, setModalActive }) => {
     // todo: connect to backend
     useEffect(() => {
         try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timeline = storedData.find(t => t.id === timelineId);
-            const node = timeline?.nodes.find(n => n.id === nodeId);
+            const storedData =
+                JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            const timeline = storedData.find((t) => t.id === timelineId);
+            const node = timeline?.nodes.find((n) => n.id === nodeId);
             if (node?.timestamp) {
                 setLocalTimestamp(new Date(node.timestamp));
             }
@@ -34,14 +35,23 @@ const Timestamp = ({ timelineId, nodeId, setModalActive }) => {
     // todo: connect to backend
     const updateLocalStorage = (newTimestamp) => {
         try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timelineIndex = storedData.findIndex(t => t.id === timelineId);
-            
+            const storedData =
+                JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            const timelineIndex = storedData.findIndex(
+                (t) => t.id === timelineId
+            );
+
             if (timelineIndex !== -1) {
-                const nodeIndex = storedData[timelineIndex].nodes.findIndex(n => n.id === nodeId);
+                const nodeIndex = storedData[timelineIndex].nodes.findIndex(
+                    (n) => n.id === nodeId
+                );
                 if (nodeIndex !== -1) {
-                    storedData[timelineIndex].nodes[nodeIndex].timestamp = newTimestamp.toISOString();
-                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedData));
+                    storedData[timelineIndex].nodes[nodeIndex].timestamp =
+                        newTimestamp.toISOString();
+                    localStorage.setItem(
+                        LOCAL_STORAGE_KEY,
+                        JSON.stringify(storedData)
+                    );
                 }
             }
         } catch (error) {
@@ -58,9 +68,16 @@ const Timestamp = ({ timelineId, nodeId, setModalActive }) => {
     return (
         <div className={`${root}-container`}>
             <div>
-                <strong>Timestamp:</strong> {localTimestamp ? localTimestamp.toLocaleDateString() : "Not Set"}
+                <strong>Datum:</strong>{" "}
+                {localTimestamp
+                    ? localTimestamp.toLocaleDateString()
+                    : "Not Set"}
             </div>
-            <IconButton onClick={() => setModalState(true)} icon={<CiEdit />} title="Edit" />
+            <IconButton
+                onClick={() => setModalState(true)}
+                icon={<CiEdit />}
+                title="Edit"
+            />
             <DatePickerModal
                 isOpen={isModalOpen}
                 onClose={() => setModalState(false)}

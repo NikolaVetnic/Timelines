@@ -7,7 +7,6 @@ import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
 
 import "./Description.css";
 
-
 const Description = ({ timelineId, nodeId, setModalActive }) => {
     const root = "description";
     const [isModalOpen, setModalOpen] = useState(false);
@@ -16,9 +15,10 @@ const Description = ({ timelineId, nodeId, setModalActive }) => {
     // todo: connect to backend
     useEffect(() => {
         try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timeline = storedData.find(t => t.id === timelineId);
-            const node = timeline?.nodes.find(n => n.id === nodeId);
+            const storedData =
+                JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            const timeline = storedData.find((t) => t.id === timelineId);
+            const node = timeline?.nodes.find((n) => n.id === nodeId);
             if (node?.description) {
                 setLocalDescription(node.description);
             }
@@ -35,14 +35,23 @@ const Description = ({ timelineId, nodeId, setModalActive }) => {
     // todo: connect to backend
     const updateLocalStorage = (newDescription) => {
         try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timelineIndex = storedData.findIndex(t => t.id === timelineId);
+            const storedData =
+                JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            const timelineIndex = storedData.findIndex(
+                (t) => t.id === timelineId
+            );
 
             if (timelineIndex !== -1) {
-                const nodeIndex = storedData[timelineIndex].nodes.findIndex(n => n.id === nodeId);
+                const nodeIndex = storedData[timelineIndex].nodes.findIndex(
+                    (n) => n.id === nodeId
+                );
                 if (nodeIndex !== -1) {
-                    storedData[timelineIndex].nodes[nodeIndex].description = newDescription;
-                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedData));
+                    storedData[timelineIndex].nodes[nodeIndex].description =
+                        newDescription;
+                    localStorage.setItem(
+                        LOCAL_STORAGE_KEY,
+                        JSON.stringify(storedData)
+                    );
                 }
             }
         } catch (error) {
@@ -59,9 +68,14 @@ const Description = ({ timelineId, nodeId, setModalActive }) => {
     return (
         <div className={`${root}-container`}>
             <div>
-                <strong>Description:</strong> {localDescription || "No Description Set"}
+                <strong>Opis:</strong>{" "}
+                {localDescription || "No Description Set"}
             </div>
-            <IconButton onClick={() => setModalState(true)} icon={<CiEdit />} title="Edit" />
+            <IconButton
+                onClick={() => setModalState(true)}
+                icon={<CiEdit />}
+                title="Edit"
+            />
             <TextAreaModal
                 isOpen={isModalOpen}
                 onClose={() => setModalState(false)}
