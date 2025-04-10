@@ -66,6 +66,11 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
         await notesRepository.DeleteNotes(input, cancellationToken);
     }
 
+    public async Task DeleteNotesByNodeIds(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        await notesRepository.DeleteNotesByNodeIds(nodeIds, cancellationToken);
+    }
+
     public async Task<List<NoteBaseDto>> GetNotesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         var notes = await notesRepository.GetNotesBelongingToNodeIdsAsync(nodeIds, cancellationToken);

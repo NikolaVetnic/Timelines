@@ -2,6 +2,7 @@
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Notes.Application.Data.Abstractions;
 using Notes.Application.Entities.Notes.Exceptions;
+using System.Linq;
 
 namespace Notes.Infrastructure.Data.Repositories;
 
@@ -66,6 +67,18 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
 
         dbContext.Notes.RemoveRange(notesToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task DeleteNotesByNodeIds(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        foreach (var nodeId in nodeIds)
+        {
+            var notesToDelete = await dbContext.Notes
+                .Where(n => n.NodeId == nodeId)
+                .ToListAsync(cancellationToken);
+            dbContext.Notes.RemoveRange(notesToDelete);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
     }
 
     public async Task<IEnumerable<Note>> GetNotesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)

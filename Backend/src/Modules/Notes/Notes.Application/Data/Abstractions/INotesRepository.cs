@@ -14,6 +14,8 @@ public interface INotesRepository
     Task UpdateNoteAsync(Note note, CancellationToken cancellationToken);
     Task DeleteNote(NoteId noteId, CancellationToken cancellationToken);
     Task DeleteNotes(IEnumerable<NoteId> noteIds, CancellationToken cancellationToken);
+    Task DeleteNotesByNodeIds(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
+
 
     Task<IEnumerable<Note>> GetNotesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 }

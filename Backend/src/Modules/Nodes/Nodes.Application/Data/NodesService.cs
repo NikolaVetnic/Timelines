@@ -158,10 +158,13 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     public async Task DeleteNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         var input = nodeIds.ToList();
-        
+
+        var notesService = serviceProvider.GetRequiredService<INotesService>();
+        await notesService.DeleteNotesByNodeIds(input, cancellationToken);
+
         var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
         await timelinesService.RemoveNodes(timelineId, input, cancellationToken);
-        
+
         await nodesRepository.DeleteNodes(input, cancellationToken);
     }
 
