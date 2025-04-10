@@ -8,7 +8,7 @@ namespace Timelines.Infrastructure.Data.Repositories;
 public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepository
 {
     #region List
-    public async Task<List<Timeline>> ListTimelinessPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    public async Task<List<Timeline>> ListTimelinesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.Timelines
             .AsNoTracking()
