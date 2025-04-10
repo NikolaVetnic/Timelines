@@ -135,6 +135,16 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
 
+    public Task RemoveReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task RemoveReminders(NodeId nodeId, IEnumerable<ReminderId> reminderIds, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task DeleteNode(NodeId nodeId, CancellationToken cancellationToken)
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
@@ -156,6 +166,16 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     }
 
     #region Relationships
+
+    public async Task RemoveNotes(NodeId nodeId, IEnumerable<NoteId> noteIds, CancellationToken cancellationToken)
+    {
+        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+
+        foreach (var noteId in noteIds)
+            node.RemoveNote(noteId);
+
+        await nodesRepository.UpdateNodeAsync(node, cancellationToken);
+    }
 
     public async Task<List<NodeBaseDto>> GetNodesBaseBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds,
         CancellationToken cancellationToken)

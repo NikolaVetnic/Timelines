@@ -49,18 +49,22 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task RemoveNote(Note note, CancellationToken cancellationToken)
-    {
-        dbContext.Notes.Remove(note);
-        await dbContext.SaveChangesAsync(cancellationToken);
-    }
-
     public async Task DeleteNote(NoteId noteId, CancellationToken cancellationToken)
     {
         var noteToDelete = await dbContext.Notes
             .FirstAsync(n => n.Id == noteId, cancellationToken);
 
         dbContext.Notes.Remove(noteToDelete);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task DeleteNotes(IEnumerable<NoteId> noteIds, CancellationToken cancellationToken)
+    {
+        var notesToDelete = await dbContext.Notes
+            .Where(n => noteIds.Contains(n.Id))
+            .ToListAsync(cancellationToken);
+
+        dbContext.Notes.RemoveRange(notesToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 

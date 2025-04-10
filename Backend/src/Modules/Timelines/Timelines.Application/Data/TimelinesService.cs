@@ -89,8 +89,7 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
         await RemoveNodes(timelineId, [nodeId], cancellationToken);
     }
 
-    public async Task RemoveNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds,
-        CancellationToken cancellationToken)
+    public async Task RemoveNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
 
