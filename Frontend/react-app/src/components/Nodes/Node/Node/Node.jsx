@@ -9,6 +9,7 @@ import EditableTitle from "../EditableTitle/EditableTitle";
 import Importance from "../Importance/Importance";
 import Tags from "../Tags/Tags";
 import Timestamp from "../Timestamp/Timestamp";
+import { FaPlus, FaMinus } from "react-icons/fa";
 
 import "./Node.css";
 
@@ -22,6 +23,10 @@ const Node = forwardRef(
       openNodeId,
       setOpenNodeId,
       timelineId,
+      isSelected,
+      onSelect,
+      onDeselect,
+      onToggleSelectAll,
     },
     ref
   ) => {
@@ -44,6 +49,14 @@ const Node = forwardRef(
       onToggle();
     };
 
+    const toggleSelection = () => {
+      if (isSelected) {
+        onDeselect(node.id);
+      } else {
+        onSelect(node.id);
+      }
+    };
+
     return (
       <div className={`${root}-timeline ${isOpen ? "open" : ""}`} ref={ref}>
         <div className="node-header" onClick={toggleCard}>
@@ -52,7 +65,18 @@ const Node = forwardRef(
             title={title}
             onUpdateTitle={(newTitle) => setTitle(newTitle)}
           />
-          <span>{isOpen ? "-" : "+"}</span>
+          <div className="node-header-actions">
+            <input
+              type="checkbox"
+              className="node-checkbox"
+              checked={isSelected}
+              onChange={toggleSelection}
+              onClick={(e) => e.stopPropagation()}
+            />
+            <span className={`${root}-toggle`}>
+              {isOpen ? <FaMinus size={15} /> : <FaPlus size={15} />}
+            </span>
+          </div>
         </div>
         {isOpen && (
           <div className={`${root}-content`}>

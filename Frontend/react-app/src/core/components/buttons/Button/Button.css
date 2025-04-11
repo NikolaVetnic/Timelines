@@ -1,175 +1,175 @@
 /* Base button styles */
 .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    user-select: none;
-    white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  user-select: none;
+  white-space: nowrap;
 }
 
 /* Button variants */
 .btn-primary {
-    background-color: var(--primary);
-    color: var(--white);
+  background-color: var(--primary);
+  color: var(--white);
 }
 
 .btn-secondary {
-    background-color: var(--secondary);
-    color: var(--white);
+  background-color: var(--secondary);
+  color: var(--white);
 }
 
 .btn-info {
-    background-color: var(--enmOrange);
-    color: var(--white);
+  background-color: var(--enmOrange);
+  color: var(--white);
 }
 
 .btn-success {
-    background-color: var(--success);
-    color: var(--white);
+  background-color: var(--success);
+  color: var(--white);
 }
 
 .btn-danger {
-    background-color: var(--danger);
-    color: var(--white);
+  background-color: var(--danger);
+  color: var(--white);
 }
 
 .btn-text {
-    background-color: transparent;
-    color: var(--white);
+  background-color: transparent;
+  color: var(--white);
 }
 
 /* Icon styles */
 .btn-icon-only {
-    padding: 0;
-    min-width: 15px;
-    min-height: 15px;
+  padding: 0;
+  min-width: 15px;
+  min-height: 15px;
 }
 
 .btn-no-bg {
-    background-color: transparent !important;
-    color: inherit;
-    font-weight: 600;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: #999;
+  background-color: transparent !important;
+  color: inherit;
+  font-weight: 600;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #999;
 }
 
 .btn-no-bg:hover:not(.btn-disabled) {
-    color: gray
+  color: gray;
 }
 
 .btn-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    font-size: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  font-size: 25px;
 }
 
 /* Button sizes */
 .btn-little {
-    min-width: 15px;
-    min-height: 15px;
+  min-width: 15px;
+  min-height: 15px;
 }
 
 .btn-small {
-    padding: 8px 12px;
-    font-size: 14px;
-    min-width: 30px;
-    min-height: 30px;
+  padding: 8px 12px;
+  font-size: 14px;
+  min-width: 35px;
+  min-height: 39.97px;
 }
 
 .btn-medium {
-    padding: 12px 16px;
-    font-size: 16px;
-    min-width: 40px;
-    min-height: 20px;
+  padding: 12px 16px;
+  font-size: 16px;
+  min-width: 50px;
+  min-height: 45px;
 }
 
 .btn-large {
-    padding: 16px 24px;
-    font-size: 18px;
-    min-width: 50px;
-    min-height: 40px;
+  padding: 16px 24px;
+  font-size: 18px;
+  min-width: 60px;
+  min-height: 50px;
 }
 
 /* Button shapes */
 .btn-rectangle {
-    border-radius: 4px;
+  border-radius: 4px;
 }
 
 .btn-rounded {
-    border-radius: 20px;
+  border-radius: 20px;
 }
 
 .btn-circle {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    padding: 0;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 0;
 }
 
 .btn-square {
-    border-radius: 4px;
-    width: 30px;
-    height: 30px;
-    padding: 0;
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
 }
 
 /* Disabled state */
 .btn-disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Hover states */
 .btn-primary:hover:not(.btn-disabled) {
-    background-color: var(--primaryHover);
+  background-color: var(--primaryHover);
 }
 
 .btn-secondary:hover:not(.btn-disabled) {
-    background-color: var(--secondaryHover);
+  background-color: var(--secondaryHover);
 }
 
 .btn-info:hover:not(.btn-disabled) {
-    background-color: var(--enmOrangeHover);
+  background-color: var(--enmOrangeHover);
 }
 
 .btn-success:hover:not(.btn-disabled) {
-    background-color: var(--successHover);
+  background-color: var(--successHover);
 }
 
 .btn-danger:hover:not(.btn-disabled) {
-    background-color: var(--dangerHover);
+  background-color: var(--dangerHover);
 }
 
 /* Active states */
 .btn-primary:active:not(.btn-disabled) {
-    background-color: var(--primaryActive);
+  background-color: var(--primaryActive);
 }
 
 .btn-secondary:active:not(.btn-disabled) {
-    background-color: var(--secondaryActive);
+  background-color: var(--secondaryActive);
 }
 
 .btn-info:active:not(.btn-disabled) {
-    background-color: var(--enmOrangeActive);
+  background-color: var(--enmOrangeActive);
 }
 
 .btn-success:active:not(.btn-disabled) {
-    background-color: var(--successActive);
+  background-color: var(--successActive);
 }
 
 .btn-danger:active:not(.btn-disabled) {
-    background-color: var(--dangerActive);
+  background-color: var(--dangerActive);
 }

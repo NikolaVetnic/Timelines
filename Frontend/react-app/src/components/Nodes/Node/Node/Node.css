@@ -55,3 +55,53 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+/* Add to Node.css */
+.node-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.node-checkbox {
+  width: 1.2rem;
+  height: 1.2rem;
+  cursor: pointer;
+}
+
+.selected {
+  border-left: 3px solid #4caf50;
+  background-color: rgba(76, 175, 80, 0.05);
+}
+
+/* Update timeline-actions for multiple buttons */
+.timeline-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+/* Checkbox styles */
+.timeline-checkbox-container {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.timeline-checkbox {
+  width: 1.2rem;
+  height: 1.2rem;
+  cursor: pointer;
+}
+
+.timeline-list-item {
+  position: relative;
+  padding-top: 2rem;
+  /* Make space for checkbox */
+}
+
+.node-item.selected {
+  border-color: #e74c3c;
+  background-color: #fff9f9;
+}

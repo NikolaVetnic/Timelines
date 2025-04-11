@@ -42,7 +42,11 @@
 }
 
 .timeline-actions {
+  display: flex;
+  justify-content: end;
   margin-bottom: 2rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .add-node-button {
@@ -74,7 +78,6 @@
 .timeline-nodes-container {
   position: relative;
   width: 100%;
-  /* Prevent any container spacing issues */
   padding: 0;
   margin: 0;
 }
@@ -85,7 +88,6 @@
   gap: 20px;
   position: relative;
   z-index: 2;
-  /* Add transform to create new stacking context */
   transform: translateZ(0);
 }
 

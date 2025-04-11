@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
+import { FaTrash } from "react-icons/fa";
+import { PiSelectionAllFill, PiSelectionAll } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router";
 import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
 import Button from "../../../core/components/buttons/Button/Button";
@@ -21,6 +23,7 @@ const Timeline = () => {
   const [openNodeId, setOpenNodeId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [selectedNodes, setSelectedNodes] = useState([]);
 
   const fetchTimeline = useCallback(async () => {
     try {
@@ -58,6 +61,28 @@ const Timeline = () => {
     }
   }, [nodesRendered, timeline, updateStrip]);
 
+  const handleSelectNode = (nodeId) => {
+    setSelectedNodes((prev) => [...prev, nodeId]);
+  };
+
+  const handleDeselectNode = (nodeId) => {
+    setSelectedNodes((prev) => prev.filter((id) => id !== nodeId));
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedNodes.length === timeline?.nodes?.length) {
+      setSelectedNodes([]);
+    } else {
+      setSelectedNodes(timeline?.nodes?.map((node) => node.id) || []);
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    // todo: connecto to a service
+    console.log("Deleting nodes:", selectedNodes);
+    setSelectedNodes([]);
+  };
+
   if (isLoading) {
     return <div className="loading-message">Loading timeline...</div>;
   }
@@ -77,10 +102,37 @@ const Timeline = () => {
       </div>
 
       <div className="timeline-actions">
+        {timeline?.nodes?.length > 0 && (
+          <>
+            {selectedNodes.length > 0 && (
+              <Button
+                icon={<FaTrash />}
+                iconOnly
+                onClick={handleDeleteSelected}
+                variant="danger"
+                size="small"
+              />
+            )}
+            <Button
+              icon={
+                selectedNodes.length === timeline.nodes.length ? (
+                  <PiSelectionAll />
+                ) : (
+                  <PiSelectionAllFill />
+                )
+              }
+              iconOnly
+              onClick={toggleSelectAll}
+              variant="secondary"
+              size="small"
+            />
+          </>
+        )}
         <Button
           text="Add Node"
           onClick={() => setShowCreateModal(true)}
           variant="success"
+          size="small"
         />
       </div>
 
@@ -112,6 +164,10 @@ const Timeline = () => {
                 openNodeId={openNodeId}
                 setOpenNodeId={setOpenNodeId}
                 onToggle={() => setUpdateStrip((prev) => !prev)}
+                isSelected={selectedNodes.includes(node.id)}
+                onSelect={handleSelectNode}
+                onDeselect={handleDeselectNode}
+                onToggleSelectAll={toggleSelectAll}
               />
             ))}
           </div>
