@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router";
 import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
+import Button from "../../../core/components/buttons/Button/Button";
 import recalculateStrip from "../../../core/utils/RecalculateStrip";
 import TimelineService from "../../../services/TimelineService";
 import Node from "../../Nodes/Node/Node/Node";
@@ -76,12 +77,11 @@ const Timeline = () => {
       </div>
 
       <div className="timeline-actions">
-        <button
-          className="add-node-button"
+        <Button
+          text="Add Node"
           onClick={() => setShowCreateModal(true)}
-        >
-          Add Node
-        </button>
+          variant="success"
+        />
       </div>
 
       <CreateNodeModal
