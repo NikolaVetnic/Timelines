@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import TimelineService from "../../../../services/TimelineService";
+import Button from "../../buttons/Button/Button";
 import "./CreateTimelineModal.css";
 
 const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState(""); // New state for description
+  const [description, setDescription] = useState("");
   const [error, setError] = useState("");
 
   const handleTitleChange = (e) => {
@@ -19,9 +20,9 @@ const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
 
   const handleCreateTimelineData = async () => {
     try {
-      await TimelineService.createTimeline(title, description); // Updated to include description
+      await TimelineService.createTimeline(title, description);
       onClose();
-      if (onTimelineCreated) onTimelineCreated(); 
+      if (onTimelineCreated) onTimelineCreated();
     } catch (error) {
       setError(error.message);
       toast.error(error.message);
@@ -31,10 +32,8 @@ const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
   return (
     <div className="create-timeline-modal">
       <div className="create-timeline-modal-content">
-        <div className="create-timeline-modal-header">
-          Create New Timeline
-        </div>
-        
+        <div className="create-timeline-modal-header">Create New Timeline</div>
+
         <div className="create-timeline-modal-input">
           <label htmlFor="title">Title*:</label>
           <input
@@ -61,19 +60,13 @@ const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
         {error && <div className="create-timeline-error-message">{error}</div>}
 
         <div className="create-timeline-modal-buttons">
-          <button
-            className="create-timeline-modal-button-close"
-            onClick={onClose}
-          >
-            Cancel
-          </button>
-          <button
-            className="create-timeline-modal-button"
+          <Button text="Cancel" onClick={onClose} />
+          <Button
+            text="Create"
+            variant="success"
             onClick={handleCreateTimelineData}
             disabled={!title.trim()}
-          >
-            Create Timeline
-          </button>
+          />
         </div>
       </div>
     </div>

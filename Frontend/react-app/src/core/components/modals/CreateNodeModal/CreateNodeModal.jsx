@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import NodeService from "../../../../services/NodeService";
 import FormField from "../../forms/FormField/FormField";
 import "./CreateNodeModal.css";
+import Button from "../../buttons/Button/Button";
 
 const INITIAL_NODE_DATA = {
   title: "",
@@ -198,20 +199,13 @@ const CreateNodeModal = ({ isOpen, onClose, timelineId, onNodeCreated }) => {
         />
 
         <div className={`${root}-actions`}>
-          <button
-            className={`${root}-save-btn`}
+          <Button text="Cancel" onClick={closeModal} disabled={isCreating} />
+          <Button
+            text={isCreating ? "Creating..." : "Create"}
             onClick={handleSave}
+            variant="success"
             disabled={isCreating}
-          >
-            {isCreating ? "Creating..." : "Save"}
-          </button>
-          <button
-            className={`${root}-cancel-btn`}
-            onClick={closeModal}
-            disabled={isCreating}
-          >
-            Cancel
-          </button>
+          />
         </div>
       </div>
     </div>

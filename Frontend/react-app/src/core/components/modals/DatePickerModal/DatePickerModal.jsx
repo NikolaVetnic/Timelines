@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./DatePickerModal.css";
+import Button from "../../buttons/Button/Button";
 
 const DatePickerModal = ({
   isOpen,
@@ -65,16 +66,13 @@ const DatePickerModal = ({
         </div>
 
         <div className={`${root}-actions`}>
-          <button className={`${root}-cancel-btn`} onClick={closeModal}>
-            Cancel
-          </button>
-          <button
-            className={`${root}-save-btn`}
+          <Button text="Cancel" onClick={closeModal} />
+          <Button
+            text="Save"
+            variant="success"
             onClick={handleSave}
             disabled={!isChanged}
-          >
-            Save
-          </button>
+          />
         </div>
       </div>
     </div>

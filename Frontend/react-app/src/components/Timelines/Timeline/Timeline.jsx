@@ -93,9 +93,15 @@ const Timeline = () => {
 
   return (
     <div className="timeline-container" key={timeline.id}>
-      <button className="back-button" onClick={() => navigate(-1)}>
-        <FaArrowLeft />
-      </button>
+      <div className="timeline-back-button-container">
+        <Button
+          className="back-button"
+          icon={<FaArrowLeft />}
+          iconOnly
+          noBackground
+          onClick={() => navigate(-1)}
+        />
+      </div>
 
       <div className="timeline-header">
         <h2 className="timeline-title">{timeline.title}</h2>

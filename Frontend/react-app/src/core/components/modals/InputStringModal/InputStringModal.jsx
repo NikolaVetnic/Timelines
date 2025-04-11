@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FormField from "../../forms/FormField/FormField";
 import "./InputStringModal.css";
+import Button from "../../buttons/Button/Button";
 
 const InputStringModal = ({
   isOpen,
@@ -59,16 +60,13 @@ const InputStringModal = ({
         />
 
         <div className={`${root}-actions`}>
-          <button className={`${root}-cancel-btn`} onClick={closeModal}>
-            Cancel
-          </button>
-          <button
-            className={`${root}-save-btn`}
+          <Button text="Cancel" onClick={closeModal} />
+          <Button
+            text="Save"
+            variant="success"
             onClick={handleSave}
             disabled={!isChanged}
-          >
-            Save
-          </button>
+          />
         </div>
       </div>
     </div>

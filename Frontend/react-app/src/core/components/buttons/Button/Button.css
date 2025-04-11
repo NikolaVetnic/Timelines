@@ -51,20 +51,21 @@
 
 .btn-no-bg {
   background-color: transparent !important;
-  color: inherit;
   font-weight: 600;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
-  color: #999;
+  color: var(--enmGray);
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-no-bg:hover:not(.btn-disabled) {
-  color: gray;
+  color: black;
+  transform: translateX(-2px);
+  transition: all 0.2s ease;
 }
 
 .btn-icon {

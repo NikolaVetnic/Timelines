@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Button from "../../buttons/Button/Button";
+import { FaMinus, FaPlus } from "react-icons/fa";
 import "./IntegerModal.css";
 
 const IntegerModal = ({
@@ -59,34 +61,33 @@ const IntegerModal = ({
         </div>
 
         <div className={`${root}-controls`}>
-          <button
-            className={`${root}-decrement-btn`}
+          <Button
+            icon={<FaMinus />}
+            iconOnly
+            variant="danger"
+            shape="circle"
             onClick={handleDecrement}
             disabled={value <= minValue}
-          >
-            -
-          </button>
+          />
           <span className={`${root}-value`}>{value}</span>
-          <button
-            className={`${root}-increment-btn`}
+          <Button
+            icon={<FaPlus />}
+            iconOnly
+            variant="success"
+            shape="circle"
             onClick={handleIncrement}
             disabled={value >= maxValue}
-          >
-            +
-          </button>
+          />
         </div>
 
         <div className={`${root}-actions`}>
-          <button className={`${root}-cancel-btn`} onClick={closeModal}>
-            Cancel
-          </button>
-          <button
-            className={`${root}-save-btn`}
+          <Button text="Cancel" onClick={closeModal} />
+          <Button
+            text="Save"
+            variant="success"
             onClick={handleSave}
             disabled={!isChanged}
-          >
-            Save
-          </button>
+          />
         </div>
       </div>
     </div>
