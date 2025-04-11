@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import NodeService from "../../../../services/NodeService";
-import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
 import { toast } from "react-toastify";
+import Button from "../../../../core/components/buttons/Button/Button";
+import NodeService from "../../../../services/NodeService";
 import "./EditableTitle.css";
 
 const EditableTitle = ({
@@ -76,17 +76,16 @@ const EditableTitle = ({
     >
       <h3 className={`${root}`}>{localTitle || "Untitled"}</h3>
       {isHovered && (
-        <IconButton
-          icon={<CiEdit />}
-          title="Edit"
-          hoverColor="var(--enmOrangeHover)"
-          size="24px"
-          iconSize="18px"
-          className={`${root}-edit-icon`}
+        <Button 
+          icon={<CiEdit />} 
+          iconOnly
+          variant="info" 
+          shape="square"
+          size="little" 
           onClick={(e) => {
-            e.stopPropagation();
-            setEditing(true);
-          }}
+              e.stopPropagation();
+              setEditing(true);
+            }}
         />
       )}
     </div>

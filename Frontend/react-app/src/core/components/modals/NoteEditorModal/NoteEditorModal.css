@@ -32,21 +32,9 @@
 
 .note-modal-buttons {
   display: flex;
+  margin-top: 10px;
+  justify-content: end;
   gap: 10px;
-}
-
-.note-modal-buttons button {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
-}
-
-.note-modal-buttons button:hover {
-  background: #0056b3;
 }
 
 .editor-container {

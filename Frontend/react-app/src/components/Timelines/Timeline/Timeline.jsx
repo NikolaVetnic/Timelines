@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import { useParams, useNavigate } from "react-router";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { FaArrowLeft } from "react-icons/fa6";
+import { useNavigate, useParams } from "react-router";
 import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
 import recalculateStrip from "../../../core/utils/RecalculateStrip";
 import TimelineService from "../../../services/TimelineService";
@@ -67,7 +68,7 @@ const Timeline = () => {
   return (
     <div className="timeline-container" key={timeline.id}>
       <button className="back-button" onClick={() => navigate(-1)}>
-        &larr; Back
+        <FaArrowLeft />
       </button>
 
       <div className="timeline-header">
@@ -79,7 +80,7 @@ const Timeline = () => {
           className="add-node-button"
           onClick={() => setShowCreateModal(true)}
         >
-          + Add Node
+          Add Node
         </button>
       </div>
 

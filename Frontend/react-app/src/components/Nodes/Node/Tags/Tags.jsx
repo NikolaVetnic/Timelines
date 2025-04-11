@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import NodeService from "../../../../services/NodeService";
-import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
+import { toast } from "react-toastify";
+import Button from "../../../../core/components/buttons/Button/Button";
 import InputStringModal from "../../../../core/components/modals/InputStringModal/InputStringModal";
 import convertStringToColor from "../../../../core/utils/ConvertStringToColor";
-import { toast } from "react-toastify";
+import NodeService from "../../../../services/NodeService";
 import "./Tags.css";
 
 const Tags = ({ nodeId, setModalActive, tags: propTags, onUpdateTags }) => {
@@ -71,11 +71,14 @@ const Tags = ({ nodeId, setModalActive, tags: propTags, onUpdateTags }) => {
           <span>No Tags Set</span>
         )}
       </div>
-      <IconButton
-        onClick={() => setModalState(true)}
-        icon={<CiEdit />}
-        title="Edit"
-        disabled={isLoading}
+      <Button 
+          icon={<CiEdit />} 
+          iconOnly
+          variant="info" 
+          shape="square"
+          size="little" 
+          disabled={isLoading}
+          onClick={() => setModalState(true)}
       />
       <InputStringModal
         isOpen={isModalOpen}

@@ -88,3 +88,120 @@
 .note-content-button-area {
     display: flex;
 }
+
+.note-no-notes-text {
+    margin-top: 5px;
+}
+
+/* Add button container */
+.note-add-button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+/* No notes container */
+.note-no-notes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.note-no-notes-text {
+    margin: 0;
+}
+
+/* Note Container */
+.note-container {
+    background: #ffffff;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Header */
+.note-inner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.note-inner-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+/* Grid Layout */
+.note-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+/* Note Card */
+.note-card {
+    background: var(--enmGray);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #eee;
+}
+
+.note-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.note-card-content {
+    flex-grow: 1;
+    margin-bottom: 10px;
+}
+
+.note-card-title {
+    margin: 0 0 8px 0;
+    font-size: 1rem;
+    color: var(--white);
+    font-weight: 600;
+}
+
+.note-card-date {
+    margin: 0 0 8px 0;
+    font-size: 0.75rem;
+    color: #666;
+}
+
+.note-card-preview {
+    margin: 8px 0 0 0;
+    font-size: 0.85rem;
+    color: #555;
+    line-height: 1.4;
+}
+
+.note-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid var(--enmOrange);
+}
+
+/* Empty State */
+.note-empty-state {
+    text-align: center;
+    padding: 30px;
+    color: #666;
+    background: #fafafa;
+    border-radius: 8px;
+}
+
+/* Add Button */
+.note-add-button {
+    margin-left: auto;
+}

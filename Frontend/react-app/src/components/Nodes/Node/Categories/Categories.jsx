@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import NodeService from "../../../../services/NodeService";
-import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
+import { toast } from "react-toastify";
+import Button from "../../../../core/components/buttons/Button/Button";
 import InputStringModal from "../../../../core/components/modals/InputStringModal/InputStringModal";
 import convertStringToColor from "../../../../core/utils/ConvertStringToColor";
-import { toast } from "react-toastify";
+import NodeService from "../../../../services/NodeService";
 import "./Categories.css";
 
 const Categories = ({
@@ -76,12 +76,13 @@ const Categories = ({
           <span>No Categories Set</span>
         )}
       </div>
-      <IconButton
-        icon={<CiEdit />}
-        title="Edit Categories"
-        hoverColor="var(--enmBlueHover)"
+      <Button 
+        icon={<CiEdit />} 
+        iconOnly
+        variant="info" 
+        shape="square"
+        size="little"
         onClick={() => setModalState(true)}
-        disabled={isLoading}
       />
       <InputStringModal
         isOpen={isModalOpen}

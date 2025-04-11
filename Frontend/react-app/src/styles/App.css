@@ -2,17 +2,30 @@
   --enmOrange: #e76a29;
   --enmBlue: #007bff;
   --enmBlueHover: #0056b3;
-  --enmOrange: #e76a29;
+  --enmOrangeHover: #fa8647;
+  --enmOrangeActive: #f8691c;
   --enmBlue: #1d377f;
   --enmGray: #908f8f;
   --backgroundHeader: #007bff;
+  --backgroundLight: #e4e4e4;
   --noteHeader: #e5ffde;
   --remindersHeader: #475b5a;
   --filesHeader: #ddc4dd;
-  --success: #4cae4c;
-  --error: #c9302c;
+  --primary: #007AFF;
+  --primaryHover: #0062CC;
+  --primaryActive: #0052B3;
+  --secondary: #5E5CE6;
+  --secondaryHover: #4A49D1;
+  --secondaryActive: #3D3CC7;
+  --success: #34C759;
+  --successHover: #2DA44E;
+  --successActive: #258B3D;
+  --danger: #FF3B30;
+  --dangerHover: #E6352B;
+  --dangerActive: #CC2A21;
   --backgroundStripe: #333;
   --white: white;
+  --text: #007AFF;
 }
 
 * {

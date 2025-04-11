@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import NotesList from "../../../../core/components/lists/NotesList/NotesList";
 import CreateNoteModal from "../../../../core/components/modals/CreateNoteModal/CreateNoteModal";
+import DeleteNoteModal from "../../../../core/components/modals/DeleteNoteModal/DeleteNoteModal";
 import NoteEditor from "../../../../core/components/modals/NoteEditorModal/NoteEditorModal";
 import useLocalNotes from "../../../../core/hooks/Note/UseLocalNotes";
 
@@ -12,8 +13,10 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
   const { notes, setNotes, updateLocalStorage } = useLocalNotes(timelineId, nodeId);
   const [isNotesExpanded, setIsNotesExpanded] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
+  const [noteToDelete, setNoteToDelete] = useState(null);
   const [editorContent, setEditorContent] = useState("");
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const toggleNotesSection = () => {
     setIsNotesExpanded(prev => !prev);
@@ -32,14 +35,10 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
     closeNoteEditor();
   };
 
-  const handleRemoveNote = (id) => {
-    const updatedNotes = notes.filter(note => note.id !== id);
-    setNotes(updatedNotes);
-    updateLocalStorage(updatedNotes);
-    if (selectedNote?.id === id) {
-      setSelectedNote(null);
-    }
-    setTimeout(onToggle, 0);
+ const handleRemoveNote = (id) => {
+    const note = notes.find(n => n.id === id);
+    setNoteToDelete(note);
+    setIsDeleteModalOpen(true);
   };
 
   const openNoteEditor = (note) => {
@@ -63,8 +62,30 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
     updateLocalStorage(updatedNotes);
   };
 
+  const confirmDelete = () => {
+    if (noteToDelete) {
+      const updatedNotes = notes.filter(note => note.id !== noteToDelete.id);
+      setNotes(updatedNotes);
+      updateLocalStorage(updatedNotes);
+      
+      if (selectedNote?.id === noteToDelete.id) {
+        setSelectedNote(null);
+      }
+      
+      setIsDeleteModalOpen(false);
+      setNoteToDelete(null);
+      setTimeout(onToggle, 0);
+    }
+  };
+
+  const cancelDelete = () => {
+    setIsDeleteModalOpen(false);
+    setNoteToDelete(null);
+  };
+
   return (
     <div className={`${root}-section`}>
+      {/*This is a special button */}
       <button
         className={`${root}-header ${root}-${isNotesExpanded ? "header-opened" : "header-closed"}`}
         onClick={toggleNotesSection}
@@ -83,6 +104,12 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
         />
       )}
 
+      <DeleteNoteModal
+        isOpen={isDeleteModalOpen}
+        closeModal={cancelDelete}
+        handleConfirm={confirmDelete}
+        noteTitle={noteToDelete?.title || "Untitled Note"}
+      />
       <CreateNoteModal isOpen={isCreateModalOpen} closeModal={closeCreateModal} saveNote={saveNewNote} />
       <NoteEditor
         selectedNote={selectedNote}

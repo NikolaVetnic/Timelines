@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { FaTimes, FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import CreateTimelineModal from "../../../core/components/modals/CreateTimelineModal/CreateTimelineModal";
+import DeleteTimelineModal from "../../../core/components/modals/DeleteTimelineModal/DeleteTimelineModal";
 import Pagination from "../../../core/components/pagination/Pagination";
 import TimelineService from "../../../services/TimelineService";
 import "./TimelineList.css";
@@ -196,36 +197,12 @@ const TimelineList = () => {
             )}
 
             {isDeleteModalOpen && (
-                <div className="delete-confirmation-modal">
-                    <div className="delete-confirmation-content">
-                        <button 
-                            className="close-modal-button"
-                            onClick={() => setIsDeleteModalOpen(false)}
-                        >
-                            <FaTimes />
-                        </button>
-                        <h3>Confirm Deletion</h3>
-                        <p>
-                            Are you sure you want to delete {selectedTimelines.length} 
-                            {selectedTimelines.length === 1 ? ' timeline' : ' timelines'}?
-                            This action cannot be undone.
-                        </p>
-                        <div className="confirmation-buttons">
-                            <button 
-                                className="cancel-button"
-                                onClick={() => setIsDeleteModalOpen(false)}
-                            >
-                                Cancel
-                            </button>
-                            <button 
-                                className="confirm-delete-button"
-                                onClick={handleDeleteSelected}
-                            >
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <DeleteTimelineModal
+                    isOpen={isDeleteModalOpen}
+                    onClose={() => setIsDeleteModalOpen(false)}
+                    onConfirm={handleDeleteSelected}
+                    count={selectedTimelines.length}
+                />
             )}
         </div>
     );

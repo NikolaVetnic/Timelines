@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 
-import TextButton from "../../../../core/components/buttons/TextButton/TextButton";
 import { LOCAL_STORAGE_KEY, MAX_FILE_SIZE } from "../../../../data/constants";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -197,7 +196,7 @@ const File = ({ nodeId, timelineId, onToggle }) => {
                     <button className={`${root}-download-button`} onClick={() => handleDownload(file)}>
                       Download
                     </button>
-                    <TextButton onClick={() => handleRemoveFile(file.id)} text="X" color="red" />
+                    {/* <TextButton onClick={() => handleRemoveFile(file.id)} text="X" color="red" /> */}
                   </div>
                 </div>
               ))

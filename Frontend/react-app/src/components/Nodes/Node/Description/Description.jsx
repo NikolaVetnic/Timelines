@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import NodeService from "../../../../services/NodeService";
-import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
-import InputStringModal from "../../../../core/components/modals/InputStringModal/InputStringModal";
 import { toast } from "react-toastify";
+import Button from "../../../../core/components/buttons/Button/Button";
+import InputStringModal from "../../../../core/components/modals/InputStringModal/InputStringModal";
+import NodeService from "../../../../services/NodeService";
 import "./Description.css";
 
 const Description = ({
@@ -55,11 +55,13 @@ const Description = ({
       <div>
         <strong>Description:</strong> {localDescription || "No Description Set"}
       </div>
-      <IconButton
+      <Button 
+        icon={<CiEdit />} 
+        iconOnly
+        variant="info" 
+        shape="square"
+        size="little"
         onClick={() => setModalState(true)}
-        icon={<CiEdit />}
-        title="Edit"
-        disabled={isLoading}
       />
       <InputStringModal
         isOpen={isModalOpen}

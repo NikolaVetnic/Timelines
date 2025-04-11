@@ -17,7 +17,7 @@ class NoteService {
    */
   static async createNote(noteData) {
     const formattedData = {
-      id: noteData.nodeId, // Using nodeId as the parent reference
+      id: noteData.nodeId,
       title: noteData.title || "Untitled Note",
       content: noteData.content || "",
       timestamp: noteData.timestamp || new Date().toISOString(),

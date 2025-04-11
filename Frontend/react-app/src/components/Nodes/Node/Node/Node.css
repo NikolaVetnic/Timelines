@@ -1,5 +1,5 @@
 .node-timeline {
-  background-color: #fff;
+  background-color: var(--enmGray);
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -38,7 +38,7 @@
 }
 
 .node-content {
-  background-color: #fff;
+  background-color: var(--backgroundLight);
   padding: 15px 20px;
   cursor: default;
   color: #333;

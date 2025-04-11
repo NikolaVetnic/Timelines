@@ -1,7 +1,5 @@
 import React from "react";
 
-import TextButton from "../../buttons/TextButton/TextButton";
-
 const RemindersList = ({ root, reminders, openCreateModal, handleRemoveReminder }) => {
   return (
     <div className={`${root}-container`}>
@@ -18,7 +16,7 @@ const RemindersList = ({ root, reminders, openCreateModal, handleRemoveReminder 
                 <strong>Priority:</strong> {reminder.priority}
               </p>
             </div>
-            <TextButton onClick={handleRemoveReminder} text="X" color="red" />
+            {/* <TextButton onClick={handleRemoveReminder} text="X" color="red" /> */}
           </div>
         ))
       ) : (

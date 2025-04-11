@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import NodeService from "../../../../services/NodeService";
-import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
-import IntegerModal from "../../../../core/components/modals/IntegerModal/IntegerModal";
 import { toast } from "react-toastify";
+import Button from "../../../../core/components/buttons/Button/Button";
+import IntegerModal from "../../../../core/components/modals/IntegerModal/IntegerModal";
+import NodeService from "../../../../services/NodeService";
 import "./Importance.css";
 
 const Importance = ({ nodeId, setModalActive, initialValue, onSave }) => {
@@ -48,11 +48,14 @@ const Importance = ({ nodeId, setModalActive, initialValue, onSave }) => {
       <div className={`${root}-content`}>
         <strong>Importance:</strong> {importance}
       </div>
-      <IconButton
-        onClick={() => setModalState(true)}
-        icon={<CiEdit />}
-        title="Edit"
-        disabled={isLoading}
+      <Button 
+          icon={<CiEdit />} 
+          iconOnly
+          variant="info" 
+          shape="square"
+          size="little" 
+          disabled={isLoading}
+          onClick={() => setModalState(true)}
       />
       <IntegerModal
         isOpen={isModalOpen}

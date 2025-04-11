@@ -1,6 +1,7 @@
 import MDEditor from "@uiw/react-md-editor";
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+import Button from "../../buttons/Button/Button";
 
 import "./CreateNoteModal.css";
 
@@ -51,8 +52,15 @@ const CreateNoteModal = ({ isOpen, closeModal, saveNote }) => {
         </div>
 
         <div className={`${root}-buttons`}>
-          <button className={`${root}-close-button`} onClick={closeModal}>Cancel</button>
-          <button className={`${root}-save-button`} onClick={handleSave}>Create</button>
+          <Button 
+            text="Cancel"
+            onClick={closeModal}
+          />
+          <Button 
+            text="Create"
+            variant="success"
+            onClick={handleSave}
+          />
         </div>
       </div>
     </div>,

@@ -53,31 +53,3 @@
     gap: 5px;
     margin-top: 15px;
 }
-
-.create-note-modal-save-button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
-
-.create-note-modal-save-button:hover {
-    background: #0056b3;
-}
-
-.create-note-modal-close-button {
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
-
-.create-note-modal-close-button:hover {
-    background: #b02a37;
-}

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import NodeService from "../../../../services/NodeService";
-import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
-import DatePickerModal from "../../../../core/components/modals/DatePickerModal/DatePickerModal";
 import { toast } from "react-toastify";
+import Button from "../../../../core/components/buttons/Button/Button";
+import DatePickerModal from "../../../../core/components/modals/DatePickerModal/DatePickerModal";
+import NodeService from "../../../../services/NodeService";
 import "./Timestamp.css";
 
 const Timestamp = ({ nodeId, setModalActive, initialValue, onSave }) => {
@@ -53,11 +53,14 @@ const Timestamp = ({ nodeId, setModalActive, initialValue, onSave }) => {
         <strong>Timestamp:</strong>{" "}
         {localTimestamp ? localTimestamp.toLocaleDateString() : "Not Set"}
       </div>
-      <IconButton
-        onClick={() => setModalState(true)}
-        icon={<CiEdit />}
-        title="Edit"
-        disabled={isLoading}
+      <Button 
+          icon={<CiEdit />} 
+          iconOnly
+          variant="info" 
+          shape="square"
+          size="little" 
+          disabled={isLoading}
+          onClick={() => setModalState(true)}
       />
       <DatePickerModal
         isOpen={isModalOpen}
