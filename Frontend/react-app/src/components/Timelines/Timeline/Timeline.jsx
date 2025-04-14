@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
-import { PiSelectionAllFill, PiSelectionAll } from "react-icons/pi";
+import { FaArrowLeft } from "react-icons/fa6";
+import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router";
-import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
 import Button from "../../../core/components/buttons/Button/Button";
+import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
+import DeleteModal from "../../../core/components/modals/DeleteModal/DeleteModal";
 import recalculateStrip from "../../../core/utils/RecalculateStrip";
 import TimelineService from "../../../services/TimelineService";
 import Node from "../../Nodes/Node/Node/Node";
@@ -23,6 +24,7 @@ const Timeline = () => {
   const [openNodeId, setOpenNodeId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showDeleteModal, setDeleteModal] = useState(false);
   const [selectedNodes, setSelectedNodes] = useState([]);
 
   const fetchTimeline = useCallback(async () => {
@@ -78,9 +80,7 @@ const Timeline = () => {
   };
 
   const handleDeleteSelected = async () => {
-    // todo: connecto to a service
-    console.log("Deleting nodes:", selectedNodes);
-    setSelectedNodes([]);
+    setDeleteModal(true);
   };
 
   if (isLoading) {
@@ -147,6 +147,13 @@ const Timeline = () => {
         onClose={() => setShowCreateModal(false)}
         timelineId={id}
         onNodeCreated={fetchTimeline}
+      />
+
+      <DeleteModal 
+        isOpen={showDeleteModal}
+        onClose={() => setDeleteModal(false)}
+        itemType="node"
+        count={selectedNodes.length}
       />
 
       {timeline.nodes && timeline.nodes.length > 0 ? (

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 
 import NotesList from "../../../../core/components/lists/NotesList/NotesList";
 import CreateNoteModal from "../../../../core/components/modals/CreateNoteModal/CreateNoteModal";
-import DeleteNoteModal from "../../../../core/components/modals/DeleteNoteModal/DeleteNoteModal";
 import NoteEditor from "../../../../core/components/modals/NoteEditorModal/NoteEditorModal";
 import useLocalNotes from "../../../../core/hooks/Note/UseLocalNotes";
 
+import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
 import "./Note.css";
 
 const Note = ({ nodeId, timelineId, onToggle }) => {
@@ -109,11 +109,11 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
         />
       )}
 
-      <DeleteNoteModal
+      <DeleteModal
         isOpen={isDeleteModalOpen}
-        closeModal={cancelDelete}
-        handleConfirm={confirmDelete}
-        noteTitle={noteToDelete?.title || "Untitled Note"}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+        itemTitle={noteToDelete?.title || "Untitled Note"}
       />
       <CreateNoteModal
         isOpen={isCreateModalOpen}
