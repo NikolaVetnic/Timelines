@@ -1,45 +1,88 @@
-.note-modal-overlay {
+.note-editor-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.75);
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10000;
+  z-index: 9999;
+  opacity: 0;
 }
 
-.note-modal-overlay-content {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 70%;
-  height: 80%;
+.note-editor-modal-overlay.show {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.note-editor-modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  height: 90%;
+  max-width: 1000px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform: translateY(-20px);
+  position: relative;
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.note-modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ccc;
+.note-editor-modal-content.show {
+  animation: slideUp 0.3s ease-out forwards;
 }
 
-.note-modal-buttons {
-  display: flex;
-  margin-top: 10px;
-  justify-content: end;
-  gap: 10px;
+@keyframes slideUp {
+  from {
+    transform: translateY(-20px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
 }
 
-.editor-container {
+.note-editor-modal-header {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  padding-right: 30px;
+}
+
+.note-editor-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.note-editor-modal-editor {
   flex-grow: 1;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.note-editor-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.note-editor-modal-editor .w-md-editor {
+  flex: 1;
+  min-height: 0;
 }
