@@ -36,33 +36,65 @@
   color: lightgray;
 }
 
-.reminder-container {
-  background: #f9f9f9;
-  padding: 10px;
-  border: 1px solid lightgray;
-  border-radius: 0 0 5px 5px;
+/* Content */
+.reminder-content {
+  background: #ffffff;
+  border: 1px solid #e1e4e8;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 15px;
 }
 
-.reminder-add-button {
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.reminder-add-button:hover {
-  background: #218838;
-}
-
+/* Reminder Items */
 .reminder-item {
-  background: white;
-  padding: 10px;
-  border-radius: 5px;
+  background: #f8f9fa;
+  padding: 12px 15px;
+  border-radius: 6px;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.2s ease;
+  border-left: 3px solid #4a6fa5;
+}
+
+.reminder-item:hover {
+  background: #e9ecef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.reminder-item-content {
+  flex: 1;
+}
+
+.reminder-item-title {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.reminder-item-date {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.reminder-item-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Empty State */
+.reminder-empty {
+  text-align: center;
+  padding: 20px;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+
+/* Add Button */
+.reminder-button {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
 }

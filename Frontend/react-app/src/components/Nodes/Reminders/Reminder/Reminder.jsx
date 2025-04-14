@@ -26,7 +26,6 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
     }
   }, [timelineId, nodeId]);
 
-  // todo: connect to backend
   const updateLocalStorage = (updatedReminders) => {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storedData) {
@@ -37,8 +36,7 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
           (n) => n.id === nodeId
         );
         if (nodeIndex !== -1) {
-          parsedData[timelineIndex].nodes[nodeIndex].reminders =
-            updatedReminders;
+          parsedData[timelineIndex].nodes[nodeIndex].reminders = updatedReminders;
           localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(parsedData));
         }
       }
@@ -87,12 +85,14 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
       </button>
 
       {isRemindersExpanded && (
-        <RemindersList
-          root={root}
-          reminders={reminders}
-          openCreateModal={openCreateModal}
-          handleRemoveReminder={handleRemoveReminder}
-        />
+        <div className={`${root}-content`}>
+          <RemindersList
+            root={root}
+            reminders={reminders}
+            openCreateModal={openCreateModal}
+            handleRemoveReminder={handleRemoveReminder}
+          />
+        </div>
       )}
 
       <CreateReminderModal
