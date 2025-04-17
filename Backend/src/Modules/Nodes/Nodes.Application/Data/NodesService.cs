@@ -17,23 +17,23 @@ namespace Nodes.Application.Data;
 
 public class NodesService(IServiceProvider serviceProvider, INodesRepository nodesRepository) : INodesService
 {
+    private readonly IRemindersService _remindersService = serviceProvider.GetRequiredService<IRemindersService>();
+    private readonly ITimelinesService _timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
+    private readonly INotesService _notesService = serviceProvider.GetRequiredService<INotesService>();
+
     #region List
 
     public async Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
-        var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
-        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
-        var notesService = serviceProvider.GetRequiredService<INotesService>();
-
         var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, cancellationToken);
 
-        var reminders = await remindersService
+        var reminders = await _remindersService
             .GetRemindersBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
-        var timelines = await timelinesService
+        var timelines = await _timelinesService
             .GetTimelinesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
-        var notes = await notesService
+        var notes = await _notesService
             .GetNotesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
         var nodeDtos = nodes.Select(n =>
@@ -71,11 +71,9 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         return nodeDtos;
     }
 
-    public async Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds,
-        CancellationToken cancellationToken)
+    public async Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
-        return (await nodesRepository.GetNodesByIdsAsync(nodeIds, cancellationToken)).Select(n => n.ToNodeBaseDto())
-            .ToList();
+        return (await nodesRepository.GetNodesByIdsAsync(nodeIds, cancellationToken)).Select(n => n.ToNodeBaseDto()).ToList();
     }
 
     public async Task<long> CountNodesAsync(CancellationToken cancellationToken)
@@ -85,18 +83,13 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
-        var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
-        var notesService = serviceProvider.GetRequiredService<INotesService>();
-
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        var timeline = await _timelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
 
-        var timeline = await timelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
-
-        var reminders = await remindersService
+        var reminders = await _remindersService
             .GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
 
-        var notes = await notesService
+        var notes = await _notesService
             .GetNotesBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
 
         var nodeDto = node.ToNodeDto(reminders, timeline, notes);
@@ -110,15 +103,11 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        var remindersService = serviceProvider.GetRequiredService<IRemindersService>();
-        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
-        var notesService = serviceProvider.GetRequiredService<INotesService>();
-
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
         
-        var reminders = await remindersService.GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
-        var timeline = await timelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
-        var notes = await notesService.GetNotesBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
+        var reminders = await _remindersService.GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
+        var timeline = await _timelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
+        var notes = await _notesService.GetNotesBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
 
         var nodeDto = node.ToNodeDto(reminders, timeline, notes);
 
@@ -149,8 +138,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
 
-        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
-        await timelinesService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
+        await _timelinesService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
         
         await nodesRepository.DeleteNode(nodeId, cancellationToken);
     }
@@ -159,11 +147,8 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     {
         var input = nodeIds.ToList();
 
-        var notesService = serviceProvider.GetRequiredService<INotesService>();
-        await notesService.DeleteNotesByNodeIds(input, cancellationToken);
-
-        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
-        await timelinesService.RemoveNodes(timelineId, input, cancellationToken);
+        await _notesService.DeleteNotesByNodeIds(input, cancellationToken);
+        await _timelinesService.RemoveNodes(timelineId, input, cancellationToken);
 
         await nodesRepository.DeleteNodes(input, cancellationToken);
     }
