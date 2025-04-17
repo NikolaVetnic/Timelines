@@ -1,4 +1,5 @@
-﻿using Files.Application.Entities.Files.Exceptions;
+﻿using Files.Application.Data.Abstractions;
+using Files.Application.Entities.Files.Exceptions;
 using Files.Application.Entities.Files.Extensions;
 
 namespace Files.Application.Entities.Files.Queries.GetFileAssetById;

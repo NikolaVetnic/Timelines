@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Domain.Files.File.ValueObjects;
+using Files.Application.Data.Abstractions;
 
 namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
 
