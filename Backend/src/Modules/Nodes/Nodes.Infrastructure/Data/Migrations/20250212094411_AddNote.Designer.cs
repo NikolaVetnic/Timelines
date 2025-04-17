@@ -2,35 +2,34 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Notes.Infrastructure.Data;
+using Nodes.Infrastructure.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Notes.Infrastructure.Data.Migrations
+namespace Nodes.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(NotesDbContext))]
-    partial class NotesDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(NodesDbContext))]
+    [Migration("20250212094411_AddNote")]
+    partial class AddNote
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Notes")
+                .HasDefaultSchema("Nodes")
                 .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Notes.Domain.Models.Note", b =>
+            modelBuilder.Entity("Nodes.Domain.Models.Node", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -38,8 +37,13 @@ namespace Notes.Infrastructure.Data.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsPublic")
-                        .HasColumnType("boolean");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<int>("Importance")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("timestamp with time zone");
@@ -47,33 +51,29 @@ namespace Notes.Infrastructure.Data.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("NodeId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("NoteIds")
+                        .HasColumnType("text")
+                        .HasColumnName("NoteIds");
 
-                    b.Property<string>("Owner")
+                    b.Property<string>("Phase")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("RelatedNotes")
+                    b.Property<string>("ReminderIds")
                         .HasColumnType("text")
-                        .HasColumnName("RelatedNotes");
-
-                    b.Property<string>("SharedWith")
-                        .HasColumnType("text")
-                        .HasColumnName("SharedWith");
+                        .HasColumnName("ReminderIds");
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NodeId");
-
-                    b.ToTable("Notes", "Notes");
+                    b.ToTable("Nodes", "Nodes");
                 });
 #pragma warning restore 612, 618
         }
