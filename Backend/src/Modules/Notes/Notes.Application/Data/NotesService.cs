@@ -11,10 +11,11 @@ namespace Notes.Application.Data;
 
 public class NotesService(INotesRepository notesRepository, IServiceProvider serviceProvider) : INotesService
 {
+    private readonly INodesService _nodesService = serviceProvider.GetRequiredService<INodesService>();
+
     public async Task<List<NoteDto>> ListNotesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
-        var nodesService = serviceProvider.GetRequiredService<INodesService>();
-        var nodes = await nodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
+        var nodes = await _nodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
 
         var notes = await notesRepository.ListNotesPaginatedAsync(pageIndex, pageSize, cancellationToken);
 
@@ -32,7 +33,7 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
         var note = await notesRepository.GetNoteByIdAsync(noteId, cancellationToken);
         var noteDto = note.Adapt<NoteDto>();
 
-        var node = await serviceProvider.GetRequiredService<INodesService>().GetNodeBaseByIdAsync(note.NodeId, cancellationToken);
+        var node = await _nodesService.GetNodeBaseByIdAsync(note.NodeId, cancellationToken);
         noteDto.Node = node;
 
         return noteDto;
@@ -49,9 +50,7 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
     public async Task DeleteNote(NoteId noteId, CancellationToken cancellationToken)
     {
         var note = await notesRepository.GetNoteByIdAsync(noteId, cancellationToken);
-
-        var nodeServices = serviceProvider.GetRequiredService<INodesService>();
-        await nodeServices.RemoveNote(note.NodeId, noteId, cancellationToken);
+        await _nodesService.RemoveNote(note.NodeId, noteId, cancellationToken);
 
         await notesRepository.DeleteNote(noteId, cancellationToken);
     }
@@ -59,9 +58,7 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
     public async Task DeleteNotes(NodeId nodeId, IEnumerable<NoteId> noteIds, CancellationToken cancellationToken)
     {
         var input = noteIds.ToList();
-
-        var nodeServices = serviceProvider.GetRequiredService<INodesService>();
-        await nodeServices.RemoveNotes(nodeId, input, cancellationToken);
+        await _nodesService.RemoveNotes(nodeId, input, cancellationToken);
 
         await notesRepository.DeleteNotes(input, cancellationToken);
     }
