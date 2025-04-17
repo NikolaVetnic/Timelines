@@ -36,7 +36,6 @@
   color: lightgray;
 }
 
-/* Content */
 .reminder-content {
   background: #ffffff;
   border: 1px solid #e1e4e8;
@@ -45,7 +44,6 @@
   padding: 15px;
 }
 
-/* Reminder Items */
 .reminder-item {
   background: #f8f9fa;
   padding: 12px 15px;
@@ -82,7 +80,6 @@
   gap: 8px;
 }
 
-/* Empty State */
 .reminder-empty {
   text-align: center;
   padding: 20px;
@@ -90,11 +87,101 @@
   font-size: 0.9rem;
 }
 
-
-/* Add Button */
 .reminder-button {
   width: 100%;
   display: flex;
   justify-content: flex-end;
   margin-bottom: 10px;
+}
+
+.reminder-container {
+  background: #ffffff;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 15px;
+}
+
+.reminder-inner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.reminder-inner-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.reminder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+.reminder-card {
+  background: var(--enmGray);
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eee;
+}
+
+.reminder-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reminder-card-content {
+  flex-grow: 1;
+  margin-bottom: 10px;
+}
+
+.reminder-card-title {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.reminder-card-date {
+  margin: 0 0 8px 0;
+  font-size: 0.75rem;
+  color: var(--white);
+}
+
+.reminder-card-preview {
+  margin: 8px 0 0 0;
+  font-size: 0.85rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+.reminder-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--enmOrange);
+}
+
+.reminder-empty-state {
+  text-align: center;
+  padding: 30px;
+  color: #666;
+  background: #fafafa;
+  border-radius: 8px;
+}
+
+.reminder-loading {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
 }

@@ -56,7 +56,6 @@
   margin-bottom: 10px;
 }
 
-/* Add to Node.css */
 .node-header-actions {
   display: flex;
   align-items: center;
@@ -74,7 +73,6 @@
   background-color: rgba(76, 175, 80, 0.05);
 }
 
-/* Update timeline-actions for multiple buttons */
 .timeline-actions {
   display: flex;
   gap: 10px;
@@ -82,7 +80,6 @@
   flex-wrap: wrap;
 }
 
-/* Checkbox styles */
 .timeline-checkbox-container {
   position: absolute;
   top: 0.5rem;
@@ -98,7 +95,6 @@
 .timeline-list-item {
   position: relative;
   padding-top: 2rem;
-  /* Make space for checkbox */
 }
 
 .node-item.selected {

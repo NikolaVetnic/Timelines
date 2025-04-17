@@ -3,56 +3,42 @@ import { toast } from "react-toastify";
 
 import RemindersList from "../../../../core/components/lists/RemindersList/RemindersList";
 import CreateReminderModal from "../../../../core/components/modals/CreateReminderModal/CreateReminderModal";
-import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
+import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
+import ReminderService from "../../../../services/ReminderService";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./Reminder.css";
 
-const Reminder = ({ nodeId, timelineId, onToggle }) => {
+const Reminder = ({ nodeId, onToggle }) => {
   const root = "reminder";
   const [isRemindersExpanded, setIsRemindersExpanded] = useState(false);
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const [reminders, setReminders] = useState([]);
+  const [reminderToDelete, setReminderToDelete] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      const timeline = parsedData.find((t) => t.id === timelineId);
-      const node = timeline?.nodes.find((n) => n.id === nodeId);
-      if (node) {
-        setReminders(node.reminders || []);
-      }
-    }
-  }, [timelineId, nodeId]);
-
-  const updateLocalStorage = (updatedReminders) => {
-    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      const timelineIndex = parsedData.findIndex((t) => t.id === timelineId);
-      if (timelineIndex !== -1) {
-        const nodeIndex = parsedData[timelineIndex].nodes.findIndex(
-          (n) => n.id === nodeId
-        );
-        if (nodeIndex !== -1) {
-          parsedData[timelineIndex].nodes[nodeIndex].reminders = updatedReminders;
-          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(parsedData));
+    const fetchReminders = async () => {
+      if (isRemindersExpanded && nodeId) {
+        setIsLoading(true);
+        try {
+          const remindersData = await ReminderService.getRemindersByNode(nodeId);
+          setReminders(remindersData);
+        } catch (error) {
+          console.error("Error fetching reminders:", error);
+        } finally {
+          setIsLoading(false);
         }
       }
-    }
-  };
+    };
+
+    fetchReminders();
+  }, [isRemindersExpanded, nodeId]);
 
   const toggleRemindersSection = () => {
     setIsRemindersExpanded((prev) => !prev);
     onToggle();
-  };
-
-  const handleRemoveReminder = (id) => {
-    const updatedReminders = reminders.filter((reminder) => reminder.id !== id);
-    setReminders(updatedReminders);
-    updateLocalStorage(updatedReminders);
-    setTimeout(() => onToggle(), 0);
   };
 
   const openCreateModal = (e) => {
@@ -64,12 +50,38 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
     setCreateModalOpen(false);
   };
 
-  const saveNewReminder = (newReminder) => {
-    const updatedReminders = [...reminders, newReminder];
-    setReminders(updatedReminders);
-    updateLocalStorage(updatedReminders);
-    setTimeout(() => onToggle(), 0);
-    toast.success("New reminder added!");
+  const saveNewReminder = async (newReminder) => {
+    try {
+      const reminderWithNodeId = { ...newReminder, nodeId };
+      const createdReminder = await ReminderService.createReminder(reminderWithNodeId);
+      setReminders(prev => [...prev, createdReminder]);
+      toast.success("New reminder added!");
+      closeCreateModal();
+      setTimeout(() => onToggle(), 0);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const confirmDelete = async () => {
+    if (reminderToDelete) {
+      try {
+        await ReminderService.deleteReminder(reminderToDelete.id);
+        setReminders(prev => prev.filter(r => r.id !== reminderToDelete.id));
+        toast.success("Reminder deleted successfully!");
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        setIsDeleteModalOpen(false);
+        setReminderToDelete(null);
+        setTimeout(onToggle, 0);
+      }
+    }
+  };
+
+  const cancelDelete = () => {
+    setIsDeleteModalOpen(false);
+    setReminderToDelete(null);
   };
 
   return (
@@ -86,14 +98,26 @@ const Reminder = ({ nodeId, timelineId, onToggle }) => {
 
       {isRemindersExpanded && (
         <div className={`${root}-content`}>
-          <RemindersList
-            root={root}
-            reminders={reminders}
-            openCreateModal={openCreateModal}
-            handleRemoveReminder={handleRemoveReminder}
-          />
+          {isLoading ? (
+            <div className={`${root}-loading`}>Loading reminders...</div>
+          ) : (
+            <RemindersList
+              root={root}
+              reminders={reminders}
+              openCreateModal={openCreateModal}
+              setReminderToDelete={setReminderToDelete}
+              setIsDeleteModalOpen={setIsDeleteModalOpen}
+            />
+          )}
         </div>
       )}
+
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+        itemTitle={reminderToDelete?.title || "Untitled Reminder"}
+      />
 
       <CreateReminderModal
         isOpen={isCreateModalOpen}

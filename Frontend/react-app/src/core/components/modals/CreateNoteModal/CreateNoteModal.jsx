@@ -16,7 +16,6 @@ const CreateNoteModal = ({ isOpen, closeModal, saveNote }) => {
     if (isOpen) {
       setTitle("");
       setContent("");
-      // Trigger animation after component mounts
       requestAnimationFrame(() => {
         setShowModal(true);
       });

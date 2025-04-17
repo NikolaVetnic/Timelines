@@ -33,6 +33,31 @@ const getAll = async (apiUrl, exactPath, pageIndex = 0, pageSize = 10) => {
 };
 
 /**
+ * Get a list of data without pagination
+ * @param {string} apiUrl - The base API URL
+ * @param {string} exactPath - The remaining path after the base URL
+ * @param {Object} additionalParams - Any additional query parameters to include in the request
+ * @returns {Promise<Object>} - The list of data
+ */
+const getAllWithoutPagination = async (apiUrl, exactPath, additionalParams = {}) => {
+  try {
+    const response = await axios.get(`${apiUrl}${exactPath}`, {
+      params: additionalParams,
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    const errorMessage = error.response
+      ? error.response.data
+      : { message: 'Network error, please try again later.' };
+    throw new Error(errorMessage);
+  }
+};
+
+/**
  * Get a data by ID
  * @param {string} apiUrl - The base API URL
  * @param {string} exactPath - The path to the specific resource
@@ -60,5 +85,5 @@ const getById = async (apiUrl, exactPath, id) => {
   }
 };
 
-export { getAll, getById };
+export { getAll, getAllWithoutPagination, getById };
 

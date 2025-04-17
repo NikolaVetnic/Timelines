@@ -130,8 +130,6 @@
   margin-bottom: 1.5rem;
 }
 
-/* Pagination container - will be styled by Pagination.css */
-/* Fixed pagination container */
 .timeline-list-pagination-container {
   position: sticky;
   bottom: 0;
@@ -141,7 +139,6 @@
   z-index: 10;
 }
 
-/* Checkbox styles */
 .timeline-checkbox-container {
   position: absolute;
   top: 0.5rem;
