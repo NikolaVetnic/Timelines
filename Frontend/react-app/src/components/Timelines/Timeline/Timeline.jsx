@@ -7,6 +7,7 @@ import Button from "../../../core/components/buttons/Button/Button";
 import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
 import DeleteModal from "../../../core/components/modals/DeleteModal/DeleteModal";
 import recalculateStrip from "../../../core/utils/RecalculateStrip";
+import NodeService from "../../../services/NodeService";
 import TimelineService from "../../../services/TimelineService";
 import Node from "../../Nodes/Node/Node/Node";
 import "./Timeline.css";
@@ -26,6 +27,7 @@ const Timeline = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDeleteModal, setDeleteModal] = useState(false);
   const [selectedNodes, setSelectedNodes] = useState([]);
+  const [nodesToDelete, setNodesToDelete] = useState([]);
 
   const fetchTimeline = useCallback(async () => {
     try {
@@ -79,8 +81,27 @@ const Timeline = () => {
     }
   };
 
-  const handleDeleteSelected = async () => {
+  const handleDeleteSelected = () => {
+    setNodesToDelete(selectedNodes);
     setDeleteModal(true);
+  };
+
+  // New confirmed delete handler
+  const confirmDeleteNodes = async () => {
+    try {
+      setIsLoading(true);
+      await Promise.all(
+        nodesToDelete.map((nodeId) => NodeService.deleteNode(nodeId)) // Changed to deleteNode
+      );
+      setSelectedNodes([]);
+      setNodesToDelete([]);
+      fetchTimeline(); // Refresh the timeline data
+    } catch (error) {
+      console.error("Error deleting nodes:", error);
+    } finally {
+      setIsLoading(false);
+      setDeleteModal(false);
+    }
   };
 
   if (isLoading) {
@@ -153,6 +174,7 @@ const Timeline = () => {
         isOpen={showDeleteModal}
         onClose={() => setDeleteModal(false)}
         itemType="node"
+        onConfirm={confirmDeleteNodes}
         count={selectedNodes.length}
       />
 
