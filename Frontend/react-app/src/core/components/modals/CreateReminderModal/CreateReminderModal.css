@@ -1,92 +1,54 @@
 .create-reminder-modal-overlay {
-    position: fixed !important;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10000;
+    z-index: 9999;
+    opacity: 0;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
 }
 
 .create-reminder-modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 40%;
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-    animation: fadeIn 0.3s ease-in-out;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 450px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(-20px);
+    animation: slideUp 0.3s ease-out forwards;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
-.create-reminder-modal-title-input,
-.create-reminder-modal-description-input,
-.create-reminder-modal-datetime-input {
-    width: 95%;
-    padding: 8px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+    }
 }
 
-.create-reminder-modal-description-input {
-    margin-top: 10px;
+.create-reminder-modal-header {
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
 }
 
-.create-reminder-modal-label {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #333;
-    margin-top: 10px;
-    display: block;
-}
-
-.create-reminder-modal-priority-input {
-    width: 99%;
-    padding: 8px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.create-reminder-modal-description-input {
-    resize: none;
-    height: 60px;
-}
-
-.create-reminder-modal-buttons {
+.create-reminder-modal-actions {
     display: flex;
     justify-content: flex-end;
-    margin-top: 10px;
     gap: 10px;
-}
-
-.create-reminder-modal-save-button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.create-reminder-modal-save-button:hover {
-    background: #0056b3;
-}
-
-.create-reminder-modal-close-button {
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.create-reminder-modal-close-button:hover {
-    background: #b02a37;
+    margin-top: 20px;
 }

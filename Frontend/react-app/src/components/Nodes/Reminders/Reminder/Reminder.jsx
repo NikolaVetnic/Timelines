@@ -26,7 +26,7 @@ const Reminder = ({ nodeId, onToggle }) => {
           const remindersData = await ReminderService.getRemindersByNode(nodeId);
           setReminders(remindersData);
         } catch (error) {
-          console.error("Error fetching reminders:", error);
+          toast.error("Failed to load reminders");
         } finally {
           setIsLoading(false);
         }
@@ -46,36 +46,33 @@ const Reminder = ({ nodeId, onToggle }) => {
     setCreateModalOpen(true);
   };
 
-  const closeCreateModal = () => {
-    setCreateModalOpen(false);
-  };
+  const closeCreateModal = () => setCreateModalOpen(false);
 
   const saveNewReminder = async (newReminder) => {
     try {
       const reminderWithNodeId = { ...newReminder, nodeId };
-      const createdReminder = await ReminderService.createReminder(reminderWithNodeId);
-      setReminders(prev => [...prev, createdReminder]);
-      toast.success("New reminder added!");
+      await ReminderService.createReminder(reminderWithNodeId);
+      const updatedReminders = await ReminderService.getRemindersByNode(nodeId);
+      setReminders(updatedReminders);
+      toast.success("Reminder created successfully!");
       closeCreateModal();
-      setTimeout(() => onToggle(), 0);
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message || "Failed to create reminder");
     }
   };
 
   const confirmDelete = async () => {
-    if (reminderToDelete) {
-      try {
-        await ReminderService.deleteReminder(reminderToDelete.id);
-        setReminders(prev => prev.filter(r => r.id !== reminderToDelete.id));
-        toast.success("Reminder deleted successfully!");
-      } catch (error) {
-        toast.error(error.message);
-      } finally {
-        setIsDeleteModalOpen(false);
-        setReminderToDelete(null);
-        setTimeout(onToggle, 0);
-      }
+    if (!reminderToDelete) return;
+    
+    try {
+      await ReminderService.deleteReminder(reminderToDelete.id);
+      setReminders(prev => prev.filter(r => r.id !== reminderToDelete.id));
+      toast.success("Reminder deleted successfully!");
+    } catch (error) {
+      toast.error(error.message || "Failed to delete reminder");
+    } finally {
+      setIsDeleteModalOpen(false);
+      setReminderToDelete(null);
     }
   };
 

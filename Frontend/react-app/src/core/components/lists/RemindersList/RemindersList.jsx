@@ -31,12 +31,12 @@ const RemindersList = ({
             <div key={reminder.id} className={`${root}-card`}>
               <div className={`${root}-card-content`}>
                 <h5 className={`${root}-card-title`}>{reminder.title}</h5>
-                {reminder.notifyAt && (
+                {reminder.notificationTime && (
                   <p className={`${root}-card-date`}>
-                    {format(new Date(reminder.notifyAt), "MMM dd, yyyy - h:mm a")}
+                    {format(new Date(reminder.notificationTime), "MMM dd, yyyy - h:mm a")}
                   </p>
                 )}
-                <p className={`${root}-card-preview`}>
+                <p className={`${root}-card-priority`}>
                   <strong>Priority:</strong> {reminder.priority}
                 </p>
               </div>

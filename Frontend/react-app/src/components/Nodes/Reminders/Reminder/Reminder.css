@@ -156,10 +156,10 @@
   color: var(--white);
 }
 
-.reminder-card-preview {
+.reminder-card-priority {
   margin: 8px 0 0 0;
   font-size: 0.85rem;
-  color: #555;
+  color: var(--white);
   line-height: 1.4;
 }
 
