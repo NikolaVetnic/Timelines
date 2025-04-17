@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Domain.ValueObjects.Ids;
+﻿using BuildingBlocks.Domain.Files.File.Dtos;
+using BuildingBlocks.Domain.ValueObjects.Ids;
 using Files.Application.Entities.Files.Commands.CreateFileAsset;
 
 // ReSharper disable ClassNeverInstantiated.Global
