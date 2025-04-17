@@ -10,19 +10,18 @@ using Timelines.Application.Entities.Timelines.Extensions;
 
 namespace Timelines.Application.Data;
 
-public class TimelinesService(IServiceProvider serviceProvider, ITimelinesRepository timelinesRepository)
-    : ITimelinesService
+public class TimelinesService(IServiceProvider serviceProvider, ITimelinesRepository timelinesRepository) : ITimelinesService
 {
+    private readonly INodesService _nodesService = serviceProvider.GetRequiredService<INodesService>();
+
     #region List
 
-    public async Task<List<TimelineDto>> ListTimelinesPaginated(int pageIndex, int pageSize,
-        CancellationToken cancellationToken)
+    public async Task<List<TimelineDto>> ListTimelinesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
-        var nodesService = serviceProvider.GetRequiredService<INodesService>();
 
         var timelines = await timelinesRepository.ListTimelinesPaginatedAsync(pageIndex, pageSize, cancellationToken);
 
-        var nodes = await nodesService.GetNodesBaseBelongingToTimelineIdsAsync(timelines.Select(t => t.Id),
+        var nodes = await _nodesService.GetNodesBaseBelongingToTimelineIdsAsync(timelines.Select(t => t.Id),
             cancellationToken);
 
         var timelineDtos = timelines.Select(t =>
@@ -57,10 +56,9 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
 
     public async Task<TimelineDto> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
-        var nodesService = serviceProvider.GetRequiredService<INodesService>();
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
 
-        var nodes = await nodesService.GetNodesByIdsAsync(timeline.NodeIds, cancellationToken);
+        var nodes = await _nodesService.GetNodesByIdsAsync(timeline.NodeIds, cancellationToken);
 
         return timeline.ToTimelineDtoWith(nodes);
     }
