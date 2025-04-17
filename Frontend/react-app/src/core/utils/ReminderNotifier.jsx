@@ -5,7 +5,8 @@ import ReminderService from '../../services/ReminderService';
 const ReminderNotifier = () => {
   const showReminderNotification = useCallback((reminder) => {
     toast.info(
-      `REMINDER: ${reminder.title}\n\n${reminder.description || "No additional details"}`,
+      `REMINDER: ${reminder.title}
+      Description: ${reminder.description || "No additional details"}`,
       {
         position: "top-right",
         autoClose: 60000,
