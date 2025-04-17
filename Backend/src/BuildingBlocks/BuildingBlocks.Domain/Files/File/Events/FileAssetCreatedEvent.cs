@@ -1,5 +1,5 @@
 ﻿using BuildingBlocks.Domain.Abstractions;
-using BuildingBlocks.Domain.ValueObjects.Ids;
+using BuildingBlocks.Domain.Files.File.ValueObjects;
 
 namespace BuildingBlocks.Domain.Files.File.Events;
 

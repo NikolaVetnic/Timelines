@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using BuildingBlocks.Domain.Files.File.ValueObjects;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Files.Infrastructure.Data.Configurations;
 
