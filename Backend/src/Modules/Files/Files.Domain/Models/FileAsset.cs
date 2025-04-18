@@ -1,4 +1,5 @@
-﻿using Files.Domain.Events;
+﻿using BuildingBlocks.Domain.Files.File.Events;
+using BuildingBlocks.Domain.Files.File.ValueObjects;
 
 namespace Files.Domain.Models;
 
@@ -31,7 +32,7 @@ public class FileAsset : Aggregate<FileAssetId>
         foreach (var person in sharedWith)
             file.AddPerson(person);
 
-        file.AddDomainEvent(new FileAssetCreatedEvent(file));
+        file.AddDomainEvent(new FileAssetCreatedEvent(file.Id));
 
         return file;
     }
@@ -44,7 +45,7 @@ public class FileAsset : Aggregate<FileAssetId>
         Owner = owner;
         Description = description;
 
-        AddDomainEvent(new FileAssetUpdatedEvent(this));
+        AddDomainEvent(new FileAssetUpdatedEvent(Id));
     }
 
     #endregion

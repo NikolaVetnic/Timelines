@@ -1,4 +1,7 @@
-﻿namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
+﻿using BuildingBlocks.Domain.Files.File.ValueObjects;
+using Files.Application.Data.Abstractions;
+
+namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
 
 internal class CreateFileAssetHandler(IFilesDbContext dbContext) :
     ICommandHandler<CreateFileAssetCommand, CreateFileAssetResult>

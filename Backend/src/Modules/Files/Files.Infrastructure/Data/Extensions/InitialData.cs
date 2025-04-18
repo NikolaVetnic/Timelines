@@ -1,4 +1,6 @@
-﻿namespace Files.Infrastructure.Data.Extensions;
+﻿using BuildingBlocks.Domain.Files.File.ValueObjects;
+
+namespace Files.Infrastructure.Data.Extensions;
 
 internal static class InitialData
 {

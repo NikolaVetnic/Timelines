@@ -1,4 +1,4 @@
-﻿namespace Files.Application.Data;
+﻿namespace Files.Application.Data.Abstractions;
 
 public interface IFilesDbContext
 {

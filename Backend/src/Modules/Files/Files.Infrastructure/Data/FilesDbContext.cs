@@ -1,4 +1,4 @@
-﻿using Files.Application.Data;
+﻿using Files.Application.Data.Abstractions;
 using System.Reflection;
 
 namespace Files.Infrastructure.Data;
