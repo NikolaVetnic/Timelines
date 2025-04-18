@@ -10,12 +10,14 @@ namespace Reminders.Application.Data;
 
 public class RemindersService(IServiceProvider serviceProvider, IRemindersRepository remindersRepository) : IRemindersService
 {
+    private readonly INodesService _nodesService = serviceProvider.GetRequiredService<INodesService>();
+
     public async Task<ReminderDto> GetReminderByIdAsync(ReminderId reminderId, CancellationToken cancellationToken)
     {
         var reminder = await remindersRepository.GetReminderByIdAsync(reminderId, cancellationToken);
         var reminderDto = reminder.Adapt<ReminderDto>();
 
-        var node = await serviceProvider.GetRequiredService<INodesService>().GetNodeBaseByIdAsync(reminder.NodeId, cancellationToken);
+        var node = await _nodesService.GetNodeBaseByIdAsync(reminder.NodeId, cancellationToken);
         reminderDto.Node = node;
         
         return reminderDto;
