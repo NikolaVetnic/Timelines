@@ -1,6 +1,8 @@
 using BuildingBlocks.Api.Converters;
+using BuildingBlocks.Application.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Notes.Application.Data;
 using Notes.Application.Extensions;
 using Notes.Infrastructure.Data.Extensions;
 
@@ -21,6 +23,8 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
         TypeAdapterConfig.GlobalSettings.Scan(typeof(NoteIdConverter).Assembly);
+
+        services.AddScoped<INotesService, NotesService>();
 
         return services;
     }

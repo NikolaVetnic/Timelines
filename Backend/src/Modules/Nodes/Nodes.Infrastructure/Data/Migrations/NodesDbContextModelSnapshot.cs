@@ -53,6 +53,10 @@ namespace Nodes.Infrastructure.Data.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
+                    b.Property<string>("NoteIds")
+                        .HasColumnType("text")
+                        .HasColumnName("NoteIds");
+
                     b.Property<string>("Phase")
                         .IsRequired()
                         .HasColumnType("text");

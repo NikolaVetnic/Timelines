@@ -1,4 +1,6 @@
-﻿namespace Notes.Application.Entities.Notes.Commands.DeleteNote;
+﻿using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+
+namespace Notes.Application.Entities.Notes.Commands.DeleteNote;
 
 public record DeleteNoteCommand(NoteId Id) : ICommand<DeleteNoteResult>
 {
