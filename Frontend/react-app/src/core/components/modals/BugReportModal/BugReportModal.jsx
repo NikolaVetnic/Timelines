@@ -24,21 +24,19 @@ const BugReportModal = ({ setIsBugReportOpen }) => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    const data = {
+      title: bugReport.title,
+      description: bugReport.description,
+      reporterName: bugReport.reporterName,
+    };
+
     try {
-      await axios.post(
-        `${apiUrl}${exactPath}`,
-        {
-          title: bugReport.title,
-          description: bugReport.description,
-          reporterName: bugReport.reporterName,
+      await axios.post(`${apiUrl}${exactPath}`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      );
+      });
 
       toast.success("Bug report submitted successfully!");
       setIsBugReportOpen(false);
