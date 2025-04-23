@@ -1,4 +1,5 @@
 using BuildingBlocks.Application.Data;
+using BuildingBlocks.Domain.Files.File.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
@@ -128,6 +129,20 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         var nodes = await nodesRepository.GetNodesBelongingToTimelineIdsAsync(timelineIds, cancellationToken);
         var nodeBaseDtos = nodes.Adapt<List<NodeBaseDto>>();
         return nodeBaseDtos;
+    }
+
+    public async Task AddFileAsset(NodeId nodeId, FileAssetId fileAssetId, CancellationToken cancellationToken)
+    {
+        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        node.AddFileAsset(fileAssetId);
+        await nodesRepository.UpdateNodeAsync(node, cancellationToken);
+    }
+
+    public async Task RemoveFileAsset(NodeId nodeId, FileAssetId fileAssetId, CancellationToken cancellationToken)
+    {
+        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        node.RemoveFileAsset(fileAssetId);
+        await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
 
     #endregion

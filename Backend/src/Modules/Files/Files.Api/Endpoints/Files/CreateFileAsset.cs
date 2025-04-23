@@ -1,6 +1,8 @@
-﻿using BuildingBlocks.Domain.Files.File.Dtos;
+﻿using BuildingBlocks.Domain.Enums;
 using BuildingBlocks.Domain.Files.File.ValueObjects;
 using Files.Application.Entities.Files.Commands.CreateFileAsset;
+using System.Collections.Generic;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 
 // ReSharper disable ClassNeverInstantiated.Global
 
@@ -27,6 +29,17 @@ public class CreateFileAsset : ICarterModule
 }
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
-public record CreateFileAssetRequest(FileAssetDto FileAsset);
+public record CreateFileAssetRequest
+{
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public float Size { get; set; }
+    public EFileType Type { get; set; }
+    public string Owner { get; set; }
+    public byte[] Content { get; set; }
+    public List<string> SharedWith { get; set; }
+    public bool IsPublic { get; set; }
+    public NodeId NodeId { get; set; }
+}
 
 public record CreateFileAssetResponse(FileAssetId Id);
