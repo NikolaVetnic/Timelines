@@ -8,7 +8,7 @@ public class BugReport : Entity<BugReportId>
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     
-    public string ReporterName { get; set; } = String.Empty; // ToDo: Substitute for UserId
+    public string ReporterName { get; set; } = string.Empty; // ToDo: Substitute for UserId
 
     public static BugReport Create(BugReportId id, string title, string description, string reporterName)
     {
