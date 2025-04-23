@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using BugTracking.Application.Entities.BugReports.Queries.ListBugReports;
-using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.BugTracking.BugReport.Dto;
 using Carter;
 using Mapster;
