@@ -59,6 +59,8 @@ app.UseHealthChecks("/health",
         ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
     });
 
+app.UseCors("AllowSpecificOrigins");
+
 app.Run();
 
 public abstract partial class Program; // This partial class is needed for the integration tests
