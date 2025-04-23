@@ -1,0 +1,22 @@
+﻿name: timelines
+
+services:
+  core.api:
+    container_name: core.api
+    image: ${DOCKER_REGISTRY-}tl_core-api
+    build:
+      context: ../Backend
+      dockerfile: src/Applications/Core/Core.Api/Dockerfile
+
+  core.frontend:
+    container_name: core.frontend
+    image: ${DOCKER_REGISTRY-}tl_core-frontend
+    build:
+      context: ../Frontend/react-app
+  
+  core.db:
+    container_name: core.db
+    image: postgres
+
+volumes:
+  timelines_core:

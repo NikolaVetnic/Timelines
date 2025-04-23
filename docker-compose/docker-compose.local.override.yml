@@ -1,0 +1,31 @@
+# This override file uses environment variables defined in a .env file.
+# Do not commit actual .env files with secrets.
+
+services:
+  core.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ASPNETCORE_HTTP_PORTS=${ASPNETCORE_HTTP_PORTS}
+      - ConnectionStrings__DefaultConnection=Host=core.db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Include Error Detail=true
+    ports:
+      - "26000:8080"
+      - "26061:8081"
+    depends_on:
+      - core.db
+
+  core.frontend:
+    ports:
+      - "24000:23000"
+    depends_on:
+      - core.api
+
+  core.db:
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    restart: unless-stopped
+    ports:
+      - "25432:5432"
+    volumes:
+      - timelines_core:/var/lib/postgresql/data
