@@ -28,6 +28,10 @@ namespace Files.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<byte[]>("Content")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -38,6 +42,9 @@ namespace Files.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("timestamp with time zone");
@@ -50,6 +57,9 @@ namespace Files.Infrastructure.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
+                    b.Property<Guid>("NodeId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Owner")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -58,12 +68,13 @@ namespace Files.Infrastructure.Data.Migrations
                     b.Property<float>("Size")
                         .HasColumnType("real");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
+                    b.Property<int>("Type")
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NodeId");
 
                     b.ToTable("Files", "Files");
                 });

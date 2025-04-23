@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Nodes.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(NodesDbContext))]
-    [Migration("20250326135659_ApplyListChanges")]
-    partial class ApplyListChanges
+    [Migration("20250423124404_NodesInit")]
+    partial class NodesInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,6 +46,10 @@ namespace Nodes.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
+
+                    b.Property<string>("FileAssetIds")
+                        .HasColumnType("text")
+                        .HasColumnName("FileAssetIds");
 
                     b.Property<int>("Importance")
                         .HasColumnType("integer");
