@@ -1,11 +1,9 @@
 /* Bug Report Modal Styles */
 .bug-report-modal {
-  padding: 30px;
-  max-width: 500px;
-  width: 100%;
+  padding: 0%;
+  max-width: 95%;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .modal-header {
