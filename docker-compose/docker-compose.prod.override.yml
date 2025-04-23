@@ -15,7 +15,7 @@ services:
 
   core.frontend:
     ports:
-      - "14000:3000"
+      - "24000:23000"
     depends_on:
       - core.api
 

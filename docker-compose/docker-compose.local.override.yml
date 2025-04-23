@@ -8,14 +8,14 @@ services:
       - ASPNETCORE_HTTP_PORTS=${ASPNETCORE_HTTP_PORTS}
       - ConnectionStrings__DefaultConnection=Host=core.db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Include Error Detail=true
     ports:
-      - "26001:8080"
+      - "26000:8080"
       - "26061:8081"
     depends_on:
       - core.db
 
   core.frontend:
     ports:
-      - "14000:3000"
+      - "24000:23000"
     depends_on:
       - core.api
 
