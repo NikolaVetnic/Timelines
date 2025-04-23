@@ -4,7 +4,7 @@ import NotesList from "../../../../core/components/lists/NotesList/NotesList";
 import CreateNoteModal from "../../../../core/components/modals/CreateNoteModal/CreateNoteModal";
 import NoteEditor from "../../../../core/components/modals/NoteEditorModal/NoteEditorModal";
 import useLocalNotes from "../../../../core/hooks/Note/UseLocalNotes";
-
+import Pagination from "../../../../core/components/pagination/Pagination";
 import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
 import "./Note.css";
 
@@ -20,6 +20,43 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
   const [editorContent, setEditorContent] = useState("");
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // todo
+  //   const [currentPage, setCurrentPage] = useState(1);
+  //   const [itemsPerPage, setItemsPerPage] = useState(2);
+  //   const itemsPerPageOptions = [2, 4, 6, 8];
+
+  // useEffect(() => {
+  //   const fetchNotes = async () => {
+  //     if (isNotesExpanded && nodeId) {
+  //       setIsLoading(true);
+  //       try {
+  //         const notesData = await NoteService.getNotesByNode(nodeId);
+  //         setNotes(notesData);
+  //       } finally {
+  //         setIsLoading(false);
+  //       }
+  //     }
+  //   };
+
+  //   fetchNotes();
+  // }, [isNotesExpanded, nodeId]);
+
+  // Calculate paginated notes
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentNotes = notes.slice(indexOfFirstItem, indexOfLastItem);
+  // const totalPages = Math.ceil(notes.length / itemsPerPage);
+
+  // const handlePageChange = (page) => {
+  //   setCurrentPage(page);
+  // };
+
+  // const handleItemsPerPageChange = (size) => {
+  //   setItemsPerPage(size);
+  //   setCurrentPage(1);
+  // };
 
   const toggleNotesSection = () => {
     setIsNotesExpanded((prev) => !prev);
@@ -130,13 +167,31 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
       </button>
 
       {isNotesExpanded && (
-        <NotesList
-          root={root}
-          notes={notes}
-          openCreateModal={openCreateModal}
-          handleRemoveNote={handleRemoveNote}
-          openNoteEditor={openNoteEditor}
-        />
+        <div className={`${root}-content`}>
+          {isLoading ? (
+            <div className={`${root}-loading`}>Loading notes...</div>
+          ) : (
+            <>
+              <NotesList
+                root={root}
+                notes={notes}
+                openCreateModal={openCreateModal}
+                handleRemoveNote={handleRemoveNote}
+                openNoteEditor={openNoteEditor}
+              />
+              {/* {notes.length > 0 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={handlePageChange}
+                  onItemsPerPageChange={handleItemsPerPageChange}
+                  itemsPerPageOptions={itemsPerPageOptions}
+                />
+              )} */}
+            </>
+          )}
+        </div>
       )}
 
       <DeleteModal

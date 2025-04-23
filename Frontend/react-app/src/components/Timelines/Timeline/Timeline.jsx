@@ -7,6 +7,7 @@ import Button from "../../../core/components/buttons/Button/Button";
 import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
 import DeleteModal from "../../../core/components/modals/DeleteModal/DeleteModal";
 import recalculateStrip from "../../../core/utils/RecalculateStrip";
+import NodeService from "../../../services/NodeService";
 import TimelineService from "../../../services/TimelineService";
 import Node from "../../Nodes/Node/Node/Node";
 import "./Timeline.css";
@@ -26,13 +27,12 @@ const Timeline = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDeleteModal, setDeleteModal] = useState(false);
   const [selectedNodes, setSelectedNodes] = useState([]);
+  const [nodesToDelete, setNodesToDelete] = useState([]);
 
   const fetchTimeline = useCallback(async () => {
     try {
       const response = await TimelineService.getTimelineById(id);
-      setTimeline(response.timeline);
-    } catch (error) {
-      console.error("Error fetching timeline:", error);
+      setTimeline(response);
     } finally {
       setIsLoading(false);
     }
@@ -79,8 +79,24 @@ const Timeline = () => {
     }
   };
 
-  const handleDeleteSelected = async () => {
+  const handleDeleteSelected = () => {
+    setNodesToDelete(selectedNodes);
     setDeleteModal(true);
+  };
+
+  const confirmDeleteNodes = async () => {
+    try {
+      setIsLoading(true);
+      await Promise.all(
+        nodesToDelete.map((nodeId) => NodeService.deleteNode(nodeId))
+      );
+      setSelectedNodes([]);
+      setNodesToDelete([]);
+      fetchTimeline();
+    } finally {
+      setIsLoading(false);
+      setDeleteModal(false);
+    }
   };
 
   if (isLoading) {
@@ -149,10 +165,11 @@ const Timeline = () => {
         onNodeCreated={fetchTimeline}
       />
 
-      <DeleteModal 
+      <DeleteModal
         isOpen={showDeleteModal}
         onClose={() => setDeleteModal(false)}
         itemType="node"
+        onConfirm={confirmDeleteNodes}
         count={selectedNodes.length}
       />
 

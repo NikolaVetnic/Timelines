@@ -3,6 +3,7 @@ import RemindersList from "../../../../core/components/lists/RemindersList/Remin
 import CreateReminderModal from "../../../../core/components/modals/CreateReminderModal/CreateReminderModal";
 import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
 import ReminderService from "../../../../services/ReminderService";
+import Pagination from "../../../../core/components/pagination/Pagination";
 import "./Reminder.css";
 
 const Reminder = ({ nodeId, onToggle }) => {
@@ -13,6 +14,10 @@ const Reminder = ({ nodeId, onToggle }) => {
   const [reminderToDelete, setReminderToDelete] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(2);
+  const itemsPerPageOptions = [2, 4, 6, 8];
 
   useEffect(() => {
     const fetchReminders = async () => {
@@ -31,6 +36,20 @@ const Reminder = ({ nodeId, onToggle }) => {
 
     fetchReminders();
   }, [isRemindersExpanded, nodeId]);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentReminders = reminders.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(reminders.length / itemsPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleItemsPerPageChange = (size) => {
+    setItemsPerPage(size);
+    setCurrentPage(1);
+  };
 
   const toggleRemindersSection = () => {
     setIsRemindersExpanded((prev) => !prev);
@@ -86,13 +105,25 @@ const Reminder = ({ nodeId, onToggle }) => {
           {isLoading ? (
             <div className={`${root}-loading`}>Loading reminders...</div>
           ) : (
-            <RemindersList
-              root={root}
-              reminders={reminders}
-              openCreateModal={openCreateModal}
-              setReminderToDelete={setReminderToDelete}
-              setIsDeleteModalOpen={setIsDeleteModalOpen}
-            />
+            <>
+              <RemindersList
+                root={root}
+                reminders={currentReminders}
+                openCreateModal={openCreateModal}
+                setReminderToDelete={setReminderToDelete}
+                setIsDeleteModalOpen={setIsDeleteModalOpen}
+              />
+              {reminders.length > 0 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={handlePageChange}
+                  onItemsPerPageChange={handleItemsPerPageChange}
+                  itemsPerPageOptions={itemsPerPageOptions}
+                />
+              )}
+            </>
           )}
         </div>
       )}
