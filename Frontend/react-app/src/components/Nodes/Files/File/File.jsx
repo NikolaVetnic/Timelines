@@ -102,14 +102,14 @@ const File = ({ nodeId, timelineId, onToggle }) => {
     multiple: true,
   });
 
-  const handleRemoveFile = (id) => {
-    const fileToRemove = files.find((file) => file.id === id);
-    const updatedFiles = files.filter((file) => file.id !== id);
-    setFiles(updatedFiles);
-    updateLocalStorage(updatedFiles);
-    toast.warning(`🗑️ File "${fileToRemove?.name}" removed.`);
-    setTimeout(() => onToggle(), 0);
-  };
+  // const handleRemoveFile = (id) => {
+  //   const fileToRemove = files.find((file) => file.id === id);
+  //   const updatedFiles = files.filter((file) => file.id !== id);
+  //   setFiles(updatedFiles);
+  //   updateLocalStorage(updatedFiles);
+  //   toast.warning(`🗑️ File "${fileToRemove?.name}" removed.`);
+  //   setTimeout(() => onToggle(), 0);
+  // };
 
   const toggleExpansion = () => {
     setIsExpanded((prev) => !prev);

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { toast } from "react-toastify";
 import Button from "../../../../core/components/buttons/Button/Button";
 import InputStringModal from "../../../../core/components/modals/InputStringModal/InputStringModal";
 import convertStringToColor from "../../../../core/utils/ConvertStringToColor";
@@ -38,24 +37,16 @@ const Categories = ({
     setIsLoading(true);
     const newCategories = parseCategoriesInput(categoriesInput);
 
-    try {
-      await NodeService.updateNode(nodeId, { categories: newCategories });
+    await NodeService.updateNode(nodeId, { categories: newCategories });
 
-      setLocalCategories(newCategories);
+    setLocalCategories(newCategories);
 
-      if (onUpdateCategories) {
-        onUpdateCategories(newCategories);
-      }
-
-      toast.success("Categories updated successfully!");
-    } catch (error) {
-      console.error("Error saving categories:", error);
-      toast.error("Failed to update categories");
-      setLocalCategories(propCategories || []);
-    } finally {
-      setIsLoading(false);
-      setModalState(false);
+    if (onUpdateCategories) {
+      onUpdateCategories(newCategories);
     }
+
+    setIsLoading(false);
+    setModalState(false);
   };
 
   return (
@@ -76,10 +67,10 @@ const Categories = ({
           <span>No Categories Set</span>
         )}
       </div>
-      <Button 
-        icon={<CiEdit />} 
+      <Button
+        icon={<CiEdit />}
         iconOnly
-        variant="info" 
+        variant="info"
         shape="square"
         size="little"
         onClick={() => setModalState(true)}

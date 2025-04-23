@@ -23,14 +23,9 @@ const Reminder = ({ nodeId, onToggle }) => {
     const fetchReminders = async () => {
       if (isRemindersExpanded && nodeId) {
         setIsLoading(true);
-        try {
-          const remindersData = await ReminderService.getRemindersByNode(
-            nodeId
-          );
-          setReminders(remindersData);
-        } finally {
-          setIsLoading(false);
-        }
+        const remindersData = await ReminderService.getRemindersByNode(nodeId);
+        setReminders(remindersData);
+        setIsLoading(false);
       }
     };
 
@@ -74,13 +69,10 @@ const Reminder = ({ nodeId, onToggle }) => {
   const confirmDelete = async () => {
     if (!reminderToDelete) return;
 
-    try {
-      await ReminderService.deleteReminder(reminderToDelete.id);
-      setReminders((prev) => prev.filter((r) => r.id !== reminderToDelete.id));
-    } finally {
-      setIsDeleteModalOpen(false);
-      setReminderToDelete(null);
-    }
+    await ReminderService.deleteReminder(reminderToDelete.id);
+    setReminders((prev) => prev.filter((r) => r.id !== reminderToDelete.id));
+    setIsDeleteModalOpen(false);
+    setReminderToDelete(null);
   };
 
   const cancelDelete = () => {

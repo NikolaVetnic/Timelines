@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { toast } from "react-toastify";
 import Button from "../../../../core/components/buttons/Button/Button";
 import DatePickerModal from "../../../../core/components/modals/DatePickerModal/DatePickerModal";
 import NodeService from "../../../../services/NodeService";
@@ -35,12 +34,6 @@ const Timestamp = ({ nodeId, setModalActive, initialValue, onSave }) => {
       if (onSave) {
         onSave(isoString);
       }
-
-      toast.success("Timestamp updated successfully!");
-    } catch (error) {
-      console.error("Error saving timestamp:", error);
-      toast.error("Failed to update timestamp");
-      setLocalTimestamp(initialValue ? new Date(initialValue) : null);
     } finally {
       setIsLoading(false);
       setModalState(false);
@@ -53,14 +46,14 @@ const Timestamp = ({ nodeId, setModalActive, initialValue, onSave }) => {
         <strong>Timestamp:</strong>{" "}
         {localTimestamp ? localTimestamp.toLocaleDateString() : "Not Set"}
       </div>
-      <Button 
-          icon={<CiEdit />} 
-          iconOnly
-          variant="info" 
-          shape="square"
-          size="little" 
-          disabled={isLoading}
-          onClick={() => setModalState(true)}
+      <Button
+        icon={<CiEdit />}
+        iconOnly
+        variant="info"
+        shape="square"
+        size="little"
+        disabled={isLoading}
+        onClick={() => setModalState(true)}
       />
       <DatePickerModal
         isOpen={isModalOpen}

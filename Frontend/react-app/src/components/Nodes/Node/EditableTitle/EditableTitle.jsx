@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { toast } from "react-toastify";
 import Button from "../../../../core/components/buttons/Button/Button";
 import NodeService from "../../../../services/NodeService";
 import "./EditableTitle.css";
@@ -32,20 +31,13 @@ const EditableTitle = ({
   };
 
   const handleSaveTitle = async () => {
-    try {
-      await NodeService.updateNode(nodeId, { title: localTitle });
+    await NodeService.updateNode(nodeId, { title: localTitle });
 
-      if (onUpdateTitle) {
-        onUpdateTitle(localTitle);
-      }
-
-      toast.success("Title updated successfully!");
-      setEditing(false);
-    } catch (error) {
-      console.error("Error updating title:", error);
-      toast.error("Failed to update title");
-      setLocalTitle(propTitle || "");
+    if (onUpdateTitle) {
+      onUpdateTitle(localTitle);
     }
+
+    setEditing(false);
   };
 
   const handleKeyDown = (e) => {
@@ -76,16 +68,16 @@ const EditableTitle = ({
     >
       <h3 className={`${root}`}>{localTitle || "Untitled"}</h3>
       {isHovered && (
-        <Button 
-          icon={<CiEdit />} 
+        <Button
+          icon={<CiEdit />}
           iconOnly
-          variant="info" 
+          variant="info"
           shape="square"
-          size="little" 
+          size="little"
           onClick={(e) => {
-              e.stopPropagation();
-              setEditing(true);
-            }}
+            e.stopPropagation();
+            setEditing(true);
+          }}
         />
       )}
     </div>

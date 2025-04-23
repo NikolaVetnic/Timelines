@@ -4,7 +4,7 @@ import NotesList from "../../../../core/components/lists/NotesList/NotesList";
 import CreateNoteModal from "../../../../core/components/modals/CreateNoteModal/CreateNoteModal";
 import NoteEditor from "../../../../core/components/modals/NoteEditorModal/NoteEditorModal";
 import useLocalNotes from "../../../../core/hooks/Note/UseLocalNotes";
-import Pagination from "../../../../core/components/pagination/Pagination";
+// import Pagination from "../../../../core/components/pagination/Pagination";
 import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
 import "./Note.css";
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { toast } from "react-toastify";
 import Button from "../../../../core/components/buttons/Button/Button";
 import InputStringModal from "../../../../core/components/modals/InputStringModal/InputStringModal";
 import convertStringToColor from "../../../../core/utils/ConvertStringToColor";
@@ -41,12 +40,6 @@ const Tags = ({ nodeId, setModalActive, tags: propTags, onUpdateTags }) => {
       if (onUpdateTags) {
         onUpdateTags(formattedTags);
       }
-
-      toast.success("Tags updated successfully!");
-    } catch (error) {
-      console.error("Error saving tags:", error);
-      toast.error("Failed to update tags");
-      setLocalTags(propTags || []);
     } finally {
       setIsLoading(false);
       setModalState(false);
@@ -71,14 +64,14 @@ const Tags = ({ nodeId, setModalActive, tags: propTags, onUpdateTags }) => {
           <span>No Tags Set</span>
         )}
       </div>
-      <Button 
-          icon={<CiEdit />} 
-          iconOnly
-          variant="info" 
-          shape="square"
-          size="little" 
-          disabled={isLoading}
-          onClick={() => setModalState(true)}
+      <Button
+        icon={<CiEdit />}
+        iconOnly
+        variant="info"
+        shape="square"
+        size="little"
+        disabled={isLoading}
+        onClick={() => setModalState(true)}
       />
       <InputStringModal
         isOpen={isModalOpen}

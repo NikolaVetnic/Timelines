@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { toast } from "react-toastify";
 import Button from "../../../../core/components/buttons/Button/Button";
 import IntegerModal from "../../../../core/components/modals/IntegerModal/IntegerModal";
 import NodeService from "../../../../services/NodeService";
@@ -23,24 +22,16 @@ const Importance = ({ nodeId, setModalActive, initialValue, onSave }) => {
 
   const handleSaveImportance = async (newImportance) => {
     setIsLoading(true);
-    try {
-      await NodeService.updateNode(nodeId, { importance: newImportance });
+    await NodeService.updateNode(nodeId, { importance: newImportance });
 
-      setImportance(newImportance);
+    setImportance(newImportance);
 
-      if (onSave) {
-        onSave(newImportance);
-      }
-
-      toast.success("Importance level updated successfully!");
-    } catch (error) {
-      console.error("Error saving importance:", error);
-      toast.error("Failed to update importance level");
-      setImportance(initialValue || 0);
-    } finally {
-      setIsLoading(false);
-      setModalState(false);
+    if (onSave) {
+      onSave(newImportance);
     }
+
+    setIsLoading(false);
+    setModalState(false);
   };
 
   return (
@@ -48,14 +39,14 @@ const Importance = ({ nodeId, setModalActive, initialValue, onSave }) => {
       <div className={`${root}-content`}>
         <strong>Importance:</strong> {importance}
       </div>
-      <Button 
-          icon={<CiEdit />} 
-          iconOnly
-          variant="info" 
-          shape="square"
-          size="little" 
-          disabled={isLoading}
-          onClick={() => setModalState(true)}
+      <Button
+        icon={<CiEdit />}
+        iconOnly
+        variant="info"
+        shape="square"
+        size="little"
+        disabled={isLoading}
+        onClick={() => setModalState(true)}
       />
       <IntegerModal
         isOpen={isModalOpen}

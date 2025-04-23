@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { toast } from "react-toastify";
 import Button from "../../../../core/components/buttons/Button/Button";
 import InputStringModal from "../../../../core/components/modals/InputStringModal/InputStringModal";
 import NodeService from "../../../../services/NodeService";
@@ -30,24 +29,16 @@ const Description = ({
 
   const handleSaveDescription = async (newDescription) => {
     setIsLoading(true);
-    try {
-      await NodeService.updateNode(nodeId, { description: newDescription });
+    await NodeService.updateNode(nodeId, { description: newDescription });
 
-      setLocalDescription(newDescription);
+    setLocalDescription(newDescription);
 
-      if (onUpdateDescription) {
-        onUpdateDescription(newDescription);
-      }
-
-      toast.success("Description updated successfully!");
-    } catch (error) {
-      console.error("Error saving description:", error);
-      toast.error("Failed to update description");
-      setLocalDescription(propDescription || "");
-    } finally {
-      setIsLoading(false);
-      setModalState(false);
+    if (onUpdateDescription) {
+      onUpdateDescription(newDescription);
     }
+
+    setIsLoading(false);
+    setModalState(false);
   };
 
   return (
@@ -55,10 +46,10 @@ const Description = ({
       <div>
         <strong>Description:</strong> {localDescription || "No Description Set"}
       </div>
-      <Button 
-        icon={<CiEdit />} 
+      <Button
+        icon={<CiEdit />}
         iconOnly
-        variant="info" 
+        variant="info"
         shape="square"
         size="little"
         onClick={() => setModalState(true)}

@@ -30,12 +30,9 @@ const Timeline = () => {
   const [nodesToDelete, setNodesToDelete] = useState([]);
 
   const fetchTimeline = useCallback(async () => {
-    try {
-      const response = await TimelineService.getTimelineById(id);
-      setTimeline(response);
-    } finally {
-      setIsLoading(false);
-    }
+    const response = await TimelineService.getTimelineById(id);
+    setTimeline(response);
+    setIsLoading(false);
   }, [id]);
 
   useEffect(() => {
