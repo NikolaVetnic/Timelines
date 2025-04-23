@@ -2,7 +2,8 @@
 appsettings.override.json
 
 # Personal configuration files
-**/docker-compose/.env
+**/docker-compose/.env*
+!**/docker-compose/.env.template
 .editorconfig
 
 # =-=-=-= VSC
