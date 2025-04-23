@@ -26,8 +26,5 @@ public static class DatabaseExtensions
 
         await context.AddRangeAsync(InitialData.FileAssets);
         await context.SaveChangesAsync();
-
-        foreach (var initialFileAsset in InitialData.FileAssets)
-            await nodesService.AddFileAsset(initialFileAsset.NodeId, initialFileAsset.Id, CancellationToken.None);
     }
 }
