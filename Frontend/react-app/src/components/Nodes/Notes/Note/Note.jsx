@@ -26,7 +26,6 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
     onToggle();
   };
 
-  // todo: connect to backend when it is ready
   const handleSaveNote = () => {
     if (selectedNote) {
       const updatedNotes = notes.map((note) =>
@@ -34,6 +33,14 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
       );
       setNotes(updatedNotes);
       updateLocalStorage(updatedNotes);
+
+      // todo: uncomment when backend for adding notes is ready
+      // await NoteService.updateNote(selectedNote.id, { content: editorContent });
+      //   const updatedNotes = notes.map((note) =>
+      //     note.id === selectedNote.id ? { ...note, content: editorContent } : note
+      //   );
+      //   setNotes(updatedNotes);
+      //   closeNoteEditor();
     }
     closeNoteEditor();
   };
@@ -63,6 +70,14 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
     setTimeout(onToggle, 0);
     setNotes(updatedNotes);
     updateLocalStorage(updatedNotes);
+
+    // todo: add async and uncomment when backend is ready
+    //  const noteWithNodeId = { ...newNote, nodeId };
+    //   await NoteService.createNote(noteWithNodeId);
+    //   const response = await NoteService.getNotesByNode(nodeId);
+    //   setNotes(response.items);
+    //   closeCreateModal();
+    //   onToggle();
   };
 
   const confirmDelete = () => {
@@ -79,6 +94,21 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
       setNoteToDelete(null);
       setTimeout(onToggle, 0);
     }
+
+    // todo: add async and uncomment when backend is ready
+    // if (!noteToDelete) return;
+
+    //   await NoteService.deleteNote(noteToDelete.id);
+    //   const updatedNotes = notes.filter((note) => note.id !== noteToDelete.id);
+    //   setNotes(updatedNotes);
+
+    //   if (selectedNote?.id === noteToDelete.id) {
+    //     setSelectedNote(null);
+    //   }
+
+    //   setIsDeleteModalOpen(false);
+    //   setNoteToDelete(null);
+    //   onToggle();
   };
 
   const cancelDelete = () => {

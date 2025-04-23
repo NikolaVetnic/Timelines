@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 import Timeline from "./components/Timelines/Timeline/Timeline";
-import TimelineList from "./components/Timelines/TimelineList/TimelineList";
+import TimelineList from "./core/components/lists/TimelineList/TimelineList";
 import ReminderNotifier from "./core/utils/ReminderNotifier";
 import "./styles/App.css";
 
@@ -11,7 +11,7 @@ function App() {
     <BrowserRouter>
       <div className="app-container">
         <ReminderNotifier />
-        
+
         <div className="app-content">
           <div className="content-wrapper">
             <Routes>

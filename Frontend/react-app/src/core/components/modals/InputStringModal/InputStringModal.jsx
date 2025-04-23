@@ -60,10 +60,11 @@ const InputStringModal = ({
         />
 
         <div className={`${root}-actions`}>
-          <Button text="Cancel" onClick={closeModal} />
+          <Button text="Cancel" onClick={closeModal} size="small" />
           <Button
             text="Save"
             variant="success"
+            size="small"
             onClick={handleSave}
             disabled={!isChanged}
           />

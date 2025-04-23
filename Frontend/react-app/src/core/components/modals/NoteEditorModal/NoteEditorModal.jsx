@@ -5,12 +5,12 @@ import { FaTimes } from "react-icons/fa";
 import Button from "../../buttons/Button/Button";
 import "./NoteEditorModal.css";
 
-const NoteEditor = ({ 
-  selectedNote, 
-  editorContent, 
-  setEditorContent, 
-  handleSaveNote, 
-  closeNoteEditor 
+const NoteEditor = ({
+  selectedNote,
+  editorContent,
+  setEditorContent,
+  handleSaveNote,
+  closeNoteEditor,
 }) => {
   const root = "note-editor-modal";
   const [showModal, setShowModal] = useState(false);
@@ -26,8 +26,8 @@ const NoteEditor = ({
   if (!selectedNote) return null;
 
   return ReactDOM.createPortal(
-    <div className={`${root}-overlay ${showModal ? 'show' : ''}`}>
-      <div className={`${root}-content ${showModal ? 'show' : ''}`}>
+    <div className={`${root}-overlay ${showModal ? "show" : ""}`}>
+      <div className={`${root}-content ${showModal ? "show" : ""}`}>
         <div className={`${root}-close`}>
           <Button
             icon={<FaTimes />}
@@ -37,11 +37,11 @@ const NoteEditor = ({
             onClick={closeNoteEditor}
           />
         </div>
-        
+
         <div className={`${root}-header`}>
           <h3>{selectedNote.title}</h3>
         </div>
-        
+
         <div className={`${root}-editor`}>
           <MDEditor
             value={editorContent}
@@ -49,16 +49,18 @@ const NoteEditor = ({
             height="100%"
           />
         </div>
-        
+
         <div className={`${root}-actions`}>
           <Button
             text="Cancel"
             variant="secondary"
+            size="small"
             onClick={closeNoteEditor}
           />
-          <Button 
+          <Button
             text="Save"
             variant="success"
+            size="small"
             onClick={handleSaveNote}
           />
         </div>

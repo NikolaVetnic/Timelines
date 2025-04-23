@@ -60,15 +60,17 @@ const DatePickerModal = ({
             minDate={minDate}
             maxDate={maxDate}
             inline
+            highlightDates={Date.now()}
             calendarClassName={`${root}-calendar`}
             dayClassName={() => `${root}-day`}
           />
         </div>
 
         <div className={`${root}-actions`}>
-          <Button text="Cancel" onClick={closeModal} />
+          <Button text="Cancel" onClick={closeModal} size="small" />
           <Button
             text="Save"
+            size="small"
             variant="success"
             onClick={handleSave}
             disabled={!isChanged}

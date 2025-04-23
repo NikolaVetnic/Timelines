@@ -60,10 +60,11 @@ const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
         {error && <div className="create-timeline-error-message">{error}</div>}
 
         <div className="create-timeline-modal-buttons">
-          <Button text="Cancel" onClick={onClose} />
+          <Button text="Cancel" onClick={onClose} size="small" />
           <Button
             text="Create"
             variant="success"
+            size="small"
             onClick={handleCreateTimelineData}
             disabled={!title.trim()}
           />

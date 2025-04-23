@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-
 import RemindersList from "../../../../core/components/lists/RemindersList/RemindersList";
 import CreateReminderModal from "../../../../core/components/modals/CreateReminderModal/CreateReminderModal";
 import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
 import ReminderService from "../../../../services/ReminderService";
-
-import "react-toastify/dist/ReactToastify.css";
 import "./Reminder.css";
 
 const Reminder = ({ nodeId, onToggle }) => {
@@ -23,10 +19,10 @@ const Reminder = ({ nodeId, onToggle }) => {
       if (isRemindersExpanded && nodeId) {
         setIsLoading(true);
         try {
-          const remindersData = await ReminderService.getRemindersByNode(nodeId);
+          const remindersData = await ReminderService.getRemindersByNode(
+            nodeId
+          );
           setReminders(remindersData);
-        } catch (error) {
-          toast.error("Failed to load reminders");
         } finally {
           setIsLoading(false);
         }
@@ -49,27 +45,19 @@ const Reminder = ({ nodeId, onToggle }) => {
   const closeCreateModal = () => setCreateModalOpen(false);
 
   const saveNewReminder = async (newReminder) => {
-    try {
-      const reminderWithNodeId = { ...newReminder, nodeId };
-      await ReminderService.createReminder(reminderWithNodeId);
-      const updatedReminders = await ReminderService.getRemindersByNode(nodeId);
-      setReminders(updatedReminders);
-      toast.success("Reminder created successfully!");
-      closeCreateModal();
-    } catch (error) {
-      toast.error(error.message || "Failed to create reminder");
-    }
+    const reminderWithNodeId = { ...newReminder, nodeId };
+    await ReminderService.createReminder(reminderWithNodeId);
+    const updatedReminders = await ReminderService.getRemindersByNode(nodeId);
+    setReminders(updatedReminders);
+    closeCreateModal();
   };
 
   const confirmDelete = async () => {
     if (!reminderToDelete) return;
-    
+
     try {
       await ReminderService.deleteReminder(reminderToDelete.id);
-      setReminders(prev => prev.filter(r => r.id !== reminderToDelete.id));
-      toast.success("Reminder deleted successfully!");
-    } catch (error) {
-      toast.error(error.message || "Failed to delete reminder");
+      setReminders((prev) => prev.filter((r) => r.id !== reminderToDelete.id));
     } finally {
       setIsDeleteModalOpen(false);
       setReminderToDelete(null);
@@ -113,6 +101,7 @@ const Reminder = ({ nodeId, onToggle }) => {
         isOpen={isDeleteModalOpen}
         onClose={cancelDelete}
         onConfirm={confirmDelete}
+        itemType="reminder"
         itemTitle={reminderToDelete?.title || "Untitled Reminder"}
       />
 

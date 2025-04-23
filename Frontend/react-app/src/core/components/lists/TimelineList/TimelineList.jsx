@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
 import { useNavigate } from "react-router";
-import Button from "../../../core/components/buttons/Button/Button";
-import CreateTimelineModal from "../../../core/components/modals/CreateTimelineModal/CreateTimelineModal";
-import DeleteModal from "../../../core/components/modals/DeleteModal/DeleteModal";
-import Pagination from "../../../core/components/pagination/Pagination";
-import TimelineService from "../../../services/TimelineService";
+import Button from "../../buttons/Button/Button";
+import CreateTimelineModal from "../../modals/CreateTimelineModal/CreateTimelineModal";
+import DeleteModal from "../../modals/DeleteModal/DeleteModal";
+import Pagination from "../../pagination/Pagination";
+import TimelineService from "../../../../services/TimelineService";
 import "./TimelineList.css";
 
 const TimelineList = () => {

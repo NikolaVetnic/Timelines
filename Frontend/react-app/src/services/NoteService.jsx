@@ -16,29 +16,23 @@ class NoteService {
    * @returns {Promise<Object>} - Created note data
    */
   static async createNote(noteData) {
-    const formattedData = {
-      id: noteData.nodeId,
-      title: noteData.title || "Untitled Note",
-      content: noteData.content || "",
-      timestamp: noteData.timestamp || new Date().toISOString(),
-      importance: noteData.importance || 0,
-    };
-
     try {
+      const formattedData = {
+        id: noteData.nodeId,
+        title: noteData.title || "Untitled Note",
+        content: noteData.content || "",
+        timestamp: noteData.timestamp || new Date().toISOString(),
+        importance: noteData.importance || 0,
+      };
+
       const response = await Post(API_BASE_URL, "/Notes", formattedData);
-
-      if (response.status === 200 || response.status === 201) {
-        toast.success("Note created successfully!");
-        return response.data;
-      }
-
+      toast.success("Note created successfully!");
       return response.data;
     } catch (error) {
-      if (error.response?.data?.message) {
-        throw new Error(error.response.data.message);
-      } else {
-        throw new Error("Failed to create note. Please try again.");
-      }
+      const errorMessage =
+        error.response?.data?.message || "Failed to create note";
+      toast.error(errorMessage);
+      throw new Error(errorMessage);
     }
   }
 
@@ -63,16 +57,8 @@ class NoteService {
         totalPages: Math.ceil((response.notes?.count || 0) / pageSize),
       };
     } catch (error) {
-      let errorMessage = "Failed to fetch notes";
-
-      if (error.response) {
-        if (error.response.status === 404) {
-          errorMessage = "No notes found";
-        } else if (error.response.data?.message) {
-          errorMessage = error.response.data.message;
-        }
-      }
-
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch notes";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -100,16 +86,8 @@ class NoteService {
         totalPages: Math.ceil((response.notes?.count || 0) / pageSize),
       };
     } catch (error) {
-      let errorMessage = "Failed to fetch node notes";
-
-      if (error.response) {
-        if (error.response.status === 404) {
-          errorMessage = "No notes found for this node";
-        } else if (error.response.data?.message) {
-          errorMessage = error.response.data.message;
-        }
-      }
-
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch node notes";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -125,16 +103,8 @@ class NoteService {
       const response = await getById(API_BASE_URL, "/Notes/", id);
       return response.note || response;
     } catch (error) {
-      let errorMessage = "Failed to fetch note";
-
-      if (error.response) {
-        if (error.response.status === 404) {
-          errorMessage = "Note not found";
-        } else if (error.response.data?.message) {
-          errorMessage = error.response.data.message;
-        }
-      }
-
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch note";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -152,16 +122,8 @@ class NoteService {
       toast.success("Note updated successfully!");
       return response.data;
     } catch (error) {
-      let errorMessage = "Failed to update note";
-
-      if (error.response) {
-        if (error.response.status === 404) {
-          errorMessage = "Note not found";
-        } else if (error.response.data?.message) {
-          errorMessage = error.response.data.message;
-        }
-      }
-
+      const errorMessage =
+        error.response?.data?.message || "Failed to update note";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -175,22 +137,11 @@ class NoteService {
   static async deleteNote(id) {
     try {
       const response = await deleteById(API_BASE_URL, "/Notes/", id);
-
-      if (response) {
-        toast.success("Note deleted successfully!");
-        return response;
-      }
+      toast.success("Note deleted successfully!");
+      return response;
     } catch (error) {
-      let errorMessage = "Failed to delete note";
-
-      if (error.response) {
-        if (error.response.status === 404) {
-          errorMessage = "Note not found";
-        } else if (error.response.data?.message) {
-          errorMessage = error.response.data.message;
-        }
-      }
-
+      const errorMessage =
+        error.response?.data?.message || "Failed to delete note";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }

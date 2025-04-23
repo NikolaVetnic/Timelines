@@ -2,6 +2,7 @@ import deleteById from "../core/api/delete";
 import { getAllWithoutPagination, getById } from "../core/api/get";
 import Post from "../core/api/post";
 import API_BASE_URL from "../data/constants";
+import { toast } from "react-toastify";
 
 class ReminderService {
   /**
@@ -9,21 +10,26 @@ class ReminderService {
    * @param {Object} reminderData - The reminder data to create
    * @returns {Promise<Object>} - Created reminder data
    */
-    static async createReminder(reminderData) {
-        const formattedData = {
-            title: reminderData.title,
-            description: reminderData.description || "",
-            dueDateTime: new Date(reminderData.dueDateTime).toISOString(),
-            priority: reminderData.priority || 0,
-            notificationTime: new Date(reminderData.notificationTime).toISOString(),
-            status: reminderData.status || "Pending",
-            nodeId: reminderData.nodeId
-        };
+  static async createReminder(reminderData) {
+    try {
+      const formattedData = {
+        title: reminderData.title,
+        description: reminderData.description || "",
+        dueDateTime: new Date(reminderData.dueDateTime).toISOString(),
+        priority: reminderData.priority || 0,
+        notificationTime: new Date(reminderData.notificationTime).toISOString(),
+        status: reminderData.status || "Pending",
+        nodeId: reminderData.nodeId,
+      };
 
-        const response = await Post(API_BASE_URL, "/Reminders", formattedData);
-        
-        return response.id;
+      const response = await Post(API_BASE_URL, "/Reminders", formattedData);
+      toast.success("Reminder created successfully!");
+      return response.id;
+    } catch (error) {
+      toast.error(error.message || "Failed to create reminder");
+      throw error;
     }
+  }
 
   /**
    * Get all reminders for a node
@@ -31,22 +37,39 @@ class ReminderService {
    * @returns {Promise<Array>} - Array of reminders
    */
   static async getRemindersByNode(nodeId) {
-    const response = await getAllWithoutPagination(API_BASE_URL, `/Reminders`);
-    
-    if (response.reminders?.data && Array.isArray(response.reminders.data)) {
-      return response.reminders.data.filter(reminder => reminder.node.id === nodeId);
+    try {
+      const response = await getAllWithoutPagination(
+        API_BASE_URL,
+        `/Reminders`
+      );
+
+      if (response.reminders?.data && Array.isArray(response.reminders.data)) {
+        return response.reminders.data.filter(
+          (reminder) => reminder.node.id === nodeId
+        );
+      }
+      return [];
+    } catch (error) {
+      toast.error("Failed to load reminders");
+      throw error;
     }
-    return [];
   }
 
-   /**
-   * Get all reminders for a node
+  /**
+   * Get all reminders
    * @returns {Promise<Array>} - Array of reminders
    */
   static async getAllReminders() {
-    const response = await getAllWithoutPagination(API_BASE_URL, `/Reminders`);
-    
-    return response.reminders;
+    try {
+      const response = await getAllWithoutPagination(
+        API_BASE_URL,
+        `/Reminders`
+      );
+      return response.reminders;
+    } catch (error) {
+      toast.error("Failed to load all reminders");
+      throw error;
+    }
   }
 
   /**
@@ -55,8 +78,13 @@ class ReminderService {
    * @returns {Promise<Object>} - The reminder data
    */
   static async getReminderById(id) {
-    const response = await getById(API_BASE_URL, "/Reminders/", id);
-    return response.reminder || response;
+    try {
+      const response = await getById(API_BASE_URL, "/Reminders/", id);
+      return response.reminder || response;
+    } catch (error) {
+      toast.error("Failed to load reminder details");
+      throw error;
+    }
   }
 
   /**
@@ -66,8 +94,14 @@ class ReminderService {
    * @returns {Promise<Object>} - Updated reminder data
    */
   static async updateReminder(id, updateData) {
-    const response = await Post(API_BASE_URL, `/Reminders/${id}`, updateData);
-    return response.data;
+    try {
+      const response = await Post(API_BASE_URL, `/Reminders/${id}`, updateData);
+      toast.success("Reminder updated successfully!");
+      return response.data;
+    } catch (error) {
+      toast.error(error.message || "Failed to update reminder");
+      throw error;
+    }
   }
 
   /**
@@ -76,8 +110,14 @@ class ReminderService {
    * @returns {Promise<Object>} - Delete confirmation
    */
   static async deleteReminder(id) {
-    const response = await deleteById(API_BASE_URL, "/Reminders/", id);
-    return response;
+    try {
+      const response = await deleteById(API_BASE_URL, "/Reminders/", id);
+      toast.success("Reminder deleted successfully!");
+      return response;
+    } catch (error) {
+      toast.error(error.message || "Failed to delete reminder");
+      throw error;
+    }
   }
 }
 

@@ -12,11 +12,11 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
     dueDateTime: "",
     priority: 1,
     notificationTime: "",
-    status: "Pending"
+    status: "Pending",
   });
   const [errors, setErrors] = useState({});
 
-   useEffect(() => {
+  useEffect(() => {
     if (!isOpen) {
       setFormData({
         title: "",
@@ -24,7 +24,7 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
         dueDateTime: "",
         priority: 1,
         notificationTime: "",
-        status: "Pending"
+        status: "Pending",
       });
       setErrors({});
     }
@@ -32,40 +32,47 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: name === "priority" ? Number(value) : value
+      [name]: name === "priority" ? Number(value) : value,
     }));
   };
 
   const validate = () => {
     const newErrors = {};
     if (!formData.title.trim()) newErrors.title = "Title is required";
+    if (!formData.description.trim())
+      newErrors.description = "Description is required.";
     if (!formData.dueDateTime) newErrors.dueDateTime = "Due date is required";
-    if (!formData.notificationTime) newErrors.notificationTime = "Notification time is required";
+    if (!formData.notificationTime)
+      newErrors.notificationTime = "Notification time is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSave = () => {
-  if (!validate()) return;
+    if (!validate()) return;
 
-  const dueDateTimeUTC = formData.dueDateTime ? new Date(formData.dueDateTime).toISOString() : new Date().toISOString();
-  const notificationTimeUTC = formData.notificationTime ? new Date(formData.notificationTime).toISOString() : new Date().toISOString();
+    const dueDateTimeUTC = formData.dueDateTime
+      ? new Date(formData.dueDateTime).toISOString()
+      : new Date().toISOString();
+    const notificationTimeUTC = formData.notificationTime
+      ? new Date(formData.notificationTime).toISOString()
+      : new Date().toISOString();
 
-  const newReminder = {
-    title: formData.title,
-    description: formData.description || "",
-    dueDateTime: dueDateTimeUTC,
-    priority: formData.priority || 0,
-    notificationTime: notificationTimeUTC,
-    status: formData.status || "Pending",
-    nodeId: nodeId
+    const newReminder = {
+      title: formData.title,
+      description: formData.description || "",
+      dueDateTime: dueDateTimeUTC,
+      priority: formData.priority || 0,
+      notificationTime: notificationTimeUTC,
+      status: formData.status || "Pending",
+      nodeId: nodeId,
+    };
+
+    saveReminder(newReminder);
+    closeModal();
   };
-
-  saveReminder(newReminder);
-  closeModal();
-};
 
   if (!isOpen) return null;
 
@@ -73,7 +80,7 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
     <div className={`${root}-overlay`}>
       <div className={`${root}-content`}>
         <div className={`${root}-header`}>Create Reminder</div>
-        
+
         <FormField
           label="Title"
           type="text"
@@ -84,16 +91,18 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
           required
           error={errors.title}
         />
-        
+
         <FormField
           label="Description"
           type="textarea"
           name="description"
           value={formData.description}
           onChange={handleChange}
+          required
+          error={errors.description}
           placeholder="Description (Optional)"
         />
-        
+
         <FormField
           label="Due Date & Time"
           type="datetime-local"
@@ -103,7 +112,7 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
           required
           error={errors.dueDateTime}
         />
-        
+
         <FormField
           label="Notification Time"
           type="datetime-local"
@@ -113,7 +122,7 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
           required
           error={errors.notificationTime}
         />
-        
+
         <FormField
           label="Priority"
           type="select"
@@ -127,15 +136,17 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
         </FormField>
 
         <div className={`${root}-actions`}>
-          <Button 
+          <Button
             text="Cancel"
             variant="secondary"
             onClick={closeModal}
-            />
-          <Button 
-            text="Create" 
-            variant="success" 
+            size="small"
+          />
+          <Button
+            text="Create"
+            variant="success"
             onClick={handleSave}
+            size="small"
           />
         </div>
       </div>
