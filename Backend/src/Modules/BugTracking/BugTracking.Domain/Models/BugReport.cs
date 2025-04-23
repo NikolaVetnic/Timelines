@@ -8,6 +8,7 @@ public class BugReport : Entity<BugReportId>
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string ReporterName { get; set; } = string.Empty; // ToDo: Substitute for UserId
+    public bool IsProcessed { get; set; } = false;
 
     public static BugReport Create(BugReportId id, string title, string description, string reporterName)
     {
@@ -16,7 +17,8 @@ public class BugReport : Entity<BugReportId>
             Id = id,
             Title = title,
             Description = description,
-            ReporterName = reporterName
+            ReporterName = reporterName,
+            IsProcessed = false
         };
         
         return bugReport;

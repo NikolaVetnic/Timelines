@@ -19,7 +19,7 @@ public class CreateBugReport : ICarterModule
                 var result = await sender.Send(command);
                 var response = result.Adapt<CreateBugReportResult>();
         
-                return Results.Created($"/Files/{response.Id}", response);
+                return Results.Created($"/BugReports/{response.Id}", response);
             })
             .WithName("CreateBugReport")
             .Produces<CreateBugReportResult>(StatusCodes.Status201Created)
