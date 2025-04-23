@@ -5,33 +5,27 @@ import Post from "../core/api/post";
 import API_BASE_URL from "../data/constants";
 
 class TimelineService {
+  /**
+   * Create a new timeline
+   * @param {string} title - Timeline title
+   * @param {string} description - Timeline description
+   * @returns {Promise<Object>} - Created timeline data
+   */
   static async createTimeline(title, description) {
-    const timelineData = {
-      Title: title,
-      Description: description,
-    };
-
-    console.log(timelineData);
-
     try {
+      const timelineData = {
+        Title: title,
+        Description: description,
+      };
+
       const response = await Post(API_BASE_URL, "/Timelines", timelineData);
-
-      if (response.status === 200 || response.status === 201) {
-        toast.success("Timeline created successfully!");
-        return response.data;
-      }
-
+      toast.success("Timeline created successfully!");
       return response.data;
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        throw new Error(error.response.data.message);
-      } else {
-        throw new Error("Failed to create timeline. Please try again.");
-      }
+      const errorMessage =
+        error.response?.data?.message || "Failed to create timeline";
+      toast.error(errorMessage);
+      throw new Error(errorMessage);
     }
   }
 
@@ -39,7 +33,7 @@ class TimelineService {
    * Get all timelines with pagination
    * @param {number} pageIndex - The page index (default: 0)
    * @param {number} pageSize - The number of items per page (default: 10)
-   * @returns {Promise<Array>} - Array of timelines
+   * @returns {Promise<Object>} - { items: [], totalCount: 0, totalPages: 0 }
    */
   static async getAllTimelines(pageIndex = 0, pageSize = 10) {
     try {
@@ -56,16 +50,8 @@ class TimelineService {
         totalPages: Math.ceil((response.timelines?.count || 0) / pageSize),
       };
     } catch (error) {
-      let errorMessage = "Failed to fetch timelines";
-
-      if (error.response) {
-        if (error.response.status === 404) {
-          errorMessage = "No timelines found";
-        } else if (error.response.data && error.response.data.message) {
-          errorMessage = error.response.data.message;
-        }
-      }
-
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch timelines";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -79,18 +65,31 @@ class TimelineService {
   static async getTimelineById(id) {
     try {
       const response = await getById(API_BASE_URL, "/Timelines/", id);
-      return response;
+      return response.timeline || response;
     } catch (error) {
-      let errorMessage = "Failed to fetch timeline";
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch timeline";
+      toast.error(errorMessage);
+      throw new Error(errorMessage);
+    }
+  }
 
-      if (error.response) {
-        if (error.response.status === 404) {
-          errorMessage = "Timeline not found";
-        } else if (error.response.data && error.response.data.message) {
-          errorMessage = error.response.data.message;
-        }
-      }
-
+  /**
+   * Update a timeline
+   * @param {string} id - Timeline ID to update
+   * @param {Object} updateData - Fields to update
+   * @param {string} [updateData.Title] - New title
+   * @param {string} [updateData.Description] - New description
+   * @returns {Promise<Object>} - Updated timeline data
+   */
+  static async updateTimeline(id, updateData) {
+    try {
+      const response = await Post(API_BASE_URL, `/Timelines/${id}`, updateData);
+      toast.success("Timeline updated successfully!");
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to update timeline";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -99,27 +98,16 @@ class TimelineService {
   /**
    * Delete a timeline by ID
    * @param {string} id - The timeline ID to delete
-   * @returns {Promise<Object>} - The delete confirmation
+   * @returns {Promise<Object>} - Delete confirmation
    */
   static async deleteTimeline(id) {
     try {
       const response = await deleteById(API_BASE_URL, "/Timelines/", id);
-
-      if (response) {
-        toast.success("Timeline deleted successfully!");
-        return response;
-      }
+      toast.success("Timeline deleted successfully!");
+      return response;
     } catch (error) {
-      let errorMessage = "Failed to delete timeline";
-
-      if (error.response) {
-        if (error.response.status === 404) {
-          errorMessage = "Timeline not found";
-        } else if (error.response.data && error.response.data.message) {
-          errorMessage = error.response.data.message;
-        }
-      }
-
+      const errorMessage =
+        error.response?.data?.message || "Failed to delete timeline";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }

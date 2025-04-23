@@ -19,57 +19,52 @@ class NodeService {
    * @returns {Promise<Object>} - Created node data
    */
   static async createNode(nodeData) {
-    const formattedData = {
-      title: nodeData.title,
-      description: nodeData.description,
-      timestamp: nodeData.timestamp || new Date().toISOString(),
-      importance: nodeData.importance || 0,
-      phase: nodeData.phase || "Uncategorized",
-      categories: nodeData.categories || [],
-      tags: nodeData.tags || [],
-      timelineId: nodeData.timelineId,
-    };
-
     try {
+      const formattedData = {
+        title: nodeData.title,
+        description: nodeData.description || "",
+        timestamp: nodeData.timestamp || new Date().toISOString(),
+        importance: nodeData.importance || 0,
+        phase: nodeData.phase || "Uncategorized",
+        categories: nodeData.categories || [],
+        tags: nodeData.tags || [],
+        timelineId: nodeData.timelineId,
+      };
+
       const response = await Post(API_BASE_URL, "/Nodes", formattedData);
-
-      if (response.status === 200 || response.status === 201) {
-        toast.success("Node created successfully!");
-        return response.data;
-      }
-
+      toast.success("Node created successfully!");
       return response.data;
     } catch (error) {
-      if (error.response?.data?.message) {
-        throw new Error(error.response.data.message);
-      } else {
-        throw new Error("Failed to create node. Please try again.");
-      }
+      const errorMessage =
+        error.response?.data?.message || "Failed to create node";
+      toast.error(errorMessage);
+      throw new Error(errorMessage);
     }
   }
 
   /**
    * Get all nodes with pagination
-   * @returns {Promise<Object>} - { items: [] }
+   * @param {number} pageIndex - The page index (default: 0)
+   * @param {number} pageSize - The number of items per page (default: 10)
+   * @returns {Promise<Object>} - { items: [], totalCount: 0, totalPages: 0 }
    */
-  static async getAllNodes() {
+  static async getAllNodes(pageIndex = 0, pageSize = 10) {
     try {
-      const response = await getAll(API_BASE_URL, "/Nodes");
+      const response = await getAll(
+        API_BASE_URL,
+        "/Nodes",
+        pageIndex,
+        pageSize
+      );
 
       return {
         items: response.nodes?.data || [],
+        totalCount: response.nodes?.count || 0,
+        totalPages: Math.ceil((response.nodes?.count || 0) / pageSize),
       };
     } catch (error) {
-      let errorMessage = "Failed to fetch nodes";
-
-      if (error.response) {
-        if (error.response.status === 404) {
-          errorMessage = "No nodes found";
-        } else if (error.response.data?.message) {
-          errorMessage = error.response.data.message;
-        }
-      }
-
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch nodes";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -78,9 +73,9 @@ class NodeService {
   /**
    * Get nodes by timeline ID
    * @param {string} timelineId - Parent timeline ID
-   * @param {number} pageIndex - Pagination index
-   * @param {number} pageSize - Items per page
-   * @returns {Promise<Object>} - { items: [], totalCount: 0 }
+   * @param {number} pageIndex - Pagination index (default: 0)
+   * @param {number} pageSize - Items per page (default: 10)
+   * @returns {Promise<Object>} - { items: [], totalCount: 0, totalPages: 0 }
    */
   static async getNodesByTimeline(timelineId, pageIndex = 0, pageSize = 10) {
     try {
@@ -97,16 +92,8 @@ class NodeService {
         totalPages: Math.ceil((response.nodes?.count || 0) / pageSize),
       };
     } catch (error) {
-      let errorMessage = "Failed to fetch timeline nodes";
-
-      if (error.response) {
-        if (error.response.status === 404) {
-          errorMessage = "No nodes found for this timeline";
-        } else if (error.response.data?.message) {
-          errorMessage = error.response.data.message;
-        }
-      }
-
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch timeline nodes";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -120,18 +107,10 @@ class NodeService {
   static async getNodeById(id) {
     try {
       const response = await getById(API_BASE_URL, "/Nodes/", id);
-      return response.node || response; // Adapt based on your API response structure
+      return response.node || response;
     } catch (error) {
-      let errorMessage = "Failed to fetch node";
-
-      if (error.response) {
-        if (error.response.status === 404) {
-          errorMessage = "Node not found";
-        } else if (error.response.data?.message) {
-          errorMessage = error.response.data.message;
-        }
-      }
-
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch node";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -149,16 +128,8 @@ class NodeService {
       toast.success("Node updated successfully!");
       return response.data;
     } catch (error) {
-      let errorMessage = "Failed to update node";
-
-      if (error.response) {
-        if (error.response.status === 404) {
-          errorMessage = "Node not found";
-        } else if (error.response.data?.message) {
-          errorMessage = error.response.data.message;
-        }
-      }
-
+      const errorMessage =
+        error.response?.data?.message || "Failed to update node";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -172,22 +143,11 @@ class NodeService {
   static async deleteNode(id) {
     try {
       const response = await deleteById(API_BASE_URL, "/Nodes/", id);
-
-      if (response) {
-        toast.success("Node deleted successfully!");
-        return response;
-      }
+      toast.success("Node deleted successfully!");
+      return response;
     } catch (error) {
-      let errorMessage = "Failed to delete node";
-
-      if (error.response) {
-        if (error.response.status === 404) {
-          errorMessage = "Node not found";
-        } else if (error.response.data?.message) {
-          errorMessage = error.response.data.message;
-        }
-      }
-
+      const errorMessage =
+        error.response?.data?.message || "Failed to delete node";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
