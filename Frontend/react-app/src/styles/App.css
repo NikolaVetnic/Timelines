@@ -96,9 +96,9 @@ h6 {
 .bug-report-button {
   position: fixed;
   top: 20px;
-  right: calc(70%);
-  width: 60px;
-  height: 60px;
+  transform: translateX(-50%);
+  width: 47px;
+  height: 47px;
   border-radius: 50%;
   background-color: var(--enmOrange);
   color: white;
@@ -145,7 +145,11 @@ h6 {
 
 @media (max-width: 900px) {
   .bug-report-button {
-    left: 30px;
-    top: 140px;
+    right: 30px;
+    top: 50px;
+  }
+
+  .app-content {
+    padding: 5px;
   }
 }
