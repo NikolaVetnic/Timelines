@@ -12,6 +12,7 @@ public interface IFilesService
     Task<long> CountFileAssetsAsync(CancellationToken cancellationToken);
 
     Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken);
+    Task DeleteFiles(NodeId nodeId, IEnumerable<FileAssetId> fileAssetIds, CancellationToken cancellationToken);
 
     Task<List<FileAssetBaseDto>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 }

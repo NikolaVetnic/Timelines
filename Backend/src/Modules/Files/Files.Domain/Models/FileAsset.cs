@@ -7,9 +7,6 @@ namespace Files.Domain.Models;
 
 public class FileAsset : Aggregate<FileAssetId>
 {
-    //private readonly List<string> _sharedWith = [];
-    //public IReadOnlyList<string> SharedWith => _sharedWith.AsReadOnly();
-
     public List<string> SharedWith { get; set; } = [];
 
     public required string Name { get; set; }
@@ -59,6 +56,7 @@ public class FileAsset : Aggregate<FileAssetId>
     }
 
     #endregion
+
     #region ShadredWith
     private void AddPerson(string person)
     {
@@ -68,5 +66,6 @@ public class FileAsset : Aggregate<FileAssetId>
     {
         SharedWith.Remove(person);
     }
+
     #endregion
 }

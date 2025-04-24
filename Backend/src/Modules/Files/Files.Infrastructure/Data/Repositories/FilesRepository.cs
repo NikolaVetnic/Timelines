@@ -45,6 +45,16 @@ public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task DeleteFileAssets(IEnumerable<FileAssetId> fileAssetIds, CancellationToken cancellationToken)
+    {
+        var fileAssetsToDelete = await dbContext.FileAssets
+            .Where(f => fileAssetIds.Contains(f.Id))
+            .ToListAsync(cancellationToken);
+
+        dbContext.FileAssets.RemoveRange(fileAssetsToDelete);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<IEnumerable<FileAsset>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets

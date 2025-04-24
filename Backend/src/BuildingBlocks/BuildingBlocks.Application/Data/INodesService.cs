@@ -23,4 +23,5 @@ public interface INodesService
 
     Task AddFileAsset(NodeId nodeId, FileAssetId fileAssetId, CancellationToken cancellationToken);
     Task RemoveFileAsset(NodeId nodeId, FileAssetId fileAssetId, CancellationToken cancellationToken);
+    Task RemoveFileAssets(NodeId nodeId, IEnumerable<FileAssetId> fileAssetIds, CancellationToken cancellationToken);
 }

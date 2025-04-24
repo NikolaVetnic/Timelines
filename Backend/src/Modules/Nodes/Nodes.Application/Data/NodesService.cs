@@ -141,5 +141,15 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
 
+    public async Task RemoveFileAssets(NodeId nodeId, IEnumerable<FileAssetId> fileAssetIds, CancellationToken cancellationToken)
+    {
+        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+
+        foreach (var fileAssetId in fileAssetIds)
+            node.RemoveFileAsset(fileAssetId);
+
+        await nodesRepository.UpdateNodeAsync(node, cancellationToken);
+    }
+
     #endregion
 }

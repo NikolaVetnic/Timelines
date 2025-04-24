@@ -11,6 +11,7 @@ public interface IFilesRepository
     Task<long> FileAssetCountAsync(CancellationToken cancellationToken);
 
     Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken);
+    Task DeleteFileAssets(IEnumerable<FileAssetId> fileAssetIds, CancellationToken cancellationToken);
 
     Task<IEnumerable<FileAsset>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 }
