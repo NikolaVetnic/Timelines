@@ -14,13 +14,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Modules\Authentication\Authentication.Domain\Authentication.Domain.csproj" />
-        <ProjectReference Include="..\..\..\Modules\Authentication\Authentication.Infrastructure\Authentication.Infrastructure.csproj" />
         <ProjectReference Include="..\..\..\Modules\Files\Files.Api\Files.Api.csproj" />
         <ProjectReference Include="..\..\..\Modules\Nodes\Nodes.Api\Nodes.Api.csproj" />
         <ProjectReference Include="..\..\..\Modules\Notes\Notes.Api\Notes.Api.csproj" />
         <ProjectReference Include="..\..\..\Modules\Reminders\Reminders.Api\Reminders.Api.csproj" />
         <ProjectReference Include="..\..\..\Modules\Timelines\Timelines.Api\Timelines.Api.csproj" />
+        <ProjectReference Include="..\..\..\Modules\Users\Users.Domain\Users.Domain.csproj" />
+        <ProjectReference Include="..\..\..\Modules\Users\Users.Infrastructure\Users.Infrastructure.csproj" />
         <ProjectReference Include="..\..\..\Sdk\Core.Api.Sdk\Core.Api.Sdk.csproj" />
     </ItemGroup>
 

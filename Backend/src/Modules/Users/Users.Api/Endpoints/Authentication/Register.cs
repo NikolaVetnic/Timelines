@@ -1,11 +1,11 @@
-﻿using Authentication.Domain.Models;
+﻿using Users.Domain.Models;
 using Carter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
 
-namespace Authentication.Api.Endpoints.Authentication;
+namespace Users.Api.Endpoints.Authentication;
 
 public class Register : ICarterModule
 {
