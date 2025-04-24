@@ -29,6 +29,7 @@ public class CreateBugReport : ICarterModule
     }
 }
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public record CreateBugReportRequest
 {
     public string Title { get; set; }
@@ -36,4 +37,5 @@ public record CreateBugReportRequest
     public string ReporterName { get; set; }
 }
 
+// ReSharper disable once NotAccessedPositionalProperty.Global
 public record CreateBugReportResponse(BugReportId Id);
