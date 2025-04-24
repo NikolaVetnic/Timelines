@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Files.Application.Data;
 
-public class FilesService(IFilesRepository filesRepository, IServiceProvider serviceProvider) : IFilesService
+public class FilesService(IServiceProvider serviceProvider, IFilesRepository filesRepository) : IFilesService
 {
     public async Task<FileAssetDto> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken)
     {
@@ -26,5 +26,15 @@ public class FilesService(IFilesRepository filesRepository, IServiceProvider ser
         var fileBaseDto = file.Adapt<FileAssetBaseDto>();
 
         return fileBaseDto;
+    }
+
+    public async Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)
+    {
+        var fileAsset = await filesRepository.GetFileAssetByIdAsync(fileAssetId, cancellationToken);
+
+        var nodeService = serviceProvider.GetRequiredService<INodesService>();
+        await nodeService.RemoveFileAsset(fileAsset.NodeId, fileAssetId, cancellationToken);
+
+        await filesRepository.DeleteFileAsset(fileAssetId, cancellationToken);
     }
 }

@@ -19,4 +19,13 @@ public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
         dbContext.FileAssets.Update(fileAsset);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)
+    {
+        var fileAssetToDelete = await dbContext.FileAssets
+            .FirstAsync(f => f.Id == fileAssetId, cancellationToken);
+
+        dbContext.FileAssets.Remove(fileAssetToDelete);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
 }
