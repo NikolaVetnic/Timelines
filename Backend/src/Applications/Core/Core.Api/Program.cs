@@ -1,3 +1,5 @@
+using Authentication.Domain.Models;
+using Authentication.Infrastructure.Data;
 using BuildingBlocks.Application.Exceptions.Handlers;
 using BuildingBlocks.Domain;
 using BuildingBlocks.Infrastructure.Extensions;
@@ -7,6 +9,7 @@ using Core.Api.Sdk;
 using Core.Api.Sdk.Interfaces;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +40,15 @@ builder.Services.AddCors(options =>
                 .AllowAnyHeader();
         });
 });
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+    {
+        options.Password.RequireDigit = false;
+        options.Password.RequiredLength = 3;
+        options.SignIn.RequireConfirmedEmail = false;
+    })
+    .AddEntityFrameworkStores<AuthenticationDbContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
