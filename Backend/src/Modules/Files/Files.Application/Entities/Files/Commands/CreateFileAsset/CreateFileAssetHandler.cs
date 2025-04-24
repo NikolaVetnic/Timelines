@@ -9,6 +9,7 @@ internal class CreateFileAssetHandler(IFilesDbContext dbContext, INodesService n
     public async Task<CreateFileAssetResult> Handle(CreateFileAssetCommand command, CancellationToken cancellationToken)
     {
         var fileAsset = command.ToFileAsset();
+
         dbContext.FileAssets.Add(fileAsset);
         await dbContext.SaveChangesAsync(cancellationToken);
 

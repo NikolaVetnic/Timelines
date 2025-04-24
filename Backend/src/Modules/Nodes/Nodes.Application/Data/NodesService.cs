@@ -135,6 +135,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
         node.AddFileAsset(fileAssetId);
+
         await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
 
