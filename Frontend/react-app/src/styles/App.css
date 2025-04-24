@@ -2,62 +2,62 @@
 
 /* Define global color variables */
 :root {
-    --enmOrange: #e76a29;
-    --enmBlue: #1d377f;
-    --enmGray: #908f8f;
-    --backgroundHeader: #007bff;
-    --noteHeader: #E5FFDE;
-    --remindersHeader: #475B5A;
-    --filesHeader: #DDC4DD;
-    --success: #4cae4c;
-    --error: #c9302c;
-    --backgroundStripe: #333;
+  --enmOrange: #e76a29;
+  --enmBlue: #1d377f;
+  --enmGray: #908f8f;
+  --backgroundHeader: #007bff;
+  --noteHeader: #e5ffde;
+  --remindersHeader: #475b5a;
+  --filesHeader: #ddc4dd;
+  --success: #4cae4c;
+  --error: #c9302c;
+  --backgroundStripe: #333;
 }
 
 /* Body Styling */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: var(--enmGray);
-    color: var(--backgroundStripe);
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    height: 100%;
+  font-family: "Arial", sans-serif;
+  background-color: var(--enmGray);
+  color: var(--backgroundStripe);
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
 }
 
 /* App Container Styling */
 .app-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-    height: 100vh;
-    background-color: var(--enmGray);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--enmGray);
 }
 
 /* White Active Area */
 .app-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 800px;
-    background-color: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 0 auto;
-    height: 100%;
-    overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 800px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 0 auto;
+  height: 100%;
+  overflow-y: auto;
 }
 
 /* Links */
 a {
-    color: var(--enmBlue);
-    text-decoration: none;
-    transition: color 0.3s ease;
+  color: var(--enmBlue);
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 a:hover {
-    color: #14265e;
+  color: #14265e;
 }
 
 /* Headings */
@@ -67,6 +67,61 @@ h3,
 h4,
 h5,
 h6 {
-    color: var(--enmBlue);
-    margin: 0;
+  color: var(--enmBlue);
+  margin: 0;
+}
+
+/* Bug Report Button Styles - More Prominent */
+.bug-report-button {
+  position: fixed;
+  top: 20px;
+  right: calc(50% - 500px);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--enmOrange);
+  color: white;
+  border: 3px solid white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  animation: pulse 2s infinite;
+}
+
+.bug-report-button:hover {
+  background-color: #d45a1f;
+  transform: scale(1.15) rotate(10deg);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.bug-report-button:active {
+  transform: scale(0.95);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(231, 106, 41, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(231, 106, 41, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(231, 106, 41, 0);
+  }
+}
+
+.bug-report-button svg {
+  width: 28px;
+  height: 28px;
+}
+
+@media (max-width: 900px) {
+  .bug-report-button {
+    right: 30px;
+  }
 }
