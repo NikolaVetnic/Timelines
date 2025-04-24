@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Files.File.Dtos;
 using BuildingBlocks.Domain.Files.File.ValueObjects;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Files.Application.Data.Abstractions;
 using Files.Application.Entities.Files.Extensions;
 using Mapster;
@@ -57,5 +58,13 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
         await _nodesService.RemoveFileAsset(fileAsset.NodeId, fileAssetId, cancellationToken);
 
         await filesRepository.DeleteFileAsset(fileAssetId, cancellationToken);
+    }
+
+    public async Task<List<FileAssetBaseDto>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        var fileAssets = await filesRepository.GetFileAssetsBaseBelongingToNodeIdsAsync(nodeIds, cancellationToken);
+        var fileAssetBaseDtos = fileAssets.Adapt<List<FileAssetBaseDto>>();
+
+        return fileAssetBaseDtos;
     }
 }

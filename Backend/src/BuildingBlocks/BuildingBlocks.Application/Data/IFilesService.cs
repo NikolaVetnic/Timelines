@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.Domain.Files.File.Dtos;
 using BuildingBlocks.Domain.Files.File.ValueObjects;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 
 namespace BuildingBlocks.Application.Data;
 
@@ -11,4 +12,6 @@ public interface IFilesService
     Task<long> CountFileAssetsAsync(CancellationToken cancellationToken);
 
     Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken);
+
+    Task<List<FileAssetBaseDto>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 }
