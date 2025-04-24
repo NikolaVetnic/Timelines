@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Domain.Files.File.ValueObjects;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 
 namespace Files.Application.Data.Abstractions;
 
@@ -10,4 +11,6 @@ public interface IFilesRepository
     Task<long> FileAssetCountAsync(CancellationToken cancellationToken);
 
     Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken);
+
+    Task<IEnumerable<FileAsset>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 }

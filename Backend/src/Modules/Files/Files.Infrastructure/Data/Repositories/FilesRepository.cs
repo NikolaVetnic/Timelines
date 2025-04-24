@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Domain.Files.File.ValueObjects;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Files.Application.Data.Abstractions;
 using Files.Application.Entities.Files.Exceptions;
 
@@ -42,5 +43,13 @@ public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
 
         dbContext.FileAssets.Remove(fileAssetToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<FileAsset>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        return await dbContext.FileAssets
+            .AsNoTracking()
+            .Where(f => nodeIds.Contains(f.NodeId))
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 }
