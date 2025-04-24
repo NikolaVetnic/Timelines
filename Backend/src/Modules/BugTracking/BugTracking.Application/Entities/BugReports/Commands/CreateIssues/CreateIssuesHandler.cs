@@ -50,9 +50,10 @@ public class CreateIssuesHandler(IBugTrackingDbContext dbContext, IConfiguration
 
             bugReport.IsProcessed = response.IsSuccessStatusCode;
 
-            responses.Add($"{bugReport.Id}");
+            if (bugReport.IsProcessed)
+                responses.Add($"{bugReport.Id}");
         }
-        
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return new CreateIssuesResult(responses);
