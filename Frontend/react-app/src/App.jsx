@@ -1,4 +1,4 @@
-import { default as React,  useState } from "react";
+import { default as React, useState } from "react";
 import { FaBug } from "react-icons/fa";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { ToastContainer } from "react-toastify";
@@ -35,7 +35,7 @@ function App() {
       </button>
 
       {isBugReportOpen && (
-        <BugReportModal setIsBugReportOpen={setIsBugReportOpen} />
+        <BugReportModal isOpen={isBugReportOpen} onClose={() => setIsBugReportOpen(false)} />
       )}
       </div>
     </BrowserRouter>

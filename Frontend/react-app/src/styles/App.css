@@ -96,7 +96,7 @@ h6 {
 .bug-report-button {
   position: fixed;
   top: 20px;
-  right: calc(50% - 550px);
+  right: calc(70%);
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -108,7 +108,7 @@ h6 {
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
+  z-index: 10000;
   transition: all 0.3s ease;
   font-weight: bold;
   animation: pulse 2s infinite;
@@ -145,6 +145,7 @@ h6 {
 
 @media (max-width: 900px) {
   .bug-report-button {
-    right: 30px;
+    left: 30px;
+    top: 140px;
   }
 }
