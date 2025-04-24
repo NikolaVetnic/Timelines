@@ -1,3 +1,4 @@
+using BugTracking.Api.Extensions;
 using Files.Api.Extensions;
 using Nodes.Api.Extensions;
 using Notes.Api.Extensions;
@@ -10,6 +11,7 @@ public static class ModuleExtensions
 {
     public static IServiceCollection AddModules(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddBugTrackingModule(configuration);
         services.AddFilesModule(configuration);
         services.AddNodesModule(configuration);
         services.AddNotesModule(configuration);
@@ -21,6 +23,7 @@ public static class ModuleExtensions
 
     public static IEndpointRouteBuilder UseModules(this IEndpointRouteBuilder endpoints)
     {
+        endpoints.UseBugTrackingModule();
         endpoints.UseFilesModule();
         endpoints.UseNodesModule();
         endpoints.UseNotesModule();

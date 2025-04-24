@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@uiw/react-md-editor": "^4.0.5",
-    "axios": "^1.7.9",
+    "axios": "^1.8.4",
     "browserify-zlib": "^0.2.0",
     "cra-template": "1.2.0",
     "date-fns": "^4.1.0",
