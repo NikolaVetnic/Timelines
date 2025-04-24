@@ -28,6 +28,7 @@ const Timeline = () => {
   const [showDeleteModal, setDeleteModal] = useState(false);
   const [selectedNodes, setSelectedNodes] = useState([]);
   const [nodesToDelete, setNodesToDelete] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
 
   const fetchTimeline = useCallback(async () => {
     const response = await TimelineService.getTimelineById(id);
@@ -54,11 +55,21 @@ const Timeline = () => {
   }, [timeline]);
 
   useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.width <= 768);
+    };
+    
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
+  useEffect(() => {
     if (nodesRendered && nodesRef.current.length > 0) {
-      const newStyle = recalculateStrip(nodesRef);
+      const newStyle = recalculateStrip(nodesRef, isMobile);
       setStripStyle(newStyle);
     }
-  }, [nodesRendered, timeline, updateStrip]);
+  }, [nodesRendered, timeline, updateStrip, isMobile]);
 
   const handleSelectNode = (nodeId) => {
     setSelectedNodes((prev) => [...prev, nodeId]);
