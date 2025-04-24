@@ -94,6 +94,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timelines.Integration", "Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.Infrastructure", "BuildingBlocks\BuildingBlocks.Infrastructure\BuildingBlocks.Infrastructure.csproj", "{D08117BF-C399-4F14-8BC3-5FED819DE548}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Api", "Modules\Authentication\Authentication.Api\Authentication.Api.csproj", "{0C7DB735-5C0A-4BA3-AB85-35E318051AA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Domain", "Modules\Authentication\Authentication.Domain\Authentication.Domain.csproj", "{3E8A40F0-7F5F-4F00-93DC-411D02F306EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Infrastructure", "Modules\Authentication\Authentication.Infrastructure\Authentication.Infrastructure.csproj", "{8F44169C-3512-48F7-8275-16AC96CAEC97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,10 +112,6 @@ Global
 		{AF1F5E35-1316-45C4-9297-28FF636DA936}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF1F5E35-1316-45C4-9297-28FF636DA936}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF1F5E35-1316-45C4-9297-28FF636DA936}.Release|Any CPU.Build.0 = Release|Any CPU
-		{93F99C79-AF94-4DAB-924F-355D3BF072F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93F99C79-AF94-4DAB-924F-355D3BF072F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93F99C79-AF94-4DAB-924F-355D3BF072F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93F99C79-AF94-4DAB-924F-355D3BF072F1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{75DBE5F4-2AC8-40ED-B9FF-EDC0162B8414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{75DBE5F4-2AC8-40ED-B9FF-EDC0162B8414}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75DBE5F4-2AC8-40ED-B9FF-EDC0162B8414}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -220,6 +224,18 @@ Global
 		{D08117BF-C399-4F14-8BC3-5FED819DE548}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D08117BF-C399-4F14-8BC3-5FED819DE548}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D08117BF-C399-4F14-8BC3-5FED819DE548}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C7DB735-5C0A-4BA3-AB85-35E318051AA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C7DB735-5C0A-4BA3-AB85-35E318051AA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C7DB735-5C0A-4BA3-AB85-35E318051AA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C7DB735-5C0A-4BA3-AB85-35E318051AA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E8A40F0-7F5F-4F00-93DC-411D02F306EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E8A40F0-7F5F-4F00-93DC-411D02F306EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E8A40F0-7F5F-4F00-93DC-411D02F306EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E8A40F0-7F5F-4F00-93DC-411D02F306EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F44169C-3512-48F7-8275-16AC96CAEC97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F44169C-3512-48F7-8275-16AC96CAEC97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F44169C-3512-48F7-8275-16AC96CAEC97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F44169C-3512-48F7-8275-16AC96CAEC97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -263,5 +279,12 @@ Global
 		{EB66444D-5810-4BF4-9E06-84F8EFD94416} = {FC2E36AE-2129-4B8B-890F-0090F296AA3F}
 		{A7233786-83EC-480E-9ADC-FB1104259D0D} = {EB66444D-5810-4BF4-9E06-84F8EFD94416}
 		{D08117BF-C399-4F14-8BC3-5FED819DE548} = {0224C1F2-CC52-4048-87F2-B9D12499AAC9}
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {976D1F59-925A-47B5-90BA-1B09AB1481B0}
+		{0C7DB735-5C0A-4BA3-AB85-35E318051AA7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{3E8A40F0-7F5F-4F00-93DC-411D02F306EB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{8F44169C-3512-48F7-8275-16AC96CAEC97} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0F26D823-FBA6-47C8-8F84-33AA59A61C68}
 	EndGlobalSection
 EndGlobal
