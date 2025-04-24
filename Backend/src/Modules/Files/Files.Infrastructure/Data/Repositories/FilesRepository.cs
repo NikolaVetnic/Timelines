@@ -6,6 +6,16 @@ namespace Files.Infrastructure.Data.Repositories;
 
 public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
 {
+    public async Task<List<FileAsset>> ListFileAssetsPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        return await dbContext.FileAssets
+            .AsNoTracking()
+            .OrderBy(n => n.CreatedBy)
+            .Skip(pageSize * pageIndex)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken: cancellationToken);
+    }
+
     public async Task<FileAsset> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets
@@ -18,6 +28,11 @@ public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
     {
         dbContext.FileAssets.Update(fileAsset);
         await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<long> FileAssetCountAsync(CancellationToken cancellationToken)
+    {
+        return await dbContext.FileAssets.LongCountAsync(cancellationToken);
     }
 
     public async Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)
