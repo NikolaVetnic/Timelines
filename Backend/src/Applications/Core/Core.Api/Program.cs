@@ -14,6 +14,15 @@ using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+    {
+        options.Password.RequireDigit = false;
+        options.Password.RequiredLength = 3;
+        options.SignIn.RequireConfirmedEmail = false;
+    })
+    .AddEntityFrameworkStores<AuthenticationDbContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddControllers();
 builder.Services.AddSwaggerDocumentation();
 
@@ -40,15 +49,6 @@ builder.Services.AddCors(options =>
                 .AllowAnyHeader();
         });
 });
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-    {
-        options.Password.RequireDigit = false;
-        options.Password.RequiredLength = 3;
-        options.SignIn.RequireConfirmedEmail = false;
-    })
-    .AddEntityFrameworkStores<AuthenticationDbContext>()
-    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
