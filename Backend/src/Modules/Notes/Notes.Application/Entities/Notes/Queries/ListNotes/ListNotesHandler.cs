@@ -23,4 +23,3 @@ internal class ListNotesHandler(INotesService notesService) : IQueryHandler<List
                 notes));
     }
 }
-// This code is part of the Notes module in a modular monolith application.
