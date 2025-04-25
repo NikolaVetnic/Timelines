@@ -8,6 +8,7 @@ namespace Notes.Infrastructure.Data.Repositories;
 public class NotesRepository(INotesDbContext dbContext) : INotesRepository
 {
     #region List
+
     public async Task<List<Note>> ListNotesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.Notes
@@ -26,6 +27,7 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
     #endregion
 
     #region Get
+
     public async Task<Note> GetNoteByIdAsync(NoteId noteId, CancellationToken cancellationToken)
     {
         return await dbContext.Notes
@@ -41,6 +43,7 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
             .Where(n => noteIds.Contains(n.Id))
             .ToListAsync(cancellationToken);
     }
+
     #endregion
 
     public async Task UpdateNoteAsync(Note note, CancellationToken cancellationToken)
