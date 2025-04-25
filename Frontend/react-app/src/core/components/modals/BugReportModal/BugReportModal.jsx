@@ -4,7 +4,7 @@ import Modal from "./Modal/Modal";
 import { toast } from "react-toastify";
 import "./BugReportModal.css";
 
-const apiUrl = "http://localhost:26000";
+const apiUrl = "http://localhost/api";
 const exactPath = "/BugReports";
 
 const BugReportModal = ({ setIsBugReportOpen }) => {
