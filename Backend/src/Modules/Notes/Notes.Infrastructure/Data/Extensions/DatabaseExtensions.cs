@@ -19,6 +19,7 @@ public static class DatabaseExtensions
     {
         if (await context.Notes.AnyAsync())
             return;
+
         await context.AddRangeAsync(InitialData.Notes);
         await context.SaveChangesAsync();
     }
