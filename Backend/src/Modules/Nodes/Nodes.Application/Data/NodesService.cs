@@ -22,6 +22,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     private ITimelinesService TimelinesService => serviceProvider.GetRequiredService<ITimelinesService>();
     private IFilesService FilesService => serviceProvider.GetRequiredService<IFilesService>();
     private INotesService NotesService => serviceProvider.GetRequiredService<INotesService>();
+
     #region List
 
     public async Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
@@ -135,6 +136,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     }
 
     #endregion
+
     public async Task AddReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken)
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
@@ -158,7 +160,6 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
         var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
         await timelinesService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
-        
         
         await nodesRepository.DeleteNode(nodeId, cancellationToken);
     }
