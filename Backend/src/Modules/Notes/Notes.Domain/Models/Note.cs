@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Domain.Notes.Note.Events;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 
 namespace Notes.Domain.Models;
 
