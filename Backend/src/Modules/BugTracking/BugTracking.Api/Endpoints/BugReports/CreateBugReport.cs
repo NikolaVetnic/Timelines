@@ -19,7 +19,7 @@ public class CreateBugReport : ICarterModule
                 var result = await sender.Send(command);
                 var response = result.Adapt<CreateBugReportResult>();
         
-                return Results.Created($"/Files/{response.Id}", response);
+                return Results.Created($"/BugReports/{response.Id}", response);
             })
             .WithName("CreateBugReport")
             .Produces<CreateBugReportResult>(StatusCodes.Status201Created)
@@ -29,6 +29,7 @@ public class CreateBugReport : ICarterModule
     }
 }
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public record CreateBugReportRequest
 {
     public string Title { get; set; }
@@ -36,4 +37,5 @@ public record CreateBugReportRequest
     public string ReporterName { get; set; }
 }
 
+// ReSharper disable once NotAccessedPositionalProperty.Global
 public record CreateBugReportResponse(BugReportId Id);
