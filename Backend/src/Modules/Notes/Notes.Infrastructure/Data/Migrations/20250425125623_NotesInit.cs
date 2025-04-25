@@ -23,7 +23,11 @@ namespace Notes.Infrastructure.Data.Migrations
                     Title = table.Column<string>(type: "text", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Importance = table.Column<int>(type: "integer", nullable: false),
+                    Owner = table.Column<string>(type: "text", nullable: false),
+                    RelatedNotes = table.Column<string>(type: "text", nullable: true),
+                    SharedWith = table.Column<string>(type: "text", nullable: true),
+                    IsPublic = table.Column<bool>(type: "boolean", nullable: false),
+                    NodeId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -33,6 +37,12 @@ namespace Notes.Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Notes", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notes_NodeId",
+                schema: "Notes",
+                table: "Notes",
+                column: "NodeId");
         }
 
         /// <inheritdoc />
