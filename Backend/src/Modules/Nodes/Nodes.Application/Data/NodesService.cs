@@ -177,7 +177,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task RemoveNotes(NodeId nodeId, IEnumerable<NoteId> noteIds, CancellationToken cancellationToken)
     {
-        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        var node = await nodesRepository.GetTrackedNodeByIdAsync(nodeId, cancellationToken);
 
         foreach (var noteId in noteIds)
             node.RemoveNote(noteId);
@@ -210,7 +210,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task RemoveFileAssets(NodeId nodeId, IEnumerable<FileAssetId> fileAssetIds, CancellationToken cancellationToken)
     {
-        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        var node = await nodesRepository.GetTrackedNodeByIdAsync(nodeId, cancellationToken);
 
         foreach (var fileAssetId in fileAssetIds)
             node.RemoveFileAsset(fileAssetId);
