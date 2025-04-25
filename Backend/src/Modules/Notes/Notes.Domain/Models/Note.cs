@@ -1,4 +1,4 @@
-﻿using Notes.Domain.Events;
+﻿using BuildingBlocks.Domain.Notes.Note.Events;
 
 namespace Notes.Domain.Models;
 
@@ -23,7 +23,7 @@ public class Note : Aggregate<NoteId>
             Importance = importance
         };
 
-        note.AddDomainEvent(new NoteCreatedEvent(note));
+        note.AddDomainEvent(new NoteCreatedEvent(note.Id));
 
         return note;
     }
@@ -36,7 +36,7 @@ public class Note : Aggregate<NoteId>
         Timestamp = timestamp;
         Importance = importance;
 
-        AddDomainEvent(new NoteUpdatedEvent(this));
+        AddDomainEvent(new NoteUpdatedEvent(Id));
     }
 
     #endregion
