@@ -11,11 +11,11 @@ namespace Files.Application.Data;
 
 public class FilesService(IServiceProvider serviceProvider, IFilesRepository filesRepository) : IFilesService
 {
-    private readonly INodesService _nodesService = serviceProvider.GetRequiredService<INodesService>();
+    private INodesService NodesService => serviceProvider.GetRequiredService<INodesService>();
 
     public async Task<List<FileAssetDto>> ListFileAssetsPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
-        var nodes = await _nodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
+        var nodes = await NodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
 
         var fileAssets = await filesRepository.ListFileAssetsPaginatedAsync(pageIndex, pageSize, cancellationToken);
 
@@ -32,7 +32,7 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
         var file = await filesRepository.GetFileAssetByIdAsync(fileAssetId, cancellationToken);
         var fileDto = file.Adapt<FileAssetDto>();
 
-        var node = await _nodesService.GetNodeBaseByIdAsync(file.NodeId, cancellationToken);
+        var node = await NodesService.GetNodeBaseByIdAsync(file.NodeId, cancellationToken);
         fileDto.Node = node;
 
         return fileDto;
@@ -55,7 +55,7 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
     {
         var fileAsset = await filesRepository.GetFileAssetByIdAsync(fileAssetId, cancellationToken);
 
-        await _nodesService.RemoveFileAsset(fileAsset.NodeId, fileAssetId, cancellationToken);
+        await NodesService.RemoveFileAsset(fileAsset.NodeId, fileAssetId, cancellationToken);
 
         await filesRepository.DeleteFileAsset(fileAssetId, cancellationToken);
     }
@@ -64,7 +64,7 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
     {
         var input = fileAssetIds.ToList();
 
-        await _nodesService.RemoveFileAssets(nodeId, input, cancellationToken);
+        await NodesService.RemoveFileAssets(nodeId, input, cancellationToken);
 
         await filesRepository.DeleteFileAssets(input, cancellationToken);
     }
