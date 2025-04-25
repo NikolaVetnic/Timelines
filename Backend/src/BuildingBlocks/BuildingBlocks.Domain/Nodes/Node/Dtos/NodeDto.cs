@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using BuildingBlocks.Domain.Files.File.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 
@@ -20,4 +21,6 @@ public class NodeDto(
     [JsonPropertyName("reminders")] public List<ReminderBaseDto> Reminders { get; set; } = [];
 
     [JsonPropertyName("timelines")] public required TimelineBaseDto Timeline { get; set; }
+
+    [JsonPropertyName("fileAssets")] public List<FileAssetBaseDto> FileAssets { get; set; } = [];
 }
