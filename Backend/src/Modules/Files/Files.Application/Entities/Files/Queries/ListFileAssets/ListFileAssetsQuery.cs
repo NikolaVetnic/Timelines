@@ -1,5 +1,5 @@
 ﻿using BuildingBlocks.Application.Pagination;
-using Files.Application.Entities.Files.Dtos;
+using BuildingBlocks.Domain.Files.File.Dtos;
 
 // ReSharper disable ClassNeverInstantiated.Global
 
