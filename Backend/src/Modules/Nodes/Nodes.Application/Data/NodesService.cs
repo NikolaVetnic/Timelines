@@ -72,8 +72,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         return nodeDtos;
     }
 
-    public async Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds,
-        CancellationToken cancellationToken)
+    public async Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         return (await nodesRepository.GetNodesByIdsAsync(nodeIds, cancellationToken)).Select(n => n.ToNodeBaseDto())
             .ToList();
