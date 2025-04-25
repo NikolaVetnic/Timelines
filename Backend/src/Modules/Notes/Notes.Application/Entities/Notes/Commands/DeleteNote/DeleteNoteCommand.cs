@@ -6,7 +6,9 @@ public record DeleteNoteCommand(NoteId Id) : ICommand<DeleteNoteResult>
 {
     public DeleteNoteCommand(string Id) : this(NoteId.Of(Guid.Parse(Id))) { }
 }
+
 public record DeleteNoteResult(bool NoteDeleted);
+
 public class DeleteNoteCommandValidator : AbstractValidator<DeleteNoteCommand>
 {
     public DeleteNoteCommandValidator()
