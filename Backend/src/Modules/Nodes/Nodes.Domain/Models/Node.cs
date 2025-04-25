@@ -7,7 +7,9 @@ using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Nodes.Domain.Models;
+
 // ReSharper disable NullableWarningSuppressionIsUsed
+
 public class Node : Aggregate<NodeId>
 {
     public List<string> Categories { get; set; } = [];
@@ -38,8 +40,10 @@ public class Node : Aggregate<NodeId>
             Importance = importance,
             TimelineId = timelineId
         };
+
         foreach (var category in categories)
             node.AddCategory(category);
+
         foreach (var tag in tags)
             node.AddTag(tag);
 
@@ -51,6 +55,7 @@ public class Node : Aggregate<NodeId>
 
         return node;
     }
+
     public void Update(string title, string description, DateTime timestamp,
         int importance, string phase)
     {
@@ -61,6 +66,7 @@ public class Node : Aggregate<NodeId>
         Phase = phase;
         AddDomainEvent(new NodeUpdatedEvent(Id));
     }
+
     #endregion
 
     #region Categories
@@ -69,21 +75,26 @@ public class Node : Aggregate<NodeId>
     {
         Categories.Add(category);
     }
+
     private void RemoveCategory(string category)
     {
         Categories.Remove(category);
     }
+
     #endregion
 
     #region Tags
+
     private void AddTag(string tag)
     {
         Tags.Add(tag);
     }
+
     private void RemoveTag(string tag)
     {
         Tags.Remove(tag);
     }
+
     #endregion
 
     #region FileAssets
