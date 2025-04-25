@@ -5,6 +5,7 @@ using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Notes.Application.Entities.Notes.Commands.CreateNote;
 
 namespace Notes.Api.Endpoints.Notes;
+
 public class CreateNote : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
@@ -14,6 +15,7 @@ public class CreateNote : ICarterModule
                 var command = request.Adapt<CreateNoteCommand>();
                 var result = await sender.Send(command);
                 var response = result.Adapt<CreateNoteResponse>();
+
                 return Results.Created($"/Notes/{response.Id}", response);
             })
             .WithName("CreateNote")
