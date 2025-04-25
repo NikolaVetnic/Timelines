@@ -8,11 +8,14 @@ public class NotesDbContext(DbContextOptions<NotesDbContext> options)
     : DbContext(options), INotesDbContext
 {
     public DbSet<Note> Notes { get; init; } = null!;
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
         // Specify schema for this module
         builder.HasDefaultSchema("Notes");
+
         // Configure entities
         builder.Entity<Note>(entity =>
         {
