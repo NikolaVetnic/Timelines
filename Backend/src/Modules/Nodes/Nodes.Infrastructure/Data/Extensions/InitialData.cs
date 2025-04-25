@@ -5,6 +5,7 @@ using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 namespace Nodes.Infrastructure.Data.Extensions;
+
 internal static class InitialData
 {
     public static IEnumerable<Node> Nodes =>
