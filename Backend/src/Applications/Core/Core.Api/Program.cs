@@ -32,20 +32,6 @@ builder.Services.AddHealthChecks()
 
 builder.Services.AddHttpClient<ICoreApiClient, CoreApiClient>();
 
-var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigins",
-        policy =>
-        {
-            if (allowedOrigins != null)
-                policy.WithOrigins(allowedOrigins)
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-        });
-});
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -66,8 +52,6 @@ app.UseHealthChecks("/health",
     {
         ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
     });
-
-app.UseCors("AllowSpecificOrigins");
 
 app.Run();
 
