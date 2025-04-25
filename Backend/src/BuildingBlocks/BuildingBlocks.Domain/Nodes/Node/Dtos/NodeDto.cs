@@ -13,10 +13,10 @@ public class NodeDto(
     int importance,
     string phase,
     List<string> categories,
-    List<string> tags)
-    : NodeBaseDto(id, title, description, timestamp, importance, phase, categories, tags)
+    List<string> tags) : NodeBaseDto(id, title, description, timestamp, importance, phase, categories, tags)
 {
     public NodeDto() : this(null, string.Empty, string.Empty, default, default, string.Empty, [], []) { }
+
     [JsonPropertyName("timelines")] public required TimelineBaseDto Timeline { get; set; }
 
     [JsonPropertyName("fileAssets")] public List<FileAssetBaseDto> FileAssets { get; set; } = [];
