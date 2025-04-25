@@ -1,9 +1,7 @@
 ﻿using BuildingBlocks.Application.Pagination;
-using BuildingBlocks.Domain.Notes.Note.Dtos;
 using Notes.Application.Entities.Notes.Queries.ListNotes;
 
 namespace Notes.Api.Endpoints.Notes;
-
 public class ListNotes : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
@@ -23,4 +21,6 @@ public class ListNotes : ICarterModule
     }
 }
 
+// ReSharper disable once ClassNeverInstantiated.Global
+// ReSharper disable once NotAccessedPositionalProperty.Global
 public record ListNotesResponse(PaginatedResult<NoteDto> Notes);

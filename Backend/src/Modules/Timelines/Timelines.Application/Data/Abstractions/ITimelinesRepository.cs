@@ -5,7 +5,7 @@ namespace Timelines.Application.Data.Abstractions;
 
 public interface ITimelinesRepository
 {
-    Task<List<Timeline>> ListTimelinessPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
+    Task<List<Timeline>> ListTimelinesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<long> TimelineCountAsync(CancellationToken cancellationToken);
 
     Task<Timeline> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken);
