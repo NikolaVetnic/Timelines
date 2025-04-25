@@ -7,17 +7,15 @@ namespace Files.Domain.Models;
 
 public class FileAsset : Aggregate<FileAssetId>
 {
-    public List<string> SharedWith { get; set; } = [];
-
     public required string Name { get; set; }
     public required string Description { get; set; }
     public required float Size { get; set; }
     public required EFileType Type { get; set; }
     public required string Owner { get; set; }
     public required byte[] Content { get; set; }
+    public List<string> SharedWith { get; set; } = [];
     public required bool IsPublic { get; set; }
     public required NodeId NodeId { get; set; }
-
 
     #region File
 
