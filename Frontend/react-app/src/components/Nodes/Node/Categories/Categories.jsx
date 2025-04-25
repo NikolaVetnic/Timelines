@@ -1,89 +1,91 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-
-import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
+import Button from "../../../../core/components/buttons/Button/Button";
 import InputStringModal from "../../../../core/components/modals/InputStringModal/InputStringModal";
 import convertStringToColor from "../../../../core/utils/ConvertStringToColor";
-import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
-
+import NodeService from "../../../../services/NodeService";
 import "./Categories.css";
 
-const Categories = ({ timelineId, nodeId, setModalActive }) => {
-    const root = "categories";
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [localCategories, setLocalCategories] = useState([]);
+const Categories = ({
+  nodeId,
+  setModalActive,
+  categories: propCategories,
+  onUpdateCategories,
+}) => {
+  const root = "categories";
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [localCategories, setLocalCategories] = useState(propCategories || []);
+  const [isLoading, setIsLoading] = useState(false);
 
-    // todo: connect to backend
-    useEffect(() => {
-        try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timeline = storedData.find(t => t.id === timelineId);
-            const node = timeline?.nodes.find(n => n.id === nodeId);
-            if (node?.categories) {
-                setLocalCategories(node.categories);
-            }
-        } catch (error) {
-            console.error("Error loading categories:", error);
-        }
-    }, [timelineId, nodeId]);
+  useEffect(() => {
+    setLocalCategories(propCategories || []);
+  }, [propCategories]);
 
-    const setModalState = (isActive) => {
-        setModalOpen(isActive);
-        setModalActive(isActive);
-    };
+  const setModalState = (isActive) => {
+    setModalOpen(isActive);
+    setModalActive(isActive);
+  };
 
-    // todo: connect to backend
-    const updateLocalStorage = (newCategories) => {
-        try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timelineIndex = storedData.findIndex(t => t.id === timelineId);
+  const parseCategoriesInput = (input) => {
+    return input
+      .split(",")
+      .map((cat) => cat.trim())
+      .filter((cat) => cat.length > 0);
+  };
 
-            if (timelineIndex !== -1) {
-                const nodeIndex = storedData[timelineIndex].nodes.findIndex(n => n.id === nodeId);
-                if (nodeIndex !== -1) {
-                    storedData[timelineIndex].nodes[nodeIndex].categories = newCategories;
-                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedData));
-                }
-            }
-        } catch (error) {
-            console.error("Error saving categories:", error);
-        }
-    };
+  const handleSaveCategories = async (categoriesInput) => {
+    setIsLoading(true);
+    const newCategories = parseCategoriesInput(categoriesInput);
 
-    const handleSaveCategories = (newCategories) => {
-        setLocalCategories(newCategories);
-        updateLocalStorage(newCategories);
-        setModalActive(false);
-    };
+    await NodeService.updateNode(nodeId, { categories: newCategories });
 
-    return (
-        <div className={`${root}-container`}>
-            <div>
-                <strong>Categories:</strong>{" "}
-                {localCategories.length > 0 ? (
-                    localCategories.map((category, index) => (
-                        <span
-                            key={index}
-                            className={`${root}-badge`}
-                            style={{ backgroundColor: convertStringToColor(category) }}
-                        >
-                            {category}
-                        </span>
-                    ))
-                ) : (
-                    <span>No Categories Set</span>
-                )}
-            </div>
-            <IconButton onClick={() => setModalState(true)} icon={<CiEdit />} title="Edit" />
-            <InputStringModal
-                isOpen={isModalOpen}
-                onClose={() => setModalState(false)}
-                onSave={handleSaveCategories}
-                initialValue={localCategories.join(", ")}
-                title="Edit Categories"
-            />
-        </div>
-    );
+    setLocalCategories(newCategories);
+
+    if (onUpdateCategories) {
+      onUpdateCategories(newCategories);
+    }
+
+    setIsLoading(false);
+    setModalState(false);
+  };
+
+  return (
+    <div className={`${root}-container`}>
+      <div>
+        <strong>Categories:</strong>{" "}
+        {localCategories.length > 0 ? (
+          localCategories.map((category, index) => (
+            <span
+              key={index}
+              className={`${root}-badge`}
+              style={{ backgroundColor: convertStringToColor(category) }}
+            >
+              {category}
+            </span>
+          ))
+        ) : (
+          <span>No Categories Set</span>
+        )}
+      </div>
+      <Button
+        icon={<CiEdit />}
+        iconOnly
+        variant="info"
+        shape="square"
+        size="little"
+        onClick={() => setModalState(true)}
+      />
+      <InputStringModal
+        isOpen={isModalOpen}
+        onClose={() => setModalState(false)}
+        onSave={handleSaveCategories}
+        initialValue={localCategories.join(", ")}
+        title="Edit Categories"
+        isLoading={isLoading}
+        placeholder="Enter categories, separated by commas"
+      />
+    </div>
+  );
 };
 
 export default Categories;

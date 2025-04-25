@@ -1,74 +1,62 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-
-import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
+import Button from "../../../../core/components/buttons/Button/Button";
 import IntegerModal from "../../../../core/components/modals/IntegerModal/IntegerModal";
-import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
-
+import NodeService from "../../../../services/NodeService";
 import "./Importance.css";
 
-const Importance = ({ timelineId, nodeId, setModalActive }) => {
-    const root = "importance"
-    const [importance, setImportance] = useState(0);
-    const [isModalOpen, setModalOpen] = useState(false);
+const Importance = ({ nodeId, setModalActive, initialValue, onSave }) => {
+  const root = "importance";
+  const [importance, setImportance] = useState(initialValue || 0);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-    // todo: connect to backend
-    useEffect(() => {
-        try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timeline = storedData.find(t => t.id === timelineId);
-            const node = timeline?.nodes.find(n => n.id === nodeId);
-            if (node?.importance !== undefined) {
-                setImportance(node.importance);
-            }
-        } catch (error) {
-            console.error("Error loading importance:", error);
-        }
-    }, [timelineId, nodeId]);
+  useEffect(() => {
+    setImportance(initialValue || 0);
+  }, [initialValue]);
 
-    const setModalState = (isActive) => {
-        setModalOpen(isActive);
-        setModalActive(isActive);
-    };
+  const setModalState = (isActive) => {
+    setModalOpen(isActive);
+    setModalActive(isActive);
+  };
 
-    // todo: connect to backend
-    const updateLocalStorage = (newImportance) => {
-        try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timelineIndex = storedData.findIndex(t => t.id === timelineId);
+  const handleSaveImportance = async (newImportance) => {
+    setIsLoading(true);
+    await NodeService.updateNode(nodeId, { importance: newImportance });
 
-            if (timelineIndex !== -1) {
-                const nodeIndex = storedData[timelineIndex].nodes.findIndex(n => n.id === nodeId);
-                if (nodeIndex !== -1) {
-                    storedData[timelineIndex].nodes[nodeIndex].importance = newImportance;
-                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedData));
-                }
-            }
-        } catch (error) {
-            console.error("Error saving importance:", error);
-        }
-    };
+    setImportance(newImportance);
 
-    const handleSaveImportance = (newImportance) => {
-        setImportance(newImportance);
-        updateLocalStorage(newImportance);
-        setModalState(false);
-    };
+    if (onSave) {
+      onSave(newImportance);
+    }
 
-    return (
-        <div className={`${root}-container`}>
-            <div className={`${root}-content`}>
-                <strong>Importance:</strong> {importance}
-            </div>
-            <IconButton onClick={() => setModalState(true)} icon={<CiEdit />} title="Edit" />
-            <IntegerModal
-                isOpen={isModalOpen}
-                onClose={() => setModalState(false)}
-                onSave={handleSaveImportance}
-                initialValue={importance}
-            />
-        </div>
-    );
+    setIsLoading(false);
+    setModalState(false);
+  };
+
+  return (
+    <div className={`${root}-container`}>
+      <div className={`${root}-content`}>
+        <strong>Importance:</strong> {importance}
+      </div>
+      <Button
+        icon={<CiEdit />}
+        iconOnly
+        variant="info"
+        shape="square"
+        size="little"
+        disabled={isLoading}
+        onClick={() => setModalState(true)}
+      />
+      <IntegerModal
+        isOpen={isModalOpen}
+        onClose={() => setModalState(false)}
+        onSave={handleSaveImportance}
+        initialValue={importance}
+        isLoading={isLoading}
+      />
+    </div>
+  );
 };
 
 export default Importance;

@@ -4,42 +4,88 @@ import NotesList from "../../../../core/components/lists/NotesList/NotesList";
 import CreateNoteModal from "../../../../core/components/modals/CreateNoteModal/CreateNoteModal";
 import NoteEditor from "../../../../core/components/modals/NoteEditorModal/NoteEditorModal";
 import useLocalNotes from "../../../../core/hooks/Note/UseLocalNotes";
-
+// import Pagination from "../../../../core/components/pagination/Pagination";
+import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
 import "./Note.css";
 
 const Note = ({ nodeId, timelineId, onToggle }) => {
   const root = "note";
-  const { notes, setNotes, updateLocalStorage } = useLocalNotes(timelineId, nodeId);
+  const { notes, setNotes, updateLocalStorage } = useLocalNotes(
+    timelineId,
+    nodeId
+  );
   const [isNotesExpanded, setIsNotesExpanded] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
+  const [noteToDelete, setNoteToDelete] = useState(null);
   const [editorContent, setEditorContent] = useState("");
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // todo
+  //   const [currentPage, setCurrentPage] = useState(1);
+  //   const [itemsPerPage, setItemsPerPage] = useState(2);
+  //   const itemsPerPageOptions = [2, 4, 6, 8];
+
+  // useEffect(() => {
+  //   const fetchNotes = async () => {
+  //     if (isNotesExpanded && nodeId) {
+  //       setIsLoading(true);
+  //       try {
+  //         const notesData = await NoteService.getNotesByNode(nodeId);
+  //         setNotes(notesData);
+  //       } finally {
+  //         setIsLoading(false);
+  //       }
+  //     }
+  //   };
+
+  //   fetchNotes();
+  // }, [isNotesExpanded, nodeId]);
+
+  // Calculate paginated notes
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentNotes = notes.slice(indexOfFirstItem, indexOfLastItem);
+  // const totalPages = Math.ceil(notes.length / itemsPerPage);
+
+  // const handlePageChange = (page) => {
+  //   setCurrentPage(page);
+  // };
+
+  // const handleItemsPerPageChange = (size) => {
+  //   setItemsPerPage(size);
+  //   setCurrentPage(1);
+  // };
 
   const toggleNotesSection = () => {
-    setIsNotesExpanded(prev => !prev);
+    setIsNotesExpanded((prev) => !prev);
     onToggle();
   };
 
-  // todo: connect to backend
   const handleSaveNote = () => {
     if (selectedNote) {
-      const updatedNotes = notes.map(note =>
+      const updatedNotes = notes.map((note) =>
         note.id === selectedNote.id ? { ...note, content: editorContent } : note
       );
       setNotes(updatedNotes);
       updateLocalStorage(updatedNotes);
+
+      // todo: uncomment when backend for adding notes is ready
+      // await NoteService.updateNote(selectedNote.id, { content: editorContent });
+      //   const updatedNotes = notes.map((note) =>
+      //     note.id === selectedNote.id ? { ...note, content: editorContent } : note
+      //   );
+      //   setNotes(updatedNotes);
+      //   closeNoteEditor();
     }
     closeNoteEditor();
   };
 
   const handleRemoveNote = (id) => {
-    const updatedNotes = notes.filter(note => note.id !== id);
-    setNotes(updatedNotes);
-    updateLocalStorage(updatedNotes);
-    if (selectedNote?.id === id) {
-      setSelectedNote(null);
-    }
-    setTimeout(onToggle, 0);
+    const note = notes.find((n) => n.id === id);
+    setNoteToDelete(note);
+    setIsDeleteModalOpen(true);
   };
 
   const openNoteEditor = (note) => {
@@ -61,12 +107,59 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
     setTimeout(onToggle, 0);
     setNotes(updatedNotes);
     updateLocalStorage(updatedNotes);
+
+    // todo: add async and uncomment when backend is ready
+    //  const noteWithNodeId = { ...newNote, nodeId };
+    //   await NoteService.createNote(noteWithNodeId);
+    //   const response = await NoteService.getNotesByNode(nodeId);
+    //   setNotes(response.items);
+    //   closeCreateModal();
+    //   onToggle();
+  };
+
+  const confirmDelete = () => {
+    if (noteToDelete) {
+      const updatedNotes = notes.filter((note) => note.id !== noteToDelete.id);
+      setNotes(updatedNotes);
+      updateLocalStorage(updatedNotes);
+
+      if (selectedNote?.id === noteToDelete.id) {
+        setSelectedNote(null);
+      }
+
+      setIsDeleteModalOpen(false);
+      setNoteToDelete(null);
+      setTimeout(onToggle, 0);
+    }
+
+    // todo: add async and uncomment when backend is ready
+    // if (!noteToDelete) return;
+
+    //   await NoteService.deleteNote(noteToDelete.id);
+    //   const updatedNotes = notes.filter((note) => note.id !== noteToDelete.id);
+    //   setNotes(updatedNotes);
+
+    //   if (selectedNote?.id === noteToDelete.id) {
+    //     setSelectedNote(null);
+    //   }
+
+    //   setIsDeleteModalOpen(false);
+    //   setNoteToDelete(null);
+    //   onToggle();
+  };
+
+  const cancelDelete = () => {
+    setIsDeleteModalOpen(false);
+    setNoteToDelete(null);
   };
 
   return (
     <div className={`${root}-section`}>
+      {/*This is a special button */}
       <button
-        className={`${root}-header ${root}-${isNotesExpanded ? "header-opened" : "header-closed"}`}
+        className={`${root}-header ${root}-${
+          isNotesExpanded ? "header-opened" : "header-closed"
+        }`}
         onClick={toggleNotesSection}
       >
         <h4>Notes</h4>
@@ -74,16 +167,44 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
       </button>
 
       {isNotesExpanded && (
-        <NotesList
-          root={root}
-          notes={notes}
-          openCreateModal={openCreateModal}
-          handleRemoveNote={handleRemoveNote}
-          openNoteEditor={openNoteEditor}
-        />
+        <div className={`${root}-content`}>
+          {isLoading ? (
+            <div className={`${root}-loading`}>Loading notes...</div>
+          ) : (
+            <>
+              <NotesList
+                root={root}
+                notes={notes}
+                openCreateModal={openCreateModal}
+                handleRemoveNote={handleRemoveNote}
+                openNoteEditor={openNoteEditor}
+              />
+              {/* {notes.length > 0 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={handlePageChange}
+                  onItemsPerPageChange={handleItemsPerPageChange}
+                  itemsPerPageOptions={itemsPerPageOptions}
+                />
+              )} */}
+            </>
+          )}
+        </div>
       )}
 
-      <CreateNoteModal isOpen={isCreateModalOpen} closeModal={closeCreateModal} saveNote={saveNewNote} />
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+        itemTitle={noteToDelete?.title || "Untitled Note"}
+      />
+      <CreateNoteModal
+        isOpen={isCreateModalOpen}
+        closeModal={closeCreateModal}
+        saveNote={saveNewNote}
+      />
       <NoteEditor
         selectedNote={selectedNote}
         editorContent={editorContent}
