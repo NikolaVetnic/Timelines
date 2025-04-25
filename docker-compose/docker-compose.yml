@@ -4,19 +4,23 @@ services:
     tl-api:
         container_name: tl-api
         image: ${DOCKER_REGISTRY-}tl-api
+        networks:
+            - tl-network
+        depends_on:
+            - tl-database
         build:
             context: ../Backend
             dockerfile: src/Applications/Core/Core.Api/Dockerfile
-        networks:
-            - tl-network
 
     tl-frontend:
         container_name: tl-frontend
         image: ${DOCKER_REGISTRY-}tl-frontend
-        build:
-            context: ../Frontend/react-app
         networks:
             - tl-network
+        depends_on:
+            - tl-api
+        build:
+            context: ../Frontend/react-app
 
     tl-database:
         container_name: tl-database

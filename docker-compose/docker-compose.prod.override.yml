@@ -10,14 +10,10 @@ services:
         restart: unless-stopped
         ports:
             - "80:8080"
-        depends_on:
-            - tl-database
 
     tl-frontend:
         ports:
             - "24000:23000"
-        depends_on:
-            - tl-api
 
     tl-database:
         environment:

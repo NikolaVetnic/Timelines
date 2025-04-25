@@ -10,14 +10,10 @@ services:
         ports:
             - "26000:8080"
             - "26061:8081"
-        depends_on:
-            - tl-database
 
     tl-frontend:
         ports:
             - "24000:23000"
-        depends_on:
-            - tl-api
 
     tl-database:
         environment:
