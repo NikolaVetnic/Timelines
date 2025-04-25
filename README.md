@@ -35,3 +35,10 @@ The services' port numbers are as follows:
 | Core.Db       | `25432`           | `25432`           | `5432`          |
 
 ASP.NET Core ports are listed as HTTP / HTTPS for running application.
+
+When Nginx is on, the components can be accessed as follows:
+
+| Service       | URL             |
+| ------------- | --------------- |
+| Core.Api      | `localhost/api` |
+| Core.Frontend | `localhost`     |
