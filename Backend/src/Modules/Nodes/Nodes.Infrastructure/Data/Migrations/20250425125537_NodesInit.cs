@@ -30,7 +30,11 @@ namespace Nodes.Infrastructure.Data.Migrations
                     Importance = table.Column<int>(type: "integer", nullable: false),
                     ReminderIds = table.Column<string>(type: "text", nullable: true),
                     TimelineId = table.Column<Guid>(type: "uuid", nullable: false),
+<<<<<<<< HEAD:Backend/src/Modules/Nodes/Nodes.Infrastructure/Data/Migrations/20250425125537_NodesInit.cs
                     NoteIds = table.Column<string>(type: "text", nullable: true),
+========
+                    FileAssetIds = table.Column<string>(type: "text", nullable: true),
+>>>>>>>> main:Backend/src/Modules/Nodes/Nodes.Infrastructure/Data/Migrations/20250423124404_NodesInit.cs
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),

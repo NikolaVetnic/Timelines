@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -20,11 +21,15 @@ namespace Files.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    SharedWith = table.Column<List<string>>(type: "text[]", nullable: false),
                     Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Size = table.Column<float>(type: "real", nullable: false),
-                    Type = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Owner = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    Size = table.Column<float>(type: "real", nullable: false),
+                    Type = table.Column<int>(type: "integer", maxLength: 100, nullable: false),
+                    Owner = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Content = table.Column<byte[]>(type: "bytea", nullable: false),
+                    IsPublic = table.Column<bool>(type: "boolean", nullable: false),
+                    NodeId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -34,6 +39,12 @@ namespace Files.Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Files", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Files_NodeId",
+                schema: "Files",
+                table: "Files",
+                column: "NodeId");
         }
 
         /// <inheritdoc />

@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using BuildingBlocks.Domain.Files.File.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Node.Events;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
@@ -19,6 +20,7 @@ public class Node : Aggregate<NodeId>
 
     public List<ReminderId> ReminderIds { get; set; } = [];
     public required TimelineId TimelineId { get; set; }
+    public List<FileAssetId> FileAssetIds { get; set; } = [];
     public List<NoteId> NoteIds { get; set; } = [];
 
     #region Node
@@ -42,6 +44,7 @@ public class Node : Aggregate<NodeId>
             node.AddTag(tag);
 
         node.ReminderIds = [];
+        node.FileAssetIds = [];
         node.NoteIds = [];
 
         node.AddDomainEvent(new NodeCreatedEvent(node.Id));
@@ -69,6 +72,22 @@ public class Node : Aggregate<NodeId>
     {
         if (ReminderIds.Contains(reminderId))
             ReminderIds.Remove(reminderId);
+    }
+
+    #endregion
+
+    #region FileAssets
+
+    public void AddFileAsset(FileAssetId fileAssetId)
+    {
+        if (!FileAssetIds.Contains(fileAssetId))
+            FileAssetIds.Add(fileAssetId);
+    }
+
+    public void RemoveFileAsset(FileAssetId fileAssetId)
+    {
+        if (FileAssetIds.Contains(fileAssetId))
+            FileAssetIds.Remove(fileAssetId);
     }
 
     #endregion
@@ -114,6 +133,10 @@ public class Node : Aggregate<NodeId>
 public class ReminderIdListConverter() : ValueConverter<List<ReminderId>, string>(
     list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),
     json => JsonSerializer.Deserialize<List<ReminderId>>(json, new JsonSerializerOptions()) ?? new List<ReminderId>());
+
+public class FileAssetIdListConverter() : ValueConverter<List<FileAssetId>, string>(
+    list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),
+    json => JsonSerializer.Deserialize<List<FileAssetId>>(json, new JsonSerializerOptions()) ?? new List<FileAssetId>());
 
 public class NoteIdListConverter() : ValueConverter<List<NoteId>, string>(
     list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),

@@ -10,6 +10,13 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Clear and reconfigure configuration sources if needed
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddJsonFile("appsettings.override.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddSwaggerDocumentation();
@@ -24,19 +31,6 @@ builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException());
 
 builder.Services.AddHttpClient<ICoreApiClient, CoreApiClient>();
-
-var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigins",
-        policy =>
-        {
-            policy.WithOrigins(allowedOrigins!)
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-        });
-});
 
 var app = builder.Build();
 
@@ -58,8 +52,6 @@ app.UseHealthChecks("/health",
     {
         ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
     });
-
-app.UseCors("AllowSpecificOrigins");
 
 app.Run();
 

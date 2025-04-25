@@ -4,8 +4,7 @@ using Nodes.Application.Entities.Nodes.Exceptions;
 
 namespace Nodes.Application.Entities.Nodes.Commands.DeleteNode;
 
-public class DeleteNodeHandler(INotesService notesService, INodesRepository nodesRepository)
-    : ICommandHandler<DeleteNodeCommand, DeleteNodeResult>
+public class DeleteNodeHandler(IFilesService filesService, INotesService notesService, INodesRepository nodesRepository) : ICommandHandler<DeleteNodeCommand, DeleteNodeResult>
 {
     public async Task<DeleteNodeResult> Handle(DeleteNodeCommand command, CancellationToken cancellationToken)
     {
@@ -14,6 +13,7 @@ public class DeleteNodeHandler(INotesService notesService, INodesRepository node
         if (node is null)
             throw new NodeNotFoundException(command.Id.ToString());
 
+        await filesService.DeleteFiles(node.Id, node.FileAssetIds, cancellationToken);
         await notesService.DeleteNotes(node.Id, node.NoteIds, cancellationToken);
         await nodesRepository.DeleteNode(command.Id, cancellationToken);
 

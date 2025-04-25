@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using BuildingBlocks.Domain.Files.File.Dtos;
 using Files.Application.Entities.Files.Queries.GetFileAssetById;
 
 namespace Files.Api.Endpoints.Files;
