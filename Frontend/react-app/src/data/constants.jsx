@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:26000";
+const API_BASE_URL = "http://localhost/api";
 
 export default API_BASE_URL;
 export const LOCAL_STORAGE_KEY = "timelineData";
