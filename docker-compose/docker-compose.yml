@@ -7,16 +7,26 @@ services:
         build:
             context: ../Backend
             dockerfile: src/Applications/Core/Core.Api/Dockerfile
+        networks:
+            - tl-network
 
     tl-frontend:
         container_name: tl-frontend
         image: ${DOCKER_REGISTRY-}tl-frontend
         build:
             context: ../Frontend/react-app
+        networks:
+            - tl-network
 
     tl-database:
         container_name: tl-database
         image: postgres
+        networks:
+            - tl-network
+
+networks:
+    tl-network:
+        driver: bridge
 
 volumes:
     timelines_core:
