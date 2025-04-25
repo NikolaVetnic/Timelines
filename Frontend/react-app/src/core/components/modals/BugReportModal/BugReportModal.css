@@ -1,115 +1,101 @@
-/* Bug Report Modal Styles */
-.bug-report-modal {
-  padding: 0%;
-  max-width: 95%;
-  background: white;
+.bug-report-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 15000;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.bug-report-modal-content {
+  background-color: #fff;
+  padding: 30px;
   border-radius: 12px;
+  width: 450px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform: translateY(-20px);
+  animation: slideUp 0.3s ease-out forwards;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
-.modal-header {
-  text-align: center;
+@keyframes slideUp {
+  to {
+    transform: translateY(0);
+  }
+}
+
+.bug-report-modal-header {
   margin-bottom: 25px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
 }
 
-.modal-header h2 {
+.bug-report-modal-header h3 {
   color: var(--enmBlue);
   margin-bottom: 8px;
   font-size: 24px;
 }
 
-.modal-header p {
+.bug-report-modal-header p {
   color: var(--enmGray);
   font-size: 14px;
   margin: 0;
 }
 
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: var(--enmBlue);
-  font-size: 14px;
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  background-color: #f9f9f9;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-  border-color: var(--enmOrange);
-  outline: none;
-  background-color: white;
-  box-shadow: 0 0 0 3px rgba(231, 106, 41, 0.2);
-}
-
-.form-group textarea {
-  resize: vertical;
-  min-height: 120px;
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: #aaa;
-}
-
-.form-actions {
+.bug-report-modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  margin-top: 30px;
+  gap: 10px;
+  margin-top: 20px;
 }
 
-.cancel-btn {
-  padding: 10px 20px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  background: white;
-  color: var(--enmGray);
-  font-weight: 600;
+/* Close button styles (if you want to add an X button) */
+.bug-report-modal-close-x {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 24px;
+  height: 24px;
+  opacity: 0.5;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: opacity 0.2s;
 }
 
-.cancel-btn:hover {
-  border-color: var(--enmGray);
-  color: var(--enmBlue);
+.bug-report-modal-close-x:hover {
+  opacity: 1;
 }
 
-.cancel-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.bug-report-modal-close-x::before,
+.bug-report-modal-close-x::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 2px;
+  background-color: #555;
 }
 
-.submit-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  background: var(--enmOrange);
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.bug-report-modal-close-x::before {
+  transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.submit-btn:hover {
-  background: #d45a1f;
-  transform: translateY(-1px);
-}
-
-.submit-btn:disabled {
-  background: #e0a080;
-  cursor: not-allowed;
-  transform: none;
+.bug-report-modal-close-x::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
 }

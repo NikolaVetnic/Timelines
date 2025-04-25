@@ -1,85 +1,103 @@
 .node-timeline {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    cursor: default;
-    transition: transform 0.3s;
-    position: relative;
-}
-
-.node-timeline {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.3s ease;
+  background-color: var(--enmGray);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  position: relative;
 }
 
 .node-timeline:not(.open):hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .node-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background-color: var(--backgroundHeader);
-    color: #fff;
-    cursor: pointer;
-}
-
-.node-header {
-    color: #fff;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: var(--backgroundHeader);
+  color: #fff;
+  cursor: pointer;
 }
 
 .node-header h3 {
-    margin: 0;
-    color: #eee;
-    font-size: 1.2rem;
+  margin: 0;
+  color: #eee;
+  font-size: 1.2rem;
 }
 
 .node-header span {
-    font-size: 1.7rem;
+  font-size: 1.7rem;
 }
 
 .node-header:hover .editable-title {
-    color: #ddd;
-    transition: color 0.2s ease-in-out;
-}
-
-.node-header:hover .editable-title {
-    color: #ddd;
-    transition: color 0.2s ease-in-out;
+  color: #ddd;
+  transition: color 0.2s ease-in-out;
 }
 
 .node-content {
-    padding: 15px 20px;
-    cursor: default;
-    text-align: left;
+  background-color: var(--backgroundLight);
+  padding: 15px 20px;
+  cursor: default;
+  color: #333;
+  text-align: left;
 }
 
 .node-content img {
-    max-width: 100%;
-    margin-top: 10px;
-    border-radius: 4px;
+  max-width: 100%;
+  margin-top: 10px;
+  border-radius: 4px;
 }
 
-.node-content {
-    background-color: #fff;
-    padding: 15px 20px;
-    color: #333;
-    text-align: left;
+.node-phase {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.node-content img {
-    max-width: 100%;
-    margin-top: 10px;
-    border-radius: 4px;
+.node-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.node-checkbox {
+  width: 1.2rem;
+  height: 1.2rem;
+  cursor: pointer;
+}
+
+.selected {
+  border-left: 3px solid #4caf50;
+  background-color: rgba(76, 175, 80, 0.05);
+}
+
+.timeline-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.timeline-checkbox-container {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.timeline-checkbox {
+  width: 1.2rem;
+  height: 1.2rem;
+  cursor: pointer;
+}
+
+.timeline-list-item {
+  position: relative;
+  padding-top: 2rem;
+}
+
+.node-item.selected {
+  border-color: #e74c3c;
+  background-color: #fff9f9;
 }

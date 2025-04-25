@@ -1,31 +1,12 @@
 .importance-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .importance-content {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.edit-button {
-    background: none;
-    border: none;
-    color: var(--enmOrange);
-    cursor: pointer;
-    padding: 4px;
-    transition: transform 0.2s ease;
-    font-size: 1.2rem;
-}
-
-.edit-button:hover {
-    transform: scale(1.2);
-    color: white
-}
-
-.edit-icon {
-    font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }

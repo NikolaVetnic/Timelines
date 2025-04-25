@@ -1,27 +1,47 @@
-import { useState } from "react";
 import axios from "axios";
-import Modal from "./Modal/Modal";
+import { useState } from "react";
 import { toast } from "react-toastify";
+import Button from "../../buttons/Button/Button";
+import FormField from "../../forms/FormField/FormField";
 import "./BugReportModal.css";
 
 const apiUrl = "http://localhost/api";
 const exactPath = "/BugReports";
 
-const BugReportModal = ({ setIsBugReportOpen }) => {
+const BugReportModal = ({ isOpen, onClose }) => {
     const [bugReport, setBugReport] = useState({
         title: "",
         description: "",
-        reporterName: "Pavle Jurišić",
+        reporterName: "Pavel Jurišiċ",
     });
+    const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleBugReportChange = (e) => {
         const { name, value } = e.target;
         setBugReport((prev) => ({ ...prev, [name]: value }));
+        if (errors[name]) {
+            setErrors((prev) => ({ ...prev, [name]: "" }));
+        }
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+        if (!bugReport.title.trim()) newErrors.title = "Title is required";
+        if (!bugReport.description.trim())
+            newErrors.description = "Description is required";
+        if (!bugReport.reporterName.trim())
+            newErrors.reporterName = "Your name is required";
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleBugReportSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) return;
+
         setIsSubmitting(true);
 
         const data = {
@@ -39,7 +59,7 @@ const BugReportModal = ({ setIsBugReportOpen }) => {
             });
 
             toast.success("Bug report submitted successfully!");
-            setIsBugReportOpen(false);
+            onClose();
             setBugReport({ title: "", description: "", reporterName: "" });
         } catch (error) {
             toast.error(
@@ -50,77 +70,73 @@ const BugReportModal = ({ setIsBugReportOpen }) => {
         }
     };
 
+    if (!isOpen) return null;
+
     return (
-        <Modal onClose={() => !isSubmitting && setIsBugReportOpen(false)}>
-            <div className="bug-report-modal">
-                <div className="modal-header">
-                    <h2>Report a Bug</h2>
+        <div className="bug-report-modal-overlay">
+            <div className="bug-report-modal-content">
+                <div className="bug-report-modal-header">
+                    <h3>Report a Bug</h3>
                     <p>Help us improve by reporting any issues you encounter</p>
                 </div>
 
                 <form onSubmit={handleBugReportSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="title">Title*</label>
-                        <input
-                            type="text"
-                            id="title"
-                            name="title"
-                            value={bugReport.title}
-                            onChange={handleBugReportChange}
-                            placeholder="Brief description of the issue"
-                            required
-                            disabled={isSubmitting}
-                        />
-                    </div>
+                    <FormField
+                        label="Title"
+                        type="text"
+                        name="title"
+                        value={bugReport.title}
+                        onChange={handleBugReportChange}
+                        placeholder="Brief description of the issue"
+                        required
+                        disabled={isSubmitting}
+                        error={errors.title}
+                    />
 
-                    <div className="form-group">
-                        <label htmlFor="reporterName">Your Name*</label>
-                        <input
-                            type="text"
-                            id="reporterName"
-                            name="reporterName"
-                            value={bugReport.reporterName}
-                            onChange={handleBugReportChange}
-                            placeholder="How should we call you?"
-                            required
-                            disabled={isSubmitting}
-                        />
-                    </div>
+                    <FormField
+                        label="Your Name"
+                        type="text"
+                        name="reporterName"
+                        value={bugReport.reporterName}
+                        onChange={handleBugReportChange}
+                        placeholder="How should we call you?"
+                        required
+                        disabled={isSubmitting}
+                        error={errors.reporterName}
+                    />
 
-                    <div className="form-group">
-                        <label htmlFor="description">Description*</label>
-                        <textarea
-                            id="description"
-                            name="description"
-                            value={bugReport.description}
-                            onChange={handleBugReportChange}
-                            rows={5}
-                            placeholder="Please describe the bug in detail..."
-                            required
-                            disabled={isSubmitting}
-                        />
-                    </div>
+                    <FormField
+                        label="Description"
+                        type="textarea"
+                        name="description"
+                        value={bugReport.description}
+                        onChange={handleBugReportChange}
+                        placeholder="Please describe the bug in detail..."
+                        required
+                        disabled={isSubmitting}
+                        error={errors.description}
+                    />
 
-                    <div className="form-actions">
-                        <button
+                    <div className="bug-report-modal-actions">
+                        <Button
                             type="button"
-                            onClick={() => setIsBugReportOpen(false)}
+                            onClick={onClose}
                             disabled={isSubmitting}
-                            className="cancel-btn"
-                        >
-                            Cancel
-                        </button>
-                        <button
+                            variant="secondary"
+                            text="Cancel"
+                        />
+                        <Button
                             type="submit"
                             disabled={isSubmitting}
-                            className="submit-btn"
-                        >
-                            {isSubmitting ? "Submitting..." : "Submit Report"}
-                        </button>
+                            variant="primary"
+                            text={
+                                isSubmitting ? "Submitting..." : "Submit Report"
+                            }
+                        />
                     </div>
                 </form>
             </div>
-        </Modal>
+        </div>
     );
 };
 
