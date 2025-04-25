@@ -1,4 +1,5 @@
-﻿using Notes.Application.Entities.Notes.Exceptions;
+﻿using Notes.Application.Data.Abstractions;
+using Notes.Application.Entities.Notes.Exceptions;
 using Notes.Application.Entities.Notes.Extensions;
 
 namespace Notes.Application.Entities.Notes.Queries.GetNoteById;

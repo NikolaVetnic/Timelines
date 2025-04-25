@@ -1,4 +1,5 @@
-﻿using Notes.Application.Entities.Notes.Exceptions;
+﻿using Notes.Application.Data.Abstractions;
+using Notes.Application.Entities.Notes.Exceptions;
 
 namespace Notes.Application.Entities.Notes.Commands.DeleteNote;
 
