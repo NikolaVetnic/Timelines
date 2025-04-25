@@ -1,4 +1,4 @@
-﻿using Notes.Application.Entities.Notes.Dtos;
+﻿using BuildingBlocks.Domain.Notes.Note.Dtos;
 
 namespace Notes.Application.Entities.Notes.Extensions;
 

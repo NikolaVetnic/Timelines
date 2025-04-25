@@ -1,4 +1,4 @@
-﻿namespace Notes.Application.Entities.Notes.Dtos;
+﻿namespace BuildingBlocks.Domain.Notes.Note.Dtos;
 
 public record NoteDto(
     string Id,
