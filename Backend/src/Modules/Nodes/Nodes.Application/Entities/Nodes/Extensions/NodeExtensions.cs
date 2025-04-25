@@ -20,7 +20,7 @@ public static class NodeExtensions
             node.Tags.ToList());
     }
 
-    public static NodeDto ToNodeDto(this Node node, IEnumerable<ReminderBaseDto> reminders, IEnumerable<FileAssetBaseDto> fileAssets, IEnumerable<NoteBaseDto> notes, TimelineBaseDto timeline)
+    public static NodeDto ToNodeDto(this Node node, TimelineBaseDto timeline, IEnumerable<FileAssetBaseDto> fileAssets, IEnumerable<NoteBaseDto> notes, IEnumerable<ReminderBaseDto> reminders)
     {
         return new NodeDto(
             node.Id.ToString(),
@@ -32,10 +32,10 @@ public static class NodeExtensions
             node.Categories.ToList(),
             node.Tags.ToList())
         {
-            Reminders = reminders.ToList(),
-            FileAssets = fileAssets.ToList(),
             Timeline = timeline,
-            Notes = notes.ToList()
+            FileAssets = fileAssets.ToList(),
+            Notes = notes.ToList(),
+            Reminders = reminders.ToList()
         };
     }
 }

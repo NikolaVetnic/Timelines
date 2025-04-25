@@ -18,10 +18,10 @@ public class Node : Aggregate<NodeId>
     public required DateTime Timestamp { get; set; }
     public required int Importance { get; set; }
 
-    public List<ReminderId> ReminderIds { get; set; } = [];
     public required TimelineId TimelineId { get; set; }
     public List<FileAssetId> FileAssetIds { get; set; } = [];
     public List<NoteId> NoteIds { get; set; } = [];
+    public List<ReminderId> ReminderIds { get; set; } = [];
 
     #region Node
 
@@ -62,18 +62,28 @@ public class Node : Aggregate<NodeId>
         AddDomainEvent(new NodeUpdatedEvent(Id));
     }
     #endregion
-    #region Reminders
-    public void AddReminder(ReminderId reminderId)
-    {
-        if (!ReminderIds.Contains(reminderId))
-            ReminderIds.Add(reminderId);
-    }
-    public void RemoveReminder(ReminderId reminderId)
-    {
-        if (ReminderIds.Contains(reminderId))
-            ReminderIds.Remove(reminderId);
-    }
 
+    #region Categories
+
+    private void AddCategory(string category)
+    {
+        Categories.Add(category);
+    }
+    private void RemoveCategory(string category)
+    {
+        Categories.Remove(category);
+    }
+    #endregion
+
+    #region Tags
+    private void AddTag(string tag)
+    {
+        Tags.Add(tag);
+    }
+    private void RemoveTag(string tag)
+    {
+        Tags.Remove(tag);
+    }
     #endregion
 
     #region FileAssets
@@ -108,26 +118,18 @@ public class Node : Aggregate<NodeId>
 
     #endregion
 
-    #region Categories
+    #region Reminders
+    public void AddReminder(ReminderId reminderId)
+    {
+        if (!ReminderIds.Contains(reminderId))
+            ReminderIds.Add(reminderId);
+    }
+    public void RemoveReminder(ReminderId reminderId)
+    {
+        if (ReminderIds.Contains(reminderId))
+            ReminderIds.Remove(reminderId);
+    }
 
-    private void AddCategory(string category)
-    {
-        Categories.Add(category);
-    }
-    private void RemoveCategory(string category)
-    {
-        Categories.Remove(category);
-    }
-    #endregion
-    #region Tags
-    private void AddTag(string tag)
-    {
-        Tags.Add(tag);
-    }
-    private void RemoveTag(string tag)
-    {
-        Tags.Remove(tag);
-    }
     #endregion
 }
 public class ReminderIdListConverter() : ValueConverter<List<ReminderId>, string>(

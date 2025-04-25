@@ -12,40 +12,37 @@ using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Extensions;
+
 // ReSharper disable NullableWarningSuppressionIsUsed
 namespace Nodes.Application.Data;
 
 public class NodesService(IServiceProvider serviceProvider, INodesRepository nodesRepository) : INodesService
 {
+    private IRemindersService RemindersService => serviceProvider.GetRequiredService<IRemindersService>();
+    private ITimelinesService TimelinesService => serviceProvider.GetRequiredService<ITimelinesService>();
+    private IFilesService FilesService => serviceProvider.GetRequiredService<IFilesService>();
+    private INotesService NotesService => serviceProvider.GetRequiredService<INotesService>();
     #region List
 
     public async Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, cancellationToken);
 
+        var fileAssets = await FilesService
+            .GetFileAssetsBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
+
         var reminders = await RemindersService
             .GetRemindersBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
-        var timelines = await timelinesService
+        var timelines = await TimelinesService
             .GetTimelinesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
         var notes = await NotesService
             .GetNotesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
         var nodeDtos = nodes.Select(n =>
-            n.ToNodeDto(
-                reminders
-                    .Where(r => n.ReminderIds.Select(id => id.ToString()).Contains(r.Id))
-                    .Select(r => new ReminderBaseDto(
-                        id: r.Id!.ToString(),
-                        title: r.Title,
-                        description: r.Description,
-                        dueDateTime: r.DueDateTime,
-                        priority: r.Priority,
-                        notificationTime: r.NotificationTime,
-                        status: r.Status)
-                        )
-                        .ToList(),
+            n.ToNodeDto(timelines
+                .First(t => t.Id == n.TimelineId.ToString()),
                 fileAssets
                     .Where(f => n.FileAssetIds.Select(id => id.ToString()).Contains(f.Id))
                     .Select(f => new FileAssetBaseDto(
@@ -58,10 +55,8 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
                         content: f.Content,
                         isPublic: f.IsPublic,
                         sharedWith: f.SharedWith)
-                        )
-                        .ToList(),
-                timelines
-                    .First(t => t.Id == n.TimelineId.ToString()),
+                    )
+                    .ToList(),
                 notes
                     .Where(r => n.NoteIds.Select(id => id.ToString()).Contains(r.Id))
                     .Select(r => new NoteBaseDto(
@@ -74,7 +69,19 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
                         sharedWith: r.SharedWith,
                         isPublic: r.IsPublic)
                     )
-                    .ToList()
+                    .ToList(),
+                reminders
+                    .Where(r => n.ReminderIds.Select(id => id.ToString()).Contains(r.Id))
+                    .Select(r => new ReminderBaseDto(
+                        id: r.Id!.ToString(),
+                        title: r.Title,
+                        description: r.Description,
+                        dueDateTime: r.DueDateTime,
+                        priority: r.Priority,
+                        notificationTime: r.NotificationTime,
+                        status: r.Status)
+                        )
+                        .ToList()
             )
         ).ToList();
 
@@ -98,15 +105,13 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+
         var timeline = await TimelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
+        var fileAssets = await FilesService.GetFileAssetsBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
+        var notes = await NotesService.GetNotesBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
+        var reminders = await RemindersService.GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
 
-        var reminders = await RemindersService
-            .GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
-
-        var notes = await NotesService
-            .GetNotesBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
-
-        var nodeDto = node.ToNodeDto(reminders, timeline, notes);
+        var nodeDto = node.ToNodeDto(timeline, fileAssets, notes, reminders);
 
         return nodeDto;
     }
@@ -119,11 +124,12 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
 
-        var reminders = await RemindersService.GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
         var timeline = await TimelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
+        var fileAssets = await FilesService.GetFileAssetsBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
         var notes = await NotesService.GetNotesBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
+        var reminders = await RemindersService.GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
 
-        var nodeDto = node.ToNodeDto(reminders, timeline, notes);
+        var nodeDto = node.ToNodeDto(timeline, fileAssets, notes, reminders);
 
         return nodeDto;
     }
@@ -159,10 +165,10 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task DeleteNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
-        
+        var input = nodeIds.ToList();
+
         var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
         await timelinesService.RemoveNodes(timelineId, input, cancellationToken);
-        
         
         await nodesRepository.DeleteNodes(input, cancellationToken);
     }
