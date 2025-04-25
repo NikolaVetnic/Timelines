@@ -45,8 +45,6 @@ app.MapGet("/", BuildingBlocksTestClass.GetTestString);
 app.UseSwaggerDocumentation(app.Environment);
 await app.Services.MigrateAndSeedAllModulesAsync(app.Environment);
 
-app.UseCors("AllowSpecificOrigins");
-
 app.UseExceptionHandler(_ => { });
 
 app.UseHealthChecks("/health",
