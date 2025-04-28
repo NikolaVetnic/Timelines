@@ -205,3 +205,47 @@
     display: none;
   }
 }
+
+/* logout */
+.header-logout-button {
+  background-color: var(--danger);
+  color: white;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.header-logout-button:hover {
+  background-color: var(--dangerHover);
+}
+
+.header-logout-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.timeline-list-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .timeline-list-actions {
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+  }
+
+  .header-logout-button {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}

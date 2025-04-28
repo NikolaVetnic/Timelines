@@ -11,21 +11,21 @@
   --noteHeader: #e5ffde;
   --remindersHeader: #475b5a;
   --filesHeader: #ddc4dd;
-  --primary: #007AFF;
-  --primaryHover: #0062CC;
-  --primaryActive: #0052B3;
-  --secondary: #5E5CE6;
-  --secondaryHover: #4A49D1;
-  --secondaryActive: #3D3CC7;
-  --success: #34C759;
-  --successHover: #2DA44E;
-  --successActive: #258B3D;
-  --danger: #FF3B30;
-  --dangerHover: #E6352B;
-  --dangerActive: #CC2A21;
+  --primary: #007aff;
+  --primaryHover: #0062cc;
+  --primaryActive: #0052b3;
+  --secondary: #5e5ce6;
+  --secondaryHover: #4a49d1;
+  --secondaryActive: #3d3cc7;
+  --success: #34c759;
+  --successHover: #2da44e;
+  --successActive: #258b3d;
+  --danger: #ff3b30;
+  --dangerHover: #e6352b;
+  --dangerActive: #cc2a21;
   --backgroundStripe: #333;
   --white: white;
-  --text: #007AFF;
+  --text: #007aff;
 }
 
 * {
