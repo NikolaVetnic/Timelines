@@ -1,49 +1,49 @@
 ﻿name: timelines
 
 services:
-    tl-api:
-        container_name: tl-api
-        image: ${DOCKER_REGISTRY-}tl-api
-        networks:
-            - tl-network
-        depends_on:
-            - tl-database
-        build:
-            context: ../Backend
-            dockerfile: src/Applications/Core/Core.Api/Dockerfile
+  tl-api:
+    container_name: tl-api
+    image: ${DOCKER_REGISTRY-}tl-api
+    networks:
+      - tl-network
+    depends_on:
+      - tl-database
+    build:
+      context: ../Backend
+      dockerfile: src/Applications/Core/Core.Api/Dockerfile
 
-    tl-frontend:
-        container_name: tl-frontend
-        image: ${DOCKER_REGISTRY-}tl-frontend
-        networks:
-            - tl-network
-        depends_on:
-            - tl-api
-        build:
-            context: ../Frontend/react-app
+  tl-frontend:
+    container_name: tl-frontend
+    image: ${DOCKER_REGISTRY-}tl-frontend
+    networks:
+      - tl-network
+    depends_on:
+      - tl-api
+    build:
+      context: ../Frontend/react-app
 
-    tl-database:
-        container_name: tl-database
-        image: postgres
-        networks:
-            - tl-network
+  tl-database:
+    container_name: tl-database
+    image: postgres
+    networks:
+      - tl-network
 
-    proxy:
-        container_name: nginx-proxy
-        image: nginx:alpine
-        networks:
-            - tl-network
-        depends_on:
-            - tl-api
-            - tl-frontend
-        ports:
-            - "80:80"
-        volumes:
-            - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  proxy:
+    container_name: nginx-proxy
+    image: nginx:alpine
+    networks:
+      - tl-network
+    depends_on:
+      - tl-api
+      - tl-frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
 
 networks:
-    tl-network:
-        driver: bridge
+  tl-network:
+    driver: bridge
 
 volumes:
-    timelines_core:
+  timelines_core:
