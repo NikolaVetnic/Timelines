@@ -35,6 +35,7 @@ public static class DatabaseExtensions
 
     private static async Task MigrateAndSeedAllModulesAsync(this IServiceProvider services)
     {
+        await services.MigrateBugTrackingDatabaseAsync();
         await services.MigrateAndSeedFilesDatabaseAsync();
         await services.MigrateAndSeedNodesDatabaseAsync();
         await services.MigrateAndSeedNotesDatabaseAsync();
