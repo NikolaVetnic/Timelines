@@ -12,6 +12,12 @@ IP_ADDRESS=$1
 # Go into frontend directory
 cd ../Frontend/react-app
 
+echo "Updating the API_BASE_URL constant value for deployment on remote host..."
+CONSTANTS_FILE="src/data/constants.jsx"
+BACKUP_FILE="${CONSTANTS_FILE}.bak"
+cp "$CONSTANTS_FILE" "$BACKUP_FILE" # backup
+sed -i '' 's|http://localhost/api|/api|g' "$CONSTANTS_FILE" # update url
+
 echo "Installing dependencies..."
 npm install
 
@@ -26,5 +32,8 @@ scp -r build/* root@$IP_ADDRESS:/var/www/frontend/
 
 echo "Restarting proxy..."
 ssh root@$IP_ADDRESS "docker restart nginx-proxy"
+
+echo "Revert changes made to the API_BASE_URL constant value..."
+mv "$BACKUP_FILE" "$CONSTANTS_FILE"
 
 echo "Deployment completed successfully."
