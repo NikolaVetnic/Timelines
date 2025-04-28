@@ -21,7 +21,6 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
 
         var noteDtos = notes.Select(n =>
             n.ToNoteDto(
-
                 nodes.First(d => d.Id == n.NodeId.ToString())
                 )).ToList();
 
