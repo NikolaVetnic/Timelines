@@ -9,7 +9,7 @@ services:
       - ConnectionStrings__DefaultConnection=Host=tl-database;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Include Error Detail=true
     restart: unless-stopped
     ports:
-      - "26000:8080"
+      - "80:8080"
 
   tl-frontend:
     ports:
@@ -25,8 +25,3 @@ services:
       - "25432:5432"
     volumes:
       - timelines_core:/var/lib/postgresql/data
-
-  proxy:
-    volumes:
-      - ./nginx/nginx.prod.conf:/etc/nginx/conf.d/default.conf:ro
-      - /var/www/frontend:/usr/share/nginx/html:ro
