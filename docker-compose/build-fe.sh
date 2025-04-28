@@ -23,6 +23,7 @@ ssh root@$IP_ADDRESS "rm -rf /var/www/frontend/ && mkdir -p /var/www/frontend/"
 
 echo "Copying files to remote server..."
 # scp -r build/* root@$IP_ADDRESS:/var/www/frontend/
+ssh root@$IP_ADDRESS "mkdir -p /Timelines/Frontend/react-app/build"
 scp -r build/* root@$IP_ADDRESS:/Timelines/Frontend/react-app/build
 
 echo "Restarting proxy..."
