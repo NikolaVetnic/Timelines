@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { FaBug } from "react-icons/fa";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  createRoutesFromElements,
+  Route,
+  Outlet,
+} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Timeline from "./components/Timelines/Timeline/Timeline";
@@ -13,7 +19,7 @@ import LoginPage from "./components/Pages/LoginPage";
 import ErrorPage from "./components/Pages/ErrorPage";
 import "./styles/App.css";
 
-function ProtectedApp() {
+function AppLayout() {
   const [isBugReportOpen, setIsBugReportOpen] = useState(false);
 
   return (
@@ -21,10 +27,7 @@ function ProtectedApp() {
       <ReminderNotifier />
       <div className="app-content">
         <div className="content-wrapper">
-          <Routes>
-            <Route path="/timelines/:id" element={<Timeline />} />
-            <Route path="/" element={<TimelineList />} />
-          </Routes>
+          <Outlet />
           <ToastContainer />
         </div>
       </div>
@@ -47,23 +50,32 @@ function ProtectedApp() {
   );
 }
 
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route errorElement={<ErrorPage />}>
+      <Route path="/login" element={<LoginPage />} />
+
+      <Route
+        path="/"
+        element={
+          <AuthGuard>
+            <AppLayout />
+          </AuthGuard>
+        }
+      >
+        <Route index element={<TimelineList />} /> {/* Home page */}
+        <Route path="timelines/:id" element={<Timeline />} />
+      </Route>
+
+      <Route path="*" element={<ErrorPage />} />
+    </Route>
+  )
+);
+
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/*"
-            element={
-              <AuthGuard>
-                <ProtectedApp />
-              </AuthGuard>
-            }
-          />
-          <Route path="/error" element={<ErrorPage />} />
-        </Routes>
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </AuthProvider>
   );
 }
