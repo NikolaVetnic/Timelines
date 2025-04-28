@@ -12,5 +12,5 @@ public interface IRemindersRepository
     Task<IEnumerable<Reminder>> GetRemindersBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 
     Task DeleteReminder(ReminderId reminderId, CancellationToken cancellationToken);
+    Task DeleteReminders(IEnumerable<ReminderId> reminderIds, CancellationToken cancellationToken);
 }
-
