@@ -77,10 +77,8 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
                         id: r.Id!.ToString(),
                         title: r.Title,
                         description: r.Description,
-                        dueDateTime: r.DueDateTime,
-                        priority: r.Priority,
-                        notificationTime: r.NotificationTime,
-                        status: r.Status)
+                        notifyAt: r.NotifyAt,
+                        priority: r.Priority)
                         )
                         .ToList()
             )
@@ -144,14 +142,22 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
 
-    public Task RemoveReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken)
+    public async Task RemoveReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        node.RemoveReminder(reminderId);
+
+        await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
 
-    public Task RemoveReminders(NodeId nodeId, IEnumerable<ReminderId> reminderIds, CancellationToken cancellationToken)
+    public async Task RemoveReminders(NodeId nodeId, IEnumerable<ReminderId> reminderIds, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var node = await nodesRepository.GetTrackedNodeByIdAsync(nodeId, cancellationToken);
+
+        foreach (var reminderId in reminderIds)
+            node.RemoveReminder(reminderId);
+
+        await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
 
     public async Task DeleteNode(NodeId nodeId, CancellationToken cancellationToken)

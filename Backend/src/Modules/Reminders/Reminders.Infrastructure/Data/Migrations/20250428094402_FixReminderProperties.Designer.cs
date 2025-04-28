@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Reminders.Infrastructure.Data;
@@ -11,9 +12,11 @@ using Reminders.Infrastructure.Data;
 namespace Reminders.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(RemindersDbContext))]
-    partial class RemindersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250428094402_FixReminderProperties")]
+    partial class FixReminderProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

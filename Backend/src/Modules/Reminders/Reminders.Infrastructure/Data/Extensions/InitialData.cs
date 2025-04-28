@@ -13,10 +13,8 @@ internal static class InitialData
                 Id = ReminderId.Of(Guid.Parse("2e1c4902-7841-484c-b997-0a8cd3955e72")),
                 Title = "Meeting Room 1 - Daily",
                 Description = "Important meeting with Timo",
-                DueDateTime = DateTime.UtcNow.AddHours(2),
+                NotifyAt = DateTime.UtcNow.AddHours(2),
                 Priority = 3,
-                NotificationTime = DateTime.UtcNow.AddHours(1),
-                Status = "Pending",
                 NodeId = NodeId.Of(Guid.Parse("2df76835-c92b-45d0-9232-61901c4abe97"))
             },
 
@@ -25,10 +23,8 @@ internal static class InitialData
                 Id = ReminderId.Of(Guid.Parse("74f40a78-bda2-4177-bffd-86e6648c4318")),
                 Title = "Weekly Team Sync",
                 Description = "Basic team sync with the team",
-                DueDateTime = DateTime.UtcNow.AddHours(2),
+                NotifyAt = DateTime.UtcNow.AddHours(2),
                 Priority = 1,
-                NotificationTime = DateTime.UtcNow.AddHours(1),
-                Status = "Canceled",
                 NodeId = NodeId.Of(Guid.Parse("6968d886-9e39-4fc0-9f2c-a5fbc1548970"))
             },
         };
