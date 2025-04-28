@@ -11,10 +11,6 @@ services:
     ports:
       - "26000:8080"
 
-  tl-frontend:
-    ports:
-      - "24000:23000"
-
   tl-database:
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
