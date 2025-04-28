@@ -43,7 +43,7 @@ app.MapCarter();
 app.MapGet("/", BuildingBlocksTestClass.GetTestString);
 
 app.UseSwaggerDocumentation(app.Environment);
-await app.Services.MigrateAndSeedAllModulesAsync(app.Environment);
+await app.Services.SetupDatabaseAsync(app.Environment);
 
 app.UseExceptionHandler(_ => { });
 
