@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Files.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(FilesDbContext))]
-    [Migration("20250423130749_FilesInit")]
+    [Migration("20250425195013_FilesInit")]
     partial class FilesInit
     {
         /// <inheritdoc />
@@ -22,7 +22,7 @@ namespace Files.Infrastructure.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Files")
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);

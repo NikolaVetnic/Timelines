@@ -1,5 +1,4 @@
 ﻿namespace Notes.Infrastructure.Data.Extensions;
-
 public static class DatabaseExtensions
 {
     public static async Task MigrateAndSeedNotesDatabaseAsync(this IServiceProvider services)
@@ -7,13 +6,13 @@ public static class DatabaseExtensions
         using var scope = services.CreateScope();
         var scopedProvider = scope.ServiceProvider;
 
-        var context = scopedProvider.GetRequiredService<NotesDbContext>();
+        var notesDbContext = scopedProvider.GetRequiredService<NotesDbContext>();
 
         // Apply migrations
-        await context.Database.MigrateAsync();
+        await notesDbContext.Database.MigrateAsync();
 
         // Seed initial data if necessary
-        await SeedAsync(context);
+        await SeedAsync(notesDbContext);
     }
 
     private static async Task SeedAsync(NotesDbContext context)

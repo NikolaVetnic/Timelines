@@ -1,33 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Files.Infrastructure.Data.Migrations
+namespace Notes.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class FilesInit : Migration
+    public partial class NotesInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "Files");
+                name: "Notes");
 
             migrationBuilder.CreateTable(
-                name: "Files",
-                schema: "Files",
+                name: "Notes",
+                schema: "Notes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    SharedWith = table.Column<List<string>>(type: "text[]", nullable: false),
-                    Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    Size = table.Column<float>(type: "real", nullable: false),
-                    Type = table.Column<int>(type: "integer", maxLength: 100, nullable: false),
-                    Owner = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Content = table.Column<byte[]>(type: "bytea", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Owner = table.Column<string>(type: "text", nullable: false),
+                    RelatedNotes = table.Column<string>(type: "text", nullable: true),
+                    SharedWith = table.Column<string>(type: "text", nullable: true),
                     IsPublic = table.Column<bool>(type: "boolean", nullable: false),
                     NodeId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -37,13 +35,13 @@ namespace Files.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Files", x => x.Id);
+                    table.PrimaryKey("PK_Notes", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Files_NodeId",
-                schema: "Files",
-                table: "Files",
+                name: "IX_Notes_NodeId",
+                schema: "Notes",
+                table: "Notes",
                 column: "NodeId");
         }
 
@@ -51,8 +49,8 @@ namespace Files.Infrastructure.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Files",
-                schema: "Files");
+                name: "Notes",
+                schema: "Notes");
         }
     }
 }
