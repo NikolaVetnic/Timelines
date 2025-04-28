@@ -1,100 +1,87 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-
-import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
-import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
-
+import Button from "../../../../core/components/buttons/Button/Button";
+import NodeService from "../../../../services/NodeService";
 import "./EditableTitle.css";
 
-const EditableTitle = ({ timelineId, nodeId, className }) => {
-    const root = "editable-title";
-    const [isEditing, setIsEditing] = useState(false);
-    const [localTitle, setLocalTitle] = useState("");
-    const [isHovered, setIsHovered] = useState(false);
+const EditableTitle = ({
+  nodeId,
+  className,
+  title: propTitle,
+  onUpdateTitle,
+}) => {
+  const root = "editable-title";
+  const [isEditing, setIsEditing] = useState(false);
+  const [localTitle, setLocalTitle] = useState(propTitle || "");
+  const [isHovered, setIsHovered] = useState(false);
 
-    // todo: connect to backend
-    useEffect(() => {
-        try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timeline = storedData.find(t => t.id === timelineId);
-            const node = timeline?.nodes.find(n => n.id === nodeId);
-            if (node?.title) {
-                setLocalTitle(node.title);
-            }
-        } catch (error) {
-            console.error("Error loading title:", error);
-        }
-    }, [timelineId, nodeId]);
+  useEffect(() => {
+    setLocalTitle(propTitle || "");
+  }, [propTitle]);
 
-    // todo: connect to backend
-    const updateLocalStorage = (newTitle) => {
-        try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timelineIndex = storedData.findIndex(t => t.id === timelineId);
+  const setEditing = (isActive) => {
+    setIsEditing(isActive);
+    if (!isActive) {
+      setIsHovered(false);
+    }
+  };
 
-            if (timelineIndex !== -1) {
-                const nodeIndex = storedData[timelineIndex].nodes.findIndex(n => n.id === nodeId);
-                if (nodeIndex !== -1) {
-                    storedData[timelineIndex].nodes[nodeIndex].title = newTitle;
-                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedData));
-                }
-            }
-        } catch (error) {
-            console.error("Error saving title:", error);
-        }
-    };
+  const handleChange = (e) => {
+    setLocalTitle(e.target.value);
+  };
 
-    const setEditing = (isActive) => {
-        setIsEditing(isActive);
-        if (!isActive) {
-            setIsHovered(false);
-        }
-    };
+  const handleSaveTitle = async () => {
+    await NodeService.updateNode(nodeId, { title: localTitle });
 
-    const handleChange = (e) => {
-        setLocalTitle(e.target.value);
-    };
+    if (onUpdateTitle) {
+      onUpdateTitle(localTitle);
+    }
 
-    const handleSaveTitle = () => {
-        setEditing(false);
-        updateLocalStorage(localTitle);
-    };
+    setEditing(false);
+  };
 
-    const handleKeyDown = (e) => {
-        if (e.key === "Enter") {
-            handleSaveTitle();
-        }
-    };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSaveTitle();
+    }
+  };
 
-    const handleBlur = () => {
-        handleSaveTitle();
-    };
+  const handleBlur = () => {
+    handleSaveTitle();
+  };
 
-    return isEditing ? (
-        <input
-            type="text"
-            value={localTitle}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            onBlur={handleBlur}
-            className={`${root} ${className}`}
-            autoFocus
+  return isEditing ? (
+    <input
+      type="text"
+      value={localTitle}
+      onChange={handleChange}
+      onKeyDown={handleKeyDown}
+      onBlur={handleBlur}
+      className={`${root} ${className}`}
+      autoFocus
+    />
+  ) : (
+    <div
+      className={`${root}-container ${className}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <h3 className={`${root}`}>{localTitle || "Untitled"}</h3>
+      {isHovered && (
+        <Button
+          icon={<CiEdit />}
+          iconOnly
+          variant="info"
+          shape="square"
+          size="little"
+          onClick={(e) => {
+            e.stopPropagation();
+            setEditing(true);
+          }}
         />
-    ) : (
-        <div
-            className={`${root}-container ${className}`}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-        >
-            <h3 className={`${root}`}>{localTitle || "Untitled"}</h3>
-            {isHovered && (
-                <IconButton className={`${root}-edit-icon`} onClick={(e) => {
-                    e.stopPropagation();
-                    setEditing(true);
-                }} icon={<CiEdit />} title="Edit" />
-            )}
-        </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export default EditableTitle;

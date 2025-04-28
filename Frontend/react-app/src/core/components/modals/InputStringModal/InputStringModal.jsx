@@ -1,59 +1,77 @@
 import React, { useEffect, useState } from "react";
-
-import TextButton from "../../buttons/TextButton/TextButton";
-
+import FormField from "../../forms/FormField/FormField";
 import "./InputStringModal.css";
+import Button from "../../buttons/Button/Button";
 
 const InputStringModal = ({
-    isOpen,
-    onClose,
-    onSave,
-    initialValue = "",
-    title = "Input String",
-    placeholder = "Input String...",
+  isOpen,
+  onClose,
+  onSave,
+  initialValue = "",
+  title = "Input String",
+  placeholder = "Input String...",
 }) => {
-    const root = "input-string-modal";
-    const [value, setValue] = useState(initialValue);
-    const [isChanged, setIsChanged] = useState(false);
+  const root = "input-string-modal";
+  const [value, setValue] = useState(initialValue);
+  const [isChanged, setIsChanged] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(isOpen);
 
-    useEffect(() => {
-        if (isOpen) {
-            setValue(initialValue);
-            setIsChanged(false);
-        }
-    }, [initialValue, isOpen]);
+  useEffect(() => {
+    setModalOpen(isOpen);
+    if (isOpen) {
+      setValue(initialValue);
+      setIsChanged(false);
+    }
+  }, [initialValue, isOpen]);
 
-    const handleInputChange = (e) => {
-        const newValue = e.target.value;
-        setValue(newValue);
-        setIsChanged(newValue.trim() !== initialValue.trim());
-    };
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    setValue(newValue);
+    setIsChanged(newValue.trim() !== initialValue.trim());
+  };
 
-    const handleSave = () => {
-        onSave(value.split(",").map((item) => item.trim()));
-        onClose();
-    };
+  const handleSave = () => {
+    onSave(value.split(",").map((item) => item.trim()));
+    onClose();
+  };
 
-    if (!isOpen) return null;
+  const closeModal = () => {
+    setModalOpen(false);
+    onClose();
+  };
 
-    return (
-        <div className={`${root}-overlay`} onClick={onClose}>
-            <div className={`${root}`} onClick={(e) => e.stopPropagation()}>
-                <h3>{title}</h3>
-                <textarea
-                    rows="4"
-                    value={value}
-                    onChange={handleInputChange}
-                    placeholder={placeholder}
-                    autoFocus
-                ></textarea>
-                <div className={`${root}-actions`}>
-                    <TextButton onClick={onClose} text="Cancel" color="default" />
-                    <TextButton onClick={handleSave} text="Save" color="green" disabled={!isChanged}/>
-                </div>
-            </div>  
+  if (!isModalOpen) return null;
+
+  return (
+    <div className={`${root}-overlay`} onClick={closeModal}>
+      <div className={`${root}-content`} onClick={(e) => e.stopPropagation()}>
+        <div className={`${root}-header`}>
+          <h3>{title}</h3>
         </div>
-    );
+
+        <FormField
+          type="textarea"
+          name="inputString"
+          value={value}
+          onChange={handleInputChange}
+          placeholder={placeholder}
+          autoFocus
+          rows={4}
+        />
+
+        <div className={`${root}-actions`}>
+          <Button text="Cancel" onClick={closeModal} size="small" />
+          <Button
+            text="Save"
+            variant="success"
+            size="small"
+            onClick={handleSave}
+            disabled={!isChanged}
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default InputStringModal;

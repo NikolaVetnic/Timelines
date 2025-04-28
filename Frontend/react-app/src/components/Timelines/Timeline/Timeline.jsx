@@ -1,83 +1,222 @@
-import React, { useEffect, useRef, useState } from "react";
-
-import TimelineHeader from "../../../core/components/headers/TimelineHeader.jsx/TimelineHeader";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { FaTrash } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa6";
+import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
+import { useNavigate, useParams } from "react-router";
+import Button from "../../../core/components/buttons/Button/Button";
 import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
+import DeleteModal from "../../../core/components/modals/DeleteModal/DeleteModal";
 import recalculateStrip from "../../../core/utils/RecalculateStrip";
+import NodeService from "../../../services/NodeService";
+import TimelineService from "../../../services/TimelineService";
 import Node from "../../Nodes/Node/Node/Node";
-
 import "./Timeline.css";
 
-const Timeline = ({ selectedTimeline, setSelectedTimeline, setTimelineData, timelineData, updateSelectedTimeline }) => {
-    const root = "timeline";
-    const stripRef = useRef(null);
-    const nodesRef = useRef([]);
-    const [stripStyle, setStripStyle] = useState({});
-    const [updateStrip, setUpdateStrip] = useState(false);
-    const [nodesRendered, setNodesRendered] = useState(false);
-    const [isModalActive, setModalActive] = useState(false);
-    const [openNodeId, setOpenNodeId] = useState(null);
+const Timeline = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [timeline, setTimeline] = useState(null);
+  const stripRef = useRef(null);
+  const nodesRef = useRef([]);
+  const [stripStyle, setStripStyle] = useState({});
+  const [updateStrip, setUpdateStrip] = useState(false);
+  const [nodesRendered, setNodesRendered] = useState(false);
+  const [isModalActive, setModalActive] = useState(false);
+  const [openNodeId, setOpenNodeId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showDeleteModal, setDeleteModal] = useState(false);
+  const [selectedNodes, setSelectedNodes] = useState([]);
+  const [nodesToDelete, setNodesToDelete] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
 
-    const [isCreateModalActive, setIsCreateModalActive] = useState(false);
+  const fetchTimeline = useCallback(async () => {
+    const response = await TimelineService.getTimelineById(id);
+    setTimeline(response);
+    setIsLoading(false);
+  }, [id]);
 
-    useEffect(() => {
-        nodesRef.current = [];
-        setNodesRendered(false);
-        setStripStyle({});
-        setUpdateStrip(prev => !prev);
-    }, [selectedTimeline]);
+  useEffect(() => {
+    const handleResize = () => setUpdateStrip((prev) => !prev);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-    useEffect(() => {
-        if (nodesRendered && nodesRef.current.length > 0) {
-            const newStyle = recalculateStrip(nodesRef);
-            setStripStyle(newStyle);
-        }
-    }, [nodesRendered, selectedTimeline, updateStrip]);
+  useEffect(() => {
+    fetchTimeline();
+  }, [fetchTimeline]);
 
-    if (!selectedTimeline) {
-        return <p>Please select a timeline.</p>;
+  useEffect(() => {
+    if (!timeline) return;
+    nodesRef.current = [];
+    setNodesRendered(false);
+    setStripStyle({});
+    setUpdateStrip((prev) => !prev);
+  }, [timeline]);
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.width <= 768);
+    };
+    
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
+  useEffect(() => {
+    if (nodesRendered && nodesRef.current.length > 0) {
+      const newStyle = recalculateStrip(nodesRef, isMobile);
+      setStripStyle(newStyle);
     }
+  }, [nodesRendered, timeline, updateStrip, isMobile]);
 
-    return (
-        <div className={`${root}-container`} key={selectedTimeline.id}>
-            <TimelineHeader root={root} selectedTimeline={selectedTimeline} setIsCreateModalActive={setIsCreateModalActive} />
-    
-            <div className={`${root}-strip`} ref={stripRef} style={stripStyle}></div>
-    
-            <div className={`${root}-nodes`}>
-                {selectedTimeline.nodes.map((node, index) => (
-                    <Node
-                        timelineId={selectedTimeline.id}
-                        key={node.id}
-                        node={node}
-                        ref={(el) => {
-                            if (el) {
-                                nodesRef.current[index] = el;
-                            }
-                            if (index === selectedTimeline.nodes.length - 1) {
-                                setTimeout(() => setNodesRendered(true), 0);
-                            }
-                        }}
-                        isModalActive={isModalActive}
-                        setModalActive={setModalActive}
-                        openNodeId={openNodeId}
-                        setOpenNodeId={setOpenNodeId}
-                        onToggle={() => setUpdateStrip(prev => !prev)}
-                    />
-                ))}
-            </div>
-    
-            {isCreateModalActive && (
-                <CreateNodeModal
-                    isOpen={isCreateModalActive}
-                    onClose={() => setIsCreateModalActive(false)}
-                    selectedTimeline={selectedTimeline}
-                    setTimelineData={setTimelineData}
-                    timelineData={timelineData}
-                    updateSelectedTimeline={updateSelectedTimeline}
-                />
+  const handleSelectNode = (nodeId) => {
+    setSelectedNodes((prev) => [...prev, nodeId]);
+  };
+
+  const handleDeselectNode = (nodeId) => {
+    setSelectedNodes((prev) => prev.filter((id) => id !== nodeId));
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedNodes.length === timeline?.nodes?.length) {
+      setSelectedNodes([]);
+    } else {
+      setSelectedNodes(timeline?.nodes?.map((node) => node.id) || []);
+    }
+  };
+
+  const handleDeleteSelected = () => {
+    setNodesToDelete(selectedNodes);
+    setDeleteModal(true);
+  };
+
+  const confirmDeleteNodes = async () => {
+    try {
+      setIsLoading(true);
+      await Promise.all(
+        nodesToDelete.map((nodeId) => NodeService.deleteNode(nodeId))
+      );
+      setSelectedNodes([]);
+      setNodesToDelete([]);
+      fetchTimeline();
+    } finally {
+      setIsLoading(false);
+      setDeleteModal(false);
+    }
+  };
+
+  if (isLoading) {
+    return <div className="loading-message">Loading timeline...</div>;
+  }
+
+  if (!timeline) {
+    return <div className="error-message">Timeline not found</div>;
+  }
+
+  return (
+    <div className="timeline-container" key={timeline.id}>
+      <div className="timeline-back-button-container">
+        <Button
+          className="back-button"
+          icon={<FaArrowLeft />}
+          iconOnly
+          noBackground
+          onClick={() => navigate(-1)}
+        />
+      </div>
+
+      <div className="timeline-header">
+        <h2 className="timeline-title">{timeline.title}</h2>
+      </div>
+
+      <div className="timeline-actions">
+        {timeline?.nodes?.length > 0 && (
+          <>
+            {selectedNodes.length > 0 && (
+              <Button
+                icon={<FaTrash />}
+                iconOnly
+                onClick={handleDeleteSelected}
+                variant="danger"
+                size="small"
+              />
             )}
+            <Button
+              icon={
+                selectedNodes.length === timeline.nodes.length ? (
+                  <PiSelectionAll />
+                ) : (
+                  <PiSelectionAllFill />
+                )
+              }
+              iconOnly
+              onClick={toggleSelectAll}
+              variant="secondary"
+              size="small"
+            />
+          </>
+        )}
+        <Button
+          text="Add Node"
+          onClick={() => setShowCreateModal(true)}
+          variant="success"
+          size="small"
+        />
+      </div>
+
+      <CreateNodeModal
+        isOpen={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        timelineId={id}
+        onNodeCreated={fetchTimeline}
+      />
+
+      <DeleteModal
+        isOpen={showDeleteModal}
+        onClose={() => setDeleteModal(false)}
+        itemType="node"
+        onConfirm={confirmDeleteNodes}
+        count={selectedNodes.length}
+      />
+
+      {timeline.nodes && timeline.nodes.length > 0 ? (
+        <div className="timeline-nodes-container">
+          {timeline.nodes.length > 1 && (
+            <div className="timeline-strip" ref={stripRef} style={stripStyle} />
+          )}
+          <div className="timeline-nodes">
+            {timeline.nodes.map((node, index) => (
+              <Node
+                key={node.id}
+                node={node}
+                ref={(el) => {
+                  if (el) nodesRef.current[index] = el;
+                  if (index === timeline.nodes.length - 1) {
+                    setTimeout(() => setNodesRendered(true), 0);
+                  }
+                }}
+                isModalActive={isModalActive}
+                setModalActive={setModalActive}
+                openNodeId={openNodeId}
+                setOpenNodeId={setOpenNodeId}
+                onToggle={() => setUpdateStrip((prev) => !prev)}
+                isSelected={selectedNodes.includes(node.id)}
+                onSelect={handleSelectNode}
+                onDeselect={handleDeselectNode}
+                onToggleSelectAll={toggleSelectAll}
+              />
+            ))}
+          </div>
         </div>
-    );
+      ) : (
+        <div className="empty-nodes-message">
+          <p>This timeline doesn't have any nodes yet.</p>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Timeline;

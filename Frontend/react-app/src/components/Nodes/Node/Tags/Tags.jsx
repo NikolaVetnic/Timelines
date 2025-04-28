@@ -1,91 +1,89 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-
-import IconButton from "../../../../core/components/buttons/IconButton/IconButton";
+import Button from "../../../../core/components/buttons/Button/Button";
 import InputStringModal from "../../../../core/components/modals/InputStringModal/InputStringModal";
 import convertStringToColor from "../../../../core/utils/ConvertStringToColor";
-import { LOCAL_STORAGE_KEY } from "../../../../data/constants";
-
+import NodeService from "../../../../services/NodeService";
 import "./Tags.css";
 
-const Tags = ({ timelineId, nodeId, setModalActive }) => {
-    const root = "tags";
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [localTags, setLocalTags] = useState([]);
+const Tags = ({ nodeId, setModalActive, tags: propTags, onUpdateTags }) => {
+  const root = "tags";
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [localTags, setLocalTags] = useState(propTags || []);
+  const [isLoading, setIsLoading] = useState(false);
 
-    // todo: connect to backend
-    useEffect(() => {
-        try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timeline = storedData.find(t => t.id === timelineId);
-            const node = timeline?.nodes.find(n => n.id === nodeId);
-            if (node?.tags) {
-                setLocalTags(node.tags);
-            }
-        } catch (error) {
-            console.error("Error loading tags:", error);
-        }
-    }, [timelineId, nodeId]);
+  useEffect(() => {
+    setLocalTags(propTags || []);
+  }, [propTags]);
 
-    const setModalState = (isActive) => {
-        setModalOpen(isActive);
-        setModalActive(isActive);
-    };
+  const setModalState = (isActive) => {
+    setModalOpen(isActive);
+    setModalActive(isActive);
+  };
 
-    // todo: connect to backend
-    const updateLocalStorage = (newTags) => {
-        try {
-            const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            const timelineIndex = storedData.findIndex(t => t.id === timelineId);
+  const formatTags = (input) => {
+    return input
+      .split(",")
+      .map((tag) => tag.trim().toLowerCase().replace(/\s+/g, "-"))
+      .filter((tag) => tag.length > 0);
+  };
 
-            if (timelineIndex !== -1) {
-                const nodeIndex = storedData[timelineIndex].nodes.findIndex(n => n.id === nodeId);
-                if (nodeIndex !== -1) {
-                    storedData[timelineIndex].nodes[nodeIndex].tags = newTags;
-                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedData));
-                }
-            }
-        } catch (error) {
-            console.error("Error saving tags:", error);
-        }
-    };
+  const handleSaveTags = async (tagsInput) => {
+    setIsLoading(true);
+    const formattedTags = formatTags(tagsInput);
 
-    const handleSaveTags = (newTags) => {
-        const formattedTags = newTags.map(tag => tag.trim().toLowerCase().replace(/\s+/g, "-"));
-    
-        setLocalTags(formattedTags);
-        updateLocalStorage(formattedTags);
-        setModalActive(false);
-    };
-    
-    return (
-        <div className={`${root}-container`}>
-            <div>
-                <strong>Tags:</strong>{" "}
-                {localTags.length > 0 ? (
-                    localTags.map((tag, index) => (
-                        <span
-                            key={index}
-                            className={`${root}-badge`}
-                            style={{ backgroundColor: convertStringToColor(tag) }}
-                        >
-                            {tag}
-                        </span>
-                    ))
-                ) : (
-                    <span>No Tags Set</span>
-                )}
-            </div>
-            <IconButton onClick={() => setModalState(true)} icon={<CiEdit />} title="Edit" />
-            <InputStringModal
-                isOpen={isModalOpen}
-                onClose={() => setModalState(false)}
-                onSave={handleSaveTags}
-                initialValue={localTags.join(", ")}
-                title="Edit Tags"
-            />
-        </div>
-    );
+    try {
+      await NodeService.updateNode(nodeId, { tags: formattedTags });
+
+      setLocalTags(formattedTags);
+
+      if (onUpdateTags) {
+        onUpdateTags(formattedTags);
+      }
+    } finally {
+      setIsLoading(false);
+      setModalState(false);
+    }
+  };
+
+  return (
+    <div className={`${root}-container`}>
+      <div>
+        <strong>Tags:</strong>{" "}
+        {localTags.length > 0 ? (
+          localTags.map((tag, index) => (
+            <span
+              key={index}
+              className={`${root}-badge`}
+              style={{ backgroundColor: convertStringToColor(tag) }}
+            >
+              {tag}
+            </span>
+          ))
+        ) : (
+          <span>No Tags Set</span>
+        )}
+      </div>
+      <Button
+        icon={<CiEdit />}
+        iconOnly
+        variant="info"
+        shape="square"
+        size="little"
+        disabled={isLoading}
+        onClick={() => setModalState(true)}
+      />
+      <InputStringModal
+        isOpen={isModalOpen}
+        onClose={() => setModalState(false)}
+        onSave={handleSaveTags}
+        initialValue={localTags.join(", ")}
+        title="Edit Tags"
+        isLoading={isLoading}
+        placeholder="Enter tags, separated by commas (e.g., 'important, ui-fix')"
+      />
+    </div>
+  );
 };
 
 export default Tags;

@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Application.Data;
-
-namespace Reminders.Infrastructure.Data.Extensions;
+﻿namespace Reminders.Infrastructure.Data.Extensions;
 
 public static class DatabaseExtensions
 {
@@ -10,24 +8,20 @@ public static class DatabaseExtensions
         var scopedProvider = scope.ServiceProvider;
 
         var remindersDbContext = scopedProvider.GetRequiredService<RemindersDbContext>();
-        var nodesService = scopedProvider.GetRequiredService<INodesService>();
 
         // Apply migrations
         await remindersDbContext.Database.MigrateAsync();
 
         // Seed initial data if necessary
-        await SeedAsync(remindersDbContext, nodesService);
+        await SeedAsync(remindersDbContext);
     }
 
-    private static async Task SeedAsync(RemindersDbContext context, INodesService nodesService)
+    private static async Task SeedAsync(RemindersDbContext context)
     {
         if (await context.Reminders.AnyAsync())
             return;
 
         await context.AddRangeAsync(InitialData.Reminders);
         await context.SaveChangesAsync();
-
-        foreach (var initialReminder in InitialData.Reminders)
-            await nodesService.AddReminder(initialReminder.NodeId, initialReminder.Id, CancellationToken.None);
     }
 }

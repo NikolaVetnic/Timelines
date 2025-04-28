@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 
-import TextButton from "../../../../core/components/buttons/TextButton/TextButton";
 import { LOCAL_STORAGE_KEY, MAX_FILE_SIZE } from "../../../../data/constants";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -13,7 +12,7 @@ const File = ({ nodeId, timelineId, onToggle }) => {
   const [files, setFiles] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // todo: connect to backend
+  // todo: connect to backend when it is ready
   useEffect(() => {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storedData) {
@@ -26,21 +25,26 @@ const File = ({ nodeId, timelineId, onToggle }) => {
     }
   }, [timelineId, nodeId]);
 
-  // todo: connect to backend
-  const updateLocalStorage = useCallback((updatedFiles) => {
-    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      const timelineIndex = parsedData.findIndex((t) => t.id === timelineId);
-      if (timelineIndex !== -1) {
-        const nodeIndex = parsedData[timelineIndex].nodes.findIndex((n) => n.id === nodeId);
-        if (nodeIndex !== -1) {
-          parsedData[timelineIndex].nodes[nodeIndex].files = updatedFiles;
-          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(parsedData));
+  // todo: connect to backend when it is ready
+  const updateLocalStorage = useCallback(
+    (updatedFiles) => {
+      const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (storedData) {
+        const parsedData = JSON.parse(storedData);
+        const timelineIndex = parsedData.findIndex((t) => t.id === timelineId);
+        if (timelineIndex !== -1) {
+          const nodeIndex = parsedData[timelineIndex].nodes.findIndex(
+            (n) => n.id === nodeId
+          );
+          if (nodeIndex !== -1) {
+            parsedData[timelineIndex].nodes[nodeIndex].files = updatedFiles;
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(parsedData));
+          }
         }
       }
-    }
-  }, [timelineId, nodeId]);
+    },
+    [timelineId, nodeId]
+  );
 
   const fileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -50,19 +54,19 @@ const File = ({ nodeId, timelineId, onToggle }) => {
       reader.onerror = (error) => reject(error);
     });
   };
-  
+
   const onDrop = useCallback(
     async (acceptedFiles) => {
-      const validFiles = acceptedFiles.filter(file => {
+      const validFiles = acceptedFiles.filter((file) => {
         if (file.size > MAX_FILE_SIZE) {
           toast.error(`❌ File "${file.name}" exceeds the 10MB limit.`);
           return false;
         }
         return true;
       });
-  
+
       if (validFiles.length === 0) return;
-  
+
       const newFiles = await Promise.all(
         validFiles.map(async (file) => {
           const base64 = await fileToBase64(file);
@@ -75,7 +79,7 @@ const File = ({ nodeId, timelineId, onToggle }) => {
           };
         })
       );
-  
+
       const updatedFiles = [...files, ...newFiles];
       setFiles(updatedFiles);
       updateLocalStorage(updatedFiles);
@@ -84,7 +88,7 @@ const File = ({ nodeId, timelineId, onToggle }) => {
     },
     [files, onToggle, updateLocalStorage]
   );
-  
+
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
@@ -98,14 +102,14 @@ const File = ({ nodeId, timelineId, onToggle }) => {
     multiple: true,
   });
 
-  const handleRemoveFile = (id) => {
-    const fileToRemove = files.find(file => file.id === id);
-    const updatedFiles = files.filter((file) => file.id !== id);
-    setFiles(updatedFiles);
-    updateLocalStorage(updatedFiles);
-    toast.warning(`🗑️ File "${fileToRemove?.name}" removed.`);
-    setTimeout(() => onToggle(), 0);
-  };
+  // const handleRemoveFile = (id) => {
+  //   const fileToRemove = files.find((file) => file.id === id);
+  //   const updatedFiles = files.filter((file) => file.id !== id);
+  //   setFiles(updatedFiles);
+  //   updateLocalStorage(updatedFiles);
+  //   toast.warning(`🗑️ File "${fileToRemove?.name}" removed.`);
+  //   setTimeout(() => onToggle(), 0);
+  // };
 
   const toggleExpansion = () => {
     setIsExpanded((prev) => !prev);
@@ -125,39 +129,47 @@ const File = ({ nodeId, timelineId, onToggle }) => {
   const handlePreview = (file) => {
     if (file.type.startsWith("image/")) {
       const previewWindow = window.open();
-      previewWindow.document.writeln(`<img src="${file.url}" style="max-width:100%;" />`);
-    } 
-    else if (file.type === "application/pdf") {
+      previewWindow.document.writeln(
+        `<img src="${file.url}" style="max-width:100%;" />`
+      );
+    } else if (file.type === "application/pdf") {
       const previewWindow = window.open();
       previewWindow.document.writeln(`
         <embed src="${file.url}" type="application/pdf" width="100%" height="100%" style="border:none;">
       `);
-    }
-    else if (file.type === "text/plain") {
+    } else if (file.type === "text/plain") {
       fetch(file.url)
-        .then(response => response.text())
-        .then(text => {
+        .then((response) => response.text())
+        .then((text) => {
           const previewWindow = window.open();
-          previewWindow.document.writeln(`<pre style="white-space: pre-wrap;">${text}</pre>`);
+          previewWindow.document.writeln(
+            `<pre style="white-space: pre-wrap;">${text}</pre>`
+          );
         })
         .catch(() => toast.error("❌ Error loading text file."));
-    }
-    else if (
-      file.name.endsWith(".doc") || file.name.endsWith(".docx") || 
-      file.name.endsWith(".xls") || file.name.endsWith(".xlsx") || 
-      file.name.endsWith(".ppt") || file.name.endsWith(".pptx")
+    } else if (
+      file.name.endsWith(".doc") ||
+      file.name.endsWith(".docx") ||
+      file.name.endsWith(".xls") ||
+      file.name.endsWith(".xlsx") ||
+      file.name.endsWith(".ppt") ||
+      file.name.endsWith(".pptx")
     ) {
-      const googleViewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(file.url)}&embedded=true`;
+      const googleViewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
+        file.url
+      )}&embedded=true`;
       window.open(googleViewerUrl, "_blank");
-    } 
-    else {
+    } else {
       toast.error("❌ Preview not supported for this file type.");
     }
   };
-  
+
   return (
     <div className={`${root}-section`}>
-      <button className={`${root}-header ${isExpanded ? "open" : "closed"}`} onClick={toggleExpansion}>
+      <button
+        className={`${root}-header ${isExpanded ? "open" : "closed"}`}
+        onClick={toggleExpansion}
+      >
         <h4>Files</h4>
         <span>{isExpanded ? "-" : "+"}</span>
       </button>
@@ -175,29 +187,49 @@ const File = ({ nodeId, timelineId, onToggle }) => {
                 <div key={file.id} className={`${root}-item`}>
                   <div className={`${root}-content`}>
                     <p>{file.name}</p>
-                    <p><strong>Size:</strong> {Math.round(file.size / 1024)} KB</p>
+                    <p>
+                      <strong>Size:</strong> {Math.round(file.size / 1024)} KB
+                    </p>
 
                     {file.type.startsWith("image/") && (
-                      <img src={file.url} alt={file.name} className={`${root}-preview`} />
+                      <img
+                        src={file.url}
+                        alt={file.name}
+                        className={`${root}-preview`}
+                      />
                     )}
 
                     {file.type === "application/pdf" && (
-                      <embed src={file.url} type="application/pdf" className={`${root}-preview-pdf`} />
+                      <embed
+                        src={file.url}
+                        type="application/pdf"
+                        className={`${root}-preview-pdf`}
+                      />
                     )}
 
                     {file.type === "text/plain" && (
-                      <iframe title="Preview a document/picture." src={file.url} className={`${root}-preview-text`}></iframe>
+                      <iframe
+                        title="Preview a document/picture."
+                        src={file.url}
+                        className={`${root}-preview-text`}
+                      ></iframe>
                     )}
                   </div>
 
                   <div className={`${root}-buttons`}>
-                    <button className={`${root}-preview-button`} onClick={() => handlePreview(file)}>
+                    <button
+                      className={`${root}-preview-button`}
+                      onClick={() => handlePreview(file)}
+                    >
                       Preview
                     </button>
-                    <button className={`${root}-download-button`} onClick={() => handleDownload(file)}>
+                    <button
+                      className={`${root}-download-button`}
+                      onClick={() => handleDownload(file)}
+                    >
                       Download
                     </button>
-                    <TextButton onClick={() => handleRemoveFile(file.id)} text="X" color="red" />
+                    {/* <TextButton onClick={() => handleRemoveFile(file.id)} text="X" color="red" /> */}
                   </div>
                 </div>
               ))

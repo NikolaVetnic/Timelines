@@ -1,22 +1,47 @@
 ﻿name: timelines
 
 services:
-  core.api:
-    container_name: core.api
-    image: ${DOCKER_REGISTRY-}tl_core-api
+  tl-api:
+    container_name: tl-api
+    image: ${DOCKER_REGISTRY-}tl-api
+    networks:
+      - tl-network
+    depends_on:
+      - tl-database
     build:
       context: ../Backend
       dockerfile: src/Applications/Core/Core.Api/Dockerfile
 
-  core.frontend:
-    container_name: core.frontend
-    image: ${DOCKER_REGISTRY-}tl_core-frontend
+  tl-frontend:
+    container_name: tl-frontend
+    image: ${DOCKER_REGISTRY-}tl-frontend
+    networks:
+      - tl-network
+    depends_on:
+      - tl-api
     build:
       context: ../Frontend/react-app
-  
-  core.db:
-    container_name: core.db
+
+  tl-database:
+    container_name: tl-database
     image: postgres
+    networks:
+      - tl-network
+
+  proxy:
+    container_name: nginx-proxy
+    image: nginx:alpine
+    networks:
+      - tl-network
+    depends_on:
+      - tl-api
+      - tl-frontend
+    ports:
+      - "80:80"
+
+networks:
+  tl-network:
+    driver: bridge
 
 volumes:
   timelines_core:

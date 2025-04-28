@@ -1,18 +1,20 @@
 ﻿using BuildingBlocks.Application.Data;
+using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Exceptions;
 
 namespace Nodes.Application.Entities.Nodes.Commands.DeleteNode;
 
-public class DeleteNodeHandler(INodesService nodesService) : ICommandHandler<DeleteNodeCommand, DeleteNodeResult>
+public class DeleteNodeHandler(IFilesService filesService, INodesRepository nodesRepository) : ICommandHandler<DeleteNodeCommand, DeleteNodeResult>
 {
     public async Task<DeleteNodeResult> Handle(DeleteNodeCommand command, CancellationToken cancellationToken)
     {
-        var node = await nodesService.GetNodeBaseByIdAsync(command.Id, cancellationToken);
+        var node = await nodesRepository.GetNodeByIdAsync(command.Id, cancellationToken);
 
         if (node is null)
             throw new NodeNotFoundException(command.Id.ToString());
 
-        await nodesService.DeleteNode(command.Id, cancellationToken);
+        await filesService.DeleteFiles(node.Id, node.FileAssetIds, cancellationToken);
+        await nodesRepository.DeleteNode(node.Id, cancellationToken);
 
         return new DeleteNodeResult(true);
     }

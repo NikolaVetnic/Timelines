@@ -1,3 +1,4 @@
+using BugTracking.Infrastructure.Data.Extensions;
 using Files.Infrastructure.Data.Extensions;
 using Nodes.Infrastructure.Data.Extensions;
 using Notes.Infrastructure.Data.Extensions;
@@ -13,6 +14,7 @@ public static class DatabaseExtensions
         if (!env.IsDevelopment()) 
             return;
 
+        await services.MigrateBugTrackingDatabaseAsync();
         await services.MigrateAndSeedFilesDatabaseAsync();
         await services.MigrateAndSeedNodesDatabaseAsync();
         await services.MigrateAndSeedNotesDatabaseAsync();

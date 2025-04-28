@@ -14,6 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\Modules\BugTracking\BugTracking.Api\BugTracking.Api.csproj" />
         <ProjectReference Include="..\..\..\Modules\Files\Files.Api\Files.Api.csproj" />
         <ProjectReference Include="..\..\..\Modules\Nodes\Nodes.Api\Nodes.Api.csproj" />
         <ProjectReference Include="..\..\..\Modules\Notes\Notes.Api\Notes.Api.csproj" />

@@ -1,0 +1,101 @@
+.bug-report-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 15000;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.bug-report-modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 450px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform: translateY(-20px);
+  animation: slideUp 0.3s ease-out forwards;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes slideUp {
+  to {
+    transform: translateY(0);
+  }
+}
+
+.bug-report-modal-header {
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.bug-report-modal-header h3 {
+  color: var(--enmBlue);
+  margin-bottom: 8px;
+  font-size: 24px;
+}
+
+.bug-report-modal-header p {
+  color: var(--enmGray);
+  font-size: 14px;
+  margin: 0;
+}
+
+.bug-report-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Close button styles (if you want to add an X button) */
+.bug-report-modal-close-x {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 24px;
+  height: 24px;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.bug-report-modal-close-x:hover {
+  opacity: 1;
+}
+
+.bug-report-modal-close-x::before,
+.bug-report-modal-close-x::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 2px;
+  background-color: #555;
+}
+
+.bug-report-modal-close-x::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.bug-report-modal-close-x::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}

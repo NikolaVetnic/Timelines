@@ -1,6 +1,6 @@
 # This is a generated file. Not intended for manual editing.
 services:
-    core.api:
+    tl-api:
         build:
             context: "/Users/nikolavetnic/Documents/Code/Timelines/Backend/src/DockerCompose"
             dockerfile: "../Applications/Core/Core.Api/Dockerfile"

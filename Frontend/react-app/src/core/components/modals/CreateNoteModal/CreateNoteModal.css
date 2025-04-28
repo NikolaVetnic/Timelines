@@ -2,82 +2,102 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.75);
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10000;
+    z-index: 9999;
+    opacity: 0;
+}
+
+.create-note-modal-overlay.show {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .create-note-modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 70%;
-    height: 80%;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    height: 90%;
+    max-width: 1000px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(-20px);
+    position: relative;
     display: flex;
     flex-direction: column;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.create-note-modal-content.show {
+    animation: slideUp 0.3s ease-out forwards;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(-20px);
+    }
+
+    to {
+        transform: translateY(0);
+    }
 }
 
 .create-note-modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    padding-right: 30px;
+}
+
+.create-note-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }
 
 .create-note-modal-title-input {
-    width: 98.5%;
-    padding: 8px;
+    width: 100%;
+    padding: 10px;
     font-size: 1rem;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    transition: border-color 0.2s;
+}
+
+.create-note-modal-title-input:focus {
+    outline: none;
+    border-color: #4caf50;
 }
 
 .create-note-modal-editor-container {
     flex-grow: 1;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
-.create-note-modal-buttons {
+.create-note-modal-actions {
     display: flex;
-    justify-content: end;
-    gap: 5px;
-    margin-top: 15px;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
-.create-note-modal-save-button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
-
-.create-note-modal-save-button:hover {
-    background: #0056b3;
-}
-
-.create-note-modal-close-button {
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
-
-.create-note-modal-close-button:hover {
-    background: #b02a37;
+.create-note-modal-editor-container .w-md-editor {
+    flex: 1;
+    min-height: 0;
 }
