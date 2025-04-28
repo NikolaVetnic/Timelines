@@ -3,7 +3,7 @@
 set -e
 
 echo "Building frontend..."
-cd ../../Frontend/react-app
+cd ../Frontend/react-app
 
 npm install
 npm run build
