@@ -5,7 +5,7 @@ services:
     container_name: tl-api
     image: ${DOCKER_REGISTRY-}tl-api
     networks:
-      - tl-network
+      - main
     depends_on:
       - tl-database
     build:
@@ -16,20 +16,20 @@ services:
     container_name: tl-database
     image: postgres
     networks:
-      - tl-network
+      - main
 
   proxy:
     container_name: nginx-proxy
     image: nginx:alpine
     networks:
-      - tl-network
+      - main
     depends_on:
       - tl-api
     ports:
       - "80:80"
 
 networks:
-  tl-network:
+  main:
     driver: bridge
 
 volumes:

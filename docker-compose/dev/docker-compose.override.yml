@@ -15,7 +15,7 @@ services:
     container_name: tl-frontend
     image: ${DOCKER_REGISTRY-}tl-frontend
     networks:
-      - tl-network
+      - main
     depends_on:
       - tl-api
     build:
