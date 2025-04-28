@@ -25,4 +25,4 @@ services:
   proxy:
     volumes:
       - ${PWD}/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - /var/www/frontend:/usr/share/nginx/html:ro
+      - ../Frontend/react-app/build:/usr/share/nginx/html:ro
