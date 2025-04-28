@@ -4,27 +4,27 @@ using Microsoft.AspNetCore.Identity;
 using Users.Domain.Models;
 
 namespace Users.Application.Entities.Authentication.Commands.RegisterUser;
-internal class RegisterUserHandler : ICommandHandler<RegisterUserCommand>
+internal class RegisterUserHandler(UserManager<ApplicationUser> userManager) : ICommandHandler<RegisterUserCommand>
 {
-    public async Task<Unit> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    private readonly UserManager<ApplicationUser> _userManager = userManager;
+
+    public async Task<Unit> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
     {
         var user = new ApplicationUser
         {
-            Email = request.Email,
-            UserName = request.Email
+            Email = command.Email,
+            UserName = command.Email
         };
 
-        var result = await _userManager.CreateAsync(user, request.Password);
+        var result = await _userManager.CreateAsync(user, command.Password);
 
-        if (!result.Succeeded)
-        {
-            var errors = result.Errors.Select(e => e.Description);
-            return new AuthResponse { Success = false, Errors = errors };
-        }
+        if (result.Succeeded) return new AuthResponse { Success = true };
+
+        var errors = result.Errors.Select(e => e.Description);
+        return new AuthResponse { Success = false, Errors = errors };
 
         // Optionally add default role
-        await _userManager.AddToRoleAsync(user, "User");
+        //await _userManager.AddToRoleAsync(user, "User");
 
-        return new AuthResponse { Success = true };
     }
 }
