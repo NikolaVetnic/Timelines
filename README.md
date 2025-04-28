@@ -14,11 +14,11 @@ git clone https://github.com/NikolaVetnic/Timelines Timelines && cd docker-compo
 
 ### 1.2 Start the Compose Stack
 
-For local development set up the `docker-compose/.env.local` following the `docker-compose/.env.template` file. The `ASPNETCORE_ENVIRONMENT` environment variable should be set to `Development`.
+For local development set up the `docker-compose/dev/.env` following the `docker-compose/.env.template` file. The `ASPNETCORE_ENVIRONMENT` environment variable should be set to `Development`.
 
-As for production, the setup is the same, save for the variable being set to `Production`.
+As for production, the setup is the same, save for the `.env` file path being `docker-compose/prod.env`, and the environment variable being set to `Production`.
 
-The compose stack can be spun up using the `deploy-local.sh` and `deploy-prod.sh` scripts.
+The compose stack can be spun up from `docker-compose` using the `./dev/up.sh` and `./prod/up.sh` scripts. Teardown is possible via analogoues `dn.sh` scripts.
 
 ### 1.3 Verify the Setup
 
