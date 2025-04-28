@@ -3,6 +3,7 @@ import { FaTrash, FaSignOutAlt } from "react-icons/fa";
 import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
 import { useNavigate } from "react-router";
 import TimelineService from "../../../../services/TimelineService";
+import TimelineListContent from "./TimelineListContent/TimelineListContent";
 import Button from "../../buttons/Button/Button";
 import CreateTimelineModal from "../../modals/CreateTimelineModal/CreateTimelineModal";
 import DeleteModal from "../../modals/DeleteModal/DeleteModal";
@@ -245,57 +246,18 @@ const TimelineList = () => {
       </div>
 
       <div className="timeline-list-content">
-        {timelines.length === 0 ? (
-          <div className="timeline-list-empty">
-            <p className="timeline-list-empty-message">
-              No timelines found. Create one to get started!
-            </p>
-          </div>
-        ) : (
-          <>
-            <div className="timeline-list-grid">
-              {timelines.map((timeline) => (
-                <div
-                  key={timeline.id}
-                  className={`timeline-list-item ${
-                    selectedTimelines.includes(timeline.id) ? "selected" : ""
-                  }`}
-                  onClick={(e) => handleTimelineClick(timeline, e)}
-                >
-                  <div className="timeline-checkbox-container">
-                    <input
-                      type="checkbox"
-                      className="timeline-checkbox"
-                      checked={selectedTimelines.includes(timeline.id)}
-                      onChange={() => toggleTimelineSelection(timeline.id)}
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                  </div>
-                  <h3 className="timeline-list-item-title">
-                    <span>Timeline:</span>
-                    {timeline.title}
-                  </h3>
-                  <p className="timeline-list-item-description">
-                    {timeline.description || "No description"}
-                  </p>
-                  <small className="timeline-list-item-date">
-                    Created: {new Date(timeline.createdAt).toLocaleDateString()}
-                  </small>
-                </div>
-              ))}
-            </div>
-            {isMobile && (
-              <div ref={loadMoreRef} className="load-more-trigger">
-                {loadingMore ? (
-                  <div className="loading-spinner">Loading...</div>
-                ) : (
-                  !allTimelinesLoaded &&
-                  currentPage < totalPages && <div>Scroll to load more</div>
-                )}
-              </div>
-            )}
-          </>
-        )}
+        <TimelineListContent
+          timelines={timelines}
+          selectedTimelines={selectedTimelines}
+          handleTimelineClick={handleTimelineClick}
+          toggleTimelineSelection={toggleTimelineSelection}
+          isMobile={isMobile}
+          loadingMore={loadingMore}
+          allTimelinesLoaded={allTimelinesLoaded}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          loadMoreRef={loadMoreRef}
+        />
       </div>
 
       {!isMobile && (
