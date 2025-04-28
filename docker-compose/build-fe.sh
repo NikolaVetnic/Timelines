@@ -24,4 +24,7 @@ ssh root@$IP_ADDRESS "rm -rf /var/www/frontend/ && mkdir -p /var/www/frontend/"
 echo "Copying files to remote server..."
 scp -r build/* root@$IP_ADDRESS:/var/www/frontend/
 
+echo "Restarting proxy..."
+ssh root@$IP_ADDRESS "docker restart nginx-proxy"
+
 echo "Deployment completed successfully."
