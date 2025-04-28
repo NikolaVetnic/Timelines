@@ -28,18 +28,11 @@ public class CreateReminderCommandValidator : AbstractValidator<CreateReminderCo
             .NotEmpty().WithMessage("Description is required.")
             .MaximumLength(500).WithMessage("Description must not exceed 500 characters.");
 
-        RuleFor(x => x.DueDateTime)
-            .GreaterThan(DateTime.Now).WithMessage("Due date and time must be in the future.");
+        RuleFor(x => x.NotifyAt)
+            .GreaterThan(DateTime.Now).WithMessage("Notify at must be in the future.");
 
         RuleFor(x => x.Priority)
             .NotEmpty().WithMessage("Priority is required.");
-
-        RuleFor(x => x.NotificationTime)
-            .LessThan(x => x.DueDateTime).WithMessage("Notification time must be before the due date time.")
-            .GreaterThan(DateTime.Now).WithMessage("Notification time must be in the future.");
-
-        RuleFor(x => x.Status)
-            .NotEmpty().WithMessage("Status is required.");
         
         RuleFor(x => x.NodeId)
             .NotEmpty().WithMessage("NodeId is required.");
