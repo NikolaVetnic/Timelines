@@ -9,7 +9,7 @@ fi
 
 IP_ADDRESS=$1
 
-echo "Connecting to $IP_ADDRESS and installing Docker and Docker Compose..."
+echo "Connecting to $IP_ADDRESS and installing Docker, Docker Compose, and Node.js..."
 
 ssh root@$IP_ADDRESS bash <<'EOF'
 set -e
@@ -55,7 +55,7 @@ chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 echo "Checking Docker Compose version:"
 docker compose version
 
-# --- Step 3: (Optional) Add user to docker group ---
+# --- Step 3: (Optional) Add root user to docker group ---
 echo "Adding root user to docker group..."
 usermod -aG docker root
 
@@ -63,5 +63,25 @@ echo ""
 echo "You have been added to the docker group."
 echo "Please log out and log back in, or run 'newgrp docker' to apply the new group membership immediately."
 echo ""
-echo "Docker and Docker Compose installation completed successfully."
+
+# --- Step 4: Install Node.js and npm ---
+echo "Installing Node.js and npm..."
+
+# Install curl if missing
+apt install -y curl
+
+# Fetch Node.js 20.x setup script
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+
+# Install Node.js
+apt install -y nodejs
+
+echo "Checking Node.js version:"
+node -v
+
+echo "Checking npm version:"
+npm -v
+
+echo ""
+echo "Docker, Docker Compose, Node.js, and npm installation completed successfully."
 EOF
