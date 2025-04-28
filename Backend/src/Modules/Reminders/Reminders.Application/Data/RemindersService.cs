@@ -1,5 +1,6 @@
 using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Mapster;
@@ -34,5 +35,13 @@ public class RemindersService(IServiceProvider serviceProvider, IRemindersReposi
         var reminders = await remindersRepository.GetRemindersBelongingToNodeIdsAsync(nodeIds, cancellationToken);
         var reminderBaseDtos = reminders.Adapt<List<ReminderBaseDto>>();
         return reminderBaseDtos;
+    }
+
+    public async Task DeleteReminder(ReminderId reminderId, CancellationToken cancellationToken)
+    {
+        var reminder = await remindersRepository.GetReminderByIdAsync(reminderId, cancellationToken);
+        await NodesService.RemoveReminder(reminder.NodeId, reminderId, cancellationToken);
+
+        await remindersRepository.DeleteReminder(reminderId, cancellationToken);
     }
 }

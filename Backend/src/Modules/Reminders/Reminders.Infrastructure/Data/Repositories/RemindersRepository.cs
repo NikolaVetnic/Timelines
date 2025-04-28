@@ -1,4 +1,5 @@
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Reminders.Application.Data.Abstractions;
 using Reminders.Application.Entities.Reminders.Exceptions;
@@ -21,5 +22,14 @@ public class RemindersRepository(IRemindersDbContext dbContext) : IRemindersRepo
             .AsNoTracking()
             .Where(r => nodeIds.Contains(r.NodeId))
             .ToListAsync(cancellationToken: cancellationToken);
+    }
+
+    public async Task DeleteReminder(ReminderId reminderId, CancellationToken cancellationToken)
+    {
+        var reminderToDelete = await dbContext.Reminders
+            .FirstAsync(r => r.Id == reminderId, cancellationToken);
+
+        dbContext.Reminders.Remove(reminderToDelete);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

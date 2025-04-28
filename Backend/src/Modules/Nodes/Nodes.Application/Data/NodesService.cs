@@ -142,9 +142,12 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
 
-    public Task RemoveReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken)
+    public async Task RemoveReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+        node.RemoveReminder(reminderId);
+
+        await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
 
     public Task RemoveReminders(NodeId nodeId, IEnumerable<ReminderId> reminderIds, CancellationToken cancellationToken)

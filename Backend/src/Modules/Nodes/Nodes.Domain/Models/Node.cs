@@ -130,6 +130,7 @@ public class Node : Aggregate<NodeId>
     #endregion
 
     #region Reminders
+
     public void AddReminder(ReminderId reminderId)
     {
         if (!ReminderIds.Contains(reminderId))
