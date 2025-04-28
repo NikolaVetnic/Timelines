@@ -77,10 +77,8 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
                         id: r.Id!.ToString(),
                         title: r.Title,
                         description: r.Description,
-                        dueDateTime: r.DueDateTime,
-                        priority: r.Priority,
-                        notificationTime: r.NotificationTime,
-                        status: r.Status)
+                        notifyAt: r.NotifyAt,
+                        priority: r.Priority)
                         )
                         .ToList()
             )

@@ -8,10 +8,8 @@ public class CreateReminderCommand : ICommand<CreateReminderResult>
 {
     public required string Title { get; set; }
     public required string Description { get; set; }
-    public required DateTime DueDateTime { get; set; }
+    public required DateTime NotifyAt { get; set; }
     public required int Priority { get; set; }
-    public required DateTime NotificationTime { get; set; }
-    public required string Status { get; set; }
     public required NodeId NodeId { get; set; }
 }
 

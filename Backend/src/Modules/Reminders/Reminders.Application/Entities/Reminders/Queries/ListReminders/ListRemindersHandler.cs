@@ -18,7 +18,7 @@ public class ListRemindersHandler(IRemindersDbContext dbContext, INodesService n
 
         var reminders = await dbContext.Reminders
             .AsNoTracking()
-            .OrderBy(r => r.DueDateTime)
+            .OrderBy(r => r.NotifyAt)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
