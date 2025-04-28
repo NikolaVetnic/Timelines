@@ -20,7 +20,7 @@ public class Login(IConfiguration config) : ICarterModule
     {
         app.MapPost("/login", async (LoginRequest request,
                 UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> SignInManager) =>
+            SignInManager<ApplicationUser> signInManager) =>
             {
                 var user = await userManager.FindByEmailAsync(request.Email);
                 if (user == null)
@@ -28,7 +28,7 @@ public class Login(IConfiguration config) : ICarterModule
                     return Results.Unauthorized();
                 }
 
-                var result = await SignInManager.CheckPasswordSignInAsync(
+                var result = await signInManager.CheckPasswordSignInAsync(
                     user,
                     request.Password,
                     lockoutOnFailure: false);
