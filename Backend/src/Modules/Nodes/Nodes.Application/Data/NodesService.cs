@@ -43,7 +43,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
         var nodeDtos = nodes.Select(n =>
             n.ToNodeDto(timelines
-                .First(t => t.Id == n.TimelineId.ToString()),
+                    .First(t => t.Id == n.TimelineId.ToString()),
                 fileAssets
                     .Where(f => n.FileAssetIds.Select(id => id.ToString()).Contains(f.Id))
                     .Select(f => new FileAssetBaseDto(
@@ -79,17 +79,19 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
                         description: r.Description,
                         notifyAt: r.NotifyAt,
                         priority: r.Priority)
-                        )
-                        .ToList()
+                    )
+                    .ToList()
             )
         ).ToList();
 
         return nodeDtos;
     }
 
-    public async Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    public async Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds,
+        CancellationToken cancellationToken)
     {
-        return (await nodesRepository.GetNodesByIdsAsync(nodeIds, cancellationToken)).Select(n => n.ToNodeBaseDto()).ToList();
+        return (await nodesRepository.GetNodesByIdsAsync(nodeIds, cancellationToken)).Select(n => n.ToNodeBaseDto())
+            .ToList();
     }
 
     public async Task<long> CountNodesAsync(CancellationToken cancellationToken)
@@ -98,7 +100,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     }
 
     #endregion
-    
+
     #region Get
 
     public async Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
@@ -135,6 +137,27 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     #endregion
 
+    public async Task<NodeId> CloneNodeIntoTimelineAsync(NodeId nodeTemplateId, TimelineId timelineId, CancellationToken cancellationToken)
+    {
+        var nodeTemplate = await nodesRepository.GetNodeByIdAsync(nodeTemplateId, cancellationToken);
+
+        var node = Node.Create(
+            NodeId.Of(Guid.NewGuid()),
+            nodeTemplate.Title,
+            nodeTemplate.Description,
+            nodeTemplate.Phase,
+            nodeTemplate.Timestamp,
+            nodeTemplate.Importance,
+            nodeTemplate.Categories,
+            nodeTemplate.Tags,
+            timelineId
+        );
+
+        await nodesRepository.CreateNodeAsync(node, cancellationToken);
+
+        return node.Id;
+    }
+
     public async Task AddReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken)
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
@@ -150,7 +173,8 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
 
-    public async Task RemoveReminders(NodeId nodeId, IEnumerable<ReminderId> reminderIds, CancellationToken cancellationToken)
+    public async Task RemoveReminders(NodeId nodeId, IEnumerable<ReminderId> reminderIds,
+        CancellationToken cancellationToken)
     {
         var node = await nodesRepository.GetTrackedNodeByIdAsync(nodeId, cancellationToken);
 
@@ -166,17 +190,18 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
         var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
         await timelinesService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
-        
+
         await nodesRepository.DeleteNode(nodeId, cancellationToken);
     }
 
-    public async Task DeleteNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    public async Task DeleteNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds,
+        CancellationToken cancellationToken)
     {
         var input = nodeIds.ToList();
 
         var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
         await timelinesService.RemoveNodes(timelineId, input, cancellationToken);
-        
+
         await nodesRepository.DeleteNodes(input, cancellationToken);
     }
 
@@ -215,7 +240,8 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         await nodesRepository.UpdateNodeAsync(node, cancellationToken);
     }
 
-    public async Task RemoveFileAssets(NodeId nodeId, IEnumerable<FileAssetId> fileAssetIds, CancellationToken cancellationToken)
+    public async Task RemoveFileAssets(NodeId nodeId, IEnumerable<FileAssetId> fileAssetIds,
+        CancellationToken cancellationToken)
     {
         var node = await nodesRepository.GetTrackedNodeByIdAsync(nodeId, cancellationToken);
 
