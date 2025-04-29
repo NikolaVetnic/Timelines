@@ -30,9 +30,9 @@ internal class LoginUserHandler(UserManager<ApplicationUser> userManager, IConfi
         return new AuthenticationResponse
         {
             Success = true,
-            //Token = token,
-            //UserId = user.Id,
-            //Email = user.Email
+            Token = token,
+            UserId = user.Id,
+            Email = user.Email
         };
     }
 
