@@ -22,17 +22,10 @@ internal class UpdateFileAssetHandler(IFilesRepository filesRepository, INodesSe
         fileAsset.SharedWith = command.SharedWith ?? fileAsset.SharedWith;
         fileAsset.IsPublic = command.IsPublic ?? fileAsset.IsPublic;
 
-        var node = await nodesService.GetNodeByIdAsync(fileAsset.NodeId, cancellationToken);
+        var node = await nodesService.GetNodeByIdAsync(
+            command.NodeId ?? fileAsset.NodeId, cancellationToken);
 
-        if (command.NodeId != null)
-        {
-            node = await nodesService.GetNodeByIdAsync(command.NodeId, cancellationToken);
-
-            if (node == null)
-                throw new NotFoundException(command.NodeId.ToString());
-        }
-
-        if (node.Id == null)
+        if (node?.Id == null)
             throw new NotFoundException($"Related with id {command.NodeId} not found");
 
         fileAsset.NodeId = NodeId.Of(Guid.Parse(node.Id));
