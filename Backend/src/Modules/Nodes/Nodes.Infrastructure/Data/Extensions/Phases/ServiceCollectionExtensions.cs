@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Nodes.Application.Data.Abstractions;
+using Nodes.Application.Data.Abstractions.Phases;
 using Nodes.Infrastructure.Data.Repositories;
 
 namespace Nodes.Infrastructure.Data.Extensions.Phases;

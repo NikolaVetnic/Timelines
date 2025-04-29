@@ -7,18 +7,18 @@ public static class DatabaseExtensions
         using var scope = services.CreateScope();
         var scopedProvider = scope.ServiceProvider;
 
-        var nodesDbContext = scopedProvider.GetRequiredService<NodesDbContext>();
+        var phasesDbContext = scopedProvider.GetRequiredService<PhasesDbContext>();
 
         // Apply migrations
-        await nodesDbContext.Database.MigrateAsync();
+        await phasesDbContext.Database.MigrateAsync();
 
         // Seed initial data if necessary
-        await SeedAsync(nodesDbContext);
+        await SeedAsync(phasesDbContext);
     }
 
-    private static async Task SeedAsync(NodesDbContext context)
+    private static async Task SeedAsync(PhasesDbContext context)
     {
-        if (await context.Phas.AnyAsync())
+        if (await context.Phases.AnyAsync())
             return;
 
         await context.AddRangeAsync(InitialData.Phases);
@@ -30,8 +30,8 @@ public static class DatabaseExtensions
         using var scope = services.CreateScope();
         var scopedProvider = scope.ServiceProvider;
 
-        var nodesDbContext = scopedProvider.GetRequiredService<PhasesDbContext>();
+        var phasesDbContext = scopedProvider.GetRequiredService<PhasesDbContext>();
 
-        await nodesDbContext.Database.MigrateAsync();
+        await phasesDbContext.Database.MigrateAsync();
     }
 }

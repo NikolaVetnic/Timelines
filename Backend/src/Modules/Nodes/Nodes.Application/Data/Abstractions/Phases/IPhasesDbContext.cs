@@ -1,6 +1,6 @@
 ﻿namespace Nodes.Application.Data.Abstractions.Phases;
 
-internal interface IPhasesDbContext
+public interface IPhasesDbContext
 {
     DbSet<Phase> Phases { get; }
 
