@@ -23,8 +23,8 @@ internal class UpdateReminderHandler(IRemindersRepository remindersRepository, I
         var node = await nodesService.GetNodeByIdAsync(
             command.NodeId ?? reminder.NodeId, cancellationToken);
 
-        if (node.Id == null)
-            throw new NotFoundException($"Related with id {command.NodeId} not found");
+        if (node.Id is null)
+            throw new NotFoundException($"Related node with ID {command.NodeId ?? reminder.NodeId} not found");
 
         reminder.NodeId = NodeId.Of(Guid.Parse(node.Id));
         

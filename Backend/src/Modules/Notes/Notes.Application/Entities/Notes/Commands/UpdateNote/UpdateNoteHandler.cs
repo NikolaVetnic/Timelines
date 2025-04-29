@@ -24,8 +24,8 @@ internal class UpdateNoteHandler(INotesRepository notesRepository, INodesService
         var node = await nodesService.GetNodeByIdAsync(
             command.NodeId ?? note.NodeId, cancellationToken);
 
-        if (node.Id == null)
-            throw new NotFoundException($"Related with id {command.NodeId} not found");
+        if (node.Id is null)
+            throw new NotFoundException($"Related node with ID {command.NodeId ?? note.NodeId} not found");
 
         note.NodeId = NodeId.Of(Guid.Parse(node.Id));
 
