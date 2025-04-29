@@ -1,6 +1,6 @@
 using BugTracking.Infrastructure.Data.Extensions;
 using Files.Infrastructure.Data.Extensions;
-using Nodes.Infrastructure.Data.Extensions;
+using Nodes.Infrastructure.Data.Extensions.Nodes;
 using Notes.Infrastructure.Data.Extensions;
 using Reminders.Infrastructure.Data.Extensions;
 using Timelines.Infrastructure.Data.Extensions;
@@ -29,6 +29,7 @@ public static class DatabaseExtensions
         await services.MigrateFilesDatabaseAsync();
         await services.MigrateNodesDatabaseAsync();
         await services.MigrateNotesDatabaseAsync();
+        await services.MigratePhasesDatabaseAsync();
         await services.MigrateRemindersDatabaseAsync();
         await services.MigrateTimelinesDatabaseAsync();
     }
@@ -39,6 +40,7 @@ public static class DatabaseExtensions
         await services.MigrateAndSeedFilesDatabaseAsync();
         await services.MigrateAndSeedNodesDatabaseAsync();
         await services.MigrateAndSeedNotesDatabaseAsync();
+        await services.MigrateAndSeedPhasesDatabaseAsync();
         await services.MigrateAndSeedRemindersDatabaseAsync();
         await services.MigrateAndSeedTimelinesDatabaseAsync();
     }

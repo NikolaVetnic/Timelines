@@ -1,6 +1,6 @@
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
-using Nodes.Application.Data.Abstractions;
+using Nodes.Application.Data.Abstractions.Nodes;
 using Nodes.Application.Entities.Nodes.Exceptions;
 
 namespace Nodes.Infrastructure.Data.Repositories;

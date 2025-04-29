@@ -1,4 +1,4 @@
-namespace Nodes.Application.Data.Abstractions;
+namespace Nodes.Application.Data.Abstractions.Nodes;
 
 public interface INodesDbContext
 {

@@ -1,11 +1,10 @@
 using System.Reflection;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
-using Nodes.Application.Data.Abstractions;
+using Nodes.Application.Data.Abstractions.Nodes;
 
 namespace Nodes.Infrastructure.Data;
 
-public class NodesDbContext(DbContextOptions<NodesDbContext> options) :
-    DbContext(options), INodesDbContext
+public class NodesDbContext(DbContextOptions<NodesDbContext> options) : DbContext(options), INodesDbContext
 {
     public DbSet<Node> Nodes { get; init; }
 
