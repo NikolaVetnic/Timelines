@@ -9,11 +9,32 @@ namespace Core.Api.Extensions;
 
 public static class DatabaseExtensions
 {
-    public static async Task MigrateAndSeedAllModulesAsync(this IServiceProvider services, IWebHostEnvironment env)
+    public static async Task SetupDatabaseAsync(this IServiceProvider services, IWebHostEnvironment env)
     {
-        if (!env.IsDevelopment()) 
-            return;
+        switch (env.EnvironmentName)
+        {
+            case "Development":
+            case "Production": // Temporary solution as we want test clients to have some templates to go off of
+                await services.MigrateAndSeedAllModulesAsync();
+                break;
+            default:
+                await services.MigrateAllModulesAsync();
+                break;
+        }
+    }
 
+    private static async Task MigrateAllModulesAsync(this IServiceProvider services)
+    {
+        await services.MigrateBugTrackingDatabaseAsync();
+        await services.MigrateFilesDatabaseAsync();
+        await services.MigrateNodesDatabaseAsync();
+        await services.MigrateNotesDatabaseAsync();
+        await services.MigrateRemindersDatabaseAsync();
+        await services.MigrateTimelinesDatabaseAsync();
+    }
+
+    private static async Task MigrateAndSeedAllModulesAsync(this IServiceProvider services)
+    {
         await services.MigrateBugTrackingDatabaseAsync();
         await services.MigrateAndSeedFilesDatabaseAsync();
         await services.MigrateAndSeedNodesDatabaseAsync();

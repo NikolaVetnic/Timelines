@@ -24,4 +24,14 @@ public static class DatabaseExtensions
         await context.AddRangeAsync(InitialData.Reminders);
         await context.SaveChangesAsync();
     }
+    
+    public static async Task MigrateRemindersDatabaseAsync(this IServiceProvider services)
+    {
+        using var scope = services.CreateScope();
+        var scopedProvider = scope.ServiceProvider;
+
+        var remindersDbContext = scopedProvider.GetRequiredService<RemindersDbContext>();
+
+        await remindersDbContext.Database.MigrateAsync();
+    }
 }

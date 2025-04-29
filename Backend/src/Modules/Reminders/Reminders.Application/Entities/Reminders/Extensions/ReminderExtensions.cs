@@ -11,10 +11,8 @@ public static class ReminderExtensions
             reminder.Id.ToString(),
             reminder.Title,
             reminder.Description,
-            reminder.DueDateTime,
+            reminder.NotifyAt,
             reminder.Priority,
-            reminder.NotificationTime,
-            reminder.Status,
             node);
     }
 }

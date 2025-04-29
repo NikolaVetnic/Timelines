@@ -33,6 +33,13 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
                throw new NodeNotFoundException(nodeId.ToString());
     }
 
+    public async Task<Node> GetTrackedNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Nodes
+                   .SingleOrDefaultAsync(n => n.Id == nodeId, cancellationToken) ??
+               throw new NodeNotFoundException(nodeId.ToString());
+    }
+
     public async Task<List<Node>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         return await dbContext.Nodes
@@ -68,6 +75,7 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
     }
 
     #region Relationships
+
     public async Task<IEnumerable<Node>> GetNodesBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken)
     {
         return await dbContext.Nodes
@@ -75,5 +83,6 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
             .Where(n => timelineIds.Contains(n.TimelineId))
             .ToListAsync(cancellationToken: cancellationToken);
     }
+
     #endregion
 }

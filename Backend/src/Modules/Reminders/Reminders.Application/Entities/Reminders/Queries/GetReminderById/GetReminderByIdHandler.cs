@@ -7,11 +7,11 @@ internal class GetReminderByIdHandler(IRemindersService remindersService) : IQue
 {
     public async Task<GetReminderByIdResult> Handle(GetReminderByIdQuery query, CancellationToken cancellationToken)
     {
-        var reminder = await remindersService.GetReminderByIdAsync(query.Id, cancellationToken);
+        var reminderDto = await remindersService.GetReminderByIdAsync(query.Id, cancellationToken);
 
-        if (reminder is null)
+        if (reminderDto is null)
             throw new ReminderNotFoundException(query.Id.ToString());
 
-        return new GetReminderByIdResult(reminder);
+        return new GetReminderByIdResult(reminderDto);
     }
 }

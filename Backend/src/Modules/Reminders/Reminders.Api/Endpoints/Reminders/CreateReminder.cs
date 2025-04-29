@@ -33,10 +33,8 @@ public record CreateReminderRequest
 {
     public string Title { get; set; }
     public string Description { get; set; }
-    public DateTime DueDateTime { get; set; }
+    public DateTime NotifyAt { get; set; }
     public int Priority { get; set; } // todo: This should be an enum common for all Priority properties
-    public DateTime NotificationTime { get; set; }
-    public string Status { get; set; }
     public NodeId NodeId { get; set; }
 }
 

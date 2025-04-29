@@ -39,7 +39,6 @@ public class NodesDbContext(DbContextOptions<NodesDbContext> options) :
 
             entity.Property(r => r.TimelineId).IsRequired();
             entity.HasIndex(r => r.TimelineId); // Add an index for efficient querying
-
             entity.Property(r => r.TimelineId)
                 .HasConversion(new TimelineIdValueConverter()) // Apply the value converter
                 .IsRequired();
@@ -51,6 +50,15 @@ public class NodesDbContext(DbContextOptions<NodesDbContext> options) :
             entity.Property(e => e.FileAssetIds)
                 .HasConversion(new FileAssetIdListConverter())
                 .HasColumnName("FileAssetIds")
+                .IsRequired(false);
+
+            // Map the NoteIds as a collection of IDs
+            entity.Ignore(n => n.NoteIds); // This prevents EF from expecting a navigation property
+            entity.Property(n => n.Id).ValueGeneratedNever(); // Ensures IDs are managed externally
+
+            entity.Property(e => e.NoteIds)
+                .HasConversion(new NoteIdListConverter())
+                .HasColumnName("NoteIds")
                 .IsRequired(false);
         });
 

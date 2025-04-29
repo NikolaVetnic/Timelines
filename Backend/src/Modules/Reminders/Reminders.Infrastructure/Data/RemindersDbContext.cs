@@ -22,10 +22,17 @@ public class RemindersDbContext(DbContextOptions<RemindersDbContext> options) :
             entity.HasKey(r => r.Id);
             entity.Property(r => r.Title).IsRequired();
             entity.Property(r => r.Description).IsRequired();
-            entity.Property(r => r.DueDateTime).IsRequired();
+            entity.Property(r => r.NotifyAt).IsRequired();
             entity.Property(r => r.Priority).IsRequired();
-            entity.Property(r => r.NotificationTime).IsRequired();
-            entity.Property(r => r.Status).IsRequired();
+
+            // Map the RelatedReminders as a collection of IDs
+            entity.Ignore(r => r.RelatedReminders); // This prevents EF from expecting a navigation property
+            entity.Property(r => r.Id).ValueGeneratedNever(); // Ensures IDs are managed externally
+
+            entity.Property(e => e.RelatedReminders)
+                .HasConversion(new RelatedReminderIdListConverter())
+                .HasColumnName("RelatedReminders")
+                .IsRequired(false);
 
             entity.Property(r => r.NodeId).IsRequired();
             entity.HasIndex(r => r.NodeId); // Add an index for efficient querying

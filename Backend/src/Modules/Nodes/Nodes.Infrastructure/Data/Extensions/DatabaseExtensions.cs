@@ -24,4 +24,14 @@ public static class DatabaseExtensions
         await context.AddRangeAsync(InitialData.Nodes);
         await context.SaveChangesAsync();
     }
+    
+    public static async Task MigrateNodesDatabaseAsync(this IServiceProvider services)
+    {
+        using var scope = services.CreateScope();
+        var scopedProvider = scope.ServiceProvider;
+
+        var nodesDbContext = scopedProvider.GetRequiredService<NodesDbContext>();
+
+        await nodesDbContext.Database.MigrateAsync();
+    }
 }

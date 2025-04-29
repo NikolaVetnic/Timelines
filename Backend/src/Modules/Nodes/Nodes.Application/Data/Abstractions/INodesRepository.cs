@@ -9,6 +9,7 @@ public interface INodesRepository
     Task<long> NodeCountAsync(CancellationToken cancellationToken);
     
     Task<Node> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
+    Task<Node> GetTrackedNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
     Task<List<Node>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
     
     Task UpdateNodeAsync(Node node, CancellationToken cancellationToken);

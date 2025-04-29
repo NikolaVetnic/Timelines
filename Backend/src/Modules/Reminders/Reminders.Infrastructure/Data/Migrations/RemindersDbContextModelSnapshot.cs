@@ -18,7 +18,7 @@ namespace Reminders.Infrastructure.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Reminders")
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -39,9 +39,6 @@ namespace Reminders.Infrastructure.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<DateTime>("DueDateTime")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -51,16 +48,15 @@ namespace Reminders.Infrastructure.Data.Migrations
                     b.Property<Guid>("NodeId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("NotificationTime")
+                    b.Property<DateTime>("NotifyAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Priority")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                    b.Property<string>("RelatedReminders")
+                        .HasColumnType("text")
+                        .HasColumnName("RelatedReminders");
 
                     b.Property<string>("Title")
                         .IsRequired()

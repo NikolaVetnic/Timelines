@@ -20,17 +20,10 @@ public class ReminderConfiguration : IEntityTypeConfiguration<Reminder>
             .IsRequired()
             .HasMaxLength(500);
 
-        builder.Property(r => r.DueDateTime)
+        builder.Property(r => r.NotifyAt)
             .IsRequired();
 
         builder.Property(r => r.Priority)
             .IsRequired();
-
-        builder.Property(r => r.NotificationTime)
-            .IsRequired();
-
-        builder.Property(r => r.Status)
-            .IsRequired()
-            .HasMaxLength(50);
     }
 }

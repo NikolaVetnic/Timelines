@@ -8,11 +8,14 @@ public class FilesDbContext(DbContextOptions<FilesDbContext> options) :
     DbContext(options), IFilesDbContext
 {
     public DbSet<FileAsset> FileAssets { get; init; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
         // Specify schema for this module
         builder.HasDefaultSchema("Files");
+
         // Configure entities
         builder.Entity<FileAsset>(entity =>
         {

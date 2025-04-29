@@ -1,10 +1,10 @@
 using BuildingBlocks.Domain.Files.File.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
+using BuildingBlocks.Domain.Notes.Note.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 
 namespace Nodes.Application.Entities.Nodes.Extensions;
-
 public static class NodeExtensions
 {
     public static NodeBaseDto ToNodeBaseDto(this Node node)
@@ -20,7 +20,7 @@ public static class NodeExtensions
             node.Tags.ToList());
     }
 
-    public static NodeDto ToNodeDto(this Node node, IEnumerable<ReminderBaseDto> reminders, IEnumerable<FileAssetBaseDto> fileAssets, TimelineBaseDto timeline)
+    public static NodeDto ToNodeDto(this Node node, TimelineBaseDto timeline, IEnumerable<FileAssetBaseDto> fileAssets, IEnumerable<NoteBaseDto> notes, IEnumerable<ReminderBaseDto> reminders)
     {
         return new NodeDto(
             node.Id.ToString(),
@@ -32,9 +32,10 @@ public static class NodeExtensions
             node.Categories.ToList(),
             node.Tags.ToList())
         {
-            Reminders = reminders.ToList(),
+            Timeline = timeline,
             FileAssets = fileAssets.ToList(),
-            Timeline = timeline
+            Notes = notes.ToList(),
+            Reminders = reminders.ToList()
         };
     }
 }

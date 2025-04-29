@@ -1,2 +1,1 @@
 global using BuildingBlocks.Domain.Abstractions;
-global using BuildingBlocks.Domain.ValueObjects.Ids;

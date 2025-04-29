@@ -3,6 +3,7 @@ using Notes.Application.Entities.Notes.Queries.GetNoteById;
 
 namespace Notes.Api.Endpoints.Notes;
 
+// ReSharper disable once UnusedType.Global
 public class GetNoteById : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
@@ -23,4 +24,6 @@ public class GetNoteById : ICarterModule
     }
 }
 
+// ReSharper disable once ClassNeverInstantiated.Global
+// ReSharper disable once NotAccessedPositionalProperty.Global
 public record GetNoteByIdResponse([property: JsonPropertyName("note")] NoteDto NoteDto);
