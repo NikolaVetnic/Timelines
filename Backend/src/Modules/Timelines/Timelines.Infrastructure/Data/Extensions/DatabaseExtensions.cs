@@ -24,4 +24,14 @@ public static class DatabaseExtensions
         await context.AddRangeAsync(InitialData.Timelines);
         await context.SaveChangesAsync();
     }
+    
+    public static async Task MigrateTimelinesDatabaseAsync(this IServiceProvider services)
+    {
+        using var scope = services.CreateScope();
+        var scopedProvider = scope.ServiceProvider;
+
+        var context = scopedProvider.GetRequiredService<TimelinesDbContext>();
+
+        await context.Database.MigrateAsync();
+    }
 }

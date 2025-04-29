@@ -26,7 +26,7 @@ public class CreateIssues : ICarterModule
                 var result = await sender.Send(new CreateIssuesCommand());
                 var response = result.Adapt<CreateIssuesResult>();
 
-                return Results.Created($"/BugReports/ToIssues", response);
+                return Results.Created("/BugReports/ToIssues", response);
             })
             .WithName("CreateIssues")
             .Produces<CreateIssuesResult>(StatusCodes.Status201Created)
