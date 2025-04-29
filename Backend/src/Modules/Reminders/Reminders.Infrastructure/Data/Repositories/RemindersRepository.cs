@@ -38,6 +38,12 @@ public class RemindersRepository(IRemindersDbContext dbContext) : IRemindersRepo
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
+    public async Task UpdateReminderAsync(Reminder reminder, CancellationToken cancellationToken)
+    {
+        dbContext.Reminders.Update(reminder);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task DeleteReminder(ReminderId reminderId, CancellationToken cancellationToken)
     {
         var reminderToDelete = await dbContext.Reminders
