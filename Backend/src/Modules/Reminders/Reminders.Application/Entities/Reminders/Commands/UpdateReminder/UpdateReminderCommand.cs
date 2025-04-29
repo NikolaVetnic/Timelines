@@ -24,7 +24,7 @@ public class UpdateReminderCommandValidator : AbstractValidator<UpdateReminderCo
     {
         RuleFor(x => x.Title)
             .MaximumLength(100).WithMessage("Title must not exceed 100 characters.")
-            .When(x => !string.IsNullOrWhiteSpace(x.Description));
+            .When(x => !string.IsNullOrWhiteSpace(x.Title));
 
         RuleFor(x => x.Description)
             .MaximumLength(500).WithMessage("Description must not exceed 500 characters.")
@@ -32,6 +32,6 @@ public class UpdateReminderCommandValidator : AbstractValidator<UpdateReminderCo
 
         RuleFor(x => x.NotifyAt)
             .GreaterThan(DateTime.Now).WithMessage("Notify at must be in the future.")
-            .When(x => !string.IsNullOrWhiteSpace(x.Description));
+            .When(x => x.NotifyAt is not null);
     }
 }
