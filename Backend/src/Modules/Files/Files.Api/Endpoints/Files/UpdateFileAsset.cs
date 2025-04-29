@@ -48,4 +48,4 @@ public record UpdateFileAssetRequest
 
 // ReSharper disable once ClassNeverInstantiated.Global
 // ReSharper disable once NotAccessedPositionalProperty.Global
-public record UpdateFileAssetResponse(FileAssetDto FileAssetDto);
+public record UpdateFileAssetResponse(FileAssetDto FileAsset);

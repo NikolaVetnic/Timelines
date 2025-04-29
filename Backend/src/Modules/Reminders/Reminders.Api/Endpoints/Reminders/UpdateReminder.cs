@@ -48,4 +48,4 @@ public record UpdateReminderRequest
     public NodeId NodeId { get; set; }
 }
 
-public record UpdateReminderResponse(ReminderDto ReminderDto);
+public record UpdateReminderResponse(ReminderDto Reminder);

@@ -55,4 +55,4 @@ public class UpdateNodeRequest
     public TimelineId TimelineId { get; set; }
 }
 
-public record UpdateNodeResponse(NodeBaseDto NodeDto);
+public record UpdateNodeResponse(NodeBaseDto Node);

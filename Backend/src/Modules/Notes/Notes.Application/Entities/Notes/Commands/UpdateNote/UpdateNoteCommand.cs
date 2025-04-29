@@ -15,7 +15,7 @@ public record UpdateNoteCommand : ICommand<UpdateNoteResult>
     public NodeId? NodeId { get; set; }
 }
 
-public record UpdateNoteResult(NoteDto NoteDto);
+public record UpdateNoteResult(NoteDto Note);
 
 public class UpdateNoteCommandValidator : AbstractValidator<UpdateNoteCommand>
 {

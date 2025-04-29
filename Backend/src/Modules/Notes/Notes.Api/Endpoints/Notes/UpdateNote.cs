@@ -50,4 +50,4 @@ public record UpdateNoteRequest
 
 // ReSharper disable once ClassNeverInstantiated.Global
 // ReSharper disable once NotAccessedPositionalProperty.Global
-public record UpdateNoteResponse(NoteDto NoteDto);
+public record UpdateNoteResponse(NoteDto Note);

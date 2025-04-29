@@ -17,7 +17,7 @@ public record UpdateFileAssetCommand : ICommand<UpdateFileAssetResult>
 }
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
-public record UpdateFileAssetResult(FileAssetDto FileAssetDto);
+public record UpdateFileAssetResult(FileAssetDto FileAsset);
 
 public class UpdateFileCommandValidator : AbstractValidator<UpdateFileAssetCommand>
 {

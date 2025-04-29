@@ -20,7 +20,7 @@ public record UpdateNodeCommand : ICommand<UpdateNodeResult>
 }
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
-public record UpdateNodeResult(NodeBaseDto NodeDto);
+public record UpdateNodeResult(NodeBaseDto Node);
 
 public class UpdateNodeCommandValidator : AbstractValidator<UpdateNodeCommand>
 {

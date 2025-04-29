@@ -12,7 +12,7 @@ public record UpdateTimelineCommand : ICommand<UpdateTimelineResult>
 }
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
-public record UpdateTimelineResult(TimelineBaseDto TimelineDto);
+public record UpdateTimelineResult(TimelineBaseDto Timeline);
 
 public class UpdateTimelineCommandValidator : AbstractValidator<UpdateTimelineCommand>
 {

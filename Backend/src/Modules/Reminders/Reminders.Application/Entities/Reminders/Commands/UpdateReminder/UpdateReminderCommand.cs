@@ -16,7 +16,7 @@ public class UpdateReminderCommand : ICommand<UpdateReminderResult>
 }
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
-public record UpdateReminderResult(ReminderDto ReminderDto);
+public record UpdateReminderResult(ReminderDto Reminder);
 
 public class UpdateReminderCommandValidator : AbstractValidator<UpdateReminderCommand>
 {

@@ -41,4 +41,4 @@ public class UpdateTimelineRequest
     public string Description { get; set; }
 }
 
-public record UpdateTimelineResponse(TimelineBaseDto TimelineDto);
+public record UpdateTimelineResponse(TimelineBaseDto Timeline);
