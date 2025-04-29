@@ -11,8 +11,7 @@ internal class UpdateFileAssetHandler(IFilesRepository filesRepository, INodesSe
 {
     public async Task<UpdateFileAssetResult> Handle(UpdateFileAssetCommand command, CancellationToken cancellationToken)
     {
-        var fileAsset =
-            await filesRepository.GetFileAssetByIdAsync(command.Id, cancellationToken);
+        var fileAsset = await filesRepository.GetFileAssetByIdAsync(command.Id, cancellationToken);
 
         if (fileAsset is null)
             throw new FileAssetNotFoundException(command.Id.ToString());

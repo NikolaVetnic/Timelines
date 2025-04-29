@@ -11,7 +11,7 @@ public class UpdateFileAsset : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/Files/{fileId}", async (string fileId, CreateFileAssetRequest request, ISender sender) =>
+        app.MapPut("/Files/{fileId}", async (string fileId, UpdateFileAssetRequest request, ISender sender) =>
             {
                 var command = new UpdateFileAssetCommand
                 {
