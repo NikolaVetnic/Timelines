@@ -27,7 +27,7 @@ internal class CreateTimelineWithTemplateHandler(ITimelinesRepository timelinesR
 
         var nodeTemplates = await nodesService
             .GetNodesBaseBelongingToTimelineIdsAsync(
-                new[] { template.Id }, cancellationToken);
+                [template.Id], cancellationToken);
 
         var cloneTasks = nodeTemplates.Select(n =>
         {
