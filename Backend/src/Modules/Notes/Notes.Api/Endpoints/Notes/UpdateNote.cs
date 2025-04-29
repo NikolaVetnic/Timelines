@@ -31,7 +31,7 @@ public class UpdateNote : ICarterModule
                 return Results.Ok(response);
             })
             .WithName("UpdateNote")
-            .Produces<UpdateNoteResponse>(StatusCodes.Status201Created)
+            .Produces<UpdateNoteResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithSummary("Update Note")
             .WithDescription("Updates a note");
