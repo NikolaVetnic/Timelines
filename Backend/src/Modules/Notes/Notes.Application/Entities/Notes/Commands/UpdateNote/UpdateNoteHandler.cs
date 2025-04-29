@@ -1,6 +1,5 @@
 ﻿using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Notes.Application.Data.Abstractions;
 using Notes.Application.Entities.Notes.Exceptions;
 using Notes.Application.Entities.Notes.Extensions;
@@ -13,7 +12,7 @@ internal class UpdateNoteHandler(INotesRepository notesRepository, INodesService
     {
         var note = await notesRepository.GetNoteByIdAsync(command.Id, cancellationToken);
         
-        if (note == null)
+        if (note is null)
             throw new NoteNotFoundException(command.Id.ToString());
         
         note.Title = command.Title ?? note.Title;
@@ -25,7 +24,7 @@ internal class UpdateNoteHandler(INotesRepository notesRepository, INodesService
         var node = await nodesService.GetNodeByIdAsync(
             command.NodeId ?? note.NodeId, cancellationToken);
 
-        if (node?.Id == null)
+        if (node.Id == null)
             throw new NotFoundException($"Related with id {command.NodeId} not found");
 
         note.NodeId = NodeId.Of(Guid.Parse(node.Id));

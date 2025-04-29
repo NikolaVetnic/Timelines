@@ -14,7 +14,7 @@ internal class UpdateFileAssetHandler(IFilesRepository filesRepository, INodesSe
         var fileAsset =
             await filesRepository.GetFileAssetByIdAsync(command.Id, cancellationToken);
 
-        if (fileAsset == null)
+        if (fileAsset is null)
             throw new FileAssetNotFoundException(command.Id.ToString());
 
         fileAsset.Name = command.Name ?? fileAsset.Name;
@@ -25,7 +25,7 @@ internal class UpdateFileAssetHandler(IFilesRepository filesRepository, INodesSe
         var node = await nodesService.GetNodeByIdAsync(
             command.NodeId ?? fileAsset.NodeId, cancellationToken);
 
-        if (node?.Id == null)
+        if (node.Id == null)
             throw new NotFoundException($"Related with id {command.NodeId} not found");
 
         fileAsset.NodeId = NodeId.Of(Guid.Parse(node.Id));
