@@ -107,3 +107,22 @@
 .mock-login-button.admin:active {
   background-color: var(--successActive);
 }
+
+/* session expired */
+.session-expired-message {
+  background-color: #fff8e1;
+  border-left: 4px solid #ffc107;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  color: #5d4037;
+}
+
+.session-expired-message h3 {
+  margin-top: 0;
+  color: #e65100;
+}
+
+.session-expired-message p {
+  margin-bottom: 0;
+}
