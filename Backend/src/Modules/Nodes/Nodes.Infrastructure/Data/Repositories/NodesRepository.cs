@@ -49,6 +49,12 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
     }
     #endregion
 
+    public async Task CreateNodeAsync(Node node, CancellationToken cancellationToken = default)
+    {
+        dbContext.Nodes.Add(node);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+    
     public async Task UpdateNodeAsync(Node node, CancellationToken cancellationToken = default)
     {
         dbContext.Nodes.Update(node);
