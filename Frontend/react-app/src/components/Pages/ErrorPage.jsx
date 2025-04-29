@@ -1,16 +1,25 @@
 import { useRouteError, useNavigate } from "react-router-dom";
-import { FaHome, FaRedo } from "react-icons/fa";
+import { FaHome, FaRedo, FaSignInAlt } from "react-icons/fa";
+import Button from "../../core/components/buttons/Button/Button";
 import "./PagesStyle/ErrorPage.css";
 
 const ErrorPage = () => {
   const error = useRouteError();
   const navigate = useNavigate();
 
-  // Determine if this is a 404 route error
+  const errorMessage =
+    error?.message || error?.statusText || "An unexpected error occurred";
+  const errorStatus = error?.status;
+
   const isRouteError =
-    error.status === 404 ||
-    (error instanceof Error &&
-      error.message.includes("The Page you are looking for does not exist."));
+    errorStatus === 404 ||
+    (errorMessage && errorMessage.includes("No routes matched")) ||
+    (errorMessage && errorMessage.includes("Page not found"));
+
+  const isAuthError =
+    errorStatus === 401 ||
+    (errorMessage && errorMessage.toLowerCase().includes("unauthorized")) ||
+    (errorMessage && errorMessage.toLowerCase().includes("authentication"));
 
   return (
     <div className="error-page">
@@ -30,33 +39,55 @@ const ErrorPage = () => {
             textAnchor="middle"
             fill="#D32F2F"
           >
-            {isRouteError ? "404" : "!"}
+            {isRouteError ? "404" : isAuthError ? "401" : "!"}
           </text>
         </svg>
       </div>
-      <h1>{isRouteError ? "Page Not Found" : "Oops! Something went wrong"}</h1>
+      <h1>
+        {isRouteError
+          ? "Page Not Found"
+          : isAuthError
+          ? "Authentication Required"
+          : "Oops! Something went wrong"}
+      </h1>
       <div className="error-message">
         <p>
           {isRouteError
             ? "The page you're looking for doesn't exist."
-            : error.statusText ||
-              error.message ||
-              "An unexpected error occurred"}
+            : isAuthError
+            ? "You need to be logged in to access this page."
+            : errorMessage}
         </p>
-        {error.status && !isRouteError && <p>Status code: {error.status}</p>}
+        {errorStatus && !isRouteError && !isAuthError && (
+          <p>Status code: {errorStatus}</p>
+        )}
       </div>
       <div className="error-actions">
-        {!isRouteError && (
-          <button
+        {!isRouteError && !isAuthError && (
+          <Button
             className="error-retry-button"
+            icon={<FaRedo />}
+            text="Try Again"
+            variant="danger"
             onClick={() => window.location.reload()}
-          >
-            <FaRedo /> Try Again
-          </button>
+          />
         )}
-        <button className="error-home-button" onClick={() => navigate("/")}>
-          <FaHome /> Return Home
-        </button>
+        {isAuthError ? (
+          <Button
+            className="error-login-button"
+            icon={<FaSignInAlt />}
+            text="Return to Login"
+            size="small"
+            onClick={() => navigate("/login")}
+          />
+        ) : (
+          <Button
+            className="error-home-button"
+            icon={<FaHome />}
+            text="Return Home"
+            onClick={() => navigate("/")}
+          />
+        )}
       </div>
     </div>
   );
