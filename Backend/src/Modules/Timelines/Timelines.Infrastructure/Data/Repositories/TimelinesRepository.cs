@@ -33,6 +33,12 @@ public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepo
     }
     #endregion
     
+    public async Task CreateTimelineAsync(Timeline timeline, CancellationToken cancellationToken)
+    {
+        dbContext.Timelines.Add(timeline);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+    
     public async Task UpdateTimelineAsync(Timeline timeline, CancellationToken cancellationToken)
     {
         dbContext.Timelines.Update(timeline);

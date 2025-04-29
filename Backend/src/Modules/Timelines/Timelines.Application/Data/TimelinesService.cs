@@ -48,6 +48,7 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
         return await timelinesRepository.TimelineCountAsync(cancellationToken);
     }
     #endregion
+    
     #region Get
 
     public async Task<TimelineDto> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
@@ -66,6 +67,7 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
         return timelineBaseDto;
     }
     #endregion
+    
     public async Task AddNode(TimelineId timelineId, NodeId nodeId, CancellationToken cancellationToken)
     {
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
