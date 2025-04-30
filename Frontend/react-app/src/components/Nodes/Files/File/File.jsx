@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { toast } from "react-toastify";
 import { IoMdDownload } from "react-icons/io";
 import { MdDelete, MdOutlinePreview } from "react-icons/md";
-import FileService from "../../../../services/FileService";
-import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Button from "../../../../core/components/buttons/Button/Button";
+import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
 import Pagination from "../../../../core/components/pagination/Pagination";
 import { MAX_FILE_SIZE } from "../../../../data/constants";
-import "react-toastify/dist/ReactToastify.css";
+import FileService from "../../../../services/FileService";
 import "./File.css";
 
 const File = ({ nodeId, onToggle }) => {
@@ -19,7 +19,6 @@ const File = ({ nodeId, onToggle }) => {
   const [fileToDelete, setFileToDelete] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(2);
   const itemsPerPageOptions = [2, 4, 6, 8];
@@ -30,9 +29,6 @@ const File = ({ nodeId, onToggle }) => {
         setIsLoading(true);
         const response = await FileService.getFilesByNode(nodeId);
         setFiles(response.items || []);
-      } catch (error) {
-        toast.error("Failed to load files");
-        console.error("Error fetching files:", error);
       } finally {
         setIsLoading(false);
       }
@@ -43,7 +39,6 @@ const File = ({ nodeId, onToggle }) => {
     }
   }, [isExpanded, nodeId]);
 
-  // Pagination calculations
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentFiles = files.slice(indexOfFirstItem, indexOfLastItem);
@@ -62,7 +57,7 @@ const File = ({ nodeId, onToggle }) => {
     async (acceptedFiles) => {
       const validFiles = acceptedFiles.filter((file) => {
         if (file.size > MAX_FILE_SIZE) {
-          toast.error(`❌ File "${file.name}" exceeds the 10MB limit.`);
+          toast.error(`File "${file.name}" exceeds the 10MB limit.`);
           return false;
         }
         return true;
@@ -91,12 +86,6 @@ const File = ({ nodeId, onToggle }) => {
 
         const uploadedFiles = await Promise.all(uploadPromises);
         setFiles((prevFiles) => [...prevFiles, ...uploadedFiles]);
-        toast.success(
-          `📂 ${uploadedFiles.length} file(s) uploaded successfully!`
-        );
-      } catch (error) {
-        console.error("Error uploading files:", error);
-        toast.error("Failed to upload some files");
       } finally {
         setIsLoading(false);
         setTimeout(() => onToggle(), 0);
@@ -142,13 +131,7 @@ const File = ({ nodeId, onToggle }) => {
   };
 
   const handleDownload = async (file) => {
-    try {
       await FileService.downloadFile(file.id);
-      toast.success(`⬇️ Downloading "${file.name}"...`);
-    } catch (error) {
-      console.error("Error downloading file:", error);
-      toast.error("Failed to download file");
-    }
   };
 
   const handlePreview = (file) => {
@@ -171,7 +154,7 @@ const File = ({ nodeId, onToggle }) => {
     <div className={`${root}-section`}>
       <button
         className={`${root}-header ${
-          isExpanded ? "header-open" : "header-closed"
+          isExpanded ? "file-header-open" : "file-header-closed"
         }`}
         onClick={toggleExpansion}
       >
@@ -196,7 +179,6 @@ const File = ({ nodeId, onToggle }) => {
             ) : (
               <>
                 {files.length > 0 ? (
-                  <>
                     <div className={`${root}-grid`}>
                       {currentFiles.map((file) => (
                         <div key={file.id} className={`${root}-card`}>
@@ -254,7 +236,12 @@ const File = ({ nodeId, onToggle }) => {
                         </div>
                       ))}
                     </div>
-                    {files.length > itemsPerPage && (
+                ) : (
+                  <div className={`${root}-empty-state`}>
+                    <p>No files yet. Upload your first file!</p>
+                  </div>
+                )}
+                {files.length > 0 && (
                       <Pagination
                         currentPage={currentPage}
                         totalPages={totalPages}
@@ -264,12 +251,6 @@ const File = ({ nodeId, onToggle }) => {
                         itemsPerPageOptions={itemsPerPageOptions}
                       />
                     )}
-                  </>
-                ) : (
-                  <div className={`${root}-empty-state`}>
-                    <p>No files yet. Upload your first file!</p>
-                  </div>
-                )}
               </>
             )}
           </div>

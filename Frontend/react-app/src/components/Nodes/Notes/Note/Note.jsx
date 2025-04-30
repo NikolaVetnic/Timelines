@@ -1,19 +1,15 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import NotesList from "../../../../core/components/lists/NotesList/NotesList";
 import CreateNoteModal from "../../../../core/components/modals/CreateNoteModal/CreateNoteModal";
-import NoteEditor from "../../../../core/components/modals/NoteEditorModal/NoteEditorModal";
-import useLocalNotes from "../../../../core/hooks/Note/UseLocalNotes";
-// import Pagination from "../../../../core/components/pagination/Pagination";
 import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
+import NoteEditor from "../../../../core/components/modals/NoteEditorModal/NoteEditorModal";
+import Pagination from "../../../../core/components/pagination/Pagination";
+import NoteService from "../../../../services/NoteService";
 import "./Note.css";
 
-const Note = ({ nodeId, timelineId, onToggle }) => {
+const Note = ({ nodeId, onToggle }) => {
   const root = "note";
-  const { notes, setNotes, updateLocalStorage } = useLocalNotes(
-    timelineId,
-    nodeId
-  );
+  const [notes, setNotes] = useState([]);
   const [isNotesExpanded, setIsNotesExpanded] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
   const [noteToDelete, setNoteToDelete] = useState(null);
@@ -21,65 +17,72 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(2);
+  const [totalCount, setTotalCount] = useState(0);
+  const itemsPerPageOptions = [2, 4, 6, 8];
 
-  // todo
-  //   const [currentPage, setCurrentPage] = useState(1);
-  //   const [itemsPerPage, setItemsPerPage] = useState(2);
-  //   const itemsPerPageOptions = [2, 4, 6, 8];
+  useEffect(() => {
+    const fetchNotes = async () => {
+      if (isNotesExpanded && nodeId) {
+        setIsLoading(true);
+        try {
+          const notesData = await NoteService.getNotesByNode(
+            nodeId,
+            currentPage,
+            itemsPerPage
+          );
+          setNotes(notesData.items || []);
+          setTotalCount(notesData.totalCount || 0);
+        } catch (error) {
+          console.error("Failed to fetch notes:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
 
-  // useEffect(() => {
-  //   const fetchNotes = async () => {
-  //     if (isNotesExpanded && nodeId) {
-  //       setIsLoading(true);
-  //       try {
-  //         const notesData = await NoteService.getNotesByNode(nodeId);
-  //         setNotes(notesData);
-  //       } finally {
-  //         setIsLoading(false);
-  //       }
-  //     }
-  //   };
+    fetchNotes();
+  }, [isNotesExpanded, nodeId, currentPage, itemsPerPage]);
 
-  //   fetchNotes();
-  // }, [isNotesExpanded, nodeId]);
+  const totalPages = Math.ceil(totalCount / itemsPerPage);
 
-  // Calculate paginated notes
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentNotes = notes.slice(indexOfFirstItem, indexOfLastItem);
-  // const totalPages = Math.ceil(notes.length / itemsPerPage);
+  const handlePageChange = (page) => {
+    setCurrentPage(page - 1);
+  };
 
-  // const handlePageChange = (page) => {
-  //   setCurrentPage(page);
-  // };
-
-  // const handleItemsPerPageChange = (size) => {
-  //   setItemsPerPage(size);
-  //   setCurrentPage(1);
-  // };
+  const handleItemsPerPageChange = (size) => {
+    setItemsPerPage(size);
+    setCurrentPage(0);
+  };
 
   const toggleNotesSection = () => {
     setIsNotesExpanded((prev) => !prev);
     onToggle();
   };
 
-  const handleSaveNote = () => {
+  const handleSaveNote = async () => {
     if (selectedNote) {
-      const updatedNotes = notes.map((note) =>
-        note.id === selectedNote.id ? { ...note, content: editorContent } : note
-      );
-      setNotes(updatedNotes);
-      updateLocalStorage(updatedNotes);
-
-      // todo: uncomment when backend for adding notes is ready
-      // await NoteService.updateNote(selectedNote.id, { content: editorContent });
-      //   const updatedNotes = notes.map((note) =>
-      //     note.id === selectedNote.id ? { ...note, content: editorContent } : note
-      //   );
-      //   setNotes(updatedNotes);
-      //   closeNoteEditor();
+      try {
+        setIsLoading(true);
+        await NoteService.updateNote(selectedNote.id, { content: editorContent });
+        
+        const notesData = await NoteService.getNotesByNode(
+          nodeId,
+          currentPage,
+          itemsPerPage
+        );
+        setNotes(notesData.items || []);
+        setTotalCount(notesData.totalCount || 0);
+        
+        closeNoteEditor();
+      } catch (error) {
+        console.error("Failed to update note:", error);
+      } finally {
+        setIsLoading(false);
+      }
     }
-    closeNoteEditor();
   };
 
   const handleRemoveNote = (id) => {
@@ -102,26 +105,50 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
 
   const closeCreateModal = () => setCreateModalOpen(false);
 
-  const saveNewNote = (newNote) => {
-    const updatedNotes = [...notes, newNote];
-    setTimeout(onToggle, 0);
-    setNotes(updatedNotes);
-    updateLocalStorage(updatedNotes);
-
-    // todo: add async and uncomment when backend is ready
-    //  const noteWithNodeId = { ...newNote, nodeId };
-    //   await NoteService.createNote(noteWithNodeId);
-    //   const response = await NoteService.getNotesByNode(nodeId);
-    //   setNotes(response.items);
-    //   closeCreateModal();
-    //   onToggle();
+  const saveNewNote = async (newNote) => {
+    try {
+      setIsLoading(true);
+      const noteWithNodeId = { 
+        ...newNote, 
+        nodeId,
+        isPublic: false,
+        sharedWith: [],
+        owner: "current-user-id"
+      };
+      
+      await NoteService.createNote(noteWithNodeId);
+      
+      const notesData = await NoteService.getNotesByNode(
+        nodeId,
+        currentPage,
+        itemsPerPage
+      );
+      setNotes(notesData.items || []);
+      setTotalCount(notesData.totalCount || 0);
+      
+      closeCreateModal();
+      onToggle();
+    } catch (error) {
+      console.error("Failed to create note:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const confirmDelete = () => {
-    if (noteToDelete) {
-      const updatedNotes = notes.filter((note) => note.id !== noteToDelete.id);
-      setNotes(updatedNotes);
-      updateLocalStorage(updatedNotes);
+  const confirmDelete = async () => {
+    if (!noteToDelete) return;
+
+    try {
+      setIsLoading(true);
+      await NoteService.deleteNote(noteToDelete.id);
+      
+      const notesData = await NoteService.getNotesByNode(
+        nodeId,
+        currentPage,
+        itemsPerPage
+      );
+      setNotes(notesData.items || []);
+      setTotalCount(notesData.totalCount || 0);
 
       if (selectedNote?.id === noteToDelete.id) {
         setSelectedNote(null);
@@ -129,23 +156,12 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
 
       setIsDeleteModalOpen(false);
       setNoteToDelete(null);
-      setTimeout(onToggle, 0);
+      onToggle();
+    } catch (error) {
+      console.error("Failed to delete note:", error);
+    } finally {
+      setIsLoading(false);
     }
-
-    // todo: add async and uncomment when backend is ready
-    // if (!noteToDelete) return;
-
-    //   await NoteService.deleteNote(noteToDelete.id);
-    //   const updatedNotes = notes.filter((note) => note.id !== noteToDelete.id);
-    //   setNotes(updatedNotes);
-
-    //   if (selectedNote?.id === noteToDelete.id) {
-    //     setSelectedNote(null);
-    //   }
-
-    //   setIsDeleteModalOpen(false);
-    //   setNoteToDelete(null);
-    //   onToggle();
   };
 
   const cancelDelete = () => {
@@ -155,7 +171,6 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
 
   return (
     <div className={`${root}-section`}>
-      {/*This is a special button */}
       <button
         className={`${root}-header ${root}-${
           isNotesExpanded ? "header-opened" : "header-closed"
@@ -179,7 +194,7 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
                 handleRemoveNote={handleRemoveNote}
                 openNoteEditor={openNoteEditor}
               />
-              {/* {notes.length > 0 && (
+              {totalCount > 0 && (
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
@@ -188,7 +203,7 @@ const Note = ({ nodeId, timelineId, onToggle }) => {
                   onItemsPerPageChange={handleItemsPerPageChange}
                   itemsPerPageOptions={itemsPerPageOptions}
                 />
-              )} */}
+              )}
             </>
           )}
         </div>

@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import deleteById from "../core/api/delete";
 import { getAll, getById } from "../core/api/get";
 import Post from "../core/api/post";
+import Put from "../core/api/put";
 import API_BASE_URL from "../data/constants";
 
 class NoteService {
@@ -12,17 +13,21 @@ class NoteService {
    * @param {string} noteData.title - Note title
    * @param {string} noteData.content - Note content
    * @param {string} noteData.timestamp - ISO timestamp
-   * @param {number} noteData.importance - Importance level (0-2)
+   * @param {boolean} noteData.isPublic - Visibility flag
+   * @param {string[]} noteData.sharedWith - Array of user IDs
+   * @param {string} noteData.owner - Owner ID
    * @returns {Promise<Object>} - Created note data
    */
   static async createNote(noteData) {
     try {
       const formattedData = {
-        id: noteData.nodeId,
         title: noteData.title || "Untitled Note",
         content: noteData.content || "",
         timestamp: noteData.timestamp || new Date().toISOString(),
-        importance: noteData.importance || 0,
+        nodeId: noteData.nodeId,
+        isPublic: true,
+        sharedWith: noteData.sharedWith || [],
+        owner: "username"
       };
 
       const response = await Post(API_BASE_URL, "/Notes", formattedData);
@@ -75,13 +80,15 @@ class NoteService {
     try {
       const response = await getAll(
         API_BASE_URL,
-        `/Notes/node/${nodeId}`,
+        `/Notes`,
         pageIndex,
         pageSize
       );
 
+      const filteredNotes = response.notes.data.filter((note) => note.node.id === nodeId);
+
       return {
-        items: response.notes?.data || [],
+        items: filteredNotes,
         totalCount: response.notes?.count || 0,
         totalPages: Math.ceil((response.notes?.count || 0) / pageSize),
       };
@@ -118,7 +125,7 @@ class NoteService {
    */
   static async updateNote(id, updateData) {
     try {
-      const response = await Post(API_BASE_URL, `/Notes/${id}`, updateData);
+      const response = await Put(API_BASE_URL, `/Notes/${id}`, updateData);
       toast.success("Note updated successfully!");
       return response.data;
     } catch (error) {

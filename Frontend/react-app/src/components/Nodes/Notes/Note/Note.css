@@ -39,22 +39,6 @@
   font-size: 1.2rem;
 }
 
-.note-add-button {
-  margin-bottom: 10px;
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
-  font-size: 0.9rem;
-}
-
-.note-add-button:hover {
-  background: #218838;
-}
-
 .note-container {
   width: 100%;
   padding: 10px;
@@ -73,10 +57,11 @@
 }
 
 .note-content {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  align-items: center;
+  background: #ffffff;
+  border: 1px solid #e1e4e8;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 15px;
 }
 
 .note-content p {
