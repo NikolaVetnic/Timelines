@@ -2,6 +2,4 @@
 
 namespace Users.Domain.Models;
 
-public class ApplicationUser : IdentityUser
-{
-}
+public class ApplicationUser : IdentityUser;
