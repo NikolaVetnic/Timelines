@@ -1,0 +1,23 @@
+﻿using BuildingBlocks.Application.Behaviors;
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
+using FluentValidation;
+
+namespace Users.Application.Extensions;
+
+public static class ServiceCollectionExtensions
+{
+    public static IServiceCollection AddUsersServices(this IServiceCollection services)
+    {
+        services.AddMediatR(config =>
+        {
+            config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+            config.AddOpenBehavior(typeof(LoggingBehavior<,>));
+        });
+
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+        return services;
+    }
+}
