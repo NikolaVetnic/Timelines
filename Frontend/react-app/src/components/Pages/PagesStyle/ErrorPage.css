@@ -49,40 +49,6 @@
   margin-top: 1rem;
 }
 
-.error-retry-button,
-.error-home-button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: none;
-}
-
-.error-retry-button {
-  background-color: var(--danger);
-  color: white;
-}
-
-.error-retry-button:hover {
-  background-color: var(--dangerHover);
-  transform: translateY(-2px);
-}
-
-.error-home-button {
-  background-color: var(--enmBlue);
-  color: white;
-}
-
-.error-home-button:hover {
-  background-color: var(--enmBlueHover);
-  transform: translateY(-2px);
-}
-
 @media (max-width: 600px) {
   .error-page {
     margin: 2rem 1rem;

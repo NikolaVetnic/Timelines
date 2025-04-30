@@ -108,9 +108,7 @@ const LoginPage = () => {
           required
           error={errors.password}
         />
-        <button type="submit" className="login-button">
-          Login
-        </button>
+        <Button type="submit" variant="login" text="Login" />
       </form>
     </div>
   );
