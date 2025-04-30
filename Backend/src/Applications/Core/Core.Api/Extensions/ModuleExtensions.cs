@@ -18,6 +18,7 @@ public static class ModuleExtensions
         services.AddNotesModule(configuration);
         services.AddRemindersModule(configuration);
         services.AddTimelinesModule(configuration);
+        services.AddUsersModule(configuration);
         
         return services;
     }
