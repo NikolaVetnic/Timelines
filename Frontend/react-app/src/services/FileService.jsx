@@ -16,26 +16,68 @@ class FileService {
    */
   static async uploadFile(fileData) {
     try {
-      const formData = new FormData();
-      formData.append("file", fileData.file);
-      formData.append("nodeId", fileData.nodeId);
-      formData.append("title", fileData.title || fileData.file.name);
-      formData.append("description", fileData.description || "");
+      const fileContent = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(fileData.file);
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = (error) => reject(error);
+      });
 
-      const response = await Post(API_BASE_URL, "/Files", formData, {
+      const filePayload = {
+        name: fileData.title || fileData.file.name,
+        description: fileData.description || "No description",
+        size: fileData.file.size > 0 ? fileData.file.size : 1,
+        type: this.getFileTypeNumber(fileData.file.type) || 1,
+        owner: "username",
+        content: fileContent,
+        sharedWith: [],
+        isPublic: false,
+        nodeId: fileData.nodeId,
+      };
+
+      if (!filePayload.name || !filePayload.type || !filePayload.owner) {
+        throw new Error("Missing required fields for file upload");
+      }
+
+      const response = await Post(API_BASE_URL, "/Files", filePayload, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       });
 
       toast.success("File uploaded successfully!");
-      return response.data;
+      return {
+        ...response.data,
+        url: URL.createObjectURL(fileData.file),
+        name: fileData.file.name,
+        size: fileData.file.size,
+        type: fileData.file.type,
+      };
     } catch (error) {
       const errorMessage =
-        error.response?.data?.message || "Failed to upload file";
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to upload file";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
+  }
+
+  static getFileTypeNumber(mimeType) {
+    const typeMap = {
+      "application/pdf": 1,
+      "application/msword": 2,
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document": 2,
+      "application/vnd.ms-excel": 3,
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": 3,
+      "application/vnd.ms-powerpoint": 4,
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation": 4,
+      "text/plain": 5,
+      "image/jpeg": 6,
+      "image/png": 6,
+      "image/gif": 6,
+    };
+    return typeMap[mimeType] || 0;
   }
 
   /**
@@ -75,26 +117,41 @@ class FileService {
    */
   static async getFilesByNode(nodeId, pageIndex = 0, pageSize = 10) {
     try {
-      const response = await getAll(
-        API_BASE_URL,
-        `/Files/node/${nodeId}`,
-        pageIndex,
-        pageSize
-      );
+      const response = await getAll(API_BASE_URL, "/Files");
+
+      const filteredFiles = response.fileAssets.data
+        .filter((fileAsset) => fileAsset.node.id === nodeId)
+        .map((fileAsset) => ({
+          id: fileAsset.id,
+          name: fileAsset.name,
+          size: fileAsset.size * 1024,
+          type: this.getMimeType(fileAsset.type),
+          url: fileAsset.content || "",
+          nodeId: fileAsset.node.id,
+          description: fileAsset.description,
+        }));
 
       return {
-        items: response.files?.data || [],
-        totalCount: response.files?.count || 0,
-        totalPages: Math.ceil((response.files?.count || 0) / pageSize),
+        items: filteredFiles,
+        totalCount: filteredFiles.length,
+        totalPages: 1,
       };
     } catch (error) {
       const errorMessage =
-        error.response?.data?.message || "Failed to fetch node files";
+        error.response?.data?.message || "Failed to fetch files";
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
   }
 
+  // Helper method to convert type number to MIME type
+  static getMimeType(typeNumber) {
+    const types = {
+      1: "application/pdf",
+      2: "application/msword",
+    };
+    return types[typeNumber] || "application/octet-stream";
+  }
   /**
    * Get a single file by ID
    * @param {string} id - The file ID
@@ -160,7 +217,6 @@ class FileService {
         responseType: "blob",
       });
 
-      // Create download link and trigger click
       const url = window.URL.createObjectURL(new Blob([response]));
       const link = document.createElement("a");
       link.href = url;

@@ -52,7 +52,7 @@ const RemindersList = ({
                   iconOnly
                   variant="danger"
                   shape="square"
-                  size="little"
+                  size="small"
                   onClick={() => {
                     setReminderToDelete(reminder);
                     setIsDeleteModalOpen(true);

@@ -1,58 +1,61 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
-
-import { LOCAL_STORAGE_KEY, MAX_FILE_SIZE } from "../../../../data/constants";
-
+import { IoMdDownload } from "react-icons/io";
+import { MdDelete, MdOutlinePreview } from "react-icons/md";
+import FileService from "../../../../services/FileService";
+import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
+import Button from "../../../../core/components/buttons/Button/Button";
+import Pagination from "../../../../core/components/pagination/Pagination";
+import { MAX_FILE_SIZE } from "../../../../data/constants";
 import "react-toastify/dist/ReactToastify.css";
 import "./File.css";
 
-const File = ({ nodeId, timelineId, onToggle }) => {
+const File = ({ nodeId, onToggle }) => {
   const root = "file";
   const [files, setFiles] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [fileToDelete, setFileToDelete] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  // todo: connect to backend when it is ready
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(2);
+  const itemsPerPageOptions = [2, 4, 6, 8];
+
   useEffect(() => {
-    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      const timeline = parsedData.find((t) => t.id === timelineId);
-      const node = timeline?.nodes.find((n) => n.id === nodeId);
-      if (node) {
-        setFiles(node.files || []);
+    const fetchFiles = async () => {
+      try {
+        setIsLoading(true);
+        const response = await FileService.getFilesByNode(nodeId);
+        setFiles(response.items || []);
+      } catch (error) {
+        toast.error("Failed to load files");
+        console.error("Error fetching files:", error);
+      } finally {
+        setIsLoading(false);
       }
+    };
+
+    if (isExpanded && nodeId) {
+      fetchFiles();
     }
-  }, [timelineId, nodeId]);
+  }, [isExpanded, nodeId]);
 
-  // todo: connect to backend when it is ready
-  const updateLocalStorage = useCallback(
-    (updatedFiles) => {
-      const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (storedData) {
-        const parsedData = JSON.parse(storedData);
-        const timelineIndex = parsedData.findIndex((t) => t.id === timelineId);
-        if (timelineIndex !== -1) {
-          const nodeIndex = parsedData[timelineIndex].nodes.findIndex(
-            (n) => n.id === nodeId
-          );
-          if (nodeIndex !== -1) {
-            parsedData[timelineIndex].nodes[nodeIndex].files = updatedFiles;
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(parsedData));
-          }
-        }
-      }
-    },
-    [timelineId, nodeId]
-  );
+  // Pagination calculations
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentFiles = files.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(files.length / itemsPerPage);
 
-  const fileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleItemsPerPageChange = (size) => {
+    setItemsPerPage(size);
+    setCurrentPage(1);
   };
 
   const onDrop = useCallback(
@@ -67,26 +70,39 @@ const File = ({ nodeId, timelineId, onToggle }) => {
 
       if (validFiles.length === 0) return;
 
-      const newFiles = await Promise.all(
-        validFiles.map(async (file) => {
-          const base64 = await fileToBase64(file);
+      try {
+        setIsLoading(true);
+        const uploadPromises = validFiles.map(async (file) => {
+          const response = await FileService.uploadFile({
+            nodeId,
+            file,
+            title: file.name,
+            description: "",
+          });
+
           return {
-            id: new Date().getTime().toString(),
+            ...response,
+            url: URL.createObjectURL(file),
             name: file.name,
             size: file.size,
             type: file.type,
-            url: base64,
           };
-        })
-      );
+        });
 
-      const updatedFiles = [...files, ...newFiles];
-      setFiles(updatedFiles);
-      updateLocalStorage(updatedFiles);
-      toast.success(`📂 ${newFiles.length} file(s) uploaded successfully!`);
-      setTimeout(() => onToggle(), 0);
+        const uploadedFiles = await Promise.all(uploadPromises);
+        setFiles((prevFiles) => [...prevFiles, ...uploadedFiles]);
+        toast.success(
+          `📂 ${uploadedFiles.length} file(s) uploaded successfully!`
+        );
+      } catch (error) {
+        console.error("Error uploading files:", error);
+        toast.error("Failed to upload some files");
+      } finally {
+        setIsLoading(false);
+        setTimeout(() => onToggle(), 0);
+      }
     },
-    [files, onToggle, updateLocalStorage]
+    [nodeId, onToggle]
   );
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -102,28 +118,37 @@ const File = ({ nodeId, timelineId, onToggle }) => {
     multiple: true,
   });
 
-  // const handleRemoveFile = (id) => {
-  //   const fileToRemove = files.find((file) => file.id === id);
-  //   const updatedFiles = files.filter((file) => file.id !== id);
-  //   setFiles(updatedFiles);
-  //   updateLocalStorage(updatedFiles);
-  //   toast.warning(`🗑️ File "${fileToRemove?.name}" removed.`);
-  //   setTimeout(() => onToggle(), 0);
-  // };
-
   const toggleExpansion = () => {
     setIsExpanded((prev) => !prev);
     setTimeout(() => onToggle(), 0);
   };
 
-  const handleDownload = (file) => {
-    const link = document.createElement("a");
-    link.href = file.url;
-    link.download = file.name;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    toast.success(`⬇️ File "${file.name}" downloaded!`);
+  const confirmDelete = async () => {
+    if (!fileToDelete) return;
+    try {
+      setIsLoading(true);
+      await FileService.deleteFile(fileToDelete.id);
+      setFiles((prev) => prev.filter((f) => f.id !== fileToDelete.id));
+    } finally {
+      setIsLoading(false);
+      setIsDeleteModalOpen(false);
+      setFileToDelete(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setIsDeleteModalOpen(false);
+    setFileToDelete(null);
+  };
+
+  const handleDownload = async (file) => {
+    try {
+      await FileService.downloadFile(file.id);
+      toast.success(`⬇️ Downloading "${file.name}"...`);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+      toast.error("Failed to download file");
+    }
   };
 
   const handlePreview = (file) => {
@@ -137,37 +162,17 @@ const File = ({ nodeId, timelineId, onToggle }) => {
       previewWindow.document.writeln(`
         <embed src="${file.url}" type="application/pdf" width="100%" height="100%" style="border:none;">
       `);
-    } else if (file.type === "text/plain") {
-      fetch(file.url)
-        .then((response) => response.text())
-        .then((text) => {
-          const previewWindow = window.open();
-          previewWindow.document.writeln(
-            `<pre style="white-space: pre-wrap;">${text}</pre>`
-          );
-        })
-        .catch(() => toast.error("❌ Error loading text file."));
-    } else if (
-      file.name.endsWith(".doc") ||
-      file.name.endsWith(".docx") ||
-      file.name.endsWith(".xls") ||
-      file.name.endsWith(".xlsx") ||
-      file.name.endsWith(".ppt") ||
-      file.name.endsWith(".pptx")
-    ) {
-      const googleViewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(
-        file.url
-      )}&embedded=true`;
-      window.open(googleViewerUrl, "_blank");
     } else {
-      toast.error("❌ Preview not supported for this file type.");
+      toast.error("Preview not supported for this file type.");
     }
   };
 
   return (
     <div className={`${root}-section`}>
       <button
-        className={`${root}-header ${isExpanded ? "open" : "closed"}`}
+        className={`${root}-header ${
+          isExpanded ? "header-open" : "header-closed"
+        }`}
         onClick={toggleExpansion}
       >
         <h4>Files</h4>
@@ -176,69 +181,108 @@ const File = ({ nodeId, timelineId, onToggle }) => {
 
       {isExpanded && (
         <div className={`${root}-content`}>
-          <div className={`${root}-dropzone-container`} {...getRootProps()}>
-            <input {...getInputProps()} />
-            <p>Drag & drop files here, or click to select files</p>
-          </div>
-
           <div className={`${root}-container`}>
-            {files.length > 0 ? (
-              files.map((file) => (
-                <div key={file.id} className={`${root}-item`}>
-                  <div className={`${root}-content`}>
-                    <p>{file.name}</p>
-                    <p>
-                      <strong>Size:</strong> {Math.round(file.size / 1024)} KB
-                    </p>
+            <div className={`${root}-inner-header`}>
+              <h4>Your Files</h4>
+            </div>
 
-                    {file.type.startsWith("image/") && (
-                      <img
-                        src={file.url}
-                        alt={file.name}
-                        className={`${root}-preview`}
-                      />
-                    )}
+            <div className={`${root}-dropzone-container`} {...getRootProps()}>
+              <input {...getInputProps()} />
+              <p>Drag & drop files here, or click to select files</p>
+            </div>
 
-                    {file.type === "application/pdf" && (
-                      <embed
-                        src={file.url}
-                        type="application/pdf"
-                        className={`${root}-preview-pdf`}
-                      />
-                    )}
-
-                    {file.type === "text/plain" && (
-                      <iframe
-                        title="Preview a document/picture."
-                        src={file.url}
-                        className={`${root}-preview-text`}
-                      ></iframe>
-                    )}
-                  </div>
-
-                  <div className={`${root}-buttons`}>
-                    <button
-                      className={`${root}-preview-button`}
-                      onClick={() => handlePreview(file)}
-                    >
-                      Preview
-                    </button>
-                    <button
-                      className={`${root}-download-button`}
-                      onClick={() => handleDownload(file)}
-                    >
-                      Download
-                    </button>
-                    {/* <TextButton onClick={() => handleRemoveFile(file.id)} text="X" color="red" /> */}
-                  </div>
-                </div>
-              ))
+            {isLoading ? (
+              <div className={`${root}-loading`}>Loading...</div>
             ) : (
-              <p>There are no available files.</p>
+              <>
+                {files.length > 0 ? (
+                  <>
+                    <div className={`${root}-grid`}>
+                      {currentFiles.map((file) => (
+                        <div key={file.id} className={`${root}-card`}>
+                          <div className={`${root}-card-content`}>
+                            <h5 className={`${root}-card-title`}>
+                              {file.name}
+                            </h5>
+                            <p className={`${root}-card-date`}>
+                              <strong>Size:</strong>{" "}
+                              {Math.round(file.size / 1024)} KB
+                            </p>
+                            {file.description && (
+                              <p className={`${root}-card-priority`}>
+                                <strong>Description:</strong> {file.description}
+                              </p>
+                            )}
+                            {file.type.startsWith("image/") && (
+                              <img
+                                src={file.url}
+                                alt={file.name}
+                                className={`${root}-preview`}
+                              />
+                            )}
+                          </div>
+                          <div className={`${root}-card-actions`}>
+                            <Button
+                              icon={<MdOutlinePreview />}
+                              iconOnly
+                              shape="square"
+                              variant="primary"
+                              size="small"
+                              onClick={() => handlePreview(file)}
+                              disabled={!file.url}
+                            />
+                            <Button
+                              icon={<IoMdDownload />}
+                              iconOnly
+                              shape="square"
+                              variant="primary"
+                              size="small"
+                              onClick={() => handleDownload(file)}
+                            />
+                            <Button
+                              icon={<MdDelete />}
+                              iconOnly
+                              variant="danger"
+                              shape="square"
+                              size="small"
+                              onClick={() => {
+                                setFileToDelete(file);
+                                setIsDeleteModalOpen(true);
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    {files.length > itemsPerPage && (
+                      <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        itemsPerPage={itemsPerPage}
+                        onPageChange={handlePageChange}
+                        onItemsPerPageChange={handleItemsPerPageChange}
+                        itemsPerPageOptions={itemsPerPageOptions}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <div className={`${root}-empty-state`}>
+                    <p>No files yet. Upload your first file!</p>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
       )}
+
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+        itemType="file"
+        itemTitle={fileToDelete?.name || "Untitled File"}
+      />
     </div>
   );
 };
