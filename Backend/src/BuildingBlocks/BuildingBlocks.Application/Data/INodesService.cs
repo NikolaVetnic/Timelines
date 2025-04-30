@@ -6,6 +6,7 @@ using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 namespace BuildingBlocks.Application.Data;
+
 public interface INodesService
 {
     Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken);
@@ -15,6 +16,9 @@ public interface INodesService
     Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
     Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
 
+    Task<NodeId> CloneNodeIntoTimelineAsync(NodeId nodeTemplateId, TimelineId timelineId,
+        CancellationToken cancellationToken);
+    
     Task AddReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken);
     Task RemoveReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken);
     Task RemoveReminders(NodeId nodeId, IEnumerable<ReminderId> reminderIds, CancellationToken cancellationToken);

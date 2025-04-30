@@ -11,7 +11,8 @@ public interface INodesRepository
     Task<Node> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
     Task<Node> GetTrackedNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
     Task<List<Node>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
-    
+
+    Task CreateNodeAsync(Node node, CancellationToken cancellationToken);
     Task UpdateNodeAsync(Node node, CancellationToken cancellationToken);
     Task DeleteNode(NodeId nodeId, CancellationToken cancellationToken);
     Task DeleteNodes(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
