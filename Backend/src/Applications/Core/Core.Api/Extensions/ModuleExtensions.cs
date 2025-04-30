@@ -4,6 +4,7 @@ using Nodes.Api.Extensions;
 using Notes.Api.Extensions;
 using Reminders.Api.Extensions;
 using Timelines.Api.Extensions;
+using Users.Api.Extensions;
 
 namespace Core.Api.Extensions;
 
@@ -29,6 +30,7 @@ public static class ModuleExtensions
         endpoints.UseNotesModule();
         endpoints.UseRemindersModule();
         endpoints.UseTimelinesModule();
+        endpoints.UseUsersModule();
         
         return endpoints;
     }
