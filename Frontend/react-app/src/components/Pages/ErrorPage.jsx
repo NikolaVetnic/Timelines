@@ -67,7 +67,7 @@ const ErrorPage = () => {
           <Button
             className="error-retry-button"
             icon={<FaRedo />}
-            text="Try Again"
+            iconOnly
             variant="danger"
             onClick={() => window.location.reload()}
           />
@@ -76,7 +76,7 @@ const ErrorPage = () => {
           <Button
             className="error-login-button"
             icon={<FaSignInAlt />}
-            text="Return to Login"
+            iconOnly
             size="small"
             onClick={() => navigate("/login")}
           />
@@ -84,7 +84,7 @@ const ErrorPage = () => {
           <Button
             className="error-home-button"
             icon={<FaHome />}
-            text="Return Home"
+            iconOnly
             onClick={() => navigate("/")}
           />
         )}
