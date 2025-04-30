@@ -1,14 +1,13 @@
 ﻿using BuildingBlocks.Application.Cqrs;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Users.Domain.Models;
 
 namespace Users.Application.Entities.Authentication.Commands.RegisterUser;
-internal class RegisterUserHandler(UserManager<ApplicationUser> userManager) : ICommandHandler<RegisterUserCommand>
+internal class RegisterUserHandler(UserManager<ApplicationUser> userManager) : ICommandHandler<RegisterUserCommand, RegisterUserResponse>
 {
     private readonly UserManager<ApplicationUser> _userManager = userManager;
 
-    public async Task<Unit> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
+    public async Task<RegisterUserResponse> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
     {
         var user = new ApplicationUser
         {
@@ -18,13 +17,12 @@ internal class RegisterUserHandler(UserManager<ApplicationUser> userManager) : I
 
         var result = await _userManager.CreateAsync(user, command.Password);
 
-        if (result.Succeeded) return new AuthResponse { Success = true };
+        if (result.Succeeded) return new RegisterUserResponse { Success = true };
 
         var errors = result.Errors.Select(e => e.Description);
-        return new AuthResponse { Success = false, Errors = errors };
+        return new RegisterUserResponse { Success = false, Errors = errors };
 
         // Optionally add default role
         //await _userManager.AddToRoleAsync(user, "User");
-
     }
 }
