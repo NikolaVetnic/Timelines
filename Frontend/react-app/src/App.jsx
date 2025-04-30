@@ -32,6 +32,7 @@ function AppLayout() {
         </div>
       </div>
 
+      {/* this is a temporary button only for testing an application and reporting bugs to the developers */}
       <button
         className="bug-report-button"
         onClick={() => setIsBugReportOpen(true)}
@@ -63,7 +64,7 @@ const router = createBrowserRouter(
           </AuthGuard>
         }
       >
-        <Route index element={<TimelineList />} />
+        <Route index parh="/timelines" element={<TimelineList />} />
         <Route path="timelines/:id" element={<Timeline />} />
       </Route>
 

@@ -1,18 +1,65 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { FaRedo } from "react-icons/fa";
 import Button from "../../core/components/buttons/Button/Button";
+import FormField from "../../core/components/forms/FormField/FormField";
 import "./PagesStyle/LoginPage.css";
 
+const INITIAL_FORM_DATA = {
+  username: "",
+  password: "",
+};
+
+const INITIAL_ERRORS = {
+  username: "",
+  password: "",
+};
+
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const { login, error, sessionExpired } = useAuth();
+  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+  const [errors, setErrors] = useState(INITIAL_ERRORS);
+  const { login, error: authError, sessionExpired } = useAuth();
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = { ...INITIAL_ERRORS };
+    let isValid = true;
+
+    if (!formData.username.trim()) {
+      newErrors.username = "Username is required";
+      isValid = false;
+    }
+
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const success = await login({ username, password });
+
+    if (!validateForm()) {
+      return;
+    }
+
+    const success = await login(formData);
     if (success) {
       navigate("/");
     }
@@ -29,9 +76,9 @@ const LoginPage = () => {
         </div>
       )}
 
-      {error && (
+      {authError && (
         <div className="error-message">
-          <p>{error}</p>
+          <p>{authError}</p>
           <Button
             className="error-retry-button"
             icon={<FaRedo />}
@@ -43,26 +90,24 @@ const LoginPage = () => {
       )}
 
       <form className="login-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            id="username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <FormField
+          label="Username"
+          type="text"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          required
+          error={errors.username}
+        />
+        <FormField
+          label="Password"
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+          error={errors.password}
+        />
         <button type="submit" className="login-button">
           Login
         </button>
