@@ -4,6 +4,7 @@ using Nodes.Infrastructure.Data.Extensions;
 using Notes.Infrastructure.Data.Extensions;
 using Reminders.Infrastructure.Data.Extensions;
 using Timelines.Infrastructure.Data.Extensions;
+using Users.Infrastructure.Data.Extensions;
 
 namespace Core.Api.Extensions;
 
@@ -31,6 +32,7 @@ public static class DatabaseExtensions
         await services.MigrateNotesDatabaseAsync();
         await services.MigrateRemindersDatabaseAsync();
         await services.MigrateTimelinesDatabaseAsync();
+        await services.MigrateUsersDatabaseAsync();
     }
 
     private static async Task MigrateAndSeedAllModulesAsync(this IServiceProvider services)
@@ -41,5 +43,6 @@ public static class DatabaseExtensions
         await services.MigrateAndSeedNotesDatabaseAsync();
         await services.MigrateAndSeedRemindersDatabaseAsync();
         await services.MigrateAndSeedTimelinesDatabaseAsync();
+        await services.MigrateUsersDatabaseAsync();
     }
 }
