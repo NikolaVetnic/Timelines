@@ -4,9 +4,13 @@ using System.Text.Json.Serialization;
 
 namespace BuildingBlocks.Domain.Users.User.ValueObjects;
 
-public class UserId(Guid value) : StronglyTypedId(value)
+public class UserId(Guid value) : StronglyTypedId(value), IComparable<UserId>, IEquatable<UserId>
 {
     public static UserId Of(Guid value) => new(value);
+
+    public int CompareTo(UserId? other) => Value.CompareTo(other.Value);
+
+    public bool Equals(UserId? other) => Value.Equals(other.Value);
 
     public override string ToString() => Value.ToString();
 }
