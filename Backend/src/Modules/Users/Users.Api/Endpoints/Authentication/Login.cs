@@ -44,7 +44,7 @@ public class Login(IConfiguration config) : ICarterModule
                     Token: new JwtSecurityTokenHandler().WriteToken(token),
                     Expiration: token.ValidTo,
                     Email: user.Email,
-                    UserId: user.Id));
+                    UserId: user.Id.ToString()));
             })
             .WithName("Register")
             .Produces(StatusCodes.Status200OK)
@@ -61,7 +61,7 @@ public class Login(IConfiguration config) : ICarterModule
 
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };

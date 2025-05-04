@@ -31,7 +31,7 @@ internal class LoginUserHandler(UserManager<ApplicationUser> userManager, IConfi
         {
             Success = true,
             Token = token,
-            UserId = user.Id,
+            UserId = user.Id.Value.ToString(),
             Email = user.Email
         };
     }
@@ -45,9 +45,10 @@ internal class LoginUserHandler(UserManager<ApplicationUser> userManager, IConfi
 
         var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim("uid", user.Id.Value.ToString())
         };
 
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
