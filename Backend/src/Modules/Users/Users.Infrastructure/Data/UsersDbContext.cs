@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Users.Application.Data.Abstractions;
 using Users.Domain.Models;
@@ -7,9 +6,9 @@ using Users.Domain.Models;
 namespace Users.Infrastructure.Data;
 
 public class UsersDbContext(DbContextOptions<UsersDbContext> options)
-    : IdentityDbContext<ApplicationUser>(options), IUsersDbContext
+    : DbContext(options), IUsersDbContext
 {
-    public DbSet<ApplicationUser> ApplicationUsers { get; init; }
+    public DbSet<ApplicationUser> Users { get; init; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
