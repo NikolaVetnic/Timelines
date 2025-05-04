@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace BuildingBlocks.Domain.Users.User.ValueObjects;
 
+[JsonConverter(typeof(UserIdJsonConverter))]
 public class UserId(Guid value) : StronglyTypedId(value), IComparable<UserId>, IEquatable<UserId>
 {
     public static UserId Of(Guid value) => new(value);
@@ -15,7 +16,7 @@ public class UserId(Guid value) : StronglyTypedId(value), IComparable<UserId>, I
     public override string ToString() => Value.ToString();
 }
 
-public class BugReportIdJsonConverter : JsonConverter<UserId>
+public class UserIdJsonConverter : JsonConverter<UserId>
 {
     public override UserId Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
