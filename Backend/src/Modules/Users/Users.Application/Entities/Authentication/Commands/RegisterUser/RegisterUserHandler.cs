@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Users.Domain.Models;
 
 namespace Users.Application.Entities.Authentication.Commands.RegisterUser;
+
 internal class RegisterUserHandler(UserManager<ApplicationUser> userManager) : ICommandHandler<RegisterUserCommand, RegisterUserResponse>
 {
     private readonly UserManager<ApplicationUser> _userManager = userManager;
