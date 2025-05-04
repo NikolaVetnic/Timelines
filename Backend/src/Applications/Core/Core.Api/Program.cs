@@ -21,7 +21,7 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 // Add services to the container
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
     {
         options.Password.RequireDigit = false;
         options.Password.RequireUppercase = false;
