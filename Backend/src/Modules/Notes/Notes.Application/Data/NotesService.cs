@@ -27,6 +27,17 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
         return noteDtos;
     }
 
+    public async Task<List<NoteBaseDto>> ListNotesByNodeIdPaginated(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        var notes = await notesRepository.ListNotesByNodeIdPaginatedAsync(nodeId, pageIndex, pageSize, cancellationToken);
+
+        var notesDtos = notes
+            .Select(f => f.ToNoteBaseDto())
+            .ToList();
+
+        return notesDtos;
+    }
+
     public async Task<NoteDto> GetNoteByIdAsync(NoteId noteId, CancellationToken cancellationToken)
     {
         var note = await notesRepository.GetNoteByIdAsync(noteId, cancellationToken);
@@ -44,6 +55,11 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
         var noteBaseDto = note.Adapt<NoteBaseDto>();
 
         return noteBaseDto;
+    }
+
+    public async Task<long> CountNotesByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    {
+        return await notesRepository.NoteByNodeIdCountAsync(nodeId, cancellationToken);
     }
 
     public async Task DeleteNote(NoteId noteId, CancellationToken cancellationToken)
