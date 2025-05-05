@@ -113,7 +113,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task<long> CountNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
-        return await nodesRepository.NodeByTimelineIdCountAsync(timelineId, cancellationToken);
+        return await nodesRepository.NodeCountByTimelineIdAsync(timelineId, cancellationToken);
     }
 
     #endregion

@@ -34,7 +34,7 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
         return await dbContext.Nodes.LongCountAsync(cancellationToken);
     }
 
-    public async Task<long> NodeByTimelineIdCountAsync(TimelineId timelineId, CancellationToken cancellationToken)
+    public async Task<long> NodeCountByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
         return await dbContext.Nodes.LongCountAsync(n => n.TimelineId == timelineId, cancellationToken);
     }
