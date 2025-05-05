@@ -93,6 +93,7 @@ const Categories = ({
         initialValue={Array.isArray(localCategories) ? localCategories.join(", ") : ""}
         title="Edit Categories"
         isLoading={isLoading}
+        dataType="array"
         placeholder="Enter categories, separated by commas"
       />
     </div>

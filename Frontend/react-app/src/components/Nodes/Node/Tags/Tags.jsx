@@ -91,6 +91,7 @@ const Tags = ({ nodeId, setModalActive, tags: propTags, onUpdateTags }) => {
         initialValue={Array.isArray(localTags) ? localTags.join(", ") : ""}
         title="Edit Tags"
         isLoading={isLoading}
+        dataType="array"
         placeholder="Enter tags, separated by commas (e.g., 'important, ui-fix')"
       />
     </div>
