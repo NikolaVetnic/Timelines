@@ -29,9 +29,6 @@
     <ItemGroup>
         <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.2" />
         <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
-        
-        <PackageReference Update="Microsoft.CodeAnalysis.Workspaces.Common"  Version="4.13.0" />
-        <PackageReference Update="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.13.0" />
 
         <PackageReference Update="Microsoft.CodeAnalysis.Common"            Version="4.13.0" />
         <PackageReference Update="Microsoft.CodeAnalysis.CSharp"           Version="4.13.0" />
