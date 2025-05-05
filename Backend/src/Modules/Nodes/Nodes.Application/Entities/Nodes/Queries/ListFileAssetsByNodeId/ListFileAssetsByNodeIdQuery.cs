@@ -4,7 +4,7 @@ using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 
 // ReSharper disable ClassNeverInstantiated.Global
 
-namespace Files.Application.Entities.Files.Queries.ListFIleAssetsByNodeId;
+namespace Nodes.Application.Entities.Nodes.Queries.ListFileAssetsByNodeId;
 
 public record ListFileAssetsByNodeIdQuery(NodeId Id, PaginationRequest PaginationRequest) : IQuery<ListFileAssetsByNodeIdResult>
 {

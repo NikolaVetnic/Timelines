@@ -1,6 +1,6 @@
 ﻿using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.Files.File.Dtos;
-using Files.Application.Entities.Files.Queries.ListFIleAssetsByNodeId;
+using Nodes.Application.Entities.Nodes.Queries.ListFileAssetsByNodeId;
 
 namespace Nodes.Api.Endpoints.Nodes;
 

@@ -2,7 +2,7 @@
 using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.Files.File.Dtos;
 
-namespace Files.Application.Entities.Files.Queries.ListFIleAssetsByNodeId;
+namespace Nodes.Application.Entities.Nodes.Queries.ListFileAssetsByNodeId;
 
 public class ListFIleAssetsByNodeIdHandler(IFilesService filesService) : IQueryHandler<ListFileAssetsByNodeIdQuery, ListFileAssetsByNodeIdResult>
 {
