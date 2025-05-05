@@ -41,7 +41,7 @@ public class RemindersRepository(IRemindersDbContext dbContext) : IRemindersRepo
         return await dbContext.Reminders.LongCountAsync(cancellationToken);
     }
 
-    public async Task<long> ReminderByNodeIdCountAsync(NodeId nodeId, CancellationToken cancellationToken)
+    public async Task<long> ReminderCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
         return await dbContext.Reminders.LongCountAsync(r => r.NodeId == nodeId, cancellationToken);
     }

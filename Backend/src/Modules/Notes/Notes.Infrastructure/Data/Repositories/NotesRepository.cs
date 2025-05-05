@@ -35,7 +35,7 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
         return await dbContext.Notes.LongCountAsync(cancellationToken);
     }
 
-    public async Task<long> NoteByNodeIdCountAsync(NodeId nodeId, CancellationToken cancellationToken)
+    public async Task<long> NoteCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
         return await dbContext.Notes.LongCountAsync(f => f.NodeId == nodeId, cancellationToken);
     }

@@ -47,7 +47,7 @@ public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
         return await dbContext.FileAssets.LongCountAsync(cancellationToken);
     }
 
-    public async Task<long> FileAssetByNodeIdCountAsync(NodeId nodeId, CancellationToken cancellationToken)
+    public async Task<long> FileAssetCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets.CountAsync(f => f.NodeId == nodeId, cancellationToken);
     }

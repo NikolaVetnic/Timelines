@@ -70,7 +70,7 @@ public class RemindersService(IServiceProvider serviceProvider, IRemindersReposi
 
     public async Task<long> CountRemindersByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return await remindersRepository.ReminderByNodeIdCountAsync(nodeId, cancellationToken);
+        return await remindersRepository.ReminderCountByNodeIdAsync(nodeId, cancellationToken);
     }
 
     public async Task DeleteReminder(ReminderId reminderId, CancellationToken cancellationToken)
