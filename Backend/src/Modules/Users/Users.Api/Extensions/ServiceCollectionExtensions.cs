@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using BuildingBlocks.Api.Converters;
+using Mapster;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +23,7 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
-        //TypeAdapterConfig.GlobalSettings.Scan(typeof(UserIdConverter).Assembly);
+        TypeAdapterConfig.GlobalSettings.Scan(typeof(UserIdConverter).Assembly);
 
         return services;
     }

@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using BuildingBlocks.Domain.Users.User.ValueObjects;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Users.Application.Data.Abstractions;
 using Users.Domain.Models;
 
 namespace Users.Infrastructure.Data;
 
 public class UsersDbContext(DbContextOptions<UsersDbContext> options)
-    : DbContext(options), IUsersDbContext
+    : IdentityDbContext<ApplicationUser, ApplicationRole, UserId>, IUsersDbContext
 {
     public DbSet<ApplicationUser> Users { get; init; }
 
