@@ -6,7 +6,7 @@ import NodeService from "../../../../services/NodeService";
 import "./Description.css";
 
 const Description = ({
-  nodeId,
+  node,
   setModalActive,
   description: propDescription,
   onUpdateDescription,
@@ -28,7 +28,7 @@ const Description = ({
   const handleSaveDescription = async (newDescription) => {
     setIsLoading(true);
     try {
-      await NodeService.updateNode(nodeId, { 
+      await NodeService.updateNode(node, { 
         description: newDescription
       });
 

@@ -7,7 +7,7 @@ import NodeService from "../../../../services/NodeService";
 import "./Categories.css";
 
 const Categories = ({
-  nodeId,
+  node,
   setModalActive,
   categories: propCategories,
   onUpdateCategories,
@@ -45,7 +45,7 @@ const Categories = ({
     try {
       const newCategories = parseCategoriesInput(categoriesInput);
       
-      await NodeService.updateNode(nodeId, { 
+      await NodeService.updateNode(node, { 
         categories: newCategories 
       });
 

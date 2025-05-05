@@ -6,7 +6,7 @@ import convertStringToColor from "../../../../core/utils/ConvertStringToColor";
 import NodeService from "../../../../services/NodeService";
 import "./Tags.css";
 
-const Tags = ({ nodeId, setModalActive, tags: propTags, onUpdateTags }) => {
+const Tags = ({ node, setModalActive, tags: propTags, onUpdateTags }) => {
   const root = "tags";
   const [isModalOpen, setModalOpen] = useState(false);
   const [localTags, setLocalTags] = useState([]);
@@ -42,7 +42,7 @@ const Tags = ({ nodeId, setModalActive, tags: propTags, onUpdateTags }) => {
     try {
       const formattedTags = formatTags(tagsInput);
       
-      await NodeService.updateNode(nodeId, { 
+      await NodeService.updateNode(node, { 
         tags: formattedTags 
       });
 

@@ -5,7 +5,7 @@ import DatePickerModal from "../../../../core/components/modals/DatePickerModal/
 import NodeService from "../../../../services/NodeService";
 import "./Timestamp.css";
 
-const Timestamp = ({ nodeId, setModalActive, initialValue, onSave }) => {
+const Timestamp = ({ node, setModalActive, initialValue, onSave }) => {
   const root = "timestamp";
   const [isModalOpen, setModalOpen] = useState(false);
   const [localTimestamp, setLocalTimestamp] = useState(
@@ -27,7 +27,7 @@ const Timestamp = ({ nodeId, setModalActive, initialValue, onSave }) => {
     try {
       const isoString = newTimestamp.toISOString();
 
-      await NodeService.updateNode(nodeId, { timestamp: isoString });
+      await NodeService.updateNode(node, { timestamp: isoString });
 
       setLocalTimestamp(newTimestamp);
 
