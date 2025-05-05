@@ -32,7 +32,7 @@ public class RemindersService(IServiceProvider serviceProvider, IRemindersReposi
         var reminders = await remindersRepository.ListRemindersByNodeIdPaginatedAsync(nodeId, pageIndex, pageSize, cancellationToken);
 
         var remindersDtos = reminders
-            .Select(f => f.ToReminderBaseDto())
+            .Select(r => r.ToReminderBaseDto())
             .ToList();
 
         return remindersDtos;

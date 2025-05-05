@@ -23,8 +23,8 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
     {
         return await dbContext.Notes
             .AsNoTracking()
-            .Where(f => f.NodeId == nodeId)
-            .OrderBy(f => f.CreatedAt)
+            .Where(n => n.NodeId == nodeId)
+            .OrderBy(n => n.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)
             .ToListAsync(cancellationToken);
@@ -37,7 +37,7 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
 
     public async Task<long> NoteCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return await dbContext.Notes.LongCountAsync(f => f.NodeId == nodeId, cancellationToken);
+        return await dbContext.Notes.LongCountAsync(n => n.NodeId == nodeId, cancellationToken);
     }
 
     #endregion

@@ -11,7 +11,7 @@ public class RemindersRepository(IRemindersDbContext dbContext) : IRemindersRepo
     {
         return await dbContext.Reminders
             .AsNoTracking()
-            .OrderBy(n => n.NotifyAt)
+            .OrderBy(r => r.NotifyAt)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -22,7 +22,7 @@ public class RemindersRepository(IRemindersDbContext dbContext) : IRemindersRepo
         return await dbContext.Reminders
             .AsNoTracking()
             .Where(r => r.NodeId == nodeId)
-            .OrderBy(f => f.CreatedAt)
+            .OrderBy(r => r.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)
             .ToListAsync(cancellationToken);

@@ -32,7 +32,7 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
         var notes = await notesRepository.ListNotesByNodeIdPaginatedAsync(nodeId, pageIndex, pageSize, cancellationToken);
 
         var notesDtos = notes
-            .Select(f => f.ToNoteBaseDto())
+            .Select(n => n.ToNoteBaseDto())
             .ToList();
 
         return notesDtos;
