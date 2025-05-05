@@ -15,4 +15,15 @@ public static class ReminderExtensions
             reminder.Priority,
             node);
     }
+
+    public static ReminderBaseDto ToReminderBaseDto(this Reminder reminder)
+    {
+        return new ReminderBaseDto(
+            reminder.Id.ToString(),
+            reminder.Title,
+            reminder.Description,
+            reminder.NotifyAt,
+            reminder.Priority
+            );
+    }
 }

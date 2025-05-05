@@ -17,6 +17,17 @@ public class RemindersRepository(IRemindersDbContext dbContext) : IRemindersRepo
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
+    public async Task<List<Reminder>> ListRemindersByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        return await dbContext.Reminders
+            .AsNoTracking()
+            .Where(r => r.NodeId == nodeId)
+            .OrderBy(f => f.CreatedAt)
+            .Skip(pageIndex * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<Reminder> GetReminderByIdAsync(ReminderId reminderId, CancellationToken cancellationToken)
     {
         return await dbContext.Reminders
@@ -28,6 +39,11 @@ public class RemindersRepository(IRemindersDbContext dbContext) : IRemindersRepo
     public async Task<long> ReminderCountAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Reminders.LongCountAsync(cancellationToken);
+    }
+
+    public async Task<long> ReminderByNodeIdCountAsync(NodeId nodeId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Reminders.LongCountAsync(r => r.NodeId == nodeId, cancellationToken);
     }
 
     public async Task<IEnumerable<Reminder>> GetRemindersBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
