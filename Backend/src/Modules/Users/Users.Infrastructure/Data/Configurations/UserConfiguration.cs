@@ -10,9 +10,6 @@ public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
         builder.HasKey(u => u.Id);
-        builder.Property(u => u.Id).HasConversion(
-            id => id.Value,
-            userId => UserId.Of(userId));
 
         builder.Property(u => u.Email)
             .IsRequired();

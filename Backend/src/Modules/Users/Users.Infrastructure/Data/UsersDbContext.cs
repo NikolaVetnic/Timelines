@@ -7,9 +7,11 @@ using Users.Domain.Models;
 
 namespace Users.Infrastructure.Data;
 
-public class UsersDbContext(DbContextOptions<UsersDbContext> options)
-    : IdentityDbContext<ApplicationUser, ApplicationRole, UserId>, IUsersDbContext
+public class UsersDbContext
+    : IdentityDbContext<ApplicationUser>, IUsersDbContext
 {
+    public UsersDbContext(DbContextOptions<UsersDbContext> options) : base(options){}
+
     public DbSet<ApplicationUser> Users { get; init; }
 
     protected override void OnModelCreating(ModelBuilder builder)
