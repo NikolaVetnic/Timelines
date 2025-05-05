@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import deleteById from "../core/api/delete";
 import { getAll, getById } from "../core/api/get";
 import Post from "../core/api/post";
+import Put from "../core/api/put";
 import API_BASE_URL from "../data/constants";
 
 class NodeService {
@@ -124,7 +125,7 @@ class NodeService {
    */
   static async updateNode(id, updateData) {
     try {
-      const response = await Post(API_BASE_URL, `/Nodes/${id}`, updateData);
+      const response = await Put(API_BASE_URL, `/Nodes/${id}`, updateData);
       toast.success("Node updated successfully!");
       return response.data;
     } catch (error) {
