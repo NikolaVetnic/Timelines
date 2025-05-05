@@ -17,6 +17,17 @@ public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
+    public async Task<List<FileAsset>> ListFileAssetsByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        return await dbContext.FileAssets
+            .AsNoTracking()
+            .Where(f => f.NodeId == nodeId)
+            .OrderBy(f => f.CreatedAt)
+            .Skip(pageIndex * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<FileAsset> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets
@@ -34,6 +45,11 @@ public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
     public async Task<long> FileAssetCountAsync(CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets.LongCountAsync(cancellationToken);
+    }
+
+    public async Task<long> FileAssetByNodeIdCountAsync(NodeId nodeId, CancellationToken cancellationToken)
+    {
+        return await dbContext.FileAssets.CountAsync(f => f.NodeId == nodeId, cancellationToken);
     }
 
     public async Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)

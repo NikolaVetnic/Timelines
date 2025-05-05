@@ -27,6 +27,17 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
         return fileAssetsDtos;
     }
 
+    public async Task<List<FileAssetBaseDto>> ListFileAssetsByNodeIdPaginated(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        var fileAssets = await filesRepository.ListFileAssetsByNodeIdPaginatedAsync(nodeId, pageIndex, pageSize, cancellationToken);
+
+        var fileAssetsDtos = fileAssets
+            .Select(f => f.ToFileAssetBaseDto())
+            .ToList();
+
+        return fileAssetsDtos;
+    }
+
     public async Task<FileAssetDto> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken)
     {
         var file = await filesRepository.GetFileAssetByIdAsync(fileAssetId, cancellationToken);
@@ -49,6 +60,11 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
     public async Task<long> CountFileAssetsAsync(CancellationToken cancellationToken)
     {
         return await filesRepository.FileAssetCountAsync(cancellationToken);
+    }
+
+    public async Task<long> CountFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    {
+        return await filesRepository.FileAssetByNodeIdCountAsync(nodeId, cancellationToken);
     }
 
     public async Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)

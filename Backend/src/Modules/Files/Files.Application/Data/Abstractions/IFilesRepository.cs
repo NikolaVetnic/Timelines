@@ -6,9 +6,11 @@ namespace Files.Application.Data.Abstractions;
 public interface IFilesRepository
 {
     Task<List<FileAsset>> ListFileAssetsPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
+    Task<List<FileAsset>> ListFileAssetsByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<FileAsset> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken);
     Task UpdateFileAssetAsync(FileAsset fileAsset, CancellationToken cancellationToken);
     Task<long> FileAssetCountAsync(CancellationToken cancellationToken);
+    Task<long> FileAssetByNodeIdCountAsync(NodeId nodeId, CancellationToken cancellationToken);
 
     Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken);
     Task DeleteFileAssets(IEnumerable<FileAssetId> fileAssetIds, CancellationToken cancellationToken);
