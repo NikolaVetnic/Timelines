@@ -18,10 +18,27 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
+    public async Task<List<Node>> ListNodesByTimelineIdPaginatedAsync(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        return await dbContext.Nodes
+            .AsNoTracking()
+            .Where(n => n.TimelineId == timelineId)
+            .OrderBy(f => f.CreatedAt)
+            .Skip(pageIndex * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<long> NodeCountAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Nodes.LongCountAsync(cancellationToken);
     }
+
+    public async Task<long> NodeByTimelineIdCountAsync(TimelineId timelineId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Nodes.LongCountAsync(n => n.TimelineId == timelineId, cancellationToken);
+    }
+
     #endregion
 
     #region Get

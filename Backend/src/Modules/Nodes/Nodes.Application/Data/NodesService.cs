@@ -12,6 +12,7 @@ using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Extensions;
+using Nodes.Domain.Models;
 
 // ReSharper disable NullableWarningSuppressionIsUsed
 namespace Nodes.Application.Data;
@@ -87,6 +88,17 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         return nodeDtos;
     }
 
+    public async Task<List<NodeBaseDto>> ListNodesByTimelineIdPaginated(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        var nodes = await nodesRepository.ListNodesByTimelineIdPaginatedAsync(timelineId, pageIndex, pageSize, cancellationToken);
+
+        var nodesDtos = nodes
+            .Select(n => n.ToNodeBaseDto())
+            .ToList();
+
+        return nodesDtos;
+    }
+
     public async Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds,
         CancellationToken cancellationToken)
     {
@@ -97,6 +109,11 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     public async Task<long> CountNodesAsync(CancellationToken cancellationToken)
     {
         return await nodesRepository.NodeCountAsync(cancellationToken);
+    }
+
+    public async Task<long> CountNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
+    {
+        return await nodesRepository.NodeByTimelineIdCountAsync(timelineId, cancellationToken);
     }
 
     #endregion
