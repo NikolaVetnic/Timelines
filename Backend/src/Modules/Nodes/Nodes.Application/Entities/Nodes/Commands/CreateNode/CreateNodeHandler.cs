@@ -1,6 +1,6 @@
 using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using Nodes.Application.Data.Abstractions.Nodes;
+using Nodes.Application.Data.Abstractions;
 
 namespace Nodes.Application.Entities.Nodes.Commands.CreateNode;
 

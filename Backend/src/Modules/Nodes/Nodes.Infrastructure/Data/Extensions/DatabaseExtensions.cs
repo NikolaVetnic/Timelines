@@ -1,4 +1,4 @@
-namespace Nodes.Infrastructure.Data.Extensions.Nodes;
+namespace Nodes.Infrastructure.Data.Extensions;
 
 public static class DatabaseExtensions
 {
@@ -22,6 +22,12 @@ public static class DatabaseExtensions
             return;
 
         await context.AddRangeAsync(InitialData.Nodes);
+
+        if (await context.Phases.AnyAsync())
+            return;
+
+        await context.AddRangeAsync(InitialData.Phases);
+
         await context.SaveChangesAsync();
     }
     

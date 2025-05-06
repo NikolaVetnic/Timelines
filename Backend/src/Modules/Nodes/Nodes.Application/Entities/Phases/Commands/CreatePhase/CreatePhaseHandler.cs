@@ -1,9 +1,9 @@
 ﻿using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
-using Nodes.Application.Data.Abstractions.Phases;
+using Nodes.Application.Data.Abstractions;
 
 namespace Nodes.Application.Entities.Phases.Commands.CreatePhase;
 
-internal class CreatePhaseHandler(IPhasesRepository phasesRepository) : ICommandHandler<CreatePhaseCommand, CreatePhaseResult>
+internal class CreatePhaseHandler(INodesRepository phasesRepository) : ICommandHandler<CreatePhaseCommand, CreatePhaseResult>
 {
     public async Task<CreatePhaseResult> Handle(CreatePhaseCommand command, CancellationToken cancellationToken)
     {

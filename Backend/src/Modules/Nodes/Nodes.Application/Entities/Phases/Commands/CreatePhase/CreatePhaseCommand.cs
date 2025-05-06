@@ -14,7 +14,7 @@ public record CreatePhaseCommand : ICommand<CreatePhaseResult>
     public required decimal Progress { get; set; }
     public required bool IsCompleted { get; set; }
     public required PhaseId Parent { get; set; }
-    public required PhaseId[] DependsOn { get; set; }
+    public required List<PhaseId> DependsOn { get; set; }
     public required string AssignedTo { get; set; }
     public required List<string> Stakeholders { get; set; } = [];
     public required List<string> Tags { get; set; } = [];

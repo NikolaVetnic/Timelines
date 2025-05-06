@@ -1,6 +1,6 @@
 using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
-using Nodes.Application.Data.Abstractions.Nodes;
+using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Exceptions;
 using Nodes.Application.Entities.Nodes.Extensions;
 

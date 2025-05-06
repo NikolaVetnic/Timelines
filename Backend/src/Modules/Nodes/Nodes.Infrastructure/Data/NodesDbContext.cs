@@ -1,12 +1,14 @@
 using System.Reflection;
+using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
-using Nodes.Application.Data.Abstractions.Nodes;
+using Nodes.Application.Data.Abstractions;
 
 namespace Nodes.Infrastructure.Data;
 
 public class NodesDbContext(DbContextOptions<NodesDbContext> options) : DbContext(options), INodesDbContext
 {
     public DbSet<Node> Nodes { get; init; }
+    public DbSet<Phase> Phases { get; init; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -59,6 +61,34 @@ public class NodesDbContext(DbContextOptions<NodesDbContext> options) : DbContex
                 .HasConversion(new NoteIdListConverter())
                 .HasColumnName("NoteIds")
                 .IsRequired(false);
+        });
+
+        builder.Entity<Phase>(entity =>
+        {
+            entity.ToTable("Phases"); // Specify table name within the schema
+
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.Id)
+                .HasConversion(new PhaseIdValueConverter());
+
+            entity.Property(p => p.Title).IsRequired();
+            entity.Property(p => p.Description).IsRequired();
+            entity.Property(p => p.StartDate).IsRequired();
+            entity.Property(p => p.EndDate).IsRequired(false);
+            entity.Property(p => p.Duration).IsRequired(false);
+            entity.Property(p => p.Status).IsRequired();
+            entity.Property(p => p.Progress).IsRequired();
+            entity.Property(p => p.IsCompleted).IsRequired();
+
+            entity.Property(p => p.Parent)
+                .HasConversion(new PhaseIdValueConverter())
+                .IsRequired();
+
+            entity.Property(p => p.DependsOn)
+                .HasConversion(new DependsOnPhaseIdListConverter())
+                .HasColumnName("DependsOn")
+                .IsRequired(false);
+
         });
 
         // Apply all configurations taken from classes that implement IEntityTypeConfiguration<>

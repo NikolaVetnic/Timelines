@@ -10,7 +10,7 @@ public abstract class StronglyTypedId
         Value = value;
     }
 
-    public Guid Value { get; }
-    
-    public abstract override string ToString(); 
+    public Guid Value { get; protected set; }
+
+    public abstract override string ToString();
 }

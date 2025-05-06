@@ -1,7 +1,6 @@
 using BugTracking.Api.Extensions;
 using Files.Api.Extensions;
-using Nodes.Api.Extensions.Nodes;
-using Nodes.Api.Extensions.Phases;
+using Nodes.Api.Extensions;
 using Notes.Api.Extensions;
 using Reminders.Api.Extensions;
 using Timelines.Api.Extensions;
@@ -15,7 +14,6 @@ public static class ModuleExtensions
         services.AddBugTrackingModule(configuration);
         services.AddFilesModule(configuration);
         services.AddNodesModule(configuration);
-        services.AddPhasesModule(configuration);
         services.AddNotesModule(configuration);
         services.AddRemindersModule(configuration);
         services.AddTimelinesModule(configuration);
@@ -28,7 +26,6 @@ public static class ModuleExtensions
         endpoints.UseBugTrackingModule();
         endpoints.UseFilesModule();
         endpoints.UseNodesModule();
-        endpoints.UsePhasesModule();
         endpoints.UseNotesModule();
         endpoints.UseRemindersModule();
         endpoints.UseTimelinesModule();

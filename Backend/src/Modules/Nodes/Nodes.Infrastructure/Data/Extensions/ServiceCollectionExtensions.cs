@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
-using Nodes.Application.Data.Abstractions.Nodes;
+using Nodes.Application.Data.Abstractions;
 using Nodes.Infrastructure.Data.Repositories;
 
-namespace Nodes.Infrastructure.Data.Extensions.Nodes;
+namespace Nodes.Infrastructure.Data.Extensions;
 
 public static class ServiceCollectionExtensions
 {

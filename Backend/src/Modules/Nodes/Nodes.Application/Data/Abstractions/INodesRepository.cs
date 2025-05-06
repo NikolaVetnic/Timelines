@@ -1,7 +1,7 @@
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
-namespace Nodes.Application.Data.Abstractions.Nodes;
+namespace Nodes.Application.Data.Abstractions;
 
 public interface INodesRepository
 {
@@ -18,4 +18,10 @@ public interface INodesRepository
     Task DeleteNodes(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
     
     Task<IEnumerable<Node>> GetNodesBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken);
+
+    #region Phase
+
+    Task CreatePhaseAsync(Phase phase, CancellationToken cancellationToken);
+
+    #endregion 
 }

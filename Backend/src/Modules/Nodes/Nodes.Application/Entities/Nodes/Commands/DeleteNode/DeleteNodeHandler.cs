@@ -1,5 +1,5 @@
 ﻿using BuildingBlocks.Application.Data;
-using Nodes.Application.Data.Abstractions.Nodes;
+using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Exceptions;
 
 namespace Nodes.Application.Entities.Nodes.Commands.DeleteNode;

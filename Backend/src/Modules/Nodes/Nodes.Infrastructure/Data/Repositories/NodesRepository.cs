@@ -1,6 +1,6 @@
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
-using Nodes.Application.Data.Abstractions.Nodes;
+using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Exceptions;
 
 namespace Nodes.Infrastructure.Data.Repositories;
@@ -88,6 +88,11 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
             .AsNoTracking()
             .Where(n => timelineIds.Contains(n.TimelineId))
             .ToListAsync(cancellationToken: cancellationToken);
+    }
+
+    public Task CreatePhaseAsync(Phase phase, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 
     #endregion

@@ -1,5 +1,8 @@
-﻿using BuildingBlocks.Domain.Nodes.Phase.Events;
+﻿using System.Text.Json;
+using BuildingBlocks.Domain.Nodes.Phase.Events;
 using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Nodes.Domain.Models;
 
@@ -14,7 +17,7 @@ public class Phase : Aggregate<PhaseId>
     public required decimal Progress { get; set; }
     public required bool IsCompleted { get; set; }
     public required PhaseId Parent { get; set; }
-    public required PhaseId[] DependsOn { get; set; }
+    public required List<PhaseId> DependsOn { get; set; }
     public required string AssignedTo { get; set; }
     public List<string> Stakeholders { get; set; } = [];
     public List<string> Tags { get; set; } = [];
@@ -24,7 +27,7 @@ public class Phase : Aggregate<PhaseId>
     public static Phase Create(PhaseId id, string title, string description,
         DateTime startDate, DateTime? endDate, TimeSpan? duration,
         string status, decimal progress, bool isCompleted,
-        PhaseId parent, PhaseId[] dependsOn, string assignedTo,
+        PhaseId parent, List<PhaseId> dependsOn, string assignedTo,
         List<string> stakeholders, List<string> tags)
     {
         var phase = new Phase
@@ -59,7 +62,7 @@ public class Phase : Aggregate<PhaseId>
     public void Update(PhaseId id, string title, string description,
         DateTime startDate, DateTime? endDate, TimeSpan? duration,
         string status, decimal progress, bool isCompleted,
-        PhaseId parent, PhaseId[] dependsOn, string assignedTo)
+        PhaseId parent, List<PhaseId> dependsOn, string assignedTo)
     {
         Title = title;
         Description = description;
@@ -105,3 +108,7 @@ public class Phase : Aggregate<PhaseId>
 
     #endregion
 }
+
+public class DependsOnPhaseIdListConverter() : ValueConverter<List<PhaseId>, string>(
+    list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),
+    json => JsonSerializer.Deserialize<List<PhaseId>>(json, new JsonSerializerOptions()) ?? new List<PhaseId>());
