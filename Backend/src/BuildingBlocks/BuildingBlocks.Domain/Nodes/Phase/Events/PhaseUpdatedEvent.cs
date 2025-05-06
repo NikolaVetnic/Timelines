@@ -1,5 +1,6 @@
-﻿namespace BuildingBlocks.Domain.Nodes.Phase.Events;
+﻿using BuildingBlocks.Domain.Abstractions;
+using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
 
-public class PhaseUpdatedEvent
-{
-}
+namespace BuildingBlocks.Domain.Nodes.Phase.Events;
+
+public record PhaseUpdatedEvent(PhaseId PhaseId) : IDomainEvent;
