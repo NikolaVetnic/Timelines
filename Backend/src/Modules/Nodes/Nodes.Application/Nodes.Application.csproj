@@ -15,4 +15,8 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Entities\Phases\Commands\" />
+    </ItemGroup>
+
 </Project>
