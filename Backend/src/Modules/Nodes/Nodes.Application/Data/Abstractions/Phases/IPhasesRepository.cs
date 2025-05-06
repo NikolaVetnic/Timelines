@@ -2,4 +2,5 @@
 
 public interface IPhasesRepository
 {
+    Task CreatePhaseAsync(Phase phase, CancellationToken cancellationToken);
 }

@@ -6,7 +6,7 @@ using Nodes.Application.Data;
 using Nodes.Application.Extensions;
 using Nodes.Infrastructure.Data.Extensions.Nodes;
 
-namespace Nodes.Api.Extensions;
+namespace Nodes.Api.Extensions.Nodes;
 
 public static class ServiceCollectionExtensions
 {

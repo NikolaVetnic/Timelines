@@ -1,4 +1,4 @@
-﻿using Nodes.Domain.ValueObjects.Ids;
+﻿using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
 
 namespace Nodes.Infrastructure.Data.Extensions.Phases;
 
