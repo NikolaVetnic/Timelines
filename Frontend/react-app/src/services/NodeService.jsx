@@ -117,24 +117,43 @@ class NodeService {
     }
   }
 
-  /**
-   * Update a node
-   * @param {string} id - Node ID to update
-   * @param {Object} updateData - Fields to update
-   * @returns {Promise<Object>} - Updated node data
-   */
-  static async updateNode(id, updateData) {
-    try {
-      const response = await Put(API_BASE_URL, `/Nodes/${id}`, updateData);
-      toast.success("Node updated successfully!");
-      return response.data;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to update node";
-      toast.error(errorMessage);
-      throw new Error(errorMessage);
-    }
+/**
+ * Update a node with complete data
+ * @param {Object} node - Full node object
+ * @param {Object} updates - Fields to update
+ * @returns {Promise<Object>} - Updated node data
+ */
+static async updateNode(node, updates) {
+  try {
+    const currentData = await this.getNodeById(node.id);
+    
+    const updatedNode = {
+      ...currentData,
+      ...updates,
+      id: node.id
+    };
+
+    const response = await Put(
+      API_BASE_URL, 
+      `/Nodes/${node.id}`,
+      updatedNode,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    toast.success("Node updated successfully!");
+    return response.data;
+  } catch (error) {
+    const errorMessage = error.response?.data?.message || 
+                        error.message || 
+                        "Failed to update node";
+    toast.error(errorMessage);
+    throw new Error(errorMessage);
   }
+}
 
   /**
    * Delete a node by ID

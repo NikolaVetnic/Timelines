@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import NotesList from "../../../../core/components/lists/NotesList/NotesList";
 import CreateNoteModal from "../../../../core/components/modals/CreateNoteModal/CreateNoteModal";
 import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
@@ -23,30 +23,28 @@ const Note = ({ nodeId, onToggle }) => {
   const [totalCount, setTotalCount] = useState(0);
   const itemsPerPageOptions = [2, 4, 6, 8];
 
-  useEffect(() => {
-    const fetchNotes = async () => {
-      if (isNotesExpanded && nodeId) {
-        setIsLoading(true);
-        try {
-          const notesData = await NoteService.getNotesByNode(
-            nodeId,
-            currentPage,
-            itemsPerPage
-          );
-          setNotes(notesData.items || []);
-          setTotalCount(notesData.totalCount || 0);
-        } catch (error) {
-          console.error("Failed to fetch notes:", error);
-        } finally {
-          setIsLoading(false);
-        }
+  const fetchNotes = useCallback(async () => {
+    if (isNotesExpanded && nodeId) {
+      setIsLoading(true);
+      try {
+        const notesData = await NoteService.getNotesByNode(
+          nodeId,
+          currentPage,
+          itemsPerPage
+        );
+        setNotes(notesData.items || []);
+        setTotalCount(notesData.totalCount || 0);
+      } finally {
+        setIsLoading(false);
       }
-    };
-
-    fetchNotes();
+    }
   }, [isNotesExpanded, nodeId, currentPage, itemsPerPage]);
 
-  const totalPages = Math.ceil(totalCount / itemsPerPage);
+  useEffect(() => {
+    fetchNotes();
+  }, [fetchNotes]);
+
+  const totalPages = Math.ceil(totalCount / itemsPerPage) || 1;
 
   const handlePageChange = (page) => {
     setCurrentPage(page - 1);
@@ -58,27 +56,20 @@ const Note = ({ nodeId, onToggle }) => {
   };
 
   const toggleNotesSection = () => {
+    if (!isNotesExpanded) {
+      fetchNotes();
+    }
     setIsNotesExpanded((prev) => !prev);
     onToggle();
   };
 
   const handleSaveNote = async () => {
     if (selectedNote) {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
         await NoteService.updateNote(selectedNote.id, { content: editorContent });
-        
-        const notesData = await NoteService.getNotesByNode(
-          nodeId,
-          currentPage,
-          itemsPerPage
-        );
-        setNotes(notesData.items || []);
-        setTotalCount(notesData.totalCount || 0);
-        
+        await fetchNotes();
         closeNoteEditor();
-      } catch (error) {
-        console.error("Failed to update note:", error);
       } finally {
         setIsLoading(false);
       }
@@ -117,19 +108,9 @@ const Note = ({ nodeId, onToggle }) => {
       };
       
       await NoteService.createNote(noteWithNodeId);
-      
-      const notesData = await NoteService.getNotesByNode(
-        nodeId,
-        currentPage,
-        itemsPerPage
-      );
-      setNotes(notesData.items || []);
-      setTotalCount(notesData.totalCount || 0);
-      
+      await fetchNotes();
       closeCreateModal();
       onToggle();
-    } catch (error) {
-      console.error("Failed to create note:", error);
     } finally {
       setIsLoading(false);
     }
@@ -141,15 +122,8 @@ const Note = ({ nodeId, onToggle }) => {
     try {
       setIsLoading(true);
       await NoteService.deleteNote(noteToDelete.id);
+      await fetchNotes();
       
-      const notesData = await NoteService.getNotesByNode(
-        nodeId,
-        currentPage,
-        itemsPerPage
-      );
-      setNotes(notesData.items || []);
-      setTotalCount(notesData.totalCount || 0);
-
       if (selectedNote?.id === noteToDelete.id) {
         setSelectedNote(null);
       }
@@ -157,8 +131,6 @@ const Note = ({ nodeId, onToggle }) => {
       setIsDeleteModalOpen(false);
       setNoteToDelete(null);
       onToggle();
-    } catch (error) {
-      console.error("Failed to delete note:", error);
     } finally {
       setIsLoading(false);
     }
@@ -196,7 +168,7 @@ const Note = ({ nodeId, onToggle }) => {
               />
               {totalCount > 0 && (
                 <Pagination
-                  currentPage={currentPage}
+                  currentPage={currentPage + 1}
                   totalPages={totalPages}
                   itemsPerPage={itemsPerPage}
                   onPageChange={handlePageChange}

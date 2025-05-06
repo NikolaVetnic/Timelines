@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import deleteById from "../core/api/delete";
 import { getAll, getById } from "../core/api/get";
 import Post from "../core/api/post";
-import API_BASE_URL from "../data/constants";
+import API_BASE_URL, { FILE_NUMBER_TO_TYPE, FILE_TYPE_TO_NUMBER } from "../data/constants";
 
 class FileService {
   /**
@@ -64,19 +64,7 @@ class FileService {
   }
 
   static getFileTypeNumber(mimeType) {
-    const typeMap = {
-      "application/pdf": 1,
-      "application/msword": 2,
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document": 2,
-      "application/vnd.ms-excel": 3,
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": 3,
-      "application/vnd.ms-powerpoint": 4,
-      "application/vnd.openxmlformats-officedocument.presentationml.presentation": 4,
-      "text/plain": 5,
-      "image/jpeg": 6,
-      "image/png": 6,
-      "image/gif": 6,
-    };
+    const typeMap = FILE_TYPE_TO_NUMBER;
     return typeMap[mimeType] || 0;
   }
 
@@ -108,50 +96,49 @@ class FileService {
     }
   }
 
-  /**
-   * Get files by node ID
-   * @param {string} nodeId - Parent node ID
-   * @param {number} pageIndex - Pagination index
-   * @param {number} pageSize - Items per page
-   * @returns {Promise<Object>} - { items: [], totalCount: 0 }
-   */
-  static async getFilesByNode(nodeId, pageIndex = 0, pageSize = 10) {
-    try {
-      const response = await getAll(API_BASE_URL, "/Files");
-
-      const filteredFiles = response.fileAssets.data
-        .filter((fileAsset) => fileAsset.node.id === nodeId)
-        .map((fileAsset) => ({
-          id: fileAsset.id,
-          name: fileAsset.name,
-          size: fileAsset.size * 1024,
-          type: this.getMimeType(fileAsset.type),
-          url: fileAsset.content || "",
-          nodeId: fileAsset.node.id,
-          description: fileAsset.description,
-        }));
-
-      return {
-        items: filteredFiles,
-        totalCount: filteredFiles.length,
-        totalPages: 1,
-      };
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to fetch files";
-      toast.error(errorMessage);
-      throw new Error(errorMessage);
-    }
-  }
-
-  // Helper method to convert type number to MIME type
-  static getMimeType(typeNumber) {
-    const types = {
-      1: "application/pdf",
-      2: "application/msword",
+/**
+ * Get files by node ID with client-side filtering and pagination
+ * @param {string} nodeId - Parent node ID
+ * @param {number} pageIndex - Pagination index (0-based)
+ * @param {number} pageSize - Items per page
+ * @returns {Promise<Object>} - { items: [], totalCount: 0, totalPages: 0 }
+ */
+static async getFilesByNode(nodeId, pageIndex = 0, pageSize = 10) {
+  try {
+    const response = await getAll(API_BASE_URL, "/Files", pageIndex, pageSize);
+    const filteredFiles = response.fileAssets?.data
+      ?.filter(fileAsset => fileAsset.node?.id === nodeId)
+      ?.map(fileAsset => ({
+        id: fileAsset.id,
+        name: fileAsset.name,
+        size: fileAsset.size * 1024,
+        type: this.getMimeType(fileAsset.type),
+        url: fileAsset.content || "",
+        nodeId: fileAsset.node.id,
+        description: fileAsset.description,
+      })) || [];
+    
+    const pageStart = 0;
+    const pageEnd = pageSize;
+    const paginatedFiles = filteredFiles.slice(pageStart, pageEnd);
+    
+    return {
+      items: paginatedFiles,
+      totalCount: filteredFiles.length,
+      totalPages: Math.ceil(filteredFiles.length / pageSize),
     };
+  } catch (error) {
+    const errorMessage = error.response?.data?.message || "Failed to fetch files";
+    toast.error(errorMessage);
+    throw new Error(errorMessage);
+  }
+}
+
+  static getMimeType(typeNumber) {
+    const types = FILE_NUMBER_TO_TYPE;
     return types[typeNumber] || "application/octet-stream";
   }
+  
   /**
    * Get a single file by ID
    * @param {string} id - The file ID

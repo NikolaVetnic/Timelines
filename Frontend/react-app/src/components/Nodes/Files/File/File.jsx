@@ -1,13 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { IoMdDownload } from "react-icons/io";
-import { MdDelete, MdOutlinePreview } from "react-icons/md";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Button from "../../../../core/components/buttons/Button/Button";
+import FileList from "../../../../core/components/lists/FileList/FileList";
 import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
 import Pagination from "../../../../core/components/pagination/Pagination";
-import { MAX_FILE_SIZE } from "../../../../data/constants";
+import { FILE_TYPES, MAX_FILE_SIZE } from "../../../../data/constants";
 import FileService from "../../../../services/FileService";
 import "./File.css";
 
@@ -18,39 +16,42 @@ const File = ({ nodeId, onToggle }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [fileToDelete, setFileToDelete] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-  const [currentPage, setCurrentPage] = useState(1);
+  
+  const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(2);
+  const [totalCount, setTotalCount] = useState(0);
   const itemsPerPageOptions = [2, 4, 6, 8];
 
-  useEffect(() => {
-    const fetchFiles = async () => {
+  const fetchFiles = useCallback(async () => {
+    if (isExpanded && nodeId) {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
-        const response = await FileService.getFilesByNode(nodeId);
+        const response = await FileService.getFilesByNode(
+          nodeId,
+          currentPage,
+          itemsPerPage
+        );
         setFiles(response.items || []);
+        setTotalCount(response.totalCount || 0);
       } finally {
         setIsLoading(false);
       }
-    };
-
-    if (isExpanded && nodeId) {
-      fetchFiles();
     }
-  }, [isExpanded, nodeId]);
+  }, [isExpanded, nodeId, currentPage, itemsPerPage]);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentFiles = files.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(files.length / itemsPerPage);
+  useEffect(() => {
+    fetchFiles();
+  }, [fetchFiles]);
+
+  const totalPages = Math.ceil(totalCount / itemsPerPage) || 1;
 
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    setCurrentPage(page - 1);
   };
 
   const handleItemsPerPageChange = (size) => {
     setItemsPerPage(size);
-    setCurrentPage(1);
+    setCurrentPage(0);
   };
 
   const onDrop = useCallback(
@@ -84,32 +85,25 @@ const File = ({ nodeId, onToggle }) => {
           };
         });
 
-        const uploadedFiles = await Promise.all(uploadPromises);
-        setFiles((prevFiles) => [...prevFiles, ...uploadedFiles]);
+        await Promise.all(uploadPromises);
+        await fetchFiles();
       } finally {
         setIsLoading(false);
-        setTimeout(() => onToggle(), 0);
+        onToggle();
       }
     },
-    [nodeId, onToggle]
+    [nodeId, onToggle, fetchFiles]
   );
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: {
-      "image/*": [".png", ".jpg", ".jpeg", ".gif", ".webp"],
-      "application/pdf": [".pdf"],
-      "application/msword": [".doc", ".docx"],
-      "application/vnd.ms-excel": [".xls", ".xlsx"],
-      "application/vnd.ms-powerpoint": [".ppt", ".pptx"],
-      "text/plain": [".txt"],
-    },
+    accept: FILE_TYPES,
     multiple: true,
   });
 
   const toggleExpansion = () => {
     setIsExpanded((prev) => !prev);
-    setTimeout(() => onToggle(), 0);
+    onToggle();
   };
 
   const confirmDelete = async () => {
@@ -117,7 +111,7 @@ const File = ({ nodeId, onToggle }) => {
     try {
       setIsLoading(true);
       await FileService.deleteFile(fileToDelete.id);
-      setFiles((prev) => prev.filter((f) => f.id !== fileToDelete.id));
+      await fetchFiles();
     } finally {
       setIsLoading(false);
       setIsDeleteModalOpen(false);
@@ -131,7 +125,7 @@ const File = ({ nodeId, onToggle }) => {
   };
 
   const handleDownload = async (file) => {
-      await FileService.downloadFile(file.id);
+    await FileService.downloadFile(file.id);
   };
 
   const handlePreview = (file) => {
@@ -178,79 +172,24 @@ const File = ({ nodeId, onToggle }) => {
               <div className={`${root}-loading`}>Loading...</div>
             ) : (
               <>
-                {files.length > 0 ? (
-                    <div className={`${root}-grid`}>
-                      {currentFiles.map((file) => (
-                        <div key={file.id} className={`${root}-card`}>
-                          <div className={`${root}-card-content`}>
-                            <h5 className={`${root}-card-title`}>
-                              {file.name}
-                            </h5>
-                            <p className={`${root}-card-date`}>
-                              <strong>Size:</strong>{" "}
-                              {Math.round(file.size / 1024)} KB
-                            </p>
-                            {file.description && (
-                              <p className={`${root}-card-priority`}>
-                                <strong>Description:</strong> {file.description}
-                              </p>
-                            )}
-                            {file.type.startsWith("image/") && (
-                              <img
-                                src={file.url}
-                                alt={file.name}
-                                className={`${root}-preview`}
-                              />
-                            )}
-                          </div>
-                          <div className={`${root}-card-actions`}>
-                            <Button
-                              icon={<MdOutlinePreview />}
-                              iconOnly
-                              shape="square"
-                              variant="primary"
-                              size="small"
-                              onClick={() => handlePreview(file)}
-                              disabled={!file.url}
-                            />
-                            <Button
-                              icon={<IoMdDownload />}
-                              iconOnly
-                              shape="square"
-                              variant="primary"
-                              size="small"
-                              onClick={() => handleDownload(file)}
-                            />
-                            <Button
-                              icon={<MdDelete />}
-                              iconOnly
-                              variant="danger"
-                              shape="square"
-                              size="small"
-                              onClick={() => {
-                                setFileToDelete(file);
-                                setIsDeleteModalOpen(true);
-                              }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                ) : (
-                  <div className={`${root}-empty-state`}>
-                    <p>No files yet. Upload your first file!</p>
-                  </div>
+                <FileList
+                  files={files}
+                  root={root}
+                  handlePreview={handlePreview}
+                  handleDownload={handleDownload}
+                  setFileToDelete={setFileToDelete}
+                  setIsDeleteModalOpen={setIsDeleteModalOpen}
+                />
+                {totalCount > 0 && (
+                  <Pagination
+                    currentPage={currentPage + 1}
+                    totalPages={totalPages}
+                    itemsPerPage={itemsPerPage}
+                    onPageChange={handlePageChange}
+                    onItemsPerPageChange={handleItemsPerPageChange}
+                    itemsPerPageOptions={itemsPerPageOptions}
+                  />
                 )}
-                {files.length > 0 && (
-                      <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        itemsPerPage={itemsPerPage}
-                        onPageChange={handlePageChange}
-                        onItemsPerPageChange={handleItemsPerPageChange}
-                        itemsPerPageOptions={itemsPerPageOptions}
-                      />
-                    )}
               </>
             )}
           </div>
