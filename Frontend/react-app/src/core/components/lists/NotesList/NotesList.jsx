@@ -1,4 +1,4 @@
-import { format } from "date-fns"; // You'll need to install date-fns
+import { format } from "date-fns";
 import React from "react";
 import { CiEdit } from "react-icons/ci";
 import { IoIosAdd } from "react-icons/io";
