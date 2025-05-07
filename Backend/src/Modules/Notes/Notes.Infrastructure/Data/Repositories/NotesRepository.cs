@@ -19,9 +19,25 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
+    public async Task<List<Note>> ListNotesByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        return await dbContext.Notes
+            .AsNoTracking()
+            .Where(n => n.NodeId == nodeId)
+            .OrderBy(n => n.CreatedAt)
+            .Skip(pageIndex * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<long> NoteCountAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Notes.LongCountAsync(cancellationToken);
+    }
+
+    public async Task<long> NoteCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Notes.LongCountAsync(n => n.NodeId == nodeId, cancellationToken);
     }
 
     #endregion
