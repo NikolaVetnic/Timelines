@@ -1,9 +1,11 @@
 using System.Threading.Tasks;
 using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Validation.AspNetCore;
+using Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 using Timelines.Application.Entities.Timelines.Queries.GetTimelineById;
 using Timelines.Application.Entities.Timelines.Queries.ListTimelines;
 
@@ -40,7 +42,32 @@ public class TimelinesController(ISender sender) : ControllerBase
         var response = result.Adapt<GetTimelineByIdResponse>();
         return Ok(response);
     }
+    
+    [HttpPost]
+    [ProducesResponseType(typeof(CreateTimelineResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<CreateTimelineResponse>> Create(
+        [FromBody] CreateTimelineRequest request)
+    {
+        var command = request.Adapt<CreateTimelineCommand>();
+        var result = await sender.Send(command);
+        var response = result.Adapt<CreateTimelineResponse>();
+
+        return CreatedAtAction(
+            nameof(GetById),
+            new { timelineId = response.Id },
+            response);
+    }
 }
 
 public record ListTimelinesResponse(PaginatedResult<TimelineDto> Timelines);
+
 public record GetTimelineByIdResponse(TimelineDto Timeline);
+
+public class CreateTimelineRequest
+{
+    public string Title { get; set; }
+    public string Description { get; set; }
+}
+
+public record CreateTimelineResponse(TimelineId Id);
