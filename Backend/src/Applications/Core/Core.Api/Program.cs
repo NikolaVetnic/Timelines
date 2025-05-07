@@ -50,6 +50,9 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 app.UseModules();
 app.MapCarter();
@@ -59,7 +62,7 @@ app.MapGet("/", BuildingBlocksTestClass.GetTestString);
 app.UseSwaggerDocumentation(app.Environment);
 await app.Services.SetupDatabaseAsync(app.Environment);
 
-app.UseExceptionHandler(_ => { });
+app.UseExceptionHandler(_ => { }); // ToDo: To be removed as it eats up any exceptions on startup
 
 app.UseHealthChecks("/health",
     new HealthCheckOptions
