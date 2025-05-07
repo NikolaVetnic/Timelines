@@ -1,7 +1,6 @@
 pull_request_rules:
-  - name: Merge main into current PR when PR is behind the main branch
-    conditions:
-      - base=main
-      - -merged
-    actions:
-      update:
+    - name: update pull request
+      conditions:
+          - label!=wip
+      actions:
+          update:
