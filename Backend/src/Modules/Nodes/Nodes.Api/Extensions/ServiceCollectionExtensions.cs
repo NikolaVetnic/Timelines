@@ -23,6 +23,7 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
         TypeAdapterConfig.GlobalSettings.Scan(typeof(NodeIdConverter).Assembly);
+        TypeAdapterConfig.GlobalSettings.Scan(typeof(PhaseIdConverter).Assembly);
         
         services.AddScoped<INodesService, NodesService>();
 

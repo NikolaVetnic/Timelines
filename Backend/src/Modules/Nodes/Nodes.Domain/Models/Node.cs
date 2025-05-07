@@ -64,6 +64,7 @@ public class Node : Aggregate<NodeId>
         Timestamp = timestamp;
         Importance = importance;
         Phase = phase;
+
         AddDomainEvent(new NodeUpdatedEvent(Id));
     }
 

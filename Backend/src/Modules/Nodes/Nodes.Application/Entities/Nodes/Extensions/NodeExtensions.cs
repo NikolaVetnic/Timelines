@@ -5,6 +5,7 @@ using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 
 namespace Nodes.Application.Entities.Nodes.Extensions;
+
 public static class NodeExtensions
 {
     public static NodeBaseDto ToNodeBaseDto(this Node node)

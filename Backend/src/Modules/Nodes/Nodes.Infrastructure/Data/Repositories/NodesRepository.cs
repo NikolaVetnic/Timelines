@@ -90,5 +90,10 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
+    public Task CreatePhaseAsync(Phase phase, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
     #endregion
 }
