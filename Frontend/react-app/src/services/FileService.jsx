@@ -105,7 +105,6 @@ class FileService {
  */
 static async getFilesByNode(nodeId, pageIndex = 0, pageSize = 10) {
   try {
-    console.log(nodeId)
     const response = await getAll(API_BASE_URL, `/Nodes/${nodeId}/Files`, pageIndex, pageSize);
     const files = response.fileAssets?.data?.map(fileAsset => ({
       id: fileAsset.id,
