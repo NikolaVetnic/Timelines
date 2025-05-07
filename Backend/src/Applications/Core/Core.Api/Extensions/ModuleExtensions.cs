@@ -1,3 +1,4 @@
+using Auth.Api.Extensions;
 using BugTracking.Api.Extensions;
 using Files.Api.Extensions;
 using Nodes.Api.Extensions;
@@ -11,24 +12,28 @@ public static class ModuleExtensions
 {
     public static IServiceCollection AddModules(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddBugTrackingModule(configuration);
-        services.AddFilesModule(configuration);
-        services.AddNodesModule(configuration);
-        services.AddNotesModule(configuration);
-        services.AddRemindersModule(configuration);
-        services.AddTimelinesModule(configuration);
+        services
+            .AddAuthModule(configuration)
+            .AddBugTrackingModule(configuration)
+            .AddFilesModule(configuration)
+            .AddNodesModule(configuration)
+            .AddNotesModule(configuration)
+            .AddRemindersModule(configuration)
+            .AddTimelinesModule(configuration);
         
         return services;
     }
 
     public static IEndpointRouteBuilder UseModules(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.UseBugTrackingModule();
-        endpoints.UseFilesModule();
-        endpoints.UseNodesModule();
-        endpoints.UseNotesModule();
-        endpoints.UseRemindersModule();
-        endpoints.UseTimelinesModule();
+        endpoints
+            .UseAuthModule()
+            .UseBugTrackingModule()
+            .UseFilesModule()
+            .UseNodesModule()
+            .UseNotesModule()
+            .UseRemindersModule()
+            .UseTimelinesModule();
         
         return endpoints;
     }
