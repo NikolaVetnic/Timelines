@@ -61,6 +61,12 @@ public class NodesDbContext(DbContextOptions<NodesDbContext> options) : DbContex
                 .HasConversion(new NoteIdListConverter())
                 .HasColumnName("NoteIds")
                 .IsRequired(false);
+
+            entity.Property(r => r.PhaseId).IsRequired();
+            entity.HasIndex(r => r.PhaseId); // Add an index for efficient querying
+            entity.Property(r => r.PhaseId)
+                .HasConversion(new PhaseIdValueConverter()) // Apply the value converter
+                .IsRequired();
         });
 
         builder.Entity<Phase>(entity =>

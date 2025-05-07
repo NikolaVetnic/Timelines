@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
         // Register DbContext interface
         services.AddScoped<INodesDbContext, NodesDbContext>();
         services.AddScoped<INodesRepository, NodesRepository>();
+        services.AddScoped<IPhasesRepository, PhasesRepository>();
 
         return services;
     }

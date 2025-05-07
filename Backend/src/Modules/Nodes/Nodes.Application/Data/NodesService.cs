@@ -22,6 +22,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     private ITimelinesService TimelinesService => serviceProvider.GetRequiredService<ITimelinesService>();
     private IFilesService FilesService => serviceProvider.GetRequiredService<IFilesService>();
     private INotesService NotesService => serviceProvider.GetRequiredService<INotesService>();
+    private IPhasesService PhasesService => serviceProvider.GetRequiredService<IPhasesService>();
 
     #region List
 
@@ -108,11 +109,12 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
 
         var timeline = await TimelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
+        var phase = await PhasesService.GetPhaseByIdAsync(node.PhaseId, cancellationToken);
         var fileAssets = await FilesService.GetFileAssetsBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
         var notes = await NotesService.GetNotesBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
         var reminders = await RemindersService.GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
 
-        var nodeDto = node.ToNodeDto(timeline, fileAssets, notes, reminders);
+        var nodeDto = node.ToNodeDto(timeline, phase, fileAssets, notes, reminders);
 
         return nodeDto;
     }
@@ -145,7 +147,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
             NodeId.Of(Guid.NewGuid()),
             nodeTemplate.Title,
             nodeTemplate.Description,
-            nodeTemplate.Phase,
+            nodeTemplate.PhaseId,
             nodeTemplate.Timestamp,
             nodeTemplate.Importance,
             nodeTemplate.Categories,

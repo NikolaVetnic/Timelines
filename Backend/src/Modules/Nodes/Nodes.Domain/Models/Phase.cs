@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Phase.Events;
 using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
-using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Nodes.Domain.Models;
@@ -21,6 +21,7 @@ public class Phase : Aggregate<PhaseId>
     public required string AssignedTo { get; set; }
     public List<string> Stakeholders { get; set; } = [];
     public List<string> Tags { get; set; } = [];
+    public List<NodeId> NodeIds { get; set; } = [];
 
     #region Phase
 
@@ -104,6 +105,22 @@ public class Phase : Aggregate<PhaseId>
     private void RemoveTag(string tag)
     {
         Tags.Remove(tag);
+    }
+
+    #endregion
+
+    #region Nodes
+
+    public void AddNodes(NodeId nodeId)
+    {
+        if (!NodeIds.Contains(nodeId))
+            NodeIds.Add(nodeId);
+    }
+
+    public void RemoveNodes(NodeId nodeId)
+    {
+        if (NodeIds.Contains(nodeId))
+            NodeIds.Remove(nodeId);
     }
 
     #endregion

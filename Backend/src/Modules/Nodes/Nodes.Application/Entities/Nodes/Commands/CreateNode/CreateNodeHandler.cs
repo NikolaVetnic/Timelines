@@ -24,7 +24,7 @@ internal static class CreateNodeCommandExtensions
             NodeId.Of(Guid.NewGuid()),
             command.Title,
             command.Description,
-            command.Phase,
+            command.PhaseId,
             command.Timestamp,
             command.Importance,
             command.Categories,

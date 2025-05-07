@@ -18,10 +18,4 @@ public interface INodesRepository
     Task DeleteNodes(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
     
     Task<IEnumerable<Node>> GetNodesBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken);
-
-    #region Phase
-
-    Task CreatePhaseAsync(Phase phase, CancellationToken cancellationToken);
-
-    #endregion 
 }

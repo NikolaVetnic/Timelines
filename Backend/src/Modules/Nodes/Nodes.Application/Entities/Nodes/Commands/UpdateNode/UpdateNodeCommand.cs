@@ -1,5 +1,6 @@
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 namespace Nodes.Application.Entities.Nodes.Commands.UpdateNode;
@@ -11,7 +12,7 @@ public record UpdateNodeCommand : ICommand<UpdateNodeResult>
     public required NodeId Id { get; set; }
     public string? Title { get; set; }
     public string? Description { get; set; }
-    public string? Phase { get; set; }
+    public PhaseId PhaseId { get; set; }
     public DateTime? Timestamp { get; set; }
     public int? Importance { get; set; }
     public List<string>? Categories { get; set; }

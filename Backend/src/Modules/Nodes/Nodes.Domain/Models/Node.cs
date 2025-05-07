@@ -2,6 +2,7 @@
 using BuildingBlocks.Domain.Files.File.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Node.Events;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
@@ -16,7 +17,7 @@ public class Node : Aggregate<NodeId>
     public List<string> Tags { get; set; } = [];
     public required string Title { get; set; }
     public required string Description { get; set; }
-    public required string Phase { get; set; }
+    public required PhaseId PhaseId { get; set; }
     public required DateTime Timestamp { get; set; }
     public required int Importance { get; set; }
 
@@ -27,7 +28,7 @@ public class Node : Aggregate<NodeId>
 
     #region Node
 
-    public static Node Create(NodeId id, string title, string description, string phase,
+    public static Node Create(NodeId id, string title, string description, PhaseId phaseId,
         DateTime timestamp, int importance, List<string> categories, List<string> tags, TimelineId timelineId)
     {
         var node = new Node
@@ -35,7 +36,7 @@ public class Node : Aggregate<NodeId>
             Id = id,
             Title = title,
             Description = description,
-            Phase = phase,
+            PhaseId = phaseId,
             Timestamp = timestamp,
             Importance = importance,
             TimelineId = timelineId
@@ -57,13 +58,13 @@ public class Node : Aggregate<NodeId>
     }
 
     public void Update(string title, string description, DateTime timestamp,
-        int importance, string phase)
+        int importance, PhaseId phaseId)
     {
         Title = title;
         Description = description;
         Timestamp = timestamp;
         Importance = importance;
-        Phase = phase;
+        PhaseId = phaseId;
 
         AddDomainEvent(new NodeUpdatedEvent(Id));
     }

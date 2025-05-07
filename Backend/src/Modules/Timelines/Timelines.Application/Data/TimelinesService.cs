@@ -32,7 +32,6 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
                             id: n.Id!.ToString(),
                             title: n.Title,
                             description: n.Description,
-                            phase: n.Phase,
                             timestamp: n.Timestamp,
                             importance: n.Importance,
                             categories: n.Categories,
