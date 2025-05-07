@@ -19,4 +19,19 @@ public static class FileAssetExtensions
             fileAsset.SharedWith.ToList(),
             node);
     }
+
+    public static FileAssetBaseDto ToFileAssetBaseDto(this FileAsset fileAsset)
+    {
+        return new FileAssetBaseDto(
+            fileAsset.Id.ToString(),
+            fileAsset.Name,
+            fileAsset.Description,
+            fileAsset.Size,
+            fileAsset.Type,
+            fileAsset.Owner,
+            fileAsset.Content,
+            fileAsset.IsPublic,
+            fileAsset.SharedWith.ToList()
+            );
+    }
 }
