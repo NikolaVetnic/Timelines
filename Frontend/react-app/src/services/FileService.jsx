@@ -15,53 +15,54 @@ class FileService {
    * @returns {Promise<Object>} - Uploaded file data
    */
   static async uploadFile(fileData) {
-    try {
-      const fileContent = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(fileData.file);
-        reader.onload = () => resolve(reader.result.split(",")[1]);
-        reader.onerror = (error) => reject(error);
-      });
+  try {
+    const fileContent = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(fileData.file);
+      reader.onload = () => resolve(reader.result.split(",")[1]);
+      reader.onerror = (error) => reject(error);
+    });
 
-      const filePayload = {
-        name: fileData.title || fileData.file.name,
-        description: fileData.description || "No description",
-        size: fileData.file.size > 0 ? fileData.file.size : 1,
-        type: this.getFileTypeNumber(fileData.file.type) || 1,
-        owner: "username",
-        content: fileContent,
-        sharedWith: [],
-        isPublic: false,
-        nodeId: fileData.nodeId,
-      };
+    const filePayload = {
+      name: fileData.file.name,
+      description: fileData.description || "No description",
+      size: fileData.file.size,
+      type: this.getFileTypeNumber(fileData.file.type) || 1,
+      owner: "username",
+      content: fileContent,
+      sharedWith: [],
+      isPublic: false,
+      nodeId: fileData.nodeId,
+    };
 
-      if (!filePayload.name || !filePayload.type || !filePayload.owner) {
-        throw new Error("Missing required fields for file upload");
-      }
-
-      const response = await Post(API_BASE_URL, "/Files", filePayload, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      toast.success("File uploaded successfully!");
-      return {
-        ...response.data,
-        url: URL.createObjectURL(fileData.file),
-        name: fileData.file.name,
-        size: fileData.file.size,
-        type: fileData.file.type,
-      };
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to upload file";
-      toast.error(errorMessage);
-      throw new Error(errorMessage);
+    if (!filePayload.name || !filePayload.type || !filePayload.owner || !filePayload.nodeId) {
+      throw new Error("Missing required fields for file upload");
     }
+
+    const response = await Post(API_BASE_URL, "/Files", filePayload, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log('Upload response:', response);
+    toast.success("File uploaded successfully!");
+    
+    return {
+      ...response.data,
+      url: URL.createObjectURL(fileData.file),
+      name: fileData.file.name,
+      size: fileData.file.size,
+      type: fileData.file.type,
+      nodeId: fileData.nodeId
+    };
+  } catch (error) {
+    const errorMessage = error.response?.data?.message ||
+                        error.message ||
+                        "Failed to upload file";
+    toast.error(errorMessage);
   }
+}
 
   static getFileTypeNumber(mimeType) {
     const typeMap = FILE_TYPE_TO_NUMBER;
@@ -92,12 +93,11 @@ class FileService {
       const errorMessage =
         error.response?.data?.message || "Failed to fetch files";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
 /**
- * Get files by node ID with client-side filtering and pagination
+ * Get files by node ID with server-side pagination
  * @param {string} nodeId - Parent node ID
  * @param {number} pageIndex - Pagination index (0-based)
  * @param {number} pageSize - Items per page
@@ -105,32 +105,26 @@ class FileService {
  */
 static async getFilesByNode(nodeId, pageIndex = 0, pageSize = 10) {
   try {
-    const response = await getAll(API_BASE_URL, "/Files", pageIndex, pageSize);
-    const filteredFiles = response.fileAssets?.data
-      ?.filter(fileAsset => fileAsset.node?.id === nodeId)
-      ?.map(fileAsset => ({
-        id: fileAsset.id,
-        name: fileAsset.name,
-        size: fileAsset.size * 1024,
-        type: this.getMimeType(fileAsset.type),
-        url: fileAsset.content || "",
-        nodeId: fileAsset.node.id,
-        description: fileAsset.description,
-      })) || [];
-    
-    const pageStart = 0;
-    const pageEnd = pageSize;
-    const paginatedFiles = filteredFiles.slice(pageStart, pageEnd);
+    console.log(nodeId)
+    const response = await getAll(API_BASE_URL, `/Nodes/${nodeId}/Files`, pageIndex, pageSize);
+    const files = response.fileAssets?.data?.map(fileAsset => ({
+      id: fileAsset.id,
+      name: fileAsset.name,
+      size: fileAsset.size * 1024,
+      type: this.getMimeType(fileAsset.type),
+      url: fileAsset.content || "",
+      nodeId: nodeId,
+      description: fileAsset.description,
+    })) || [];
     
     return {
-      items: paginatedFiles,
-      totalCount: filteredFiles.length,
-      totalPages: Math.ceil(filteredFiles.length / pageSize),
+      items: files,
+      totalCount: response.fileAssets?.count || 0,
+      totalPages: Math.ceil((response.fileAssets?.count || 0) / pageSize),
     };
   } catch (error) {
     const errorMessage = error.response?.data?.message || "Failed to fetch files";
     toast.error(errorMessage);
-    throw new Error(errorMessage);
   }
 }
 
@@ -152,7 +146,6 @@ static async getFilesByNode(nodeId, pageIndex = 0, pageSize = 10) {
       const errorMessage =
         error.response?.data?.message || "Failed to fetch file";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -171,7 +164,6 @@ static async getFilesByNode(nodeId, pageIndex = 0, pageSize = 10) {
       const errorMessage =
         error.response?.data?.message || "Failed to update file";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 

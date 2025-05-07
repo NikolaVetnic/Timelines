@@ -9,7 +9,7 @@ import { FILE_TYPES, MAX_FILE_SIZE } from "../../../../data/constants";
 import FileService from "../../../../services/FileService";
 import "./File.css";
 
-const File = ({ nodeId, onToggle }) => {
+const File = ({ node, onToggle }) => {
   const root = "file";
   const [files, setFiles] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -23,11 +23,11 @@ const File = ({ nodeId, onToggle }) => {
   const itemsPerPageOptions = [2, 4, 6, 8];
 
   const fetchFiles = useCallback(async () => {
-    if (isExpanded && nodeId) {
+    if (isExpanded && node.id) {
       setIsLoading(true);
       try {
         const response = await FileService.getFilesByNode(
-          nodeId,
+          node.id,
           currentPage,
           itemsPerPage
         );
@@ -37,7 +37,7 @@ const File = ({ nodeId, onToggle }) => {
         setIsLoading(false);
       }
     }
-  }, [isExpanded, nodeId, currentPage, itemsPerPage]);
+  }, [isExpanded, node.id, currentPage, itemsPerPage]);
 
   useEffect(() => {
     fetchFiles();
@@ -55,22 +55,21 @@ const File = ({ nodeId, onToggle }) => {
   };
 
   const onDrop = useCallback(
-    async (acceptedFiles) => {
-      const validFiles = acceptedFiles.filter((file) => {
-        if (file.size > MAX_FILE_SIZE) {
-          toast.error(`File "${file.name}" exceeds the 10MB limit.`);
-          return false;
-        }
-        return true;
-      });
+  async (acceptedFiles) => {
+    const validFiles = acceptedFiles.filter((file) => {
+      if (file.size > MAX_FILE_SIZE) {
+        toast.error(`File "${file.name}" exceeds the 10MB limit.`);
+        return false;
+      }
+      return true;
+    });
 
-      if (validFiles.length === 0) return;
+    if (validFiles.length === 0) return;
 
-      try {
-        setIsLoading(true);
-        const uploadPromises = validFiles.map(async (file) => {
+      setIsLoading(true);
+      const uploadPromises = validFiles.map(async (file) => {
           const response = await FileService.uploadFile({
-            nodeId,
+            nodeId: node.id,
             file,
             title: file.name,
             description: "",
@@ -82,18 +81,21 @@ const File = ({ nodeId, onToggle }) => {
             name: file.name,
             size: file.size,
             type: file.type,
+            nodeId: node.id
           };
-        });
+      });
 
-        await Promise.all(uploadPromises);
+      const results = await Promise.all(uploadPromises);
+      const successfulUploads = results.filter(result => result !== null);
+      
+      if (successfulUploads.length > 0) {
         await fetchFiles();
-      } finally {
-        setIsLoading(false);
-        onToggle();
       }
-    },
-    [nodeId, onToggle, fetchFiles]
-  );
+      setIsLoading(false);
+      onToggle();
+  },
+  [node.id, onToggle, fetchFiles]
+);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
