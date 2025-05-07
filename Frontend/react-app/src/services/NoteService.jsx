@@ -37,7 +37,6 @@ class NoteService {
       const errorMessage =
         error.response?.data?.message || "Failed to create note";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -65,12 +64,11 @@ class NoteService {
       const errorMessage =
         error.response?.data?.message || "Failed to fetch notes";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
   /**
- * Get notes by node ID with client-side filtering and pagination
+ * Get notes by node ID with server-side pagination
  * @param {string} nodeId - Parent node ID
  * @param {number} pageIndex - Pagination index (0-based)
  * @param {number} pageSize - Items per page
@@ -78,24 +76,29 @@ class NoteService {
  */
 static async getNotesByNode(nodeId, pageIndex = 0, pageSize = 10) {
   try {
-    const allNotesResponse = await getAll(API_BASE_URL, "/Notes");
-    
-    const notesForNode = allNotesResponse.notes.data.filter(note => note.node?.id === nodeId);
-    const totalCount = notesForNode.length;
-    
-    const startIndex = pageIndex * pageSize;
-    const endIndex = startIndex + pageSize;
-    const paginatedNotes = notesForNode.slice(startIndex, endIndex);
+    const response = await getAll(API_BASE_URL, `/Nodes/${nodeId}/Notes`, pageIndex, pageSize);
+
+    const notes = response.notes.data?.map(note => ({
+      id: note.id,
+      name: note.name,
+      description: note.description,
+      content: note.content,
+      owner: note.owner,
+      isPublic: note.isPublic,
+      sharedWith: note.sharedWith || [],
+      nodeId: nodeId,
+    })) || [];
     
     return {
-      items: paginatedNotes,
-      totalCount: totalCount,
-      totalPages: Math.ceil(totalCount / pageSize),
+      items: notes,
+      totalCount: response.notes.count || 0,
+      totalPages: Math.ceil((response.notes.count || 0) / pageSize),
     };
   } catch (error) {
-    const errorMessage = error.response?.data?.message || "Failed to fetch node notes";
+    const errorMessage = error.response?.data?.message || 
+                        error.message || 
+                        "Failed to fetch node notes";
     toast.error(errorMessage);
-    throw new Error(errorMessage);
   }
 }
 
@@ -112,7 +115,6 @@ static async getNotesByNode(nodeId, pageIndex = 0, pageSize = 10) {
       const errorMessage =
         error.response?.data?.message || "Failed to fetch note";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -131,7 +133,6 @@ static async getNotesByNode(nodeId, pageIndex = 0, pageSize = 10) {
       const errorMessage =
         error.response?.data?.message || "Failed to update note";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -149,7 +150,6 @@ static async getNotesByNode(nodeId, pageIndex = 0, pageSize = 10) {
       const errorMessage =
         error.response?.data?.message || "Failed to delete note";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 }

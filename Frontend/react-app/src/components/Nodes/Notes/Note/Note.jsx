@@ -7,7 +7,7 @@ import Pagination from "../../../../core/components/pagination/Pagination";
 import NoteService from "../../../../services/NoteService";
 import "./Note.css";
 
-const Note = ({ nodeId, onToggle }) => {
+const Note = ({ node, onToggle }) => {
   const root = "note";
   const [notes, setNotes] = useState([]);
   const [isNotesExpanded, setIsNotesExpanded] = useState(false);
@@ -24,11 +24,11 @@ const Note = ({ nodeId, onToggle }) => {
   const itemsPerPageOptions = [2, 4, 6, 8];
 
   const fetchNotes = useCallback(async () => {
-    if (isNotesExpanded && nodeId) {
+    if (isNotesExpanded && node.id) {
       setIsLoading(true);
       try {
         const notesData = await NoteService.getNotesByNode(
-          nodeId,
+          node.id,
           currentPage,
           itemsPerPage
         );
@@ -38,7 +38,7 @@ const Note = ({ nodeId, onToggle }) => {
         setIsLoading(false);
       }
     }
-  }, [isNotesExpanded, nodeId, currentPage, itemsPerPage]);
+  }, [isNotesExpanded, node.id, currentPage, itemsPerPage]);
 
   useEffect(() => {
     fetchNotes();
@@ -99,15 +99,15 @@ const Note = ({ nodeId, onToggle }) => {
   const saveNewNote = async (newNote) => {
     try {
       setIsLoading(true);
-      const noteWithNodeId = { 
+      const noteWithNode = { 
         ...newNote, 
-        nodeId,
+        nodeId: node.id,
         isPublic: false,
         sharedWith: [],
         owner: "current-user-id"
       };
       
-      await NoteService.createNote(noteWithNodeId);
+      await NoteService.createNote(noteWithNode);
       await fetchNotes();
       closeCreateModal();
       onToggle();
