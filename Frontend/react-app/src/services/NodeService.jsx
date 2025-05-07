@@ -39,7 +39,6 @@ class NodeService {
       const errorMessage =
         error.response?.data?.message || "Failed to create node";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -67,7 +66,6 @@ class NodeService {
       const errorMessage =
         error.response?.data?.message || "Failed to fetch nodes";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -96,7 +94,6 @@ class NodeService {
       const errorMessage =
         error.response?.data?.message || "Failed to fetch timeline nodes";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -113,7 +110,6 @@ class NodeService {
       const errorMessage =
         error.response?.data?.message || "Failed to fetch node";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -147,11 +143,8 @@ static async updateNode(node, updates) {
     toast.success("Node updated successfully!");
     return response.data;
   } catch (error) {
-    const errorMessage = error.response?.data?.message || 
-                        error.message || 
-                        "Failed to update node";
+    const errorMessage = error.ValidationErrors[0].errorMessage;
     toast.error(errorMessage);
-    throw new Error(errorMessage);
   }
 }
 
@@ -169,7 +162,6 @@ static async updateNode(node, updates) {
       const errorMessage =
         error.response?.data?.message || "Failed to delete node";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 }
