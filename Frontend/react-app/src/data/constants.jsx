@@ -32,3 +32,15 @@ export const FILE_TYPES = {
     "application/vnd.ms-powerpoint": [".ppt", ".pptx"],
     "text/plain": [".txt"],
 }
+
+export const PRIORITY = {
+  1: "Low",
+  2: "Medium",
+  3: "High"
+};
+
+export const PRIORITY_OPTIONS = [
+  { value: 1, label: "Low" },
+  { value: 2, label: "Medium" },
+  { value: 3, label: "High" }
+];
