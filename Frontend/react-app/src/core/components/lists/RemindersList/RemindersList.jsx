@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import React from "react";
 import { IoIosAdd } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
+import { PRIORITY } from "../../../../data/constants";
 import Button from "./../../buttons/Button/Button";
 
 const RemindersList = ({
@@ -40,10 +41,7 @@ const RemindersList = ({
                   </p>
                 )}
                 <p className={`${root}-card-priority`}>
-                  <strong>Priority:</strong> {reminder.priority}
-                </p>
-                <p className={`${root}-card-priority`}>
-                  <strong>Status:</strong> {reminder.status}
+                  <strong>Priority:</strong> {PRIORITY[reminder.priority] || "Unknown"}
                 </p>
               </div>
               <div className={`${root}-card-actions`}>
