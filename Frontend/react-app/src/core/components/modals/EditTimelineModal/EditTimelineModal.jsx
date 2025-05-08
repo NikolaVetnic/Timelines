@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import TimelineService from "../../../../services/TimelineService";
 import Button from "../../buttons/Button/Button";
+import FormField from "../../forms/FormField/FormField";
 import "./EditTimelineModal.css";
 
 const EditTimelineModal = ({ timeline, onClose, onTimelineUpdated }) => {
@@ -34,13 +34,10 @@ const EditTimelineModal = ({ timeline, onClose, onTimelineUpdated }) => {
 
     setIsLoading(true);
     try {
-      await TimelineService.updateTimeline(timeline.id, title, description);
-      toast.success("Timeline updated successfully");
+      const updateData = {title, description};
+      await TimelineService.updateTimeline(timeline.id,updateData);
       onClose();
       if (onTimelineUpdated) onTimelineUpdated();
-    } catch (error) {
-      setError(error.message);
-      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -54,25 +51,22 @@ const EditTimelineModal = ({ timeline, onClose, onTimelineUpdated }) => {
         <div className="edit-timeline-modal-header">Edit Timeline</div>
 
         <div className="edit-timeline-modal-input">
-          <label htmlFor="title">Title*:</label>
-          <input
-            id="title"
+          <FormField 
+            label="Title:"
             type="text"
             value={title}
             onChange={handleTitleChange}
             placeholder="Enter timeline title"
-            className={error ? "edit-timeline-input-error" : ""}
           />
         </div>
 
         <div className="edit-timeline-modal-input">
-          <label htmlFor="description">Description:</label>
-          <textarea
-            id="description"
+          <FormField 
+            label="Description:"
+            type="textarea"
             value={description}
             onChange={handleDescriptionChange}
             placeholder="Enter timeline description (optional)"
-            rows="4"
           />
         </div>
 
