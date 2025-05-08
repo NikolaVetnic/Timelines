@@ -1,10 +1,12 @@
 ﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+using Microsoft.EntityFrameworkCore;
 using Nodes.Application.Data.Abstractions;
 
 namespace Nodes.Infrastructure.Data.Repositories;
 
-public class PhasesRepository : IPhasesRepository
+public class PhasesRepository(INodesDbContext dbContext) : IPhasesRepository
 {
     public async Task<List<Phase>> ListPhasesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
@@ -17,6 +19,14 @@ public class PhasesRepository : IPhasesRepository
     }
 
     public async Task<Phase> GetPhaseByIdAsync(PhaseId phaseId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Nodes
+                   .AsNoTracking()
+                   .SingleOrDefaultAsync(n => n.Id == noteId, cancellationToken) ??
+               throw new NoteNotFoundException(noteId.ToString());
+    }
+
+    public Task<Phase> GetPhaseBaseByIdAsync(PhaseId phaseId, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

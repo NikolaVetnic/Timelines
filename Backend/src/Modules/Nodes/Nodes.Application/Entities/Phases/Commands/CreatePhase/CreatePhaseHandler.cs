@@ -8,7 +8,7 @@ internal class CreatePhaseHandler(INodesRepository phasesRepository) : ICommandH
     public async Task<CreatePhaseResult> Handle(CreatePhaseCommand command, CancellationToken cancellationToken)
     {
         var phase = command.ToPhase();
-        await phasesRepository.CreatePhaseAsync(phase, cancellationToken);
+        //await phasesRepository.CreatePhaseAsync(phase, cancellationToken);
 
         return new CreatePhaseResult(phase.Id);
     }

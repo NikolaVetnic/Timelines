@@ -11,4 +11,9 @@ public class PhasesService(IServiceProvider serviceProvider, IPhasesRepository p
     {
         return await phasesRepository.GetPhaseByIdAsync(phaseId, cancellationToken);
     }
+
+    public async Task<PhaseBaseDto> GetPhaseBaseByIdAsync(PhaseId phaseId, CancellationToken cancellationToken)
+    {
+        return await phasesRepository.GetPhaseBaseByIdAsync(phaseId, cancellationToken);
+    }
 }

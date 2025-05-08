@@ -6,4 +6,5 @@ namespace BuildingBlocks.Application.Data;
 public interface IPhasesService
 {
     Task<PhaseDto> GetPhaseByIdAsync(PhaseId phaseId, CancellationToken cancellationToken);
+    Task<PhaseBaseDto> GetPhaseBaseByIdAsync(PhaseId phaseId, CancellationToken cancellationToken);
 }

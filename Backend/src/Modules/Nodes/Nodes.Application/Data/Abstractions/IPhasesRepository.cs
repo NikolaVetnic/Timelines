@@ -9,6 +9,7 @@ public interface IPhasesRepository
     Task<long> PhaseCountAsync(CancellationToken cancellationToken);
 
     Task<Phase> GetPhaseByIdAsync(PhaseId phaseId, CancellationToken cancellationToken);
+    Task<Phase> GetPhaseBaseByIdAsync(PhaseId phaseId, CancellationToken cancellationToken);
     Task<List<Phase>> GetPhasesByIdsAsync(IEnumerable<PhaseId> phaseIds, CancellationToken cancellationToken);
 
     Task UpdatePhaseAsync(Phase phase, CancellationToken cancellationToken);

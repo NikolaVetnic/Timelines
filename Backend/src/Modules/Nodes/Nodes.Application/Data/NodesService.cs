@@ -128,11 +128,12 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
 
         var timeline = await TimelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
+        var phase = await PhasesService.GetPhaseBaseByIdAsync(node.PhaseId, cancellationToken);
         var fileAssets = await FilesService.GetFileAssetsBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
         var notes = await NotesService.GetNotesBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
         var reminders = await RemindersService.GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
 
-        var nodeDto = node.ToNodeDto(timeline, fileAssets, notes, reminders);
+        var nodeDto = node.ToNodeDto(timeline, phase, fileAssets, notes, reminders);
 
         return nodeDto;
     }
