@@ -45,23 +45,32 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSave = () => {
-    if (!validate()) return;
+const handleSave = () => {
+  if (!validate()) return;
 
-    const notifyAtUTC = formData.notifyAt
-      ? new Date(formData.notifyAt).toISOString()
-      : new Date().toISOString();
-
-    const newReminder = {
-      title: formData.title,
-      description: formData.description || "",
-      notifyAt: notifyAtUTC,
-      priority: formData.priority || 0,
-      nodeId: nodeId,
-    };
-
-    saveReminder(newReminder);
+  const localDate = new Date(formData.notifyAt);
+  
+  const notifyAtUTC = new Date(
+    Date.UTC(
+      localDate.getFullYear(),
+      localDate.getMonth(),
+      localDate.getDate(),
+      localDate.getHours(),
+      localDate.getMinutes(),
+      localDate.getSeconds()
+    )
+  ).toISOString();
+  
+  const newReminder = {
+    title: formData.title,
+    description: formData.description || "",
+    notifyAt: notifyAtUTC,
+    priority: formData.priority || 0,
+    nodeId: nodeId,
   };
+
+  saveReminder(newReminder);
+};
 
   if (!isOpen) return null;
 
