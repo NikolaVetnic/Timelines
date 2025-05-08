@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+import { PRIORITY_OPTIONS } from "../../../../data/constants";
 import Button from "../../buttons/Button/Button";
 import FormField from "../../forms/FormField/FormField";
 import "./CreateReminderModal.css";
@@ -9,10 +10,8 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    dueDateTime: "",
+    notifyAt: "",
     priority: 1,
-    notificationTime: "",
-    status: "Pending",
   });
   const [errors, setErrors] = useState({});
 
@@ -21,10 +20,8 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
       setFormData({
         title: "",
         description: "",
-        dueDateTime: "",
         priority: 1,
-        notificationTime: "",
-        status: "Pending",
+        notifyAt: "",
       });
       setErrors({});
     }
@@ -43,9 +40,7 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
     if (!formData.title.trim()) newErrors.title = "Title is required";
     if (!formData.description.trim())
       newErrors.description = "Description is required.";
-    if (!formData.dueDateTime) newErrors.dueDateTime = "Due date is required";
-    if (!formData.notificationTime)
-      newErrors.notificationTime = "Notification time is required";
+    if (!formData.notifyAt) newErrors.notifyAt = "Notify at is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -53,25 +48,19 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
   const handleSave = () => {
     if (!validate()) return;
 
-    const dueDateTimeUTC = formData.dueDateTime
-      ? new Date(formData.dueDateTime).toISOString()
-      : new Date().toISOString();
-    const notificationTimeUTC = formData.notificationTime
-      ? new Date(formData.notificationTime).toISOString()
+    const notifyAtUTC = formData.notifyAt
+      ? new Date(formData.notifyAt).toISOString()
       : new Date().toISOString();
 
     const newReminder = {
       title: formData.title,
       description: formData.description || "",
-      dueDateTime: dueDateTimeUTC,
+      notifyAt: notifyAtUTC,
       priority: formData.priority || 0,
-      notificationTime: notificationTimeUTC,
-      status: formData.status || "Pending",
       nodeId: nodeId,
     };
 
     saveReminder(newReminder);
-    closeModal();
   };
 
   if (!isOpen) return null;
@@ -104,36 +93,30 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
         />
 
         <FormField
-          label="Due Date & Time"
+          label="Notify At"
           type="datetime-local"
-          name="dueDateTime"
-          value={formData.dueDateTime}
-          onChange={handleChange}
+          name="notifyAt"
+          value={formData.notifyAt}
+          onChange={(e) => {
+            const value = e.target.value;
+            setFormData(prev => ({
+              ...prev,
+              notifyAt: value ? value.replace("Z", "") : value
+            }));
+          }}
           required
-          error={errors.dueDateTime}
+          error={errors.notifyAt}
         />
-
         <FormField
-          label="Notification Time"
-          type="datetime-local"
-          name="notificationTime"
-          value={formData.notificationTime}
-          onChange={handleChange}
-          required
-          error={errors.notificationTime}
-        />
-
-        <FormField
-          label="Priority"
+          label="Priority Level"
           type="select"
           name="priority"
           value={formData.priority}
           onChange={handleChange}
-        >
-          <option value={1}>Low</option>
-          <option value={2}>Medium</option>
-          <option value={3}>High</option>
-        </FormField>
+          options={PRIORITY_OPTIONS}
+          required
+          error={errors.priority}
+        />
 
         <div className={`${root}-actions`}>
           <Button
