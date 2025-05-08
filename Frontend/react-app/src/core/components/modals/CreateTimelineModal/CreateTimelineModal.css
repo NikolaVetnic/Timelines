@@ -146,3 +146,77 @@
   color: #2c3e50;
   text-align: center;
 }
+
+/* React Toggle Switch Styles */
+.create-timeline-template-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  padding: 12px 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.react-toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.react-toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.react-toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.react-toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.react-toggle-switch input:checked+.react-toggle-slider {
+  background-color: #4CAF50;
+}
+
+.react-toggle-switch input:checked+.react-toggle-slider:before {
+  transform: translateX(24px);
+}
+
+.react-toggle-switch input:focus+.react-toggle-slider {
+  box-shadow: 0 0 1px #4CAF50;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .create-timeline-modal-content {
+    padding: 20px;
+    width: 95%;
+  }
+
+  .create-timeline-template-toggle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
