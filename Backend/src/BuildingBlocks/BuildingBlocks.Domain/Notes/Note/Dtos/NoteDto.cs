@@ -13,7 +13,9 @@ public class NoteDto(
     List<NoteId> relatedNotes,
     List<string> sharedWith,
     bool isPublic,
-    NodeBaseDto node) : NoteBaseDto(id, title, content, timestamp, owner, relatedNotes, sharedWith, isPublic)
+    DateTime? createdAt,
+    DateTime? lastModifiedAt,
+    NodeBaseDto node) : NoteBaseDto(id, title, content, timestamp, owner, relatedNotes, sharedWith, isPublic, createdAt, lastModifiedAt)
 {
     [JsonPropertyName("node")] public NodeBaseDto Node { get; set; } = node;
 }
