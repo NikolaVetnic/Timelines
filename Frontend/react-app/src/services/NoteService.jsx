@@ -80,10 +80,12 @@ static async getNotesByNode(nodeId, pageIndex = 0, pageSize = 10) {
 
     const notes = response.notes.data?.map(note => ({
       id: note.id,
-      name: note.name,
+      title: note.title,
       description: note.description,
       content: note.content,
       owner: note.owner,
+      createdAt: note.createdAt,
+      lastModifiedAt: note.lastModifiedAt,
       isPublic: note.isPublic,
       sharedWith: note.sharedWith || [],
       nodeId: nodeId,
