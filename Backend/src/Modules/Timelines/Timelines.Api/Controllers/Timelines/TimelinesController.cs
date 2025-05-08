@@ -44,6 +44,7 @@ public class TimelinesController(ISender sender) : ControllerBase
             return NotFound();
 
         var response = result.Adapt<GetTimelineByIdResponse>();
+        
         return Ok(response);
     }
 
@@ -56,6 +57,7 @@ public class TimelinesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new ListNodesByTimelineIdQuery(timelineId, query));
         var response = result.Adapt<ListNodesByTimelineIdResponse>();
+        
         return Ok(response);
     }
 
