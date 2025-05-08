@@ -63,18 +63,22 @@ const Note = ({ node, onToggle }) => {
     onToggle();
   };
 
-  const handleSaveNote = async () => {
-    if (selectedNote) {
-      setIsLoading(true);
-      try {
-        await NoteService.updateNote(selectedNote.id, { content: editorContent });
-        await fetchNotes();
-        closeNoteEditor();
-      } finally {
-        setIsLoading(false);
-      }
+const handleSaveNote = async (title, content) => {
+  if (selectedNote) {
+    setIsLoading(true);
+    try {
+      await NoteService.updateNote(selectedNote.id, { 
+        title, 
+        content,
+        lastModifiedAt: new Date().toISOString() 
+      });
+      await fetchNotes();
+      closeNoteEditor();
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }
+};
 
   const handleRemoveNote = (id) => {
     const note = notes.find((n) => n.id === id);
@@ -196,7 +200,7 @@ const Note = ({ node, onToggle }) => {
         selectedNote={selectedNote}
         editorContent={editorContent}
         setEditorContent={setEditorContent}
-        handleSaveNote={handleSaveNote}
+        handleSaveNote={(title, content) => handleSaveNote(title, content)}
         closeNoteEditor={closeNoteEditor}
       />
     </div>
