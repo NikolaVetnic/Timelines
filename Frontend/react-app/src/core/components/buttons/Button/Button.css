@@ -174,3 +174,24 @@
 .btn-danger:active:not(.btn-disabled) {
   background-color: var(--dangerActive);
 }
+
+.btn-login {
+  background-color: var(--enmBlue);
+  color: white;
+  border: none;
+  padding: 0.9rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+  background-color: var(--enmBlueHover);
+}
+
+.btn-login:active {
+  background-color: var(--primaryActive);
+  transform: translateY(1px);
+}

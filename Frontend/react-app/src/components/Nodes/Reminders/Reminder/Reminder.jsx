@@ -28,7 +28,6 @@ const Reminder = ({ nodeId, onToggle }) => {
         setIsLoading(false);
       }
     };
-
     fetchReminders();
   }, [isRemindersExpanded, nodeId]);
 
