@@ -1,11 +1,11 @@
+import { toast } from "react-toastify";
 import deleteById from "../core/api/delete";
-import { getAllWithoutPagination, getById } from "../core/api/get";
+import { getAll, getAllWithoutPagination, getById } from "../core/api/get";
 import Post from "../core/api/post";
 import API_BASE_URL from "../data/constants";
-import { toast } from "react-toastify";
 
 class ReminderService {
-  /**
+   /**
    * Create a new reminder
    * @param {Object} reminderData - The reminder data to create
    * @returns {Promise<Object>} - Created reminder data
@@ -15,45 +15,54 @@ class ReminderService {
       const formattedData = {
         title: reminderData.title,
         description: reminderData.description || "",
-        dueDateTime: new Date(reminderData.dueDateTime).toISOString(),
+        notifyAt: reminderData.notifyAt,
         priority: reminderData.priority || 0,
-        notificationTime: new Date(reminderData.notificationTime).toISOString(),
-        status: reminderData.status || "Pending",
         nodeId: reminderData.nodeId,
       };
 
       const response = await Post(API_BASE_URL, "/Reminders", formattedData);
       toast.success("Reminder created successfully!");
-      return response.id;
+      return response;
     } catch (error) {
-      toast.error(error.message || "Failed to create reminder");
-      throw error;
+      const errorMessage = error.response?.data?.message || 
+                        error.message || 
+                        "Failed to create reminder";
+      toast.error(errorMessage);
     }
   }
 
   /**
-   * Get all reminders for a node
+   * Get reminders by node ID with server-side pagination
    * @param {string} nodeId - Parent node ID
-   * @returns {Promise<Array>} - Array of reminders
+   * @param {number} pageIndex - Pagination index (0-based)
+   * @param {number} pageSize - Items per page
+   * @returns {Promise<Object>} - { items: [], totalCount: 0, totalPages: 0 }
    */
-  static async getRemindersByNode(nodeId) {
+  static async getRemindersByNode(nodeId, pageIndex = 0, pageSize = 10) {
     try {
-      const response = await getAllWithoutPagination(
-        API_BASE_URL,
-        `/Reminders`
-      );
+      const response = await getAll(API_BASE_URL, `/Nodes/${nodeId}/Reminders`, pageIndex, pageSize);
 
-      if (response.reminders?.data && Array.isArray(response.reminders.data)) {
-        return response.reminders.data.filter(
-          (reminder) => reminder.node.id === nodeId
-        );
-      }
-      return [];
+      const reminders = response.reminders.data?.map(reminder => ({
+        id: reminder.id,
+        title: reminder.title,
+        description: reminder.description,
+        notifyAt: reminder.notifyAt,
+        priority: reminder.priority,
+        nodeId: nodeId,
+      })) || [];
+      
+      return {
+        items: reminders,
+        totalCount: response.reminders.count || 0,
+        totalPages: Math.ceil((response.reminders.count || 0) / pageSize),
+      };
     } catch (error) {
-      toast.error("Failed to load reminders");
-      throw error;
+      const errorMessage = error.response?.data?.message || 
+                        error.message || 
+                        "Failed to fetch node reminders";
+      toast.error(errorMessage);
     }
-  }
+  }   
 
   /**
    * Get all reminders
@@ -68,7 +77,6 @@ class ReminderService {
       return response.reminders;
     } catch (error) {
       toast.error("Failed to load all reminders");
-      throw error;
     }
   }
 
@@ -83,7 +91,6 @@ class ReminderService {
       return response.reminder || response;
     } catch (error) {
       toast.error("Failed to load reminder details");
-      throw error;
     }
   }
 
@@ -100,7 +107,6 @@ class ReminderService {
       return response.data;
     } catch (error) {
       toast.error(error.message || "Failed to update reminder");
-      throw error;
     }
   }
 
@@ -116,7 +122,6 @@ class ReminderService {
       return response;
     } catch (error) {
       toast.error(error.message || "Failed to delete reminder");
-      throw error;
     }
   }
 }

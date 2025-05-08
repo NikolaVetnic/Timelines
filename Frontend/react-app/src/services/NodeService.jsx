@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import deleteById from "../core/api/delete";
 import { getAll, getById } from "../core/api/get";
 import Post from "../core/api/post";
+import Put from "../core/api/put";
 import API_BASE_URL from "../data/constants";
 
 class NodeService {
@@ -38,7 +39,6 @@ class NodeService {
       const errorMessage =
         error.response?.data?.message || "Failed to create node";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -66,7 +66,6 @@ class NodeService {
       const errorMessage =
         error.response?.data?.message || "Failed to fetch nodes";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -95,7 +94,6 @@ class NodeService {
       const errorMessage =
         error.response?.data?.message || "Failed to fetch timeline nodes";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -112,28 +110,43 @@ class NodeService {
       const errorMessage =
         error.response?.data?.message || "Failed to fetch node";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
-  /**
-   * Update a node
-   * @param {string} id - Node ID to update
-   * @param {Object} updateData - Fields to update
-   * @returns {Promise<Object>} - Updated node data
-   */
-  static async updateNode(id, updateData) {
-    try {
-      const response = await Post(API_BASE_URL, `/Nodes/${id}`, updateData);
-      toast.success("Node updated successfully!");
-      return response.data;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to update node";
-      toast.error(errorMessage);
-      throw new Error(errorMessage);
-    }
+/**
+ * Update a node with complete data
+ * @param {Object} node - Full node object
+ * @param {Object} updates - Fields to update
+ * @returns {Promise<Object>} - Updated node data
+ */
+static async updateNode(node, updates) {
+  try {
+    const currentData = await this.getNodeById(node.id);
+    
+    const updatedNode = {
+      ...currentData,
+      ...updates,
+      id: node.id
+    };
+
+    const response = await Put(
+      API_BASE_URL, 
+      `/Nodes/${node.id}`,
+      updatedNode,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    toast.success("Node updated successfully!");
+    return response.data;
+  } catch (error) {
+    const errorMessage = error.ValidationErrors[0].errorMessage;
+    toast.error(errorMessage);
   }
+}
 
   /**
    * Delete a node by ID
@@ -149,7 +162,6 @@ class NodeService {
       const errorMessage =
         error.response?.data?.message || "Failed to delete node";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 }

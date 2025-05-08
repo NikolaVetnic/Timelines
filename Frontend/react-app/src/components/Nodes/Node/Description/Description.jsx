@@ -6,16 +6,14 @@ import NodeService from "../../../../services/NodeService";
 import "./Description.css";
 
 const Description = ({
-  nodeId,
+  node,
   setModalActive,
   description: propDescription,
   onUpdateDescription,
 }) => {
   const root = "description";
   const [isModalOpen, setModalOpen] = useState(false);
-  const [localDescription, setLocalDescription] = useState(
-    propDescription || ""
-  );
+  const [localDescription, setLocalDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -29,16 +27,20 @@ const Description = ({
 
   const handleSaveDescription = async (newDescription) => {
     setIsLoading(true);
-    await NodeService.updateNode(nodeId, { description: newDescription });
+    try {
+      await NodeService.updateNode(node, { 
+        description: newDescription
+      });
 
-    setLocalDescription(newDescription);
+      setLocalDescription(newDescription);
 
-    if (onUpdateDescription) {
-      onUpdateDescription(newDescription);
+      if (onUpdateDescription) {
+        onUpdateDescription(newDescription);
+      }
+    }finally {
+      setIsLoading(false);
+      setModalState(false);
     }
-
-    setIsLoading(false);
-    setModalState(false);
   };
 
   return (
@@ -52,6 +54,7 @@ const Description = ({
         variant="info"
         shape="square"
         size="little"
+        disabled={isLoading}
         onClick={() => setModalState(true)}
       />
       <InputStringModal
@@ -61,7 +64,8 @@ const Description = ({
         initialValue={localDescription}
         title="Edit Description"
         isLoading={isLoading}
-        placeholder="Entere Description Here."
+        dataType="string"
+        placeholder="Enter Description Here"
       />
     </div>
   );

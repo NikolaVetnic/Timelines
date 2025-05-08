@@ -163,38 +163,10 @@
   background-color: #fff9f9;
 }
 
-.load-more-trigger {
-  height: 60px;
+.timeline-edit-button {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
+  justify-content: end;
 }
-
-.loading-spinner {
-  color: #666;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.loading-spinner::after {
-  content: "";
-  width: 16px;
-  height: 16px;
-  border: 2px solid #ddd;
-  border-top-color: #666;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @media (max-width: 768px) {
   .timeline-list-grid {
     grid-template-columns: 1fr;

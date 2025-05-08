@@ -6,14 +6,14 @@ import convertStringToColor from "../../../../core/utils/ConvertStringToColor";
 import NodeService from "../../../../services/NodeService";
 import "./Tags.css";
 
-const Tags = ({ nodeId, setModalActive, tags: propTags, onUpdateTags }) => {
+const Tags = ({ node, setModalActive, tags: propTags, onUpdateTags }) => {
   const root = "tags";
   const [isModalOpen, setModalOpen] = useState(false);
-  const [localTags, setLocalTags] = useState(propTags || []);
+  const [localTags, setLocalTags] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setLocalTags(propTags || []);
+    setLocalTags(Array.isArray(propTags) ? propTags : []);
   }, [propTags]);
 
   const setModalState = (isActive) => {
@@ -22,6 +22,15 @@ const Tags = ({ nodeId, setModalActive, tags: propTags, onUpdateTags }) => {
   };
 
   const formatTags = (input) => {
+    if (typeof input !== 'string') {
+      if (Array.isArray(input)) {
+        return input
+          .map(tag => String(tag).trim().toLowerCase().replace(/\s+/g, "-"))
+          .filter(tag => tag.length > 0);
+      }
+      return [];
+    }
+    
     return input
       .split(",")
       .map((tag) => tag.trim().toLowerCase().replace(/\s+/g, "-"))
@@ -30,13 +39,15 @@ const Tags = ({ nodeId, setModalActive, tags: propTags, onUpdateTags }) => {
 
   const handleSaveTags = async (tagsInput) => {
     setIsLoading(true);
-    const formattedTags = formatTags(tagsInput);
-
     try {
-      await NodeService.updateNode(nodeId, { tags: formattedTags });
+      const formattedTags = formatTags(tagsInput);
+      
+      await NodeService.updateNode(node, { 
+        tags: formattedTags 
+      });
 
       setLocalTags(formattedTags);
-
+      
       if (onUpdateTags) {
         onUpdateTags(formattedTags);
       }
@@ -77,9 +88,10 @@ const Tags = ({ nodeId, setModalActive, tags: propTags, onUpdateTags }) => {
         isOpen={isModalOpen}
         onClose={() => setModalState(false)}
         onSave={handleSaveTags}
-        initialValue={localTags.join(", ")}
+        initialValue={Array.isArray(localTags) ? localTags.join(", ") : ""}
         title="Edit Tags"
         isLoading={isLoading}
+        dataType="array"
         placeholder="Enter tags, separated by commas (e.g., 'important, ui-fix')"
       />
     </div>

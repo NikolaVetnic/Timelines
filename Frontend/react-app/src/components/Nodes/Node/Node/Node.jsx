@@ -1,5 +1,6 @@
 import React, { forwardRef, useState } from "react";
 
+import { FaMinus, FaPlus } from "react-icons/fa";
 import File from "../../Files/File/File";
 import Note from "../../Notes/Note/Note";
 import Reminder from "../../Reminders/Reminder/Reminder";
@@ -9,7 +10,6 @@ import EditableTitle from "../EditableTitle/EditableTitle";
 import Importance from "../Importance/Importance";
 import Tags from "../Tags/Tags";
 import Timestamp from "../Timestamp/Timestamp";
-import { FaPlus, FaMinus } from "react-icons/fa";
 
 import "./Node.css";
 
@@ -61,7 +61,7 @@ const Node = forwardRef(
       <div className={`${root}-timeline ${isOpen ? "open" : ""}`} ref={ref}>
         <div className="node-header" onClick={toggleCard}>
           <EditableTitle
-            nodeId={node.id}
+            node={node}
             title={title}
             onUpdateTitle={(newTitle) => setTitle(newTitle)}
           />
@@ -81,19 +81,19 @@ const Node = forwardRef(
         {isOpen && (
           <div className={`${root}-content`}>
             <Description
-              nodeId={node.id}
+              node={node}
               description={description}
               onUpdateDescription={setDescription}
               setModalActive={setModalActive}
             />
             <Timestamp
-              nodeId={node.id}
+              node={node}
               initialValue={timestamp}
               onSave={(newTimestamp) => setTimestamp(newTimestamp)}
               setModalActive={setModalActive}
             />
             <Importance
-              nodeId={node.id}
+              node={node}
               initialValue={node.importance}
               onSave={(newImportance) =>
                 console.log("Saved Importance:", newImportance)
@@ -101,34 +101,34 @@ const Node = forwardRef(
               setModalActive={setModalActive}
             />
             <p className="node-phase">
-              <strong>Phase:</strong> {node.phase.title}
+              <strong>Phase:</strong> {node.phase}
             </p>
             <Categories
-              nodeId={node.id}
+              node={node}
               categories={categories}
               onUpdateCategories={setCategories}
               setModalActive={setModalActive}
             />
             <Tags
-              nodeId={node.id}
+              node={node}
               tags={tags}
               onUpdateTags={setTags}
               setModalActive={setModalActive}
             />
             <Note
-              nodeId={node.id}
+              node={node}
               timelineId={timelineId}
               notes={notes}
               setNotes={setNotes}
               onToggle={onToggle}
             />
             <Reminder
-              nodeId={node.id}
+              node={node}
               timelineId={timelineId}
               onToggle={onToggle}
             />
             <File
-              nodeId={node.id}
+              node={node}
               timelineId={timelineId}
               onToggle={onToggle}
             />

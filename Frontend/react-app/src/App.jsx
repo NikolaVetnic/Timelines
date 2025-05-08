@@ -20,8 +20,8 @@ function App() {
         <div className="app-content">
           <div className="content-wrapper">
             <Routes>
-              <Route path="/timelines/:id" element={<Timeline />} />
               <Route path="/" element={<TimelineList />} />
+              <Route path="/timelines/:id" element={<Timeline />} />
             </Routes>
             <ToastContainer />
           </div>

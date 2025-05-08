@@ -22,6 +22,7 @@ const ReminderNotifier = () => {
       const now = new Date();
       const response = await ReminderService.getAllReminders();
       const allReminders = response.data || [];
+      
 
       allReminders.forEach(reminder => {
         if (!reminder.notificationTime) return;

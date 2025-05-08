@@ -5,7 +5,7 @@ import NodeService from "../../../../services/NodeService";
 import "./EditableTitle.css";
 
 const EditableTitle = ({
-  nodeId,
+  node,
   className,
   title: propTitle,
   onUpdateTitle,
@@ -31,7 +31,7 @@ const EditableTitle = ({
   };
 
   const handleSaveTitle = async () => {
-    await NodeService.updateNode(nodeId, { title: localTitle });
+    await NodeService.updateNode(node, { title: localTitle });
 
     if (onUpdateTitle) {
       onUpdateTitle(localTitle);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import Button from "../../buttons/Button/Button";
 import FormField from "../../forms/FormField/FormField";
 import "./InputStringModal.css";
-import Button from "../../buttons/Button/Button";
 
 const InputStringModal = ({
   isOpen,
@@ -10,28 +10,47 @@ const InputStringModal = ({
   initialValue = "",
   title = "Input String",
   placeholder = "Input String...",
+  dataType = "string",
 }) => {
   const root = "input-string-modal";
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState(
+    dataType === "array" && Array.isArray(initialValue) 
+      ? initialValue.join(", ") 
+      : initialValue
+  );
   const [isChanged, setIsChanged] = useState(false);
   const [isModalOpen, setModalOpen] = useState(isOpen);
 
   useEffect(() => {
     setModalOpen(isOpen);
     if (isOpen) {
-      setValue(initialValue);
+      setValue(
+        dataType === "array" && Array.isArray(initialValue)
+          ? initialValue.join(", ")
+          : initialValue
+      );
       setIsChanged(false);
     }
-  }, [initialValue, isOpen]);
+  }, [initialValue, isOpen, dataType]);
 
   const handleInputChange = (e) => {
     const newValue = e.target.value;
     setValue(newValue);
-    setIsChanged(newValue.trim() !== initialValue.trim());
+    if (dataType === "array") {
+      const currentArray = initialValue || [];
+      const newArray = newValue.split(",").map(item => item.trim());
+      setIsChanged(JSON.stringify(newArray) !== JSON.stringify(currentArray));
+    } else {
+      setIsChanged(newValue.trim() !== (initialValue || "").trim());
+    }
   };
 
   const handleSave = () => {
-    onSave(value.split(",").map((item) => item.trim()));
+    if (dataType === "array") {
+      onSave(value.split(",").map(item => item.trim()).filter(item => item));
+    } else {
+      onSave(value.trim());
+    }
     onClose();
   };
 
