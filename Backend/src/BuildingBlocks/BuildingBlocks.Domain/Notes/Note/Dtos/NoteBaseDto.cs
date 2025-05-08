@@ -11,7 +11,9 @@ public class NoteBaseDto(
     string owner,
     List<NoteId> relatedNotes,
     List<string> sharedWith,
-    bool isPublic)
+    bool isPublic,
+    DateTime? createdAt,
+    DateTime? lastModifiedAt)
 {
     [JsonPropertyName("id")] public string? Id { get; } = id;
 
@@ -28,4 +30,8 @@ public class NoteBaseDto(
     [JsonPropertyName("sharedWith")] public List<string> SharedWith { get; } = sharedWith;
 
     [JsonPropertyName("isPublic")] public bool IsPublic { get; } = isPublic;
+
+    [JsonPropertyName("createdAt")] public DateTime? CreatedAt { get; } = createdAt;
+
+    [JsonPropertyName("lastModifiedAt")] public DateTime? LastModifiedAt { get; } = lastModifiedAt;
 }

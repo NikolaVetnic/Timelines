@@ -68,7 +68,9 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
                         owner: r.Owner,
                         relatedNotes: r.RelatedNotes,
                         sharedWith: r.SharedWith,
-                        isPublic: r.IsPublic)
+                        isPublic: r.IsPublic,
+                        createdAt: r.CreatedAt,
+                        lastModifiedAt: r.LastModifiedAt)
                     )
                     .ToList(),
                 reminders
