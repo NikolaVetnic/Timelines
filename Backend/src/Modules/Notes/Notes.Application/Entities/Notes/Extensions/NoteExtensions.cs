@@ -16,6 +16,8 @@ public static class NoteExtensions
             note.RelatedNotes,
             note.SharedWith,
             note.IsPublic,
+            note.CreatedAt,
+            note.LastModifiedAt,
             node);
     }
 
@@ -29,7 +31,9 @@ public static class NoteExtensions
             note.Owner,
             note.RelatedNotes,
             note.SharedWith,
-            note.IsPublic
+            note.IsPublic,
+            note.CreatedAt,
+            note.LastModifiedAt
             );
     }
 }
