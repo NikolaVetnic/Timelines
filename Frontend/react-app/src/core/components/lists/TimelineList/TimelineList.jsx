@@ -199,21 +199,23 @@ const TimelineList = () => {
                 <p className="timeline-list-item-description">
                   {timeline.description || "No description"}
                 </p>
-                <small className="timeline-list-item-date">
+                {/* <small className="timeline-list-item-date">
                   Created: {new Date(timeline.createdAt).toLocaleDateString()}
-                </small>
-                <Button
-                  icon={<CiEdit />}
-                  iconOnly
-                  variant="info"
-                  shape="square"
-                  size="little"
-                  disabled={isLoading}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEditTimeline(timeline);
-                  }}
-                />
+                </small> */}
+                <div className="timeline-edit-button">
+                  <Button
+                    icon={<CiEdit />}
+                    iconOnly
+                    variant="info"
+                    shape="square"
+                    size="little"
+                    disabled={isLoading}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditTimeline(timeline);
+                    }}
+                  />
+                </div>
               </div>
             ))}
           </div>

@@ -163,6 +163,10 @@
   background-color: #fff9f9;
 }
 
+.timeline-edit-button {
+  display: flex;
+  justify-content: end;
+}
 @media (max-width: 768px) {
   .timeline-list-grid {
     grid-template-columns: 1fr;
