@@ -18,4 +18,18 @@ public static class NoteExtensions
             note.IsPublic,
             node);
     }
+
+    public static NoteBaseDto ToNoteBaseDto(this Note note)
+    {
+        return new NoteBaseDto(
+            note.Id.ToString(),
+            note.Title,
+            note.Content,
+            note.Timestamp,
+            note.Owner,
+            note.RelatedNotes,
+            note.SharedWith,
+            note.IsPublic
+            );
+    }
 }
