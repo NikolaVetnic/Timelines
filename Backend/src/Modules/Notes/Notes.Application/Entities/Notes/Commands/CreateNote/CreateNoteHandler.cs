@@ -4,11 +4,13 @@ using Notes.Application.Data.Abstractions;
 
 namespace Notes.Application.Entities.Notes.Commands.CreateNote;
 
-internal class CreateNoteHandler(INotesDbContext dbContext, INodesService nodesService) : ICommandHandler<CreateNoteCommand, CreateNoteResult>
+internal class CreateNoteHandler(ICurrentUser currentUser, INotesDbContext dbContext, INodesService nodesService) : ICommandHandler<CreateNoteCommand, CreateNoteResult>
 {
     public async Task<CreateNoteResult> Handle(CreateNoteCommand command, CancellationToken cancellationToken)
     {
-        var note = command.ToNote();
+        var userId = currentUser.UserId!;
+
+        var note = command.ToNote(userId);
         dbContext.Notes.Add(note);
         await dbContext.SaveChangesAsync(cancellationToken);
 
@@ -19,14 +21,14 @@ internal class CreateNoteHandler(INotesDbContext dbContext, INodesService nodesS
 }
 internal static class CreateNoteCommandExtensions
 {
-    public static Note ToNote(this CreateNoteCommand command)
+    public static Note ToNote(this CreateNoteCommand command, string userId)
     {
         return Note.Create(
             NoteId.Of(Guid.NewGuid()),
             command.Title,
             command.Content,
             command.Timestamp,
-            command.Owner,
+            userId,
             command.SharedWith,
             command.IsPublic,
             command.NodeId

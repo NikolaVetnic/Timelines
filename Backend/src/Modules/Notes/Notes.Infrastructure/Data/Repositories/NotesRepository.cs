@@ -1,11 +1,12 @@
-﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+﻿using BuildingBlocks.Application.Data;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Notes.Application.Data.Abstractions;
 using Notes.Application.Entities.Notes.Exceptions;
 
 namespace Notes.Infrastructure.Data.Repositories;
 
-public class NotesRepository(INotesDbContext dbContext) : INotesRepository
+public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext) : INotesRepository
 {
     #region List
 
@@ -48,7 +49,7 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
     {
         return await dbContext.Notes
                    .AsNoTracking()
-                   .SingleOrDefaultAsync(n => n.Id == noteId, cancellationToken) ??
+                   .SingleOrDefaultAsync(n => n.Id == noteId && n.OwnerId == currentUser.UserId!, cancellationToken) ??
                throw new NoteNotFoundException(noteId.ToString());
     }
 
@@ -71,7 +72,7 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
     public async Task DeleteNote(NoteId noteId, CancellationToken cancellationToken)
     {
         var noteToDelete = await dbContext.Notes
-            .FirstAsync(n => n.Id == noteId, cancellationToken);
+            .FirstAsync(n => n.Id == noteId && n.OwnerId == currentUser.UserId!, cancellationToken);
 
         dbContext.Notes.Remove(noteToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
