@@ -4,6 +4,8 @@ using OpenIddict.Validation.AspNetCore;
 using Reminders.Application.Entities.Reminders.Commands.CreateReminder;
 using System.Threading.Tasks;
 using Reminders.Application.Entities.Reminders.Queries.GetReminderById;
+using BuildingBlocks.Application.Pagination;
+using Reminders.Application.Entities.Reminders.Queries.ListReminders;
 
 namespace Reminders.Api.Controllers;
 
@@ -36,6 +38,17 @@ public class RemindersController(ISender sender) : ControllerBase
             return NotFound();
 
         var response = result.Adapt<GetReminderByIdResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(ListRemindersResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListRemindersResponse>> Get([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListRemindersQuery(query));
+        var response = result.Adapt<ListRemindersResponse>();
 
         return Ok(response);
     }

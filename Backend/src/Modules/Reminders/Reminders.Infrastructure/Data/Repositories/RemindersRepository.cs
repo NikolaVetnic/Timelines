@@ -19,6 +19,7 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
         return await dbContext.Reminders
             .AsNoTracking()
             .OrderBy(r => r.NotifyAt)
+            .Where(r => r.OwnerId == currentUser.UserId!)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -45,7 +46,9 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
 
     public async Task<long> ReminderCountAsync(CancellationToken cancellationToken)
     {
-        return await dbContext.Reminders.LongCountAsync(cancellationToken);
+        return await dbContext.Reminders
+            .Where(r => r.OwnerId == currentUser.UserId!)
+            .LongCountAsync(cancellationToken);
     }
 
     public async Task<long> ReminderCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
