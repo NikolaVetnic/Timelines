@@ -25,8 +25,7 @@ public static class ServiceCollectionExtensions
     {
         TypeAdapterConfig.GlobalSettings.Scan(typeof(TimelineIdConverter).Assembly);
 
-        services.AddControllers()
-            .AddApplicationPart(typeof(TimelinesController).Assembly);
+        services.AddControllers().AddApplicationPart(typeof(TimelinesController).Assembly);
 
         services.AddScoped<ITimelinesService, TimelinesService>();
 

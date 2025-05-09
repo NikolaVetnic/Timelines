@@ -1,7 +1,7 @@
 using System.Net.Http.Json;
 using Mapster;
-using ApiCreateReminderRequest = Reminders.Api.Endpoints.Reminders.CreateReminderRequest;
-using ApiCreateReminderResponse = Reminders.Api.Endpoints.Reminders.CreateReminderResponse;
+using ApiCreateReminderRequest = Reminders.Api.Controllers.CreateReminderRequest;
+using ApiCreateReminderResponse = Reminders.Api.Controllers.CreateReminderResponse;
 using ApiGetReminderByIdResponse = Reminders.Api.Endpoints.Reminders.GetReminderByIdResponse;
 using SdkReminderId = Core.Api.Sdk.Contracts.Reminders.ValueObjects.ReminderId;
 using SdkCreateReminderRequest = Core.Api.Sdk.Contracts.Reminders.Commands.CreateReminderRequest;
