@@ -12,3 +12,5 @@ public record GetReminderByIdResponse([property: JsonPropertyName("reminder")] R
 public record ListRemindersResponse(PaginatedResult<ReminderDto> Reminders);
 
 public record UpdateReminderResponse(ReminderDto Reminder);
+
+public record DeleteReminderResponse(bool ReminderDeleted);

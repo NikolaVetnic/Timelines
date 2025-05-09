@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Reminders.Application.Entities.Reminders.Queries.GetReminderById;
 using BuildingBlocks.Application.Pagination;
 using Reminders.Application.Entities.Reminders.Queries.ListReminders;
-using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using System;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
+using Reminders.Application.Entities.Reminders.Commands.DeleteReminder;
 using Reminders.Application.Entities.Reminders.Commands.UpdateReminder;
 
 namespace Reminders.Api.Controllers;
@@ -74,6 +74,18 @@ public class RemindersController(ISender sender) : ControllerBase
 
         var result = await sender.Send(command);
         var response = result.Adapt<UpdateReminderResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpDelete("{reminderId}")]
+    [ProducesResponseType(typeof(DeleteReminderResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<DeleteReminderResponse>> Delete([FromRoute] string reminderId)
+    {
+        var result = await sender.Send(new DeleteReminderCommand(reminderId));
+        var response = result.Adapt<DeleteReminderResponse>();
 
         return Ok(response);
     }
