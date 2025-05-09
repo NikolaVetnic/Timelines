@@ -4,16 +4,14 @@ using Files.Application.Data.Abstractions;
 
 namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
 
-internal class CreateFileAssetHandler(ICurrentUser currentUser, IFilesDbContext dbContext, INodesService nodesService) : ICommandHandler<CreateFileAssetCommand, CreateFileAssetResult>
+internal class CreateFileAssetHandler(ICurrentUser currentUser, IFilesRepository filesRepository, INodesService nodesService) : ICommandHandler<CreateFileAssetCommand, CreateFileAssetResult>
 {
     public async Task<CreateFileAssetResult> Handle(CreateFileAssetCommand command, CancellationToken cancellationToken)
     {
         var userId = currentUser.UserId!;
         var fileAsset = command.ToFileAsset(userId);
 
-        dbContext.FileAssets.Add(fileAsset);
-        await dbContext.SaveChangesAsync(cancellationToken);
-
+        await filesRepository.AddFileAssetAsync(fileAsset, cancellationToken);
         await nodesService.AddFileAsset(fileAsset.NodeId, fileAsset.Id, cancellationToken);
 
         return new CreateFileAssetResult(fileAsset.Id);

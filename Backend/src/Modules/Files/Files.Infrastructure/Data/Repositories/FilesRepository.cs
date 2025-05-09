@@ -7,6 +7,12 @@ namespace Files.Infrastructure.Data.Repositories;
 
 public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
 {
+    public async Task AddFileAssetAsync(FileAsset fileAsset, CancellationToken cancellationToken)
+    {
+        dbContext.FileAssets.Add(fileAsset);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<List<FileAsset>> ListFileAssetsPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets
