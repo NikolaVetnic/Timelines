@@ -1,3 +1,4 @@
+using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Reminders.Application.Data.Abstractions;
@@ -5,7 +6,7 @@ using Reminders.Application.Entities.Reminders.Exceptions;
 
 namespace Reminders.Infrastructure.Data.Repositories;
 
-public class RemindersRepository(IRemindersDbContext dbContext) : IRemindersRepository
+public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext dbContext) : IRemindersRepository
 {
     public async Task<List<Reminder>> ListRemindersPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
@@ -32,7 +33,7 @@ public class RemindersRepository(IRemindersDbContext dbContext) : IRemindersRepo
     {
         return await dbContext.Reminders
                    .AsNoTracking()
-                   .SingleOrDefaultAsync(r => r.Id == reminderId, cancellationToken) ??
+                   .SingleOrDefaultAsync(r => r.Id == reminderId && r.OwnerId == currentUser.UserId!, cancellationToken) ??
                throw new ReminderNotFoundException(reminderId.ToString());
     }
 
