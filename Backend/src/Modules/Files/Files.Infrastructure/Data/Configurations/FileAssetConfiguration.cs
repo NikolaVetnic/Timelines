@@ -23,7 +23,7 @@ public class FileAssetConfiguration : IEntityTypeConfiguration<FileAsset>
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Property(n => n.Owner)
+        builder.Property(n => n.OwnerId)
             .IsRequired()
             .HasMaxLength(100);
 
