@@ -9,9 +9,9 @@ using Nodes.Application.Entities.Nodes.Queries.ListFileAssetsByNodeId;
 using Nodes.Application.Entities.Nodes.Queries.ListNodes;
 using Nodes.Application.Entities.Nodes.Queries.ListNotesByNodeId;
 using Nodes.Application.Entities.Nodes.Queries.ListRemindersByNodeId;
-using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using System;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using Nodes.Application.Entities.Nodes.Commands.DeleteNode;
 using Nodes.Application.Entities.Nodes.Commands.UpdateNode;
 
 namespace Nodes.Api.Controllers.Nodes;
@@ -113,6 +113,18 @@ public class NodesController(ISender sender) : ControllerBase
 
         var result = await sender.Send(command);
         var response = result.Adapt<UpdateNodeResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpDelete("{nodeId}")]
+    [ProducesResponseType(typeof(DeleteNodeResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<DeleteNodeResponse>> Delete([FromRoute] string nodeId)
+    {
+        var result = await sender.Send(new DeleteNodeCommand(nodeId));
+        var response = result.Adapt<DeleteNodeResponse>();
 
         return Ok(response);
     }

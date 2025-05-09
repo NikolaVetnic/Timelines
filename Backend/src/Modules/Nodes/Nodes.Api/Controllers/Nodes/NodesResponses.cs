@@ -21,3 +21,5 @@ public record ListNotesByNodeIdResponse(PaginatedResult<NoteBaseDto> Notes);
 public record ListRemindersByNodeIdResponse(PaginatedResult<ReminderBaseDto> Reminders);
 
 public record UpdateNodeResponse(NodeBaseDto Node);
+
+public record DeleteNodeResponse(bool NodeDeleted);
