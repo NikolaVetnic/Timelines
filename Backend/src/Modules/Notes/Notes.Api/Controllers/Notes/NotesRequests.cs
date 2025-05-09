@@ -14,3 +14,13 @@ public record CreateNoteRequest
     public bool IsPublic { get; set; }
     public NodeId NodeId { get; set; }
 }
+
+public record UpdateNoteRequest
+{
+    public string Title { get; set; }
+    public string Content { get; set; }
+    public DateTime Timestamp { get; set; }
+    public List<string> SharedWith { get; set; }
+    public bool IsPublic { get; set; }
+    public NodeId NodeId { get; set; }
+}

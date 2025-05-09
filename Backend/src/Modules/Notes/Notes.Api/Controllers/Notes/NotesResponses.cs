@@ -8,6 +8,8 @@ public record CreateNoteResponse(NoteId Id);
 
 public record GetNoteByIdResponse([property: JsonPropertyName("note")] NoteDto NoteDto);
 
-public record DeleteNoteResponse(bool NoteDeleted);
-
 public record ListNotesResponse(PaginatedResult<NoteDto> Notes);
+
+public record UpdateNoteResponse(NoteDto Note);
+
+public record DeleteNoteResponse(bool NoteDeleted);

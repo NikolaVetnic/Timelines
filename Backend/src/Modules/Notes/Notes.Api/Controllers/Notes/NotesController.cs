@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using BuildingBlocks.Application.Pagination;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Notes.Application.Entities.Notes.Commands.CreateNote;
 using Notes.Application.Entities.Notes.Commands.DeleteNote;
+using Notes.Application.Entities.Notes.Commands.UpdateNote;
 using Notes.Application.Entities.Notes.Queries.GetNoteById;
 using Notes.Application.Entities.Notes.Queries.ListNotes;
 using OpenIddict.Validation.AspNetCore;
@@ -50,6 +53,28 @@ public class NotesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new ListNotesQuery(query));
         var response = result.Adapt<ListNotesResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpPut("{noteId}")]
+    [ProducesResponseType(typeof(UpdateNoteResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<UpdateNoteResponse>> Update([FromRoute] string noteId, [FromBody] UpdateNoteRequest request)
+    {
+        var command = new UpdateNoteCommand
+        {
+            Id = NoteId.Of(Guid.Parse(noteId)),
+            Title = request.Title,
+            Content = request.Content,
+            Timestamp = request.Timestamp,
+            SharedWith = request.SharedWith,
+            IsPublic = request.IsPublic,
+            NodeId = request.NodeId
+        };
+
+        var result = await sender.Send(command);
+        var response = result.Adapt<UpdateNoteResponse>();
 
         return Ok(response);
     }
