@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Files.Application.Entities.Files.Commands.CreateFileAsset;
+using Files.Application.Entities.Files.Queries.GetFileAssetById;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Validation.AspNetCore;
@@ -22,5 +23,21 @@ public class FilesController(ISender sender) : ControllerBase
         var response = result.Adapt<CreateFileAssetResponse>();
 
         return CreatedAtAction(nameof(Create), new { id = response.Id }, response);
+    }
+
+    [HttpGet("{fileId}")]
+    [ProducesResponseType(typeof(GetFileAssetByIdResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<GetFileAssetByIdResponse>> GetById([FromRoute] string fileId)
+    {
+        var result = await sender.Send(new GetFileAssetByIdQuery(fileId));
+
+        if (result is null)
+            return NotFound();
+
+        var response = result.Adapt<GetFileAssetByIdResponse>();
+
+        return Ok(response);
     }
 }

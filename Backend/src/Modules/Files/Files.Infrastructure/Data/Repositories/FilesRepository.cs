@@ -1,11 +1,12 @@
-﻿using BuildingBlocks.Domain.Files.File.ValueObjects;
+﻿using BuildingBlocks.Application.Data;
+using BuildingBlocks.Domain.Files.File.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Files.Application.Data.Abstractions;
 using Files.Application.Entities.Files.Exceptions;
 
 namespace Files.Infrastructure.Data.Repositories;
 
-public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
+public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext) : IFilesRepository
 {
     public async Task AddFileAssetAsync(FileAsset fileAsset, CancellationToken cancellationToken)
     {
@@ -38,7 +39,7 @@ public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
     {
         return await dbContext.FileAssets
                    .AsNoTracking()
-                   .SingleOrDefaultAsync(f => f.Id == fileAssetId, cancellationToken) ??
+                   .SingleOrDefaultAsync(f => f.Id == fileAssetId && f.OwnerId == currentUser.UserId!, cancellationToken) ??
                throw new FileAssetNotFoundException(fileAssetId.ToString());
     }
 
