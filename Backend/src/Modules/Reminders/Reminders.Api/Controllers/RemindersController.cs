@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using Reminders.Application.Entities.Reminders.Queries.GetReminderById;
 using BuildingBlocks.Application.Pagination;
 using Reminders.Application.Entities.Reminders.Queries.ListReminders;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+using System;
+using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
+using Reminders.Application.Entities.Reminders.Commands.UpdateReminder;
 
 namespace Reminders.Api.Controllers;
 
@@ -49,6 +53,27 @@ public class RemindersController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new ListRemindersQuery(query));
         var response = result.Adapt<ListRemindersResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpPut("{reminderId}")]
+    [ProducesResponseType(typeof(UpdateReminderResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<UpdateReminderResponse>> Update([FromRoute] string reminderId, [FromBody] UpdateReminderRequest request)
+    {
+        var command = new UpdateReminderCommand
+        {
+            Id = ReminderId.Of(Guid.Parse(reminderId)),
+            Title = request.Title,
+            Description = request.Description,
+            NotifyAt = request.NotifyAt,
+            Priority = request.Priority,
+            NodeId = request.NodeId,
+        };
+
+        var result = await sender.Send(command);
+        var response = result.Adapt<UpdateReminderResponse>();
 
         return Ok(response);
     }

@@ -10,3 +10,5 @@ public record CreateReminderResponse(ReminderId Id);
 public record GetReminderByIdResponse([property: JsonPropertyName("reminder")] ReminderDto ReminderDto);
 
 public record ListRemindersResponse(PaginatedResult<ReminderDto> Reminders);
+
+public record UpdateReminderResponse(ReminderDto Reminder);
