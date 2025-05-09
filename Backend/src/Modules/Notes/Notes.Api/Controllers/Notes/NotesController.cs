@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
+using BuildingBlocks.Application.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Notes.Application.Entities.Notes.Commands.CreateNote;
 using Notes.Application.Entities.Notes.Commands.DeleteNote;
 using Notes.Application.Entities.Notes.Queries.GetNoteById;
+using Notes.Application.Entities.Notes.Queries.ListNotes;
 using OpenIddict.Validation.AspNetCore;
 
 namespace Notes.Api.Controllers.Notes;
@@ -37,6 +39,17 @@ public class NotesController(ISender sender) : ControllerBase
             return NotFound();
 
         var response = result.Adapt<GetNoteByIdResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(ListNotesResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListNotesResponse>> Get([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListNotesQuery(query));
+        var response = result.Adapt<ListNotesResponse>();
 
         return Ok(response);
     }

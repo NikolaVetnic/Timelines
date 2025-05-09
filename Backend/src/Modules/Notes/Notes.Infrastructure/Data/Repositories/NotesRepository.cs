@@ -14,7 +14,7 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
     {
         return await dbContext.Notes
             .AsNoTracking()
-            .OrderBy(n => n.Timestamp)
+            .Where(n => n.OwnerId == currentUser.UserId!)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -33,7 +33,9 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
 
     public async Task<long> NoteCountAsync(CancellationToken cancellationToken)
     {
-        return await dbContext.Notes.LongCountAsync(cancellationToken);
+        return await dbContext.Notes
+            .Where(n => n.OwnerId == currentUser.UserId!)
+            .LongCountAsync(cancellationToken);
     }
 
     public async Task<long> NoteCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
@@ -104,7 +106,7 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
     {
         return await dbContext.Notes
             .AsNoTracking()
-            .Where(n => nodeIds.Contains(n.NodeId))
+            .Where(n => nodeIds.Contains(n.NodeId) && n.OwnerId == currentUser.UserId!)
             .ToListAsync(cancellationToken: cancellationToken);
     }
 }

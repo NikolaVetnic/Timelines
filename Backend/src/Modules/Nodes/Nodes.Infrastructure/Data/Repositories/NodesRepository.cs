@@ -1,3 +1,4 @@
+using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Nodes.Application.Data.Abstractions;
@@ -5,7 +6,7 @@ using Nodes.Application.Entities.Nodes.Exceptions;
 
 namespace Nodes.Infrastructure.Data.Repositories;
 
-public class NodesRepository(INodesDbContext dbContext) : INodesRepository
+public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext) : INodesRepository
 {
     #region List
     public async Task<List<Node>> ListNodesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
@@ -13,6 +14,7 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
         return await dbContext.Nodes
             .AsNoTracking()
             .OrderBy(n => n.Timestamp)
+            .Where(n => n.OwnerId == currentUser.UserId!)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
