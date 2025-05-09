@@ -90,5 +90,4 @@ public class NotesController(ISender sender) : ControllerBase
 
         return Ok(response);
     }
-
 }

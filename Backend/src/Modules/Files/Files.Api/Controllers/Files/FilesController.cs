@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.Files.File.ValueObjects;
-using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Files.Application.Entities.Files.Commands.CreateFileAsset;
+using Files.Application.Entities.Files.Commands.DeleteFileAsset;
 using Files.Application.Entities.Files.Commands.UpdateFileAsset;
 using Files.Application.Entities.Files.Queries.GetFileAssetById;
 using Files.Application.Entities.Files.Queries.ListFileAssets;
@@ -75,6 +75,18 @@ public class FilesController(ISender sender) : ControllerBase
 
         var result = await sender.Send(command);
         var response = result.Adapt<UpdateFileAssetResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpDelete("{fileId}")]
+    [ProducesResponseType(typeof(DeleteFileAssetResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<DeleteFileAssetResponse>> Delete([FromRoute] string fileId)
+    {
+        var result = await sender.Send(new DeleteFileAssetCommand(fileId));
+        var response = result.Adapt<DeleteFileAssetResponse>();
 
         return Ok(response);
     }

@@ -12,3 +12,5 @@ public record GetFileAssetByIdResponse([property: JsonPropertyName("file")] File
 public record ListFileAssetsResponse(PaginatedResult<FileAssetDto> FileAssets);
 
 public record UpdateFileAssetResponse(FileAssetDto FileAsset);
+
+public record DeleteFileAssetResponse(bool FileDeleted);
