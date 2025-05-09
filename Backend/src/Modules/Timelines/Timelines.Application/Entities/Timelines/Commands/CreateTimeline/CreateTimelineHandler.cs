@@ -4,16 +4,14 @@ using Timelines.Application.Data.Abstractions;
 
 namespace Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 
-internal class CreateTimelineHandler(ICurrentUser currentUser, ITimelinesDbContext dbContext) : ICommandHandler<CreateTimelineCommand, CreateTimelineResult>
+internal class CreateTimelineHandler(ICurrentUser currentUser, ITimelinesRepository timelinesRepository) : ICommandHandler<CreateTimelineCommand, CreateTimelineResult>
 {
     public async Task<CreateTimelineResult> Handle(CreateTimelineCommand command, CancellationToken cancellationToken)
     {
         var userId = currentUser.UserId!;
-        
         var timeline = command.ToTimeline(userId);
 
-        dbContext.Timelines.Add(timeline);
-        await dbContext.SaveChangesAsync(cancellationToken);
+        await timelinesRepository.CreateTimelineAsync(timeline, cancellationToken);
 
         return new CreateTimelineResult(timeline.Id);
     }
