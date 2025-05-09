@@ -33,7 +33,9 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
 
     public async Task<long> NodeCountAsync(CancellationToken cancellationToken)
     {
-        return await dbContext.Nodes.LongCountAsync(cancellationToken);
+        return await dbContext.Nodes
+            .Where(n => n.OwnerId == currentUser.UserId!)
+            .LongCountAsync(cancellationToken);
     }
 
     public async Task<long> NodeCountByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)

@@ -4,6 +4,8 @@ using OpenIddict.Validation.AspNetCore;
 using System.Threading.Tasks;
 using Nodes.Application.Entities.Nodes.Commands.CreateNode;
 using Nodes.Application.Entities.Nodes.Queries.GetNodeById;
+using BuildingBlocks.Application.Pagination;
+using Nodes.Application.Entities.Nodes.Queries.ListNodes;
 
 namespace Nodes.Api.Controllers.Nodes;
 
@@ -36,6 +38,17 @@ public class NodesController(ISender sender) : ControllerBase
             return NotFound();
 
         var response = result.Adapt<GetNodeByIdResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(ListNodesResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListNodesResponse>> Get([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListNodesQuery(query));
+        var response = result.Adapt<ListNodesResponse>();
 
         return Ok(response);
     }
