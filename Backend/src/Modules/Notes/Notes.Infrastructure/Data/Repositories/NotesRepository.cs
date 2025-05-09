@@ -10,6 +10,12 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
 {
     #region List
 
+    public async Task AddNoteAsync(Note note, CancellationToken cancellationToken)
+    {
+        dbContext.Notes.Add(note);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<List<Note>> ListNotesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.Notes
