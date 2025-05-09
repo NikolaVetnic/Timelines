@@ -48,7 +48,7 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
     {
         return await dbContext.Nodes
                    .AsNoTracking()
-                   .SingleOrDefaultAsync(n => n.Id == nodeId, cancellationToken) ??
+                   .SingleOrDefaultAsync(n => n.Id == nodeId && n.OwnerId == currentUser.UserId!, cancellationToken) ??
                throw new NodeNotFoundException(nodeId.ToString());
     }
 
@@ -63,7 +63,7 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
     {
         return await dbContext.Nodes
             .AsNoTracking()
-            .Where(n => nodeIds.Contains(n.Id))
+            .Where(n => nodeIds.Contains(n.Id) && n.OwnerId == currentUser.UserId!)
             .ToListAsync(cancellationToken);
     }
     #endregion

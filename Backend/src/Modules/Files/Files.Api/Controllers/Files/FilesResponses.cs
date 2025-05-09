@@ -10,3 +10,5 @@ public record CreateFileAssetResponse(FileAssetId Id);
 public record GetFileAssetByIdResponse([property: JsonPropertyName("file")] FileAssetDto FileAssetDto);
 
 public record ListFileAssetsResponse(PaginatedResult<FileAssetDto> FileAssets);
+
+public record UpdateFileAssetResponse(FileAssetDto FileAsset);

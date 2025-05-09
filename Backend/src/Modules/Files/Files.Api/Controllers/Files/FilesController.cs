@@ -1,6 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using BuildingBlocks.Application.Pagination;
+using BuildingBlocks.Domain.Files.File.ValueObjects;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Files.Application.Entities.Files.Commands.CreateFileAsset;
+using Files.Application.Entities.Files.Commands.UpdateFileAsset;
 using Files.Application.Entities.Files.Queries.GetFileAssetById;
 using Files.Application.Entities.Files.Queries.ListFileAssets;
 using Microsoft.AspNetCore.Authorization;
@@ -50,6 +54,27 @@ public class FilesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new ListFileAssetsQuery(query));
         var response = result.Adapt<ListFileAssetsResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpPut("{fileId}")]
+    [ProducesResponseType(typeof(UpdateFileAssetResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<UpdateFileAssetResponse>> Update([FromRoute] string fileId, [FromBody] UpdateFileAssetRequest request)
+    {
+        var command = new UpdateFileAssetCommand
+        {
+            Id = FileAssetId.Of(Guid.Parse(fileId)),
+            Name = request.Name,
+            Description = request.Description,
+            SharedWith = request.SharedWith,
+            IsPublic = request.IsPublic,
+            NodeId = request.NodeId
+        };
+
+        var result = await sender.Send(command);
+        var response = result.Adapt<UpdateFileAssetResponse>();
 
         return Ok(response);
     }

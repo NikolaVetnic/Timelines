@@ -15,3 +15,12 @@ public record CreateFileAssetRequest
     public bool IsPublic { get; set; }
     public NodeId NodeId { get; set; }
 }
+
+public record UpdateFileAssetRequest
+{
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public List<string> SharedWith { get; set; }
+    public bool IsPublic { get; set; }
+    public NodeId NodeId { get; set; }
+}
