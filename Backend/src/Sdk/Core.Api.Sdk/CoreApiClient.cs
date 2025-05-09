@@ -1,8 +1,8 @@
 using System.Net.Http.Json;
 using Core.Api.Sdk.Interfaces;
 using Mapster;
-using ApiCreateNodeRequest = Nodes.Api.Endpoints.Nodes.CreateNodeRequest;
-using ApiCreateNodeResponse = Nodes.Api.Endpoints.Nodes.CreateNodeResponse;
+using ApiCreateNodeRequest = Nodes.Api.Controllers.Nodes.CreateNodeRequest;
+using ApiCreateNodeResponse = Nodes.Api.Controllers.Nodes.CreateNodeResponse;
 using ApiGetNodeByIdResponse = Nodes.Api.Endpoints.Nodes.GetNodeByIdResponse;
 using SdkNodeId = Core.Api.Sdk.Contracts.Nodes.ValueObjects.NodeId;
 using SdkCreateNodeRequest = Core.Api.Sdk.Contracts.Nodes.Commands.CreateNodeRequest;

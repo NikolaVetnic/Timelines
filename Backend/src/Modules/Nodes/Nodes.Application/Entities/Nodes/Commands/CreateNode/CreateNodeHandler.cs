@@ -9,7 +9,6 @@ internal class CreateNodeHandler(ICurrentUser currentUser, INodesRepository node
     public async Task<CreateNodeResult> Handle(CreateNodeCommand command, CancellationToken cancellationToken)
     {
         var userId = currentUser.UserId!;
-
         var node = command.ToNode(userId);
 
         await nodesRepository.CreateNodeAsync(node, cancellationToken);
