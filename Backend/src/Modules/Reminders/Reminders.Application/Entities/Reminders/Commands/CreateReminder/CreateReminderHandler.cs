@@ -4,7 +4,7 @@ using Reminders.Application.Data.Abstractions;
 
 namespace Reminders.Application.Entities.Reminders.Commands.CreateReminder;
 
-internal class CreateReminderHandler(ICurrentUser currentUser, IRemindersDbContext dbContext, INodesService nodesService)
+internal class CreateReminderHandler(ICurrentUser currentUser, IRemindersRepository reminderRepository, INodesService nodesService)
     : ICommandHandler<CreateReminderCommand, CreateReminderResult>
 {
     public async Task<CreateReminderResult> Handle(CreateReminderCommand command, CancellationToken cancellationToken)
@@ -12,9 +12,7 @@ internal class CreateReminderHandler(ICurrentUser currentUser, IRemindersDbConte
         var userId = currentUser.UserId!;
         var reminder = command.ToReminder(userId);
 
-        dbContext.Reminders.Add(reminder);
-        await dbContext.SaveChangesAsync(cancellationToken);
-
+        await reminderRepository.AddReminderAsync(reminder, cancellationToken);
         await nodesService.AddReminder(reminder.NodeId, reminder.Id, cancellationToken);
 
         return new CreateReminderResult(reminder.Id);

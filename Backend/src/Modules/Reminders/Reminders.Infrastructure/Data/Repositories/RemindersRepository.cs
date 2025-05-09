@@ -8,6 +8,12 @@ namespace Reminders.Infrastructure.Data.Repositories;
 
 public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext dbContext) : IRemindersRepository
 {
+    public async Task AddReminderAsync(Reminder reminder, CancellationToken cancellationToken)
+    {
+        dbContext.Reminders.Add(reminder);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<List<Reminder>> ListRemindersPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.Reminders
