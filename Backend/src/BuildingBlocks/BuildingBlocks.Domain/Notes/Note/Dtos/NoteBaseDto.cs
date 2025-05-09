@@ -8,7 +8,7 @@ public class NoteBaseDto(
     string title,
     string content,
     DateTime timestamp,
-    string owner,
+    string ownerId,
     List<NoteId> relatedNotes,
     List<string> sharedWith,
     bool isPublic,
@@ -23,7 +23,7 @@ public class NoteBaseDto(
 
     [JsonPropertyName("timestamp")] public DateTime Timestamp { get; } = timestamp;
 
-    [JsonPropertyName("owner")] public string Owner { get; } = owner;
+    [JsonPropertyName("owner")] public string OwnerId { get; } = ownerId;
 
     [JsonPropertyName("relatedNotes")] public List<NoteId> RelatedNotes { get; } = relatedNotes;
 

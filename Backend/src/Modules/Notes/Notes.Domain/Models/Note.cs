@@ -11,7 +11,7 @@ public class Note : Aggregate<NoteId>
     public required string Title { get; set; }
     public required string Content { get; set; }
     public required DateTime Timestamp { get; set; }
-    public required string Owner { get; set; }
+    public required string OwnerId { get; set; }
     public List<NoteId> RelatedNotes { get; set; } = [];
     public List<string> SharedWith { get; set; } = [];
     public required bool IsPublic { get; set; }
@@ -19,7 +19,7 @@ public class Note : Aggregate<NoteId>
 
     #region Note
 
-    public static Note Create(NoteId id, string title, string content, DateTime timestamp, string owner, List<string> sharedWith, bool isPublic, NodeId nodeId)
+    public static Note Create(NoteId id, string title, string content, DateTime timestamp, string ownerId, List<string> sharedWith, bool isPublic, NodeId nodeId)
     {
         var note = new Note
         {
@@ -27,7 +27,7 @@ public class Note : Aggregate<NoteId>
             Title = title,
             Content = content,
             Timestamp = timestamp,
-            Owner = owner,
+            OwnerId = ownerId,
             IsPublic = isPublic,
             NodeId = nodeId
         };
@@ -42,12 +42,12 @@ public class Note : Aggregate<NoteId>
         return note;
     }
 
-    public void Update(string title, string content, DateTime timestamp, string owner, bool isPublic)
+    public void Update(string title, string content, DateTime timestamp, string ownerId, bool isPublic)
     {
         Title = title;
         Content = content;
         Timestamp = timestamp;
-        Owner = owner;
+        OwnerId = ownerId;
         IsPublic = isPublic;
 
         AddDomainEvent(new NoteUpdatedEvent(Id));

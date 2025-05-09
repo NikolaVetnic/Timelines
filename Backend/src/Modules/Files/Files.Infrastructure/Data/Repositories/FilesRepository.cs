@@ -1,17 +1,25 @@
-﻿using BuildingBlocks.Domain.Files.File.ValueObjects;
+﻿using BuildingBlocks.Application.Data;
+using BuildingBlocks.Domain.Files.File.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Files.Application.Data.Abstractions;
 using Files.Application.Entities.Files.Exceptions;
 
 namespace Files.Infrastructure.Data.Repositories;
 
-public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
+public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext) : IFilesRepository
 {
+    public async Task AddFileAssetAsync(FileAsset fileAsset, CancellationToken cancellationToken)
+    {
+        dbContext.FileAssets.Add(fileAsset);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<List<FileAsset>> ListFileAssetsPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets
             .AsNoTracking()
-            .OrderBy(n => n.CreatedBy)
+            .OrderBy(f => f.CreatedBy)
+            .Where(f => f.OwnerId == currentUser.UserId!)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -21,7 +29,7 @@ public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
     {
         return await dbContext.FileAssets
             .AsNoTracking()
-            .Where(f => f.NodeId == nodeId)
+            .Where(f => f.NodeId == nodeId && f.OwnerId == currentUser.UserId!)
             .OrderBy(f => f.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)
@@ -32,7 +40,7 @@ public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
     {
         return await dbContext.FileAssets
                    .AsNoTracking()
-                   .SingleOrDefaultAsync(f => f.Id == fileAssetId, cancellationToken) ??
+                   .SingleOrDefaultAsync(f => f.Id == fileAssetId && f.OwnerId == currentUser.UserId!, cancellationToken) ??
                throw new FileAssetNotFoundException(fileAssetId.ToString());
     }
 
@@ -44,12 +52,16 @@ public class FilesRepository(IFilesDbContext dbContext) : IFilesRepository
 
     public async Task<long> FileAssetCountAsync(CancellationToken cancellationToken)
     {
-        return await dbContext.FileAssets.LongCountAsync(cancellationToken);
+        return await dbContext.FileAssets
+            .Where(f => f.OwnerId == currentUser.UserId!)
+            .LongCountAsync(cancellationToken);
     }
 
     public async Task<long> FileAssetCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return await dbContext.FileAssets.CountAsync(f => f.NodeId == nodeId, cancellationToken);
+        return await dbContext.FileAssets
+            .Where(f => f.OwnerId == currentUser.UserId!)
+            .LongCountAsync(f => f.NodeId == nodeId, cancellationToken);
     }
 
     public async Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)

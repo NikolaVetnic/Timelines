@@ -6,9 +6,10 @@ namespace BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 public class TimelineDto(
     string? id,
     string title,
-    string description) : TimelineBaseDto(id, title, description)
+    string description,
+    string ownerId) : TimelineBaseDto(id, title, description, ownerId)
 {
-    public TimelineDto() : this(null, string.Empty, string.Empty) { }
+    public TimelineDto() : this(null, string.Empty, string.Empty, String.Empty) { }
 
     [JsonPropertyName("nodes")] public List<NodeBaseDto> Nodes { get; set; } = [];
 }

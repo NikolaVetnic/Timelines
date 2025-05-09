@@ -1,17 +1,21 @@
-﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+﻿using BuildingBlocks.Application.Data;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Timelines.Application.Data.Abstractions;
 using Timelines.Application.Entities.Timelines.Exceptions;
 
 namespace Timelines.Infrastructure.Data.Repositories;
 
-public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepository
+public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext dbContext) : ITimelinesRepository
 {
     #region List
-    public async Task<List<Timeline>> ListTimelinesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+
+    public async Task<List<Timeline>> ListTimelinesPaginatedAsync(int pageIndex, int pageSize,
+        CancellationToken cancellationToken)
     {
         return await dbContext.Timelines
             .AsNoTracking()
+            .Where(t => t.OwnerId == currentUser.UserId!)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -19,26 +23,31 @@ public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepo
 
     public async Task<long> TimelineCountAsync(CancellationToken cancellationToken)
     {
-        return await dbContext.Timelines.LongCountAsync(cancellationToken);
+        return await dbContext.Timelines
+            .Where(t => t.OwnerId == currentUser.UserId!)
+            .LongCountAsync(cancellationToken);
     }
+
     #endregion
 
     #region Get
+
     public async Task<Timeline> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
         return await dbContext.Timelines
                    .AsNoTracking()
-                   .SingleOrDefaultAsync(t => t.Id == timelineId, cancellationToken) ??
+                   .SingleOrDefaultAsync(t => t.Id == timelineId && t.OwnerId == currentUser.UserId!, cancellationToken) ??
                throw new TimelineNotFoundException(timelineId.ToString());
     }
+
     #endregion
-    
+
     public async Task CreateTimelineAsync(Timeline timeline, CancellationToken cancellationToken)
     {
         dbContext.Timelines.Add(timeline);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
-    
+
     public async Task UpdateTimelineAsync(Timeline timeline, CancellationToken cancellationToken)
     {
         dbContext.Timelines.Update(timeline);
@@ -48,13 +57,14 @@ public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepo
     public async Task DeleteTimeline(TimelineId timelineId, CancellationToken cancellationToken)
     {
         var timelineToDelete = await dbContext.Timelines
-            .FirstAsync(t => t.Id == timelineId, cancellationToken);
-        
+            .FirstAsync(t => t.Id == timelineId && t.OwnerId == currentUser.UserId!, cancellationToken);
+
         dbContext.Timelines.Remove(timelineToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     #region Relationships
+
     public async Task<IEnumerable<Timeline>> GetTimelinesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds,
         CancellationToken cancellationToken)
     {
@@ -62,9 +72,10 @@ public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepo
                 dbContext.Timelines
                     .AsNoTracking()
                     .AsEnumerable()
-                    .Where(t => t.NodeIds.Any(nodeId => nodeIds.Contains(nodeId)))
+                    .Where(t => t.NodeIds.Any(nodeIds.Contains) && t.OwnerId == currentUser.UserId!)
                     .ToList(),
             cancellationToken);
     }
+
     #endregion
 }

@@ -7,22 +7,22 @@ using Timelines.Application.Entities.Timelines.Extensions;
 
 namespace Timelines.Application.Entities.Timelines.Commands.CreateTimelineWithTemplate;
 
-internal class CreateTimelineWithTemplateHandler(ITimelinesRepository timelinesRepository, INodesService nodesService)
+internal class CreateTimelineWithTemplateHandler(ICurrentUser currentUser, ITimelinesRepository timelinesRepository, INodesService nodesService)
     : ICommandHandler<CreateTimelineWithTemplateCommand, CreateTimelineWithTemplateResult>
 {
     public async Task<CreateTimelineWithTemplateResult> Handle(CreateTimelineWithTemplateCommand command,
         CancellationToken cancellationToken)
     {
+        var userId = currentUser.UserId!;
+
         var template = await timelinesRepository
-            .GetTimelineByIdAsync(command.Id, cancellationToken);
-     
-        if (template is null)
-            throw new TimelineNotFoundException(command.Id.ToString());
+            .GetTimelineByIdAsync(command.Id, cancellationToken) ?? throw new TimelineNotFoundException(command.Id.ToString());
 
         var newTimeline = Timeline.Create(
             TimelineId.Of(Guid.NewGuid()),
             command.Title ?? template.Title,
-            command.Description ?? template.Description
+            command.Description ?? template.Description,
+            userId
         );
 
         var nodeTemplates = await nodesService

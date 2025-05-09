@@ -7,12 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BuildingBlocks.Application\BuildingBlocks.Application.csproj" />
-      <ProjectReference Include="..\BuildingBlocks.Infrastructure\BuildingBlocks.Infrastructure.csproj" />
+        <ProjectReference Include="..\BuildingBlocks.Application\BuildingBlocks.Application.csproj"/>
+        <ProjectReference Include="..\BuildingBlocks.Infrastructure\BuildingBlocks.Infrastructure.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Mapster" Version="7.4.0" />
+        <PackageReference Include="Mapster" Version="7.4.0"/>
+        <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="6.2.1"/>
     </ItemGroup>
 
 </Project>

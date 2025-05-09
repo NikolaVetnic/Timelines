@@ -1,3 +1,4 @@
+using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Reminders.Application.Data.Abstractions;
@@ -5,13 +6,20 @@ using Reminders.Application.Entities.Reminders.Exceptions;
 
 namespace Reminders.Infrastructure.Data.Repositories;
 
-public class RemindersRepository(IRemindersDbContext dbContext) : IRemindersRepository
+public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext dbContext) : IRemindersRepository
 {
+    public async Task AddReminderAsync(Reminder reminder, CancellationToken cancellationToken)
+    {
+        dbContext.Reminders.Add(reminder);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<List<Reminder>> ListRemindersPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.Reminders
             .AsNoTracking()
             .OrderBy(r => r.NotifyAt)
+            .Where(r => r.OwnerId == currentUser.UserId!)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -21,7 +29,7 @@ public class RemindersRepository(IRemindersDbContext dbContext) : IRemindersRepo
     {
         return await dbContext.Reminders
             .AsNoTracking()
-            .Where(r => r.NodeId == nodeId)
+            .Where(r => r.NodeId == nodeId && r.OwnerId == currentUser.UserId!)
             .OrderBy(r => r.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)
@@ -32,18 +40,22 @@ public class RemindersRepository(IRemindersDbContext dbContext) : IRemindersRepo
     {
         return await dbContext.Reminders
                    .AsNoTracking()
-                   .SingleOrDefaultAsync(r => r.Id == reminderId, cancellationToken) ??
+                   .SingleOrDefaultAsync(r => r.Id == reminderId && r.OwnerId == currentUser.UserId!, cancellationToken) ??
                throw new ReminderNotFoundException(reminderId.ToString());
     }
 
     public async Task<long> ReminderCountAsync(CancellationToken cancellationToken)
     {
-        return await dbContext.Reminders.LongCountAsync(cancellationToken);
+        return await dbContext.Reminders
+            .Where(r => r.OwnerId == currentUser.UserId!)
+            .LongCountAsync(cancellationToken);
     }
 
     public async Task<long> ReminderCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return await dbContext.Reminders.LongCountAsync(r => r.NodeId == nodeId, cancellationToken);
+        return await dbContext.Reminders
+            .Where(r => r.OwnerId == currentUser.UserId!)
+            .LongCountAsync(r => r.NodeId == nodeId, cancellationToken);
     }
 
     public async Task<IEnumerable<Reminder>> GetRemindersBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)

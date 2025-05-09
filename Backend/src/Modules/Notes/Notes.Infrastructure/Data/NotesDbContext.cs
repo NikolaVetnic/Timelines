@@ -25,7 +25,7 @@ public class NotesDbContext(DbContextOptions<NotesDbContext> options)
             entity.Property(n => n.Title).IsRequired();
             entity.Property(n => n.Content).IsRequired();
             entity.Property(n => n.Timestamp).IsRequired();
-            entity.Property(n => n.Owner).IsRequired();
+            entity.Property(n => n.OwnerId).IsRequired();
             entity.Property(n => n.IsPublic).IsRequired();
 
             // Map the RelatedNotes as a collection of IDs

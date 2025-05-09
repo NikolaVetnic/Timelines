@@ -65,7 +65,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
                         title: r.Title,
                         content: r.Content,
                         timestamp: r.Timestamp,
-                        owner: r.Owner,
+                        ownerId: r.OwnerId,
                         relatedNotes: r.RelatedNotes,
                         sharedWith: r.SharedWith,
                         isPublic: r.IsPublic,
@@ -166,6 +166,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
             nodeTemplate.Phase,
             nodeTemplate.Timestamp,
             nodeTemplate.Importance,
+            nodeTemplate.OwnerId,
             nodeTemplate.Categories,
             nodeTemplate.Tags,
             timelineId

@@ -11,7 +11,7 @@ public class FileAsset : Aggregate<FileAssetId>
     public required string Description { get; set; }
     public required float Size { get; set; }
     public required EFileType Type { get; set; }
-    public required string Owner { get; set; }
+    public required string OwnerId { get; set; }
     public required byte[] Content { get; set; }
     public List<string> SharedWith { get; set; } = [];
     public required bool IsPublic { get; set; }
@@ -19,7 +19,7 @@ public class FileAsset : Aggregate<FileAssetId>
 
     #region File
 
-    public static FileAsset Create(FileAssetId id, string name, string description, float size, EFileType type, string owner, byte[] content, bool isPublic, List<string> sharedWith, NodeId nodeId)
+    public static FileAsset Create(FileAssetId id, string name, string description, float size, EFileType type, string ownerId, byte[] content, bool isPublic, List<string> sharedWith, NodeId nodeId)
     {
         var file = new FileAsset
         {
@@ -28,7 +28,7 @@ public class FileAsset : Aggregate<FileAssetId>
             Description = description,
             Size = size,
             Type = type,
-            Owner = owner,
+            OwnerId = ownerId,
             Content = content,
             IsPublic = isPublic,
             NodeId = nodeId
@@ -42,12 +42,12 @@ public class FileAsset : Aggregate<FileAssetId>
         return file;
     }
 
-    public void Update(string name, string description, float size, EFileType type, string owner, byte[] content, bool isPublic)
+    public void Update(string name, string description, float size, EFileType type, string ownerId, byte[] content, bool isPublic)
     {
         Name = name;
         Size = size;
         Type = type;
-        Owner = owner;
+        OwnerId = ownerId;
         Description = description;
 
         AddDomainEvent(new FileAssetUpdatedEvent(Id));

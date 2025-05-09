@@ -1,3 +1,4 @@
+using Auth.Infrastructure.Extensions;
 using BugTracking.Infrastructure.Data.Extensions;
 using Files.Infrastructure.Data.Extensions;
 using Nodes.Infrastructure.Data.Extensions;
@@ -25,6 +26,7 @@ public static class DatabaseExtensions
 
     private static async Task MigrateAllModulesAsync(this IServiceProvider services)
     {
+        await services.MigrateAuthDatabaseAsync();
         await services.MigrateBugTrackingDatabaseAsync();
         await services.MigrateFilesDatabaseAsync();
         await services.MigrateNodesDatabaseAsync();
@@ -35,6 +37,7 @@ public static class DatabaseExtensions
 
     private static async Task MigrateAndSeedAllModulesAsync(this IServiceProvider services)
     {
+        await services.MigrateAndSeedAuthDatabaseAsync();
         await services.MigrateBugTrackingDatabaseAsync();
         await services.MigrateAndSeedFilesDatabaseAsync();
         await services.MigrateAndSeedNodesDatabaseAsync();

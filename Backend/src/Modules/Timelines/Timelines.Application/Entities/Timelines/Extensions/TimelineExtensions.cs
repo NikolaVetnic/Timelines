@@ -10,7 +10,8 @@ public static class TimelineExtensions
         return new TimelineDto(
             timeline.Id.ToString(),
             timeline.Title,
-            timeline.Description);
+            timeline.Description,
+            timeline.OwnerId);
     }
 
     public static TimelineDto ToTimelineDto(this Timeline timeline, IEnumerable<NodeBaseDto> nodes)
@@ -18,7 +19,8 @@ public static class TimelineExtensions
         return new TimelineDto(
             timeline.Id.ToString(),
             timeline.Title,
-            timeline.Description)
+            timeline.Description,
+            timeline.OwnerId)
         {
             Nodes = nodes.ToList()
         };

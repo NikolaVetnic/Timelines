@@ -11,7 +11,6 @@ public record CreateFileAssetCommand : ICommand<CreateFileAssetResult>
     public required string Description { get; set; }
     public required float Size { get; set; }
     public required EFileType Type { get; set; }
-    public required string Owner { get; set; }
     public required byte[] Content { get; set; }
     public List<string> SharedWith { get; set; }
     public required bool IsPublic { get; set; }
@@ -32,10 +31,6 @@ public class CreateFileCommandValidator : AbstractValidator<CreateFileAssetComma
 
         RuleFor(x => x.Type)
             .NotEmpty().WithMessage("Type is required.");
-
-        RuleFor(x => x.Owner)
-            .NotEmpty().WithMessage("Owner is required.")
-            .MaximumLength(100).WithMessage("Owner must not exceed 100 characters.");
 
         RuleFor(x => x.Description)
             .NotEmpty().WithMessage("Description is required.")
