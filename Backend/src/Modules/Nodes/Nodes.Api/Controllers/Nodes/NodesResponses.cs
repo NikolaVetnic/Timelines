@@ -19,3 +19,5 @@ public record ListFileAssetsByNodeIdResponse(PaginatedResult<FileAssetBaseDto> F
 public record ListNotesByNodeIdResponse(PaginatedResult<NoteBaseDto> Notes);
 
 public record ListRemindersByNodeIdResponse(PaginatedResult<ReminderBaseDto> Reminders);
+
+public record UpdateNodeResponse(NodeBaseDto Node);

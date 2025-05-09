@@ -9,6 +9,10 @@ using Nodes.Application.Entities.Nodes.Queries.ListFileAssetsByNodeId;
 using Nodes.Application.Entities.Nodes.Queries.ListNodes;
 using Nodes.Application.Entities.Nodes.Queries.ListNotesByNodeId;
 using Nodes.Application.Entities.Nodes.Queries.ListRemindersByNodeId;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
+using System;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using Nodes.Application.Entities.Nodes.Commands.UpdateNode;
 
 namespace Nodes.Api.Controllers.Nodes;
 
@@ -85,6 +89,30 @@ public class NodesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new ListRemindersByNodeIdQuery(nodeId, query));
         var response = result.Adapt<ListRemindersByNodeIdResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpPut("{nodeId}")]
+    [ProducesResponseType(typeof(UpdateNodeResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<UpdateNodeResponse>> Update([FromRoute] string nodeId, [FromBody] UpdateNodeRequest request)
+    {
+        var command = new UpdateNodeCommand
+        {
+            Id = NodeId.Of(Guid.Parse(nodeId)),
+            Title = request.Title,
+            Description = request.Description,
+            Phase = request.Phase,
+            Timestamp = request.Timestamp,
+            Importance = request.Importance,
+            Categories = request.Categories,
+            Tags = request.Tags,
+            TimelineId = request.TimelineId
+        };
+
+        var result = await sender.Send(command);
+        var response = result.Adapt<UpdateNodeResponse>();
 
         return Ok(response);
     }
