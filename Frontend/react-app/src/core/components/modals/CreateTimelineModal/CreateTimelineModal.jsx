@@ -1,34 +1,60 @@
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import TimelineService from "../../../../services/TimelineService";
 import Button from "../../buttons/Button/Button";
 import FormField from "../../forms/FormField/FormField";
 import "./CreateTimelineModal.css";
 
-const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
+const CreateTimelineModal = ({ isOpen, onClose, onTimelineCreated, initialTemplate  }) => {
   const [title, setTitle] = useState("");
+  const [isModalOpen, setModalOpen] = useState(isOpen);
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
-  const [useTemplate, setUseTemplate] = useState(false);
+  const [useTemplate, setUseTemplate] = useState(!!initialTemplate);
   const [timelines, setTimelines] = useState([]);
-  const [selectedTemplate, setSelectedTemplate] = useState("");
+  const [selectedTemplate, setSelectedTemplate] = useState(initialTemplate || "");
   const [loadingTemplates, setLoadingTemplates] = useState(false);
+  const [isFetchingTemplate, setIsFetchingTemplate] = useState(false);
+  
+  useEffect(() => {
+      setModalOpen(isOpen);
+    }, [isOpen]);
 
   useEffect(() => {
     if (useTemplate) {
       fetchTimelines();
+    } else {
+      setTitle("");
+      setDescription("");
+      setSelectedTemplate("");
     }
   }, [useTemplate]);
+
+  useEffect(() => {
+    if (initialTemplate) {
+      setUseTemplate(true);
+      setSelectedTemplate(initialTemplate);
+      fetchTemplateData(initialTemplate);
+    }
+  }, [initialTemplate]);
 
   const fetchTimelines = async () => {
     try {
       setLoadingTemplates(true);
       const response = await TimelineService.getAllTimelines(0, 100);
       setTimelines(response.items);
-    } catch (error) {
-      toast.error("Failed to load timelines");
     } finally {
       setLoadingTemplates(false);
+    }
+  };
+
+  const fetchTemplateData = async (timelineId) => {
+    try {
+      setIsFetchingTemplate(true);
+      const timeline = await TimelineService.getTimelineById(timelineId);
+      setTitle(timeline.title || "");
+      setDescription(timeline.description || "");
+    } finally {
+      setIsFetchingTemplate(false);
     }
   };
 
@@ -41,15 +67,35 @@ const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
     setDescription(e.target.value);
   };
 
-  const handleCreateTimeline = async () => {
-      if (useTemplate && selectedTemplate) {
-        await TimelineService.cloneTimeline(selectedTemplate, title, description);
-      } else {
-        await TimelineService.createTimeline(title, description);
-      }
-      onClose();
-      if (onTimelineCreated) onTimelineCreated();
+  const handleTemplateSelect = async (e) => {
+    const timelineId = e.target.value;
+    setSelectedTemplate(timelineId);
+    await fetchTemplateData(timelineId);
   };
+
+  const handleCreateTimeline = async () => {
+    if (useTemplate && selectedTemplate) {
+      await TimelineService.cloneTimeline(selectedTemplate, title, description);
+    } else {
+      await TimelineService.createTimeline(title, description);
+    }
+    onClose();
+    if (onTimelineCreated) onTimelineCreated();
+  };
+
+  const handleTemplateToggle = () => {
+    if (initialTemplate) {
+      return;
+    }
+    setUseTemplate(!useTemplate);
+    if (!useTemplate) {
+      setTitle("");
+      setDescription("");
+      setSelectedTemplate("");
+    }
+  };
+
+  if (!isModalOpen) return null;
 
   return (
     <div className="create-timeline-modal">
@@ -64,7 +110,8 @@ const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
             <input
               type="checkbox"
               checked={useTemplate}
-              onChange={() => setUseTemplate(!useTemplate)}
+              onChange={() => handleTemplateToggle()}
+              disabled={!!initialTemplate}
             />
             <span className="react-toggle-slider"></span>
           </label>
@@ -73,17 +120,19 @@ const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
         {useTemplate && (
           <div className="create-timeline-modal-input">
             <FormField
-              label="Select Timeline as an Template"
-              type="select"
+              label="Select Timeline as a Template"
+              type="search-select"
               name="template"
               value={selectedTemplate}
-              onChange={(e) => setSelectedTemplate(e.target.value)}
-              options={timelines.map(t => ({
+              onChange={handleTemplateSelect}
+              options={timelines.map((t) => ({
                 value: t.id,
-                label: t.title
+                label: t.title,
               }))}
-              placeholder={loadingTemplates ? "Loading timelines..." : "Select a timeline"}
-              disabled={loadingTemplates}
+              placeholder={
+                loadingTemplates ? "Loading timelines..." : "Search timelines..."
+              }
+              disabled={loadingTemplates || isFetchingTemplate || initialTemplate}
             />
           </div>
         )}
@@ -98,6 +147,7 @@ const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
             placeholder="Enter timeline title"
             required
             error={error}
+            disabled={isFetchingTemplate}
           />
         </div>
 
@@ -109,6 +159,7 @@ const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
             value={description}
             onChange={handleDescriptionChange}
             placeholder="Enter timeline description (optional)"
+            disabled={isFetchingTemplate}
           />
         </div>
 
@@ -120,13 +171,15 @@ const CreateTimelineModal = ({ onClose, onTimelineCreated }) => {
             onClick={onClose} 
             size="small" 
             variant="secondary"
+            disabled={isFetchingTemplate}
           />
           <Button
             text={useTemplate ? "Clone Timeline" : "Create Timeline"}
             variant="success"
             size="small"
             onClick={handleCreateTimeline}
-            disabled={!title.trim() || (useTemplate && !selectedTemplate)}
+            disabled={!title.trim() || (useTemplate && !selectedTemplate) || isFetchingTemplate}
+            loading={isFetchingTemplate}
           />
         </div>
       </div>
