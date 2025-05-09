@@ -301,6 +301,7 @@ const TimelineList = () => {
 
       {isModalOpen && (
         <CreateTimelineModal
+          isOpen={isModalOpen}
           onClose={handleCloseModal}
           onTimelineCreated={handleTimelineCreated}
         />
