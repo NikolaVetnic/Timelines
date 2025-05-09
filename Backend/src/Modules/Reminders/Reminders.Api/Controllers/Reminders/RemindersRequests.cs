@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using System;
 
-namespace Reminders.Api.Controllers;
+namespace Reminders.Api.Controllers.Reminders;
 
 public record CreateReminderRequest
 {

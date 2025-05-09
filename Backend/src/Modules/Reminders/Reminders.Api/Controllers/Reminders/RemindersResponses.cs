@@ -3,7 +3,7 @@ using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using System.Text.Json.Serialization;
 
-namespace Reminders.Api.Controllers;
+namespace Reminders.Api.Controllers.Reminders;
 
 public record CreateReminderResponse(ReminderId Id);
 

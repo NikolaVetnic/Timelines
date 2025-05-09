@@ -2,7 +2,7 @@ using BuildingBlocks.Api.Converters;
 using BuildingBlocks.Application.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Reminders.Api.Controllers;
+using Reminders.Api.Controllers.Reminders;
 using Reminders.Application.Data;
 using Reminders.Application.Extensions;
 using Reminders.Infrastructure.Data.Extensions;

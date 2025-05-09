@@ -11,7 +11,7 @@ using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Reminders.Application.Entities.Reminders.Commands.DeleteReminder;
 using Reminders.Application.Entities.Reminders.Commands.UpdateReminder;
 
-namespace Reminders.Api.Controllers;
+namespace Reminders.Api.Controllers.Reminders;
 
 [ApiController]
 [Route("api/[controller]")]
