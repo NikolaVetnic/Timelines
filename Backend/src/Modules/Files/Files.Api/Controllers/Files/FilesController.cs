@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
+using BuildingBlocks.Application.Pagination;
 using Files.Application.Entities.Files.Commands.CreateFileAsset;
 using Files.Application.Entities.Files.Queries.GetFileAssetById;
+using Files.Application.Entities.Files.Queries.ListFileAssets;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Validation.AspNetCore;
@@ -37,6 +39,17 @@ public class FilesController(ISender sender) : ControllerBase
             return NotFound();
 
         var response = result.Adapt<GetFileAssetByIdResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(ListFileAssetsResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListFileAssetsResponse>> Get([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListFileAssetsQuery(query));
+        var response = result.Adapt<ListFileAssetsResponse>();
 
         return Ok(response);
     }
