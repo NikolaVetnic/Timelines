@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Nodes.Application.Entities.Nodes.Commands.CreateNode;
 using Nodes.Application.Entities.Nodes.Queries.GetNodeById;
 using BuildingBlocks.Application.Pagination;
+using Nodes.Application.Entities.Nodes.Queries.ListFileAssetsByNodeId;
 using Nodes.Application.Entities.Nodes.Queries.ListNodes;
+using Nodes.Application.Entities.Nodes.Queries.ListNotesByNodeId;
+using Nodes.Application.Entities.Nodes.Queries.ListRemindersByNodeId;
 
 namespace Nodes.Api.Controllers.Nodes;
 
@@ -49,6 +52,39 @@ public class NodesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new ListNodesQuery(query));
         var response = result.Adapt<ListNodesResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet("{nodeId}/Files")]
+    [ProducesResponseType(typeof(ListFileAssetsByNodeIdResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListFileAssetsByNodeIdResponse>> GetFiles(string nodeId, [FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListFileAssetsByNodeIdQuery(nodeId, query));
+        var response = result.Adapt<ListFileAssetsByNodeIdResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet("{nodeId}/Notes")]
+    [ProducesResponseType(typeof(ListNotesByNodeIdResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListNotesByNodeIdResponse>> GetNotes(string nodeId, [FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListNotesByNodeIdQuery(nodeId, query));
+        var response = result.Adapt<ListNotesByNodeIdResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet("{nodeId}/Reminders")]
+    [ProducesResponseType(typeof(ListRemindersByNodeIdResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListRemindersByNodeIdResponse>> GetReminders(string nodeId, [FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListRemindersByNodeIdQuery(nodeId, query));
+        var response = result.Adapt<ListRemindersByNodeIdResponse>();
 
         return Ok(response);
     }

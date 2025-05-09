@@ -29,7 +29,7 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
     {
         return await dbContext.FileAssets
             .AsNoTracking()
-            .Where(f => f.NodeId == nodeId)
+            .Where(f => f.NodeId == nodeId && f.OwnerId == currentUser.UserId!)
             .OrderBy(f => f.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)
@@ -59,7 +59,9 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
 
     public async Task<long> FileAssetCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return await dbContext.FileAssets.CountAsync(f => f.NodeId == nodeId, cancellationToken);
+        return await dbContext.FileAssets
+            .Where(f => f.OwnerId == currentUser.UserId!)
+            .LongCountAsync(f => f.NodeId == nodeId, cancellationToken);
     }
 
     public async Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)
