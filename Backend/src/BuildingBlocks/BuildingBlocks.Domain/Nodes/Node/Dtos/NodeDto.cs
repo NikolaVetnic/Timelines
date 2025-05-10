@@ -1,12 +1,12 @@
 using System.Text.Json.Serialization;
 using BuildingBlocks.Domain.Files.File.Dtos;
 using BuildingBlocks.Domain.Nodes.Phase.Dtos;
-using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
 using BuildingBlocks.Domain.Notes.Note.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 
 namespace BuildingBlocks.Domain.Nodes.Node.Dtos;
+
 public class NodeDto(
     string? id,
     string title,

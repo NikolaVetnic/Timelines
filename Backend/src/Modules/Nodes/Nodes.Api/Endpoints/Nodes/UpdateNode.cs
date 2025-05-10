@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Nodes.Application.Entities.Nodes.Commands.UpdateNode;
 
@@ -22,7 +23,7 @@ public class UpdateNode : ICarterModule
                     Id = NodeId.Of(Guid.Parse(nodeId)),
                     Title = request.Title,
                     Description = request.Description,
-                    Phase = request.Phase,
+                    PhaseId = request.PhaseId,
                     Timestamp = request.Timestamp,
                     Importance = request.Importance,
                     Categories = request.Categories,
@@ -49,7 +50,7 @@ public class UpdateNodeRequest
     public string Description { get; set; }
     public DateTime Timestamp { get; set; }
     public int Importance { get; set; }
-    public string Phase { get; set; }
+    public PhaseId PhaseId { get; set; }
     public List<string> Categories { get; set; }
     public List<string> Tags { get; set; }
     public TimelineId TimelineId { get; set; }

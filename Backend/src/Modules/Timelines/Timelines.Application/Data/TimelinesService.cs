@@ -86,13 +86,15 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
             timeline.RemoveNode(nodeId);
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
     }
+
     #region Relationships
-    public async Task<List<TimelineBaseDto>> GetTimelinesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds,
-        CancellationToken cancellationToken)
+
+    public async Task<List<TimelineBaseDto>> GetTimelinesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         var timelines = await timelinesRepository.GetTimelinesBelongingToNodeIdsAsync(nodeIds, cancellationToken);
         var timelineBaseDtos = timelines.Adapt<List<TimelineBaseDto>>();
         return timelineBaseDtos;
     }
+
     #endregion
 }

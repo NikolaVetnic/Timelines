@@ -27,7 +27,7 @@ public class NodesDbContext(DbContextOptions<NodesDbContext> options) : DbContex
             entity.Property(n => n.Description).IsRequired();
             entity.Property(n => n.Timestamp).IsRequired();
             entity.Property(n => n.Importance).IsRequired();
-            entity.Property(n => n.Phase).IsRequired();
+            entity.Property(n => n.PhaseId).IsRequired();
 
             // Map the ReminderIds as a collection of IDs
             entity.Ignore(n => n.ReminderIds); // This prevents EF from expecting a navigation property

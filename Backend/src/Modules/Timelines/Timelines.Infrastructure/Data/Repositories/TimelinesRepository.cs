@@ -55,8 +55,8 @@ public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepo
     }
 
     #region Relationships
-    public async Task<IEnumerable<Timeline>> GetTimelinesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds,
-        CancellationToken cancellationToken)
+
+    public async Task<IEnumerable<Timeline>> GetTimelinesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         return await Task.Run(() =>
                 dbContext.Timelines
@@ -66,5 +66,6 @@ public class TimelinesRepository(ITimelinesDbContext dbContext) : ITimelinesRepo
                     .ToList(),
             cancellationToken);
     }
+
     #endregion
 }
