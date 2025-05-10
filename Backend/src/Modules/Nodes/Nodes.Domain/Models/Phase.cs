@@ -2,6 +2,7 @@
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Phase.Events;
 using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
+using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Nodes.Domain.Models;
@@ -16,7 +17,7 @@ public class Phase : Aggregate<PhaseId>
     public required string Status { get; set; }
     public required decimal Progress { get; set; }
     public required bool IsCompleted { get; set; }
-    public required PhaseId Parent { get; set; }
+    public required PhaseId? Parent { get; set; }
     public required List<PhaseId> DependsOn { get; set; }
     public required string AssignedTo { get; set; }
     public List<string> Stakeholders { get; set; } = [];
@@ -44,9 +45,7 @@ public class Phase : Aggregate<PhaseId>
             IsCompleted = isCompleted,
             Parent = parent,
             DependsOn = dependsOn,
-            AssignedTo = assignedTo,
-            Stakeholders = stakeholders,
-            Tags = tags
+            AssignedTo = assignedTo
         };
 
         foreach (var stakeholder in stakeholders)
@@ -54,6 +53,8 @@ public class Phase : Aggregate<PhaseId>
 
         foreach (var tag in tags)
             phase.AddTag(tag);
+
+        phase.NodeIds = [];
 
         phase.AddDomainEvent(new PhaseCreatedEvent(phase.Id));
 
@@ -129,3 +130,7 @@ public class Phase : Aggregate<PhaseId>
 public class DependsOnPhaseIdListConverter() : ValueConverter<List<PhaseId>, string>(
     list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),
     json => JsonSerializer.Deserialize<List<PhaseId>>(json, new JsonSerializerOptions()) ?? new List<PhaseId>());
+
+public class NodeIdListConverter() : ValueConverter<List<NodeId>, string>(
+    list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),
+    json => JsonSerializer.Deserialize<List<NodeId>>(json, new JsonSerializerOptions()) ?? new List<NodeId>());

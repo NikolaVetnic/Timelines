@@ -7,6 +7,12 @@ namespace Nodes.Infrastructure.Data.Repositories;
 
 public class PhasesRepository(INodesDbContext dbContext) : IPhasesRepository
 {
+    public async Task CreatePhaseAsync(Phase phase, CancellationToken cancellationToken)
+    {
+        dbContext.Phases.Add(phase);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<Phase> GetPhaseByIdAsync(PhaseId phaseId, CancellationToken cancellationToken)
     {
         return await dbContext.Phases

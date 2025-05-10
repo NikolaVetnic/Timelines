@@ -63,7 +63,8 @@ internal static class InitialData
                 DependsOn = [],
                 AssignedTo = "John Doe",
                 Stakeholders = ["Jane Smith", "Bob Johnson"],
-                Tags = ["court", "complaint"]
+                Tags = ["court", "complaint"],
+                NodeIds = [NodeId.Of(Guid.Parse("2df76835-c92b-45d0-9232-61901c4abe97"))]
             },
             new()
             {
@@ -80,7 +81,8 @@ internal static class InitialData
                 DependsOn = [],
                 AssignedTo = "Jane Smith",
                 Stakeholders = ["John Doe", "Bob Johnson"],
-                Tags = ["investigation", "interview"]
+                Tags = ["investigation", "interview"],
+                NodeIds = [NodeId.Of(Guid.Parse("6968d886-9e39-4fc0-9f2c-a5fbc1548970"))]
             }
         };
 }

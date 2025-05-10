@@ -95,6 +95,15 @@ public class NodesDbContext(DbContextOptions<NodesDbContext> options) : DbContex
                 .HasColumnName("DependsOn")
                 .IsRequired(false);
 
+            // Map the NoteIds as a collection of IDs
+            entity.Ignore(n => n.NodeIds); // This prevents EF from expecting a navigation property
+            entity.Property(n => n.Id).ValueGeneratedNever(); // Ensures IDs are managed externally
+
+            entity.Property(e => e.NodeIds)
+                .HasConversion(new NodeIdListConverter())
+                .HasColumnName("NodeIds")
+                .IsRequired(false);
+
         });
 
         // Apply all configurations taken from classes that implement IEntityTypeConfiguration<>

@@ -3,12 +3,13 @@ using Nodes.Application.Data.Abstractions;
 
 namespace Nodes.Application.Entities.Phases.Commands.CreatePhase;
 
-internal class CreatePhaseHandler(INodesRepository phasesRepository) : ICommandHandler<CreatePhaseCommand, CreatePhaseResult>
+internal class CreatePhaseHandler(IPhasesRepository phasesRepository) : ICommandHandler<CreatePhaseCommand, CreatePhaseResult>
 {
     public async Task<CreatePhaseResult> Handle(CreatePhaseCommand command, CancellationToken cancellationToken)
     {
         var phase = command.ToPhase();
-        //await phasesRepository.CreatePhaseAsync(phase, cancellationToken);
+
+        await phasesRepository.CreatePhaseAsync(phase, cancellationToken);
 
         return new CreatePhaseResult(phase.Id);
     }
