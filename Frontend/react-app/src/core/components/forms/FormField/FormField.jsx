@@ -58,10 +58,8 @@ const FormField = ({
   };
 
   const handleInputChange = (e) => {
-    setSearchTerm(e.target.value);
-    if (e.target.value !== displayValue) {
-      onChange({ target: { value: "" } });
-    }
+    const newValue = e.target.value;
+    setSearchTerm(newValue);
     setIsDropdownOpen(true);
   };
 

@@ -4,7 +4,7 @@ import Button from "../../buttons/Button/Button";
 import FormField from "../../forms/FormField/FormField";
 import "./CreateTimelineModal.css";
 
-const CreateTimelineModal = ({ isOpen, onClose, onTimelineCreated, initialTemplate  }) => {
+const CreateTimelineModal = ({ isOpen, onClose, onTimelineCreated, initialTemplate }) => {
   const [title, setTitle] = useState("");
   const [isModalOpen, setModalOpen] = useState(isOpen);
   const [description, setDescription] = useState("");
@@ -16,8 +16,8 @@ const CreateTimelineModal = ({ isOpen, onClose, onTimelineCreated, initialTempla
   const [isFetchingTemplate, setIsFetchingTemplate] = useState(false);
   
   useEffect(() => {
-      setModalOpen(isOpen);
-    }, [isOpen]);
+    setModalOpen(isOpen);
+  }, [isOpen]);
 
   useEffect(() => {
     if (useTemplate) {
@@ -48,14 +48,16 @@ const CreateTimelineModal = ({ isOpen, onClose, onTimelineCreated, initialTempla
   };
 
   const fetchTemplateData = async (timelineId) => {
-    try {
-      setIsFetchingTemplate(true);
-      const timeline = await TimelineService.getTimelineById(timelineId);
-      setTitle(timeline.title || "");
-      setDescription(timeline.description || "");
-    } finally {
-      setIsFetchingTemplate(false);
+    setIsFetchingTemplate(true);
+    let timeline;
+    if(timelineId instanceof Object) {
+      timeline = await TimelineService.getTimelineById(timelineId.target.value);
+    } else {
+      timeline = await TimelineService.getTimelineById(timelineId);
     }
+    setTitle(timeline.title || "");
+    setDescription(timeline.description || "");
+    setIsFetchingTemplate(false);
   };
 
   const handleTitleChange = (e) => {
@@ -67,15 +69,16 @@ const CreateTimelineModal = ({ isOpen, onClose, onTimelineCreated, initialTempla
     setDescription(e.target.value);
   };
 
-  const handleTemplateSelect = async (e) => {
-    const timelineId = e.target.value;
-    setSelectedTemplate(timelineId);
-    await fetchTemplateData(timelineId);
+  const handleTemplateSelect = async (selectedValue) => {
+    if (!selectedValue) return;
+    
+    setSelectedTemplate(selectedValue);
+    await fetchTemplateData(selectedValue);
   };
 
   const handleCreateTimeline = async () => {
     if (useTemplate && selectedTemplate) {
-      await TimelineService.cloneTimeline(selectedTemplate, title, description);
+      await TimelineService.cloneTimeline(selectedTemplate.target.value, title, description);
     } else {
       await TimelineService.createTimeline(title, description);
     }
@@ -110,7 +113,7 @@ const CreateTimelineModal = ({ isOpen, onClose, onTimelineCreated, initialTempla
             <input
               type="checkbox"
               checked={useTemplate}
-              onChange={() => handleTemplateToggle()}
+              onChange={handleTemplateToggle}
               disabled={!!initialTemplate}
             />
             <span className="react-toggle-slider"></span>
@@ -179,7 +182,7 @@ const CreateTimelineModal = ({ isOpen, onClose, onTimelineCreated, initialTempla
             size="small"
             onClick={handleCreateTimeline}
             disabled={!title.trim() || (useTemplate && !selectedTemplate) || isFetchingTemplate}
-            loading={isFetchingTemplate}
+            loading={isFetchingTemplate ? "true" : undefined}  // Fix for boolean attribute warning
           />
         </div>
       </div>
