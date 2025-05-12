@@ -1,3 +1,4 @@
+using BugTracking.Api.Controllers.BugReports;
 using BugTracking.Application.Extensions;
 using BugTracking.Infrastructure.Data.Extensions;
 using BuildingBlocks.Api.Converters;
@@ -24,6 +25,8 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
         TypeAdapterConfig.GlobalSettings.Scan(typeof(BugReportIdConverter).Assembly);
+
+        services.AddControllers().AddApplicationPart(typeof(BugReportsController).Assembly);
 
         return services;
     }
