@@ -43,7 +43,7 @@ class TimelineService {
       description
     });
     toast.success("Timeline cloned successfully!");
-    return response.data;
+    return response.timeline.id;
   } catch (error) {
     const errorMessage = error.response?.data?.message || "Failed to clone timeline";
     toast.error(errorMessage);
