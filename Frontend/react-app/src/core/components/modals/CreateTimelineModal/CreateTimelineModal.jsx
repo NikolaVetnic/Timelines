@@ -78,7 +78,11 @@ const CreateTimelineModal = ({ isOpen, onClose, onTimelineCreated, initialTempla
 
   const handleCreateTimeline = async () => {
     if (useTemplate && selectedTemplate) {
-      await TimelineService.cloneTimeline(selectedTemplate.target.value, title, description);
+      if(selectedTemplate instanceof Object) {
+        await TimelineService.cloneTimeline(selectedTemplate.target.value, title, description);
+      } else {
+        await TimelineService.cloneTimeline(selectedTemplate, title, description);
+      }
     } else {
       await TimelineService.createTimeline(title, description);
     }
