@@ -93,7 +93,7 @@
 .btn-medium {
   padding: 12px 16px;
   font-size: 16px;
-  min-width: 50px;
+  min-width: 45px;
   min-height: 45px;
 }
 
@@ -115,8 +115,8 @@
 
 .btn-circle {
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 40px !important;
+    height: 40px !important;
   padding: 0;
 }
 
