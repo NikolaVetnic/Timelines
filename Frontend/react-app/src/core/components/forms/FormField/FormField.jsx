@@ -26,6 +26,7 @@ const FormField = ({
   const selectedOption = options?.find(option => option.value === value);
   const displayValue = selectedOption?.label || searchTerm;
 
+  // Filter options based on search term
   useEffect(() => {
     if (options) {
       if (searchTerm.trim() === '') {
@@ -42,6 +43,7 @@ const FormField = ({
     }
   }, [searchTerm, options]);
 
+  // Scroll to selected option when dropdown opens
   useEffect(() => {
     if (isDropdownOpen && dropdownListRef.current && value) {
       const selectedElement = dropdownListRef.current.querySelector('.selected');
@@ -51,18 +53,7 @@ const FormField = ({
     }
   }, [isDropdownOpen, value]);
 
-  const handleSelect = (selectedValue, selectedLabel) => {
-    onChange({ target: { value: selectedValue } });
-    setSearchTerm(selectedLabel);
-    setIsDropdownOpen(false);
-  };
-
-  const handleInputChange = (e) => {
-    const newValue = e.target.value;
-    setSearchTerm(newValue);
-    setIsDropdownOpen(true);
-  };
-
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -75,12 +66,32 @@ const FormField = ({
     };
   }, []);
 
+  const handleSelect = (selectedValue, selectedLabel) => {
+    onChange({ target: { name, value: selectedValue } });
+    setSearchTerm(selectedLabel);
+    setIsDropdownOpen(false);
+  };
+
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    setSearchTerm(newValue);
+    setIsDropdownOpen(true);
+    
+    // If the input is cleared, reset the value
+    if (newValue === '') {
+      onChange({ target: { name, value: '' } });
+    }
+  };
+
   return (
     <div className="form-field" ref={dropdownRef}>
-      <label>
-        {label}
-        {required && <span className="required-asterisk">*</span>}
-      </label>
+      {label && (
+        <label>
+          {label}
+          {required && <span className="required-asterisk">*</span>}
+        </label>
+      )}
+      
       {type === "textarea" ? (
         <textarea
           name={name}
@@ -88,6 +99,7 @@ const FormField = ({
           onChange={onChange}
           placeholder={placeholder}
           className={error ? "form-field-error-input" : ""}
+          disabled={disabled}
         />
       ) : options ? (
         <div className="form-field-search-select">
@@ -98,9 +110,10 @@ const FormField = ({
             value={displayValue}
             onChange={handleInputChange}
             placeholder={placeholder}
-            className={error ? "error-input" : ""}
+            className={error ? "form-field-error-input" : ""}
             onFocus={() => setIsDropdownOpen(true)}
             disabled={disabled}
+            autoComplete="off"
           />
           {isDropdownOpen && (
             <div 
@@ -127,7 +140,7 @@ const FormField = ({
                   ))
                 ) : (
                   <div className="form-field-dropdown-option no-results">
-                    No timelines found
+                    No options found
                   </div>
                 )}
               </div>
@@ -143,7 +156,9 @@ const FormField = ({
           placeholder={placeholder}
           min={min}
           max={max}
+          required={required}
           className={error ? "form-field-error-input" : ""}
+          disabled={disabled}
         />
       )}
       {error && <div className="form-field-error">{error}</div>}

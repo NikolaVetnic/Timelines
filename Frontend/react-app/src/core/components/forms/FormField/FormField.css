@@ -12,17 +12,20 @@
 }
 
 .form-field input,
-.form-field textarea {
+.form-field textarea,
+.form-field select {
   width: 100%;
   padding: 12px;
   font-size: 14px;
   border: 1px solid #ddd;
   border-radius: 6px;
   transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: white;
 }
 
 .form-field input:focus,
-.form-field textarea:focus {
+.form-field textarea:focus,
+.form-field select:focus {
   border-color: #4caf50;
   box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
   outline: none;
@@ -34,6 +37,25 @@
   font-family: inherit;
 }
 
+.select-wrapper {
+  position: relative;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #777;
+}
+
+.form-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 32px;
+}
 .required-asterisk {
   color: #ff4d4f;
   margin-left: 4px;

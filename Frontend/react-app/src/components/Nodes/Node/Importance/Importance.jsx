@@ -5,7 +5,7 @@ import IntegerModal from "../../../../core/components/modals/IntegerModal/Intege
 import NodeService from "../../../../services/NodeService";
 import "./Importance.css";
 
-const Importance = ({ nodeId, setModalActive, initialValue, onSave }) => {
+const Importance = ({ node, setModalActive, initialValue, onSave }) => {
   const root = "importance";
   const [importance, setImportance] = useState(initialValue || 0);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -22,7 +22,7 @@ const Importance = ({ nodeId, setModalActive, initialValue, onSave }) => {
 
   const handleSaveImportance = async (newImportance) => {
     setIsLoading(true);
-    await NodeService.updateNode(nodeId, { importance: newImportance });
+    await NodeService.updateNode(node, { importance: newImportance });
 
     setImportance(newImportance);
 

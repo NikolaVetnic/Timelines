@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import deleteById from "../core/api/delete";
 import { getAll, getById } from "../core/api/get";
 import Post from "../core/api/post";
+import Put from "../core/api/put";
 import API_BASE_URL from "../data/constants";
 
 class TimelineService {
@@ -25,7 +26,6 @@ class TimelineService {
       const errorMessage =
         error.response?.data?.message || "Failed to create timeline";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -74,7 +74,6 @@ class TimelineService {
       const errorMessage =
         error.response?.data?.message || "Failed to fetch timelines";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -91,7 +90,6 @@ class TimelineService {
       const errorMessage =
         error.response?.data?.message || "Failed to fetch timeline";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -105,14 +103,13 @@ class TimelineService {
    */
   static async updateTimeline(id, updateData) {
     try {
-      const response = await Post(API_BASE_URL, `/Timelines/${id}`, updateData);
+      const response = await Put(API_BASE_URL, `/Timelines/${id}`, updateData);
       toast.success("Timeline updated successfully!");
       return response.data;
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || "Failed to update timeline";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 
@@ -130,7 +127,6 @@ class TimelineService {
       const errorMessage =
         error.response?.data?.message || "Failed to delete timeline";
       toast.error(errorMessage);
-      throw new Error(errorMessage);
     }
   }
 }
