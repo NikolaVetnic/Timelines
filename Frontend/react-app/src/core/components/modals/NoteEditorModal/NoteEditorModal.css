@@ -86,3 +86,27 @@
   flex: 1;
   min-height: 0;
 }
+
+.note-editor-modal-content .form-field {
+  margin-bottom: 15px;
+}
+
+.note-editor-modal-content .form-field input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.note-editor-modal-header {
+  width: 100%;
+}
+
+.note-editor-modal-title {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+}

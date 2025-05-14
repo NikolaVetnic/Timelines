@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import RemindersList from "../../../../core/components/lists/RemindersList/RemindersList";
 import CreateReminderModal from "../../../../core/components/modals/CreateReminderModal/CreateReminderModal";
 import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
-import ReminderService from "../../../../services/ReminderService";
 import Pagination from "../../../../core/components/pagination/Pagination";
+import ReminderService from "../../../../services/ReminderService";
 import "./Reminder.css";
 
-const Reminder = ({ nodeId, onToggle }) => {
+const Reminder = ({ node, onToggle }) => {
   const root = "reminder";
   const [isRemindersExpanded, setIsRemindersExpanded] = useState(false);
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
@@ -14,35 +14,42 @@ const Reminder = ({ nodeId, onToggle }) => {
   const [reminderToDelete, setReminderToDelete] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const [currentPage, setCurrentPage] = useState(1);
+  
+  const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(2);
+  const [totalCount, setTotalCount] = useState(0);
   const itemsPerPageOptions = [2, 4, 6, 8];
 
-  useEffect(() => {
-    const fetchReminders = async () => {
-      if (isRemindersExpanded && nodeId) {
-        setIsLoading(true);
-        const remindersData = await ReminderService.getRemindersByNode(nodeId);
-        setReminders(remindersData);
+  const fetchReminders = useCallback(async () => {
+    if (isRemindersExpanded && node.id) {
+      setIsLoading(true);
+      try {
+        const response = await ReminderService.getRemindersByNode(
+          node.id,
+          currentPage,
+          itemsPerPage
+        );
+        setReminders(response.items || []);
+        setTotalCount(response.totalCount || 0);
+      } finally {
         setIsLoading(false);
       }
-    };
-    fetchReminders();
-  }, [isRemindersExpanded, nodeId]);
+    }
+  }, [isRemindersExpanded, node.id, currentPage, itemsPerPage]);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentReminders = reminders.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(reminders.length / itemsPerPage);
+  useEffect(() => {
+    fetchReminders();
+  }, [fetchReminders]);
+
+  const totalPages = Math.ceil(totalCount / itemsPerPage) || 1;
 
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    setCurrentPage(page - 1);
   };
 
   const handleItemsPerPageChange = (size) => {
     setItemsPerPage(size);
-    setCurrentPage(1);
+    setCurrentPage(0);
   };
 
   const toggleRemindersSection = () => {
@@ -57,21 +64,30 @@ const Reminder = ({ nodeId, onToggle }) => {
 
   const closeCreateModal = () => setCreateModalOpen(false);
 
-  const saveNewReminder = async (newReminder) => {
-    const reminderWithNodeId = { ...newReminder, nodeId };
-    await ReminderService.createReminder(reminderWithNodeId);
-    const updatedReminders = await ReminderService.getRemindersByNode(nodeId);
-    setReminders(updatedReminders);
+const saveNewReminder = async (newReminder) => {
+  try {
+    setIsLoading(true);
+    const reminderWithNodeId = { ...newReminder, nodeId: node.id };
+   await ReminderService.createReminder(reminderWithNodeId);
+
+  } finally {
+    await fetchReminders();
+    setIsLoading(false);
     closeCreateModal();
-  };
+  }
+};
 
   const confirmDelete = async () => {
     if (!reminderToDelete) return;
-
-    await ReminderService.deleteReminder(reminderToDelete.id);
-    setReminders((prev) => prev.filter((r) => r.id !== reminderToDelete.id));
-    setIsDeleteModalOpen(false);
-    setReminderToDelete(null);
+    try {
+      setIsLoading(true);
+      await ReminderService.deleteReminder(reminderToDelete.id);
+      await fetchReminders();
+    } finally {
+      setIsLoading(false);
+      setIsDeleteModalOpen(false);
+      setReminderToDelete(null);
+    }
   };
 
   const cancelDelete = () => {
@@ -99,14 +115,14 @@ const Reminder = ({ nodeId, onToggle }) => {
             <>
               <RemindersList
                 root={root}
-                reminders={currentReminders}
+                reminders={reminders}
                 openCreateModal={openCreateModal}
                 setReminderToDelete={setReminderToDelete}
                 setIsDeleteModalOpen={setIsDeleteModalOpen}
               />
-              {reminders.length > 0 && (
+              {totalCount > 0 && (
                 <Pagination
-                  currentPage={currentPage}
+                  currentPage={currentPage + 1}
                   totalPages={totalPages}
                   itemsPerPage={itemsPerPage}
                   onPageChange={handlePageChange}

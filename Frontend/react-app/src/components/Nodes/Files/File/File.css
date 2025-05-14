@@ -12,115 +12,154 @@
   font-size: 0.9rem;
   border: none;
   text-align: left;
-  border-radius: 5px;
 }
 
-.file-header.open {
+.file-header-open {
   border-radius: 5px 5px 0px 0px;
 }
 
-.file-header.closed {
+.file-header-closed {
   border-radius: 5px;
 }
 
 .file-header:hover {
-  color: var(--backgroundHeader);
+  color: lightgray;
 }
 
 .file-header h4 {
   margin: 0;
   font-size: 1rem;
-  color: var(--enmBlue);
+  color: white;
 }
 
 .file-header:hover h4 {
-  color: var(--backgroundHeader);
-}
-
-.file-item {
-  background: white;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  color: lightgray;
 }
 
 .file-content {
+  background: #ffffff;
+  border: 1px solid #e1e4e8;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 15px;
+}
+
+.file-container {
+  background: #ffffff;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 15px;
+}
+
+.file-inner-header {
   display: flex;
-  flex-direction: column;
-  background: #f9f9f9;
-  padding: 10px;
-  border: 1px solid lightgray;
-  border-radius: 0 0 5px 5px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.file-inner-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
 }
 
 .file-dropzone-container {
   border: 2px dashed #ccc;
+  border-radius: 5px;
   padding: 20px;
   text-align: center;
-  margin-top: 10px;
+  margin-bottom: 20px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.file-container {
-  background: #f9f9f9;
-  padding: 10px;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  margin-top: 10px;
+.file-dropzone-container:hover {
+  border-color: #999;
+  background-color: #f8f9fa;
+}
+
+.file-dropzone-container p {
+  margin: 0;
+  color: #666;
+}
+
+.file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.file-card {
+  background: var(--enmGray);
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eee;
+}
+
+.file-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.file-card-content {
+  flex-grow: 1;
+  margin-bottom: 10px;
+}
+
+.file-card-title {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.file-card-date {
+  margin: 0 0 8px 0;
+  font-size: 0.85rem;
+  color: var(--white);
+}
+
+.file-card-priority {
+  margin: 8px 0 0 0;
+  font-size: 0.85rem;
+  color: var(--white);
+  line-height: 1.4;
+}
+
+.file-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--enmOrange);
 }
 
 .file-preview {
-  max-width: 100px;
-  max-height: 100px;
-  margin-top: 5px;
-  border-radius: 5px;
+  max-width: 100%;
+  max-height: 150px;
+  margin-top: 10px;
+  border-radius: 4px;
 }
 
-.file-preview-pdf {
-  width: 100px;
-  height: 100px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
+.file-empty-state {
+  text-align: center;
+  padding: 30px;
+  color: #666;
+  background: #fafafa;
+  border-radius: 8px;
 }
 
-.file-preview-text {
-  width: 200px;
-  height: 100px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  overflow: auto;
-}
-
-.file-buttons {
-  display: flex;
-  gap: 5px;
-  margin-left: 10px;
-}
-
-.file-preview-button {
-  background: #007bff;
-  color: white;
-  text-decoration: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-
-.file-preview-button:hover {
-  background: #0056b3;
-}
-
-.file-download-button {
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.file-download-button:hover {
-  background: #218838;
+.file-loading {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
 }

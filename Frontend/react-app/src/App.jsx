@@ -2,21 +2,21 @@ import { useState } from "react";
 import { FaBug } from "react-icons/fa";
 import {
   createBrowserRouter,
-  RouterProvider,
   createRoutesFromElements,
-  Route,
   Outlet,
+  Route,
+  RouterProvider,
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ErrorPage from "./components/Pages/ErrorPage";
+import LoginPage from "./components/Pages/LoginPage";
 import Timeline from "./components/Timelines/Timeline/Timeline";
+import { AuthProvider } from "./context/AuthContext";
+import AuthGuard from "./core/auth/AuthGuard";
 import TimelineList from "./core/components/lists/TimelineList/TimelineList";
 import BugReportModal from "./core/components/modals/BugReportModal/BugReportModal";
 import ReminderNotifier from "./core/utils/ReminderNotifier";
-import { AuthProvider } from "./context/AuthContext";
-import AuthGuard from "./core/auth/AuthGuard";
-import LoginPage from "./components/Pages/LoginPage";
-import ErrorPage from "./components/Pages/ErrorPage";
 import "./styles/App.css";
 
 function AppLayout() {

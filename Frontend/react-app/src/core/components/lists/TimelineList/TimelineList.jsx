@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FaTrash, FaSignOutAlt } from "react-icons/fa";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FaTrash } from "react-icons/fa";
 import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
 import { useNavigate } from "react-router";
+import { useAuth } from "../../../../context/AuthContext";
 import TimelineService from "../../../../services/TimelineService";
-import TimelineListContent from "./TimelineListContent/TimelineListContent";
 import Button from "../../buttons/Button/Button";
 import CreateTimelineModal from "../../modals/CreateTimelineModal/CreateTimelineModal";
 import DeleteModal from "../../modals/DeleteModal/DeleteModal";
+import EditTimelineModal from "../../modals/EditTimelineModal/EditTimelineModal";
 import Pagination from "../../pagination/Pagination";
-import { useAuth } from "../../../../context/AuthContext";
 import "./TimelineList.css";
 
 const TimelineList = () => {
@@ -22,6 +22,8 @@ const TimelineList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTimelines, setSelectedTimelines] = useState([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [timelineToEdit, setTimelineToEdit] = useState(null);
 
   const { logout } = useAuth();
 
@@ -189,6 +191,11 @@ const TimelineList = () => {
     setIsLoading(false);
   };
 
+  const handleEditTimeline = (timeline) => {
+    setTimelineToEdit(timeline);
+    setEditModalOpen(true);
+  };
+
   if (isLoading) {
     return <div className="loading-state">Loading timelines...</div>;
   }
@@ -246,36 +253,83 @@ const TimelineList = () => {
       </div>
 
       <div className="timeline-list-content">
-        <TimelineListContent
-          timelines={timelines}
-          selectedTimelines={selectedTimelines}
-          handleTimelineClick={handleTimelineClick}
-          toggleTimelineSelection={toggleTimelineSelection}
-          isMobile={isMobile}
-          loadingMore={loadingMore}
-          allTimelinesLoaded={allTimelinesLoaded}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          loadMoreRef={loadMoreRef}
-        />
+        {timelines.length === 0 ? (
+          <div className="timeline-list-empty">
+            <p className="timeline-list-empty-message">
+              No timelines found. Create one to get started!
+            </p>
+          </div>
+        ) : (
+          <div className="timeline-list-grid">
+            {timelines.map((timeline) => (
+              <div
+                key={timeline.id}
+                className={`timeline-list-item ${
+                  selectedTimelines.includes(timeline.id) ? "selected" : ""
+                }`}
+                onClick={(e) => handleTimelineClick(timeline, e)}
+              >
+                <div className="timeline-checkbox-container">
+                  <input
+                    type="checkbox"
+                    className="timeline-checkbox"
+                    checked={selectedTimelines.includes(timeline.id)}
+                    onChange={() => toggleTimelineSelection(timeline.id)}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                </div>
+                <h3 className="timeline-list-item-title">
+                  <span>Timeline:</span>
+                  {timeline.title}
+                </h3>
+                <p className="timeline-list-item-description">
+                  {timeline.description || "No description"}
+                </p>
+                {/* <small className="timeline-list-item-date">
+                  Created: {new Date(timeline.createdAt).toLocaleDateString()}
+                </small> */}
+                <div className="timeline-edit-button">
+                  <Button
+                    icon={<CiEdit />}
+                    iconOnly
+                    variant="info"
+                    shape="square"
+                    size="little"
+                    disabled={isLoading}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditTimeline(timeline);
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
-      {!isMobile && (
-        <div className="timeline-list-pagination-container">
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            itemsPerPage={itemsPerPage}
-            onPageChange={handlePageChange}
-            onItemsPerPageChange={handleItemsPerPageChange}
-          />
-        </div>
-      )}
+      <div className="timeline-list-pagination-container">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+          onItemsPerPageChange={handleItemsPerPageChange}
+        />
+      </div>
 
       {isModalOpen && (
         <CreateTimelineModal
           onClose={handleCloseModal}
           onTimelineCreated={handleTimelineCreated}
+        />
+      )}
+
+      {editModalOpen && (
+        <EditTimelineModal
+          timeline={timelineToEdit}
+          onClose={() => setEditModalOpen(false)}
+          onTimelineUpdated={() => fetchTimelines(currentPage, itemsPerPage)}
         />
       )}
 
