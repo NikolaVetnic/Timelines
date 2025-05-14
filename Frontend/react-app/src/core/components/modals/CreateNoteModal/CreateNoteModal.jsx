@@ -56,15 +56,17 @@ const CreateNoteModal = ({ isOpen, closeModal, saveNote }) => {
         
         <h2 className={`${root}-header`}>Create New Note</h2>
       
-        <FormField 
+        <FormField
+          label={"Title: "} 
           type={"text"}
           placeholder={"Enter note title"}
           value={title}
+          required
           onChange={(e) => setTitle(e.target.value)}
         />
 
         <div className={`${root}-editor-container`}>
-          <MDEditor value={content} onChange={setContent} height="100%" />
+          <MDEditor value={content} onChange={setContent} height="100%" required />
         </div>
 
         <div className={`${root}-actions`}>

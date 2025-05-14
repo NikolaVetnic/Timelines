@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./DatePickerModal.css";
 import Button from "../../buttons/Button/Button";
+import "./DatePickerModal.css";
 
 const DatePickerModal = ({
   isOpen,
@@ -11,7 +11,7 @@ const DatePickerModal = ({
   initialValue = new Date(),
   title = "Select Date",
   minDate,
-  maxDate,
+  maxDate = new Date(),
 }) => {
   const root = "datepicker-modal";
   const [selectedDate, setSelectedDate] = useState(new Date(initialValue));
@@ -60,9 +60,12 @@ const DatePickerModal = ({
             minDate={minDate}
             maxDate={maxDate}
             inline
-            highlightDates={Date.now()}
+            highlightDates={[new Date()]}
             calendarClassName={`${root}-calendar`}
-            dayClassName={() => `${root}-day`}
+            dayClassName={(date) => {
+              const baseClass = `${root}-day`;
+              return date > new Date() ? `${baseClass} future-date-disabled` : baseClass;
+            }}
           />
         </div>
 
