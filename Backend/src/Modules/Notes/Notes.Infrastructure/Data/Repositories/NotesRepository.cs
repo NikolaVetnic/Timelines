@@ -1,19 +1,26 @@
-﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+﻿using BuildingBlocks.Application.Data;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Notes.Application.Data.Abstractions;
 using Notes.Application.Entities.Notes.Exceptions;
 
 namespace Notes.Infrastructure.Data.Repositories;
 
-public class NotesRepository(INotesDbContext dbContext) : INotesRepository
+public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext) : INotesRepository
 {
     #region List
+
+    public async Task AddNoteAsync(Note note, CancellationToken cancellationToken)
+    {
+        dbContext.Notes.Add(note);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
 
     public async Task<List<Note>> ListNotesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.Notes
             .AsNoTracking()
-            .OrderBy(n => n.Timestamp)
+            .Where(n => n.OwnerId == currentUser.UserId!)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -23,7 +30,7 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
     {
         return await dbContext.Notes
             .AsNoTracking()
-            .Where(n => n.NodeId == nodeId)
+            .Where(n => n.NodeId == nodeId && n.OwnerId == currentUser.UserId!)
             .OrderBy(n => n.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)
@@ -32,12 +39,16 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
 
     public async Task<long> NoteCountAsync(CancellationToken cancellationToken)
     {
-        return await dbContext.Notes.LongCountAsync(cancellationToken);
+        return await dbContext.Notes
+            .Where(n => n.OwnerId == currentUser.UserId!)
+            .LongCountAsync(cancellationToken);
     }
 
     public async Task<long> NoteCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return await dbContext.Notes.LongCountAsync(n => n.NodeId == nodeId, cancellationToken);
+        return await dbContext.Notes
+            .Where(n => n.OwnerId == currentUser.UserId!)
+            .LongCountAsync(n => n.NodeId == nodeId, cancellationToken);
     }
 
     #endregion
@@ -48,7 +59,7 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
     {
         return await dbContext.Notes
                    .AsNoTracking()
-                   .SingleOrDefaultAsync(n => n.Id == noteId, cancellationToken) ??
+                   .SingleOrDefaultAsync(n => n.Id == noteId && n.OwnerId == currentUser.UserId!, cancellationToken) ??
                throw new NoteNotFoundException(noteId.ToString());
     }
 
@@ -71,7 +82,7 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
     public async Task DeleteNote(NoteId noteId, CancellationToken cancellationToken)
     {
         var noteToDelete = await dbContext.Notes
-            .FirstAsync(n => n.Id == noteId, cancellationToken);
+            .FirstAsync(n => n.Id == noteId && n.OwnerId == currentUser.UserId!, cancellationToken);
 
         dbContext.Notes.Remove(noteToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
@@ -103,7 +114,7 @@ public class NotesRepository(INotesDbContext dbContext) : INotesRepository
     {
         return await dbContext.Notes
             .AsNoTracking()
-            .Where(n => nodeIds.Contains(n.NodeId))
+            .Where(n => nodeIds.Contains(n.NodeId) && n.OwnerId == currentUser.UserId!)
             .ToListAsync(cancellationToken: cancellationToken);
     }
 }

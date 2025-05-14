@@ -9,13 +9,13 @@ public class NoteDto(
     string title,
     string content,
     DateTime timestamp,
-    string owner,
+    string ownerId,
     List<NoteId> relatedNotes,
     List<string> sharedWith,
     bool isPublic,
     DateTime? createdAt,
     DateTime? lastModifiedAt,
-    NodeBaseDto node) : NoteBaseDto(id, title, content, timestamp, owner, relatedNotes, sharedWith, isPublic, createdAt, lastModifiedAt)
+    NodeBaseDto node) : NoteBaseDto(id, title, content, timestamp, ownerId, relatedNotes, sharedWith, isPublic, createdAt, lastModifiedAt)
 {
     [JsonPropertyName("node")] public NodeBaseDto Node { get; set; } = node;
 }

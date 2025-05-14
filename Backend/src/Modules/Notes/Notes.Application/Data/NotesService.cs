@@ -19,11 +19,15 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
 
         var notes = await notesRepository.ListNotesPaginatedAsync(pageIndex, pageSize, cancellationToken);
 
-        var noteDtos = notes.Select(n =>
-            n.ToNoteDto(
-                nodes.First(d => d.Id == n.NodeId.ToString())
-                )).ToList();
+        // Exclude Notes whose Nodes have been deleted
+        var noteDtos = notes
+            .Select(n => (Note: n, Node: nodes.FirstOrDefault(d => d.Id == n.NodeId.ToString())))
+            .Where(x => x.Node != null)
+            .Select(x => x.Note.ToNoteDto(x.Node!))
+            .ToList();
 
+        // ToDo: Handle orphaned entities (Files, Notes, Reminders, but Nodes as well)
+        
         return noteDtos;
     }
 

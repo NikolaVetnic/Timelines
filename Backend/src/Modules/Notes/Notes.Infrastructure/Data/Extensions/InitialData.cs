@@ -14,7 +14,7 @@ internal static class InitialData
                 Title = "Check time!",
                 Content = "Check for the exact time of the Court Proceedings.",
                 Timestamp = DateTime.UtcNow,
-                Owner = "Alice",
+                OwnerId = "11111111-1111-1111-1111-111111111111",
                 SharedWith = ["Bob", "Carol"],
                 IsPublic = false,
                 NodeId = NodeId.Of(Guid.Parse("2df76835-c92b-45d0-9232-61901c4abe97"))
@@ -26,7 +26,7 @@ internal static class InitialData
                 Title = "Additional documents",
                 Content = "Make sure you bring both folders.",
                 Timestamp = DateTime.UtcNow,
-                Owner = "Dagmar",
+                OwnerId = "22222222-2222-2222-2222-222222222222",
                 SharedWith = ["Eivor","Feofan"],
                 IsPublic = true,
                 NodeId = NodeId.Of(Guid.Parse("6968d886-9e39-4fc0-9f2c-a5fbc1548970"))
