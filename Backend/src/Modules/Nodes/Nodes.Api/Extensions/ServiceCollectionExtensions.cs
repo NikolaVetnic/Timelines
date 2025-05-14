@@ -2,6 +2,7 @@ using BuildingBlocks.Api.Converters;
 using BuildingBlocks.Application.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Nodes.Api.Controllers.Nodes;
 using Nodes.Application.Data;
 using Nodes.Application.Extensions;
 using Nodes.Infrastructure.Data.Extensions;
@@ -23,7 +24,9 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
         TypeAdapterConfig.GlobalSettings.Scan(typeof(NodeIdConverter).Assembly);
-        
+
+        services.AddControllers().AddApplicationPart(typeof(NodesController).Assembly);
+
         services.AddScoped<INodesService, NodesService>();
 
         return services;

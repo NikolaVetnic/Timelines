@@ -12,7 +12,7 @@ public record GetTimelineByIdQuery(TimelineId Id) : IQuery<GetTimelineByIdResult
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
 
-public record GetTimelineByIdResult(TimelineDto TimelineDto);
+public record GetTimelineByIdResult(TimelineDto Timeline);
 
 public class GetTimelineByIdQueryValidator : AbstractValidator<GetTimelineByIdQuery>
 {

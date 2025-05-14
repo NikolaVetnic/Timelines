@@ -1,8 +1,8 @@
 using System.Net.Http.Json;
 using Mapster;
-using ApiCreateTimelineRequest = Timelines.Api.Endpoints.Timelines.CreateTimelineRequest;
-using ApiCreateTimelineResponse = Timelines.Api.Endpoints.Timelines.CreateTimelineResponse;
-using ApiGetTimelineByIdResponse = Timelines.Api.Endpoints.Timelines.GetTimelineByIdResponse;
+using ApiCreateTimelineRequest = Timelines.Api.Controllers.Timelines.CreateTimelineRequest;
+using ApiCreateTimelineResponse = Timelines.Api.Controllers.Timelines.CreateTimelineResponse;
+using ApiGetTimelineByIdResponse = Timelines.Api.Controllers.Timelines.GetTimelineByIdResponse;
 using SdkTimelineId = Core.Api.Sdk.Contracts.Timelines.ValueObjects.TimelineId;
 using SdkCreateTimelineRequest = Core.Api.Sdk.Contracts.Timelines.Commands.CreateTimelineRequest;
 using SdkCreateTimelineResponse = Core.Api.Sdk.Contracts.Timelines.Commands.CreateTimelineResponse;

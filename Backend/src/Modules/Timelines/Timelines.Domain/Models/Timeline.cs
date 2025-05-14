@@ -10,18 +10,21 @@ public class Timeline : Aggregate<TimelineId>
 {
     public required string Title { get; set; }
     public required string Description { get; set; }
+    
+    public required string OwnerId { get; set; }
 
     public List<NodeId> NodeIds { get; set; } = [];
 
     #region Timeline
 
-    public static Timeline Create(TimelineId id, string title, string description)
+    public static Timeline Create(TimelineId id, string title, string description, string owner)
     {
         var timeline = new Timeline
         {
             Id = id,
             Title = title,
-            Description = description
+            Description = description,
+            OwnerId = owner
         };
 
         timeline.NodeIds = [];

@@ -5,6 +5,8 @@ namespace Files.Application.Data.Abstractions;
 
 public interface IFilesRepository
 {
+    Task AddFileAssetAsync(FileAsset fileAsset, CancellationToken cancellationToken);
+  
     Task<List<FileAsset>> ListFileAssetsPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<FileAsset>> ListFileAssetsByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<FileAsset> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken);
