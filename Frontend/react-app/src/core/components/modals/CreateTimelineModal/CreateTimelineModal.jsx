@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TimelineService from "../../../../services/TimelineService";
 import Button from "../../buttons/Button/Button";
 import FormField from "../../forms/FormField/FormField";
@@ -132,6 +132,7 @@ const CreateTimelineModal = ({ isOpen, onClose, onTimelineCreated, initialTempla
               name="template"
               value={selectedTemplate}
               onChange={handleTemplateSelect}
+              searchable={true}
               options={timelines.map((t) => ({
                 value: t.id,
                 label: t.title,

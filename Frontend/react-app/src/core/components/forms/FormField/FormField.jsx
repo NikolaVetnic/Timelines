@@ -15,6 +15,7 @@ const FormField = ({
   error,
   options,
   disabled,
+  searchable = false,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredOptions, setFilteredOptions] = useState(options || []);
@@ -77,10 +78,13 @@ const FormField = ({
     setSearchTerm(newValue);
     setIsDropdownOpen(true);
     
-    // If the input is cleared, reset the value
     if (newValue === '') {
       onChange({ target: { name, value: '' } });
     }
+  };
+
+  const handleClassicSelectChange = (e) => {
+    onChange({ target: { name, value: e.target.value } });
   };
 
   return (
@@ -102,51 +106,67 @@ const FormField = ({
           disabled={disabled}
         />
       ) : options ? (
-        <div className="form-field-search-select">
-          <input
-            ref={inputRef}
-            type="text"
-            name={name}
-            value={displayValue}
-            onChange={handleInputChange}
-            placeholder={placeholder}
-            className={error ? "form-field-error-input" : ""}
-            onFocus={() => setIsDropdownOpen(true)}
-            disabled={disabled}
-            autoComplete="off"
-          />
-          {isDropdownOpen && (
-            <div 
-              className="form-field-search-select-dropdown"
-              style={{
-                width: inputRef.current?.offsetWidth
-              }}
-            >
+        searchable ? (
+          // Searchable dropdown
+          <div className="form-field-search-select">
+            <input
+              ref={inputRef}
+              type="text"
+              name={name}
+              value={displayValue}
+              onChange={handleInputChange}
+              placeholder={placeholder}
+              className={error ? "form-field-error-input" : ""}
+              onFocus={() => setIsDropdownOpen(true)}
+              disabled={disabled}
+              autoComplete="off"
+            />
+            {isDropdownOpen && (
               <div 
-                className="form-field-dropdown-options"
-                ref={dropdownListRef}
+                className="form-field-search-select-dropdown"
+                style={{ width: inputRef.current?.offsetWidth }}
               >
-                {filteredOptions.length > 0 ? (
-                  filteredOptions.map((option) => (
-                    <div
-                      key={option.value}
-                      className={`form-field-dropdown-option ${
-                        value === option.value ? "selected" : ""
-                      }`}
-                      onClick={() => handleSelect(option.value, option.label)}
-                    >
-                      {option.label}
+                <div className="form-field-dropdown-options" ref={dropdownListRef}>
+                  {filteredOptions.length > 0 ? (
+                    filteredOptions.map((option) => (
+                      <div
+                        key={option.value}
+                        className={`form-field-dropdown-option ${
+                          value === option.value ? "selected" : ""
+                        }`}
+                        onClick={() => handleSelect(option.value, option.label)}
+                      >
+                        {option.label}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="form-field-dropdown-option no-results">
+                      No options found
                     </div>
-                  ))
-                ) : (
-                  <div className="form-field-dropdown-option no-results">
-                    No options found
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        ) : (
+          // Classic dropdown
+          <div className="form-field-classic-select">
+            <select
+              name={name}
+              value={value}
+              onChange={handleClassicSelectChange}
+              className={error ? "form-field-error-input" : ""}
+              disabled={disabled}
+            >
+              {placeholder && <option value="">{placeholder}</option>}
+              {options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        )
       ) : (
         <input
           type={type}
