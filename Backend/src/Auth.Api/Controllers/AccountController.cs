@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Auth.Application.Entities.Commands.RegisterUser;
 using Auth.Domain.Models;
+using BuildingBlocks.Api.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ namespace Auth.Api.Controllers;
 public class AccountController(ISender sender, UserManager<ApplicationUser> userManager) : ControllerBase
 {
     [HttpPost("Register")]
+    [RequireApiKey]
     public async Task<IActionResult> Register(RegisterUserCommand command)
     {
         var result = await sender.Send(command);

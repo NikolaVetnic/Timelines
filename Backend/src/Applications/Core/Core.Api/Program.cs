@@ -1,3 +1,4 @@
+using BuildingBlocks.Api.Middlewares;
 using BuildingBlocks.Application.Exceptions.Handlers;
 using BuildingBlocks.Domain;
 using BuildingBlocks.Infrastructure.Extensions;
@@ -50,6 +51,9 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseRouting();
+
+app.UseMiddleware<ApiKeyMiddleware>();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

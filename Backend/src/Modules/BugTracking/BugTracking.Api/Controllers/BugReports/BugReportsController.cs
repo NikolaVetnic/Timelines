@@ -3,6 +3,7 @@ using BugTracking.Application.Entities.BugReports.Commands.CreateBugReport;
 using BugTracking.Application.Entities.BugReports.Commands.CreateIssues;
 using BugTracking.Application.Entities.BugReports.Commands.DeleteAllBugReports;
 using BugTracking.Application.Entities.BugReports.Queries.ListBugReports;
+using BuildingBlocks.Api.Attributes;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +14,7 @@ namespace BugTracking.Api.Controllers.BugReports;
 
 [ApiController]
 [Route("api/[controller]")]
+[RequireApiKey]
 public class BugReportsController(ISender sender, IConfiguration configuration) : ControllerBase
 {
     [HttpPost]
