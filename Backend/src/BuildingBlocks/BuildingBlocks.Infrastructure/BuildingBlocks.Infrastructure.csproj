@@ -7,16 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BuildingBlocks.Application\BuildingBlocks.Application.csproj"/>
+        <ProjectReference Include="..\BuildingBlocks.Application\BuildingBlocks.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="MassTransit" Version="8.3.5-develop.2187"/>
-        <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.5-develop.2187"/>
+        <PackageReference Include="MassTransit" Version="8.4.0" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.4.0" />
     </ItemGroup>
 
 </Project>

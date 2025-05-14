@@ -13,7 +13,7 @@ public static class FileAssetExtensions
             fileAsset.Description,
             fileAsset.Size,
             fileAsset.Type,
-            fileAsset.Owner,
+            fileAsset.OwnerId,
             fileAsset.Content,
             fileAsset.IsPublic,
             fileAsset.SharedWith.ToList(),
@@ -28,7 +28,7 @@ public static class FileAssetExtensions
             fileAsset.Description,
             fileAsset.Size,
             fileAsset.Type,
-            fileAsset.Owner,
+            fileAsset.OwnerId,
             fileAsset.Content,
             fileAsset.IsPublic,
             fileAsset.SharedWith.ToList()
