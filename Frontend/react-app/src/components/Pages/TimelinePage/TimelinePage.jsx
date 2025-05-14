@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
-import Timeline from "../../Timelines/Timeline/Timeline";
-import TimelineSelect from "../../Timelines/TimelineSelect/TimelineSelect";
+import { useCallback, useEffect, useState } from "react";
 import useReminders from "../../../core/hooks/Reminders/UseReminders";
 import useTimelineData from "../../../core/hooks/UseTimelineData";
+import Timeline from "../../Timelines/Timeline/Timeline";
+import TimelineSelect from "../../Timelines/TimelineSelect/TimelineSelect";
 
 function TimelinePage() {
     const [timelineData, setTimelineData] = useTimelineData();
