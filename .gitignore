@@ -6,6 +6,9 @@ appsettings.override.json
 !**/docker-compose/.env.template
 .editorconfig
 
+# Ignore generated certs
+*/certs/
+
 # =-=-=-= VSC
 .vscode/*
 !.vscode/settings.json
