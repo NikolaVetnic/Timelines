@@ -1,8 +1,9 @@
 import { toast } from "react-toastify";
-import deleteById from "../core/api/delete";
-import { getAll, getById } from "../core/api/get";
-import Post from "../core/api/post";
-import Put from "../core/api/put";
+import { deleteById } from "../core/api/delete";
+import { getAll } from "../core/api/getAll";
+import { getById } from "../core/api/getById";
+import { Post } from "../core/api/post";
+import { Put } from "../core/api/put";
 import API_BASE_URL from "../data/constants";
 
 class NodeService {
