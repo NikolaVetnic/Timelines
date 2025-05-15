@@ -64,7 +64,7 @@ const router = createBrowserRouter(
           </AuthGuard>
         }
       >
-        <Route index parh="/timelines" element={<TimelineList />} />
+        <Route index element={<TimelineList />} />
         <Route path="timelines/:id" element={<Timeline />} />
       </Route>
 
