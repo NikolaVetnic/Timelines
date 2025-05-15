@@ -1,3 +1,4 @@
+using System.Net;
 using BuildingBlocks.Api.Middlewares;
 using BuildingBlocks.Application.Exceptions.Handlers;
 using BuildingBlocks.Domain;
@@ -8,6 +9,7 @@ using Core.Api.Sdk;
 using Core.Api.Sdk.Interfaces;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +52,36 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+switch (app.Environment.EnvironmentName)
+{
+    case "Development":
+        var devOptions = new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+            RequireHeaderSymmetry = false,
+            ForwardLimit = null
+        };
+
+        devOptions.KnownNetworks.Clear();
+        devOptions.KnownProxies.Clear();
+
+        app.UseForwardedHeaders(devOptions);
+
+        break;
+    case "Production":
+        var prodOptions = new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+            RequireHeaderSymmetry = true,
+            ForwardLimit = 1,
+            KnownProxies = { IPAddress.Parse("172.19.0.1") } // `docker inspect nginx-proxy | grep -i ipaddress`
+        };
+
+        app.UseForwardedHeaders(prodOptions);
+
+        break;
+}
+
 app.UseRouting();
 
 app.UseMiddleware<ApiKeyMiddleware>();

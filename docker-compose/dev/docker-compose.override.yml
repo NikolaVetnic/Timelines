@@ -5,11 +5,15 @@ services:
   tl-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-      - ASPNETCORE_HTTP_PORTS=${ASPNETCORE_HTTP_PORTS}
-      - ConnectionStrings__DefaultConnection=Host=tl-database;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Include Error Detail=true
+      - ASPNETCORE_URLS=${ASPNETCORE_URLS}
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=${ASPNETCORE_Kestrel__Certificates__Default__Path}
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=${ASPNETCORE_Kestrel__Certificates__Default__Password}
+      - ConnectionStrings__DefaultConnection=${DEFAULT_CONNECTION}
     ports:
       - "26000:8080"
       - "26061:8081"
+    volumes:
+      - ./certs:/https:ro
 
   tl-frontend:
     container_name: tl-frontend
@@ -37,5 +41,9 @@ services:
   proxy:
     depends_on:
       - tl-frontend
+    ports:
+      - "80:80"
+      - "443:443"
     volumes:
       - ${PWD}/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./certs:/etc/nginx/certs:ro
