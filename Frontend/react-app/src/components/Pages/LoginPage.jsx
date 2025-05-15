@@ -63,7 +63,6 @@ const LoginPage = () => {
     try {
       const success = await login(formData);
       if (success) {
-        // Get the redirect location from state or default to home
         const from = location.state?.from?.pathname || "/";
         navigate(from, { replace: true });
       }
