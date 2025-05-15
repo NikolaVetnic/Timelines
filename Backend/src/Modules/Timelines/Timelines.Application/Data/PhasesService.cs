@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using BuildingBlocks.Domain.Nodes.Phase.Dtos;
-using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Phase.Dtos;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using Mapster;
 using Timelines.Application.Data.Abstractions;
 

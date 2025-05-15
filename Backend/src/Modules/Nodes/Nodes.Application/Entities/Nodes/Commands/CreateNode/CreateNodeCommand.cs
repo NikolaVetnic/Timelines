@@ -1,5 +1,5 @@
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 namespace Nodes.Application.Entities.Nodes.Commands.CreateNode;

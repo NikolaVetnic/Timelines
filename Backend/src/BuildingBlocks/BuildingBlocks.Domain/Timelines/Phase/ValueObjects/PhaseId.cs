@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 
-namespace BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
+namespace BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 
 [JsonConverter(typeof(PhaseIdJsonConverter))]
 public class PhaseId : StronglyTypedId

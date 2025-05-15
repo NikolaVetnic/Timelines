@@ -1,15 +1,18 @@
-﻿using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
+﻿using BuildingBlocks.Application.Data;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using Timelines.Application.Data.Abstractions;
 
 namespace Timelines.Application.Entities.Phases.Commands.CreatePhase;
 
-internal class CreatePhaseHandler(IPhasesRepository phasesRepository) : ICommandHandler<CreatePhaseCommand, CreatePhaseResult>
+internal class CreatePhaseHandler(ICurrentUser currentUser, IPhasesRepository phasesRepository, ITimelinesService timelinesService) : ICommandHandler<CreatePhaseCommand, CreatePhaseResult>
 {
     public async Task<CreatePhaseResult> Handle(CreatePhaseCommand command, CancellationToken cancellationToken)
     {
-        var phase = command.ToPhase();
+        var userId = currentUser.UserId!;
+        var phase = command.ToPhase(userId);
 
         await phasesRepository.CreatePhaseAsync(phase, cancellationToken);
+        await timelinesService.AddPhase(phase.TimelineId, phase.Id, cancellationToken);
 
         return new CreatePhaseResult(phase.Id);
     }
@@ -17,7 +20,7 @@ internal class CreatePhaseHandler(IPhasesRepository phasesRepository) : ICommand
 
 internal static class CreatePhaseCommandExtensions
 {
-    public static Phase ToPhase(this CreatePhaseCommand command)
+    public static Phase ToPhase(this CreatePhaseCommand command, string userId)
     {
         return Phase.Create(
             PhaseId.Of(Guid.NewGuid()),
@@ -33,7 +36,9 @@ internal static class CreatePhaseCommandExtensions
             command.DependsOn,
             command.AssignedTo,
             command.Stakeholders,
-            command.Tags
+            command.Tags,
+            command.TimelineId,
+            userId
         );
     }
 }

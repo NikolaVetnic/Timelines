@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
+﻿using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using System.Reflection;
 using Timelines.Application.Data.Abstractions;
 
@@ -26,13 +27,22 @@ public class TimelinesDbContext(DbContextOptions<TimelinesDbContext> options) :
             entity.HasKey(t => t.Id);
             entity.Property(t => t.Title).IsRequired();
 
-            // Map the ReminderIds as a collection of IDs
+            // Map the NodeIds as a collection of IDs
             entity.Ignore(t => t.NodeIds); // This prevents EF from expecting a navigation property
             entity.Property(t => t.Id).ValueGeneratedNever();  // Ensures IDs are managed externally
 
             entity.Property(t => t.NodeIds)
                 .HasConversion(new NodeIdListConverter())
                 .HasColumnName("NodeIds")
+                .IsRequired(false);
+
+            // Map the PhaseIds as a collection of IDs
+            entity.Ignore(t => t.PhaseIds); // This prevents EF from expecting a navigation property
+            entity.Property(t => t.Id).ValueGeneratedNever();  // Ensures IDs are managed externally
+
+            entity.Property(t => t.PhaseIds)
+                .HasConversion(new PhaseIdListConverter())
+                .HasColumnName("PhaseIds")
                 .IsRequired(false);
         });
 
@@ -43,6 +53,12 @@ public class TimelinesDbContext(DbContextOptions<TimelinesDbContext> options) :
             entity.HasKey(p => p.Id);
             entity.Property(p => p.Id)
                 .HasConversion(new PhaseIdValueConverter());
+
+            entity.Property(r => r.TimelineId).IsRequired();
+            entity.HasIndex(r => r.TimelineId); // Add an index for efficient querying
+            entity.Property(r => r.TimelineId)
+                .HasConversion(new TimelineIdValueConverter()) // Apply the value converter
+                .IsRequired();
 
             entity.Property(p => p.Title).IsRequired();
             entity.Property(p => p.Description).IsRequired();

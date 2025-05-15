@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 
-namespace BuildingBlocks.Domain.Nodes.Phase.Dtos;
+namespace BuildingBlocks.Domain.Timelines.Phase.Dtos;
 
 public class PhaseBaseDto(
     string? id,

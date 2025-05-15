@@ -1,8 +1,9 @@
-﻿using System.Text.Json;
-using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using BuildingBlocks.Domain.Nodes.Phase.Events;
-using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
+﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Text.Json;
+using BuildingBlocks.Domain.Timelines.Phase.Events;
 
 namespace Timelines.Domain.Models;
 
@@ -22,6 +23,8 @@ public class Phase : Aggregate<PhaseId>
     public List<string> Stakeholders { get; set; } = [];
     public List<string> Tags { get; set; } = [];
     public List<NodeId> NodeIds { get; set; } = [];
+    public required TimelineId TimelineId { get; set; }
+    public required string OwnerId { get; set; }
 
     #region Phase
 
@@ -29,7 +32,7 @@ public class Phase : Aggregate<PhaseId>
         DateTime startDate, DateTime? endDate, TimeSpan? duration,
         string status, decimal progress, bool isCompleted,
         PhaseId parent, List<PhaseId> dependsOn, string assignedTo,
-        List<string> stakeholders, List<string> tags)
+        List<string> stakeholders, List<string> tags, TimelineId timelineId, string ownerId)
     {
         var phase = new Phase
         {
@@ -44,7 +47,9 @@ public class Phase : Aggregate<PhaseId>
             IsCompleted = isCompleted,
             Parent = parent,
             DependsOn = dependsOn,
-            AssignedTo = assignedTo
+            AssignedTo = assignedTo,
+            TimelineId = timelineId,
+            OwnerId = ownerId
         };
 
         foreach (var stakeholder in stakeholders)

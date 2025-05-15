@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Mapster;
@@ -84,6 +85,13 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
 
         foreach (var nodeId in nodeIds)
             timeline.RemoveNode(nodeId);
+        await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
+    }
+
+    public async Task AddPhase(TimelineId timelineId, PhaseId phaseId, CancellationToken cancellationToken)
+    {
+        var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
+        timeline.AddPhase(phaseId);
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
     }
 

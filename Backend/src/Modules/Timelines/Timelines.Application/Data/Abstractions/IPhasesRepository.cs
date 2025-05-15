@@ -1,5 +1,5 @@
 ﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 
 namespace Timelines.Application.Data.Abstractions;
 

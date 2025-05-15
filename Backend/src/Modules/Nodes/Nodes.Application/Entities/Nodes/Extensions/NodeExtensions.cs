@@ -1,8 +1,8 @@
 using BuildingBlocks.Domain.Files.File.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
-using BuildingBlocks.Domain.Nodes.Phase.Dtos;
 using BuildingBlocks.Domain.Notes.Note.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
+using BuildingBlocks.Domain.Timelines.Phase.Dtos;
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 
 namespace Nodes.Application.Entities.Nodes.Extensions;

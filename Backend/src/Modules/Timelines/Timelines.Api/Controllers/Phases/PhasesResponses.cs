@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
+﻿using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 
 namespace Timelines.Api.Controllers.Phases;
 

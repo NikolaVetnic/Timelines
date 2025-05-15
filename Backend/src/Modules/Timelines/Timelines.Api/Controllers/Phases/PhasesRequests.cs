@@ -1,5 +1,6 @@
 ﻿using System;
-using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 namespace Timelines.Api.Controllers.Phases;
 
@@ -18,4 +19,5 @@ public class CreatePhaseRequest
     public string AssignedTo { get; set; }
     public string[] Stakeholders { get; set; }
     public string[] Tags { get; set; }
+    public TimelineId TimelineId { get; set; }
 }
