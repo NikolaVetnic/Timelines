@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
 import { FaRedo } from "react-icons/fa";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import Button from "../../core/components/buttons/Button/Button";
 import FormField from "../../core/components/forms/FormField/FormField";
 import "./PagesStyle/LoginPage.css";
@@ -20,6 +20,7 @@ const LoginPage = () => {
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const [errors, setErrors] = useState(INITIAL_ERRORS);
   const { login, error: authError, sessionExpired } = useAuth();
+  const location = useLocation();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -54,14 +55,25 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!validateForm()) {
       return;
     }
-
-    const success = await login(formData);
-    if (success) {
-      navigate("/");
+  
+    try {
+      const success = await login(formData);
+      if (success) {
+        // Get the redirect location from state or default to home
+        const from = location.state?.from?.pathname || "/";
+        navigate(from, { replace: true });
+      }
+    } catch (error) {
+      if (error.message.includes('Network Error')) {
+        setErrors({ 
+          ...errors, 
+          form: 'Unable to connect to server. Please check your connection.' 
+        });
+      }
     }
   };
 
