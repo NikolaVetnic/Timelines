@@ -7,18 +7,18 @@ import NodeService from "../../../../services/NodeService";
 import "./Categories.css";
 
 const Categories = ({
-  nodeId,
+  node,
   setModalActive,
   categories: propCategories,
   onUpdateCategories,
 }) => {
   const root = "categories";
   const [isModalOpen, setModalOpen] = useState(false);
-  const [localCategories, setLocalCategories] = useState(propCategories || []);
+  const [localCategories, setLocalCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setLocalCategories(propCategories || []);
+    setLocalCategories(Array.isArray(propCategories) ? propCategories : []);
   }, [propCategories]);
 
   const setModalState = (isActive) => {
@@ -27,6 +27,13 @@ const Categories = ({
   };
 
   const parseCategoriesInput = (input) => {
+    if (typeof input !== 'string') {
+      if (Array.isArray(input)) {
+        return input.map(cat => String(cat).trim()).filter(cat => cat.length > 0);
+      }
+      return [];
+    }
+    
     return input
       .split(",")
       .map((cat) => cat.trim())
@@ -35,18 +42,22 @@ const Categories = ({
 
   const handleSaveCategories = async (categoriesInput) => {
     setIsLoading(true);
-    const newCategories = parseCategoriesInput(categoriesInput);
+    try {
+      const newCategories = parseCategoriesInput(categoriesInput);
+      
+      await NodeService.updateNode(node, { 
+        categories: newCategories 
+      });
 
-    await NodeService.updateNode(nodeId, { categories: newCategories });
-
-    setLocalCategories(newCategories);
-
-    if (onUpdateCategories) {
-      onUpdateCategories(newCategories);
+      setLocalCategories(newCategories);
+      
+      if (onUpdateCategories) {
+        onUpdateCategories(newCategories);
+      }
+    } finally {
+      setIsLoading(false);
+      setModalState(false);
     }
-
-    setIsLoading(false);
-    setModalState(false);
   };
 
   return (
@@ -79,9 +90,10 @@ const Categories = ({
         isOpen={isModalOpen}
         onClose={() => setModalState(false)}
         onSave={handleSaveCategories}
-        initialValue={localCategories.join(", ")}
+        initialValue={Array.isArray(localCategories) ? localCategories.join(", ") : ""}
         title="Edit Categories"
         isLoading={isLoading}
+        dataType="array"
         placeholder="Enter categories, separated by commas"
       />
     </div>

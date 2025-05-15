@@ -1,8 +1,8 @@
 import MDEditor from "@uiw/react-md-editor";
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { FaTimes } from "react-icons/fa";
 import Button from "../../buttons/Button/Button";
+import FormField from "../../forms/FormField/FormField";
 import "./NoteEditorModal.css";
 
 const NoteEditor = ({
@@ -14,32 +14,50 @@ const NoteEditor = ({
 }) => {
   const root = "note-editor-modal";
   const [showModal, setShowModal] = useState(false);
+  const [title, setTitle] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (selectedNote) {
+      setTitle(selectedNote.title || "");
+      setEditorContent(selectedNote.content || "");
       requestAnimationFrame(() => {
         setShowModal(true);
       });
     }
-  }, [selectedNote]);
+  }, [selectedNote, setEditorContent]);
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+    if (error) setError("");
+  };
+
+  const handleSave = () => {
+    if (!title.trim()) {
+      setError("Title is required");
+      return;
+    }
+    handleSaveNote(title.trim(), editorContent);
+  };
 
   if (!selectedNote) return null;
 
   return ReactDOM.createPortal(
     <div className={`${root}-overlay ${showModal ? "show" : ""}`}>
       <div className={`${root}-content ${showModal ? "show" : ""}`}>
-        <div className={`${root}-close`}>
-          <Button
-            icon={<FaTimes />}
-            iconOnly
-            noBackground
-            variant="danger"
-            onClick={closeNoteEditor}
-          />
-        </div>
-
+        <div className={`${root}-title`}><h3>Edit Note</h3></div>
         <div className={`${root}-header`}>
-          <h3>{selectedNote.title}</h3>
+          <FormField
+          className={`${root}-form-field`}
+            label="Note Title"
+            type="text"
+            name="title"
+            value={title}
+            onChange={handleTitleChange}
+            placeholder="Enter note title"
+            required
+            error={error}
+          />
         </div>
 
         <div className={`${root}-editor`}>
@@ -61,7 +79,8 @@ const NoteEditor = ({
             text="Save"
             variant="success"
             size="small"
-            onClick={handleSaveNote}
+            onClick={handleSave}
+            disabled={!title.trim()}
           />
         </div>
       </div>

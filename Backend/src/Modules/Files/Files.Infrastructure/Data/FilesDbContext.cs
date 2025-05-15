@@ -25,7 +25,7 @@ public class FilesDbContext(DbContextOptions<FilesDbContext> options) :
             entity.Property(f => f.Name);
             entity.Property(f => f.Size);
             entity.Property(f => f.Type);
-            entity.Property(f => f.Owner);
+            entity.Property(f => f.OwnerId);
             entity.Property(f => f.Description);
 
             entity.Property(r => r.NodeId).IsRequired();

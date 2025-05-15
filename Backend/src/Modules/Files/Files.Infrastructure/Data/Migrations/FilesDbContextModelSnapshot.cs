@@ -19,7 +19,7 @@ namespace Files.Infrastructure.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Files")
-                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("ProductVersion", "9.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -61,10 +61,9 @@ namespace Files.Infrastructure.Data.Migrations
                     b.Property<Guid>("NodeId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Owner")
+                    b.Property<string>("OwnerId")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.PrimitiveCollection<List<string>>("SharedWith")
                         .IsRequired()

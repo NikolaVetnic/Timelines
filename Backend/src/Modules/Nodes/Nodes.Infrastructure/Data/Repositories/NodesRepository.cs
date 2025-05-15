@@ -1,3 +1,4 @@
+using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Nodes.Application.Data.Abstractions;
@@ -5,7 +6,7 @@ using Nodes.Application.Entities.Nodes.Exceptions;
 
 namespace Nodes.Infrastructure.Data.Repositories;
 
-public class NodesRepository(INodesDbContext dbContext) : INodesRepository
+public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext) : INodesRepository
 {
     #region List
     public async Task<List<Node>> ListNodesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
@@ -13,15 +14,35 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
         return await dbContext.Nodes
             .AsNoTracking()
             .OrderBy(n => n.Timestamp)
+            .Where(n => n.OwnerId == currentUser.UserId!)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
+    public async Task<List<Node>> ListNodesByTimelineIdPaginatedAsync(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        return await dbContext.Nodes
+            .AsNoTracking()
+            .Where(n => n.TimelineId == timelineId)
+            .OrderBy(f => f.CreatedAt)
+            .Skip(pageIndex * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<long> NodeCountAsync(CancellationToken cancellationToken)
     {
-        return await dbContext.Nodes.LongCountAsync(cancellationToken);
+        return await dbContext.Nodes
+            .Where(n => n.OwnerId == currentUser.UserId!)
+            .LongCountAsync(cancellationToken);
     }
+
+    public async Task<long> NodeCountByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Nodes.LongCountAsync(n => n.TimelineId == timelineId, cancellationToken);
+    }
+
     #endregion
 
     #region Get
@@ -29,7 +50,7 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
     {
         return await dbContext.Nodes
                    .AsNoTracking()
-                   .SingleOrDefaultAsync(n => n.Id == nodeId, cancellationToken) ??
+                   .SingleOrDefaultAsync(n => n.Id == nodeId && n.OwnerId == currentUser.UserId!, cancellationToken) ??
                throw new NodeNotFoundException(nodeId.ToString());
     }
 
@@ -44,7 +65,7 @@ public class NodesRepository(INodesDbContext dbContext) : INodesRepository
     {
         return await dbContext.Nodes
             .AsNoTracking()
-            .Where(n => nodeIds.Contains(n.Id))
+            .Where(n => nodeIds.Contains(n.Id) && n.OwnerId == currentUser.UserId!)
             .ToListAsync(cancellationToken);
     }
     #endregion

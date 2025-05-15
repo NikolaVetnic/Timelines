@@ -71,10 +71,12 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
                         title: r.Title,
                         content: r.Content,
                         timestamp: r.Timestamp,
-                        owner: r.Owner,
+                        ownerId: r.OwnerId,
                         relatedNotes: r.RelatedNotes,
                         sharedWith: r.SharedWith,
-                        isPublic: r.IsPublic)
+                        isPublic: r.IsPublic,
+                        createdAt: r.CreatedAt,
+                        lastModifiedAt: r.LastModifiedAt)
                     )
                     .ToList(),
                 reminders
@@ -93,6 +95,17 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         return nodeDtos;
     }
 
+    public async Task<List<NodeBaseDto>> ListNodesByTimelineIdPaginated(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        var nodes = await nodesRepository.ListNodesByTimelineIdPaginatedAsync(timelineId, pageIndex, pageSize, cancellationToken);
+
+        var nodesDtos = nodes
+            .Select(n => n.ToNodeBaseDto())
+            .ToList();
+
+        return nodesDtos;
+    }
+
     public async Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds,
         CancellationToken cancellationToken)
     {
@@ -103,6 +116,11 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     public async Task<long> CountNodesAsync(CancellationToken cancellationToken)
     {
         return await nodesRepository.NodeCountAsync(cancellationToken);
+    }
+
+    public async Task<long> CountNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
+    {
+        return await nodesRepository.NodeCountByTimelineIdAsync(timelineId, cancellationToken);
     }
 
     #endregion
@@ -156,6 +174,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
             nodeTemplate.PhaseId,
             nodeTemplate.Timestamp,
             nodeTemplate.Importance,
+            nodeTemplate.OwnerId,
             nodeTemplate.Categories,
             nodeTemplate.Tags,
             timelineId

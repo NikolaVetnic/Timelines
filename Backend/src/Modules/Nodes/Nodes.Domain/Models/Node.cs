@@ -20,6 +20,7 @@ public class Node : Aggregate<NodeId>
     public required PhaseId PhaseId { get; set; }
     public required DateTime Timestamp { get; set; }
     public required int Importance { get; set; }
+    public required string OwnerId { get; set; }
 
     public required TimelineId TimelineId { get; set; }
     public List<FileAssetId> FileAssetIds { get; set; } = [];
@@ -29,7 +30,7 @@ public class Node : Aggregate<NodeId>
     #region Node
 
     public static Node Create(NodeId id, string title, string description, PhaseId phaseId,
-        DateTime timestamp, int importance, List<string> categories, List<string> tags, TimelineId timelineId)
+        DateTime timestamp, int importance, string ownerId, List<string> categories, List<string> tags, TimelineId timelineId)
     {
         var node = new Node
         {
@@ -39,6 +40,7 @@ public class Node : Aggregate<NodeId>
             PhaseId = phaseId,
             Timestamp = timestamp,
             Importance = importance,
+            OwnerId = ownerId,
             TimelineId = timelineId
         };
 
@@ -58,14 +60,14 @@ public class Node : Aggregate<NodeId>
     }
 
     public void Update(string title, string description, DateTime timestamp,
-        int importance, PhaseId phaseId)
+        int importance, string ownerId, PhaseId phaseId)
     {
         Title = title;
         Description = description;
         Timestamp = timestamp;
         Importance = importance;
         PhaseId = phaseId;
-
+        OwnerId = ownerId;
         AddDomainEvent(new NodeUpdatedEvent(Id));
     }
 

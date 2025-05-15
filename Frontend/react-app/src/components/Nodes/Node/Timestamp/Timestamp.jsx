@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
+import { toast } from "react-toastify";
 import Button from "../../../../core/components/buttons/Button/Button";
 import DatePickerModal from "../../../../core/components/modals/DatePickerModal/DatePickerModal";
 import NodeService from "../../../../services/NodeService";
 import "./Timestamp.css";
 
-const Timestamp = ({ nodeId, setModalActive, initialValue, onSave }) => {
+const Timestamp = ({ node, setModalActive, initialValue, onSave }) => {
   const root = "timestamp";
   const [isModalOpen, setModalOpen] = useState(false);
   const [localTimestamp, setLocalTimestamp] = useState(
@@ -23,12 +24,16 @@ const Timestamp = ({ nodeId, setModalActive, initialValue, onSave }) => {
   };
 
   const handleSaveTimestamp = async (newTimestamp) => {
+    const now = new Date();
+    if (newTimestamp > now) {
+      toast.error("Timestamp cannot be in the future");
+      return;
+    }
+
     setIsLoading(true);
     try {
       const isoString = newTimestamp.toISOString();
-
-      await NodeService.updateNode(nodeId, { timestamp: isoString });
-
+      await NodeService.updateNode(node, { timestamp: isoString });
       setLocalTimestamp(newTimestamp);
 
       if (onSave) {
@@ -61,7 +66,7 @@ const Timestamp = ({ nodeId, setModalActive, initialValue, onSave }) => {
         onSave={handleSaveTimestamp}
         initialValue={localTimestamp || new Date()}
         title="Edit Timestamp"
-        isLoading={isLoading}
+        maxDate={new Date()}
       />
     </div>
   );

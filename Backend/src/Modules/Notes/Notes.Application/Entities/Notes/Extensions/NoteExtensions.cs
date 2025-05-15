@@ -12,10 +12,12 @@ public static class NoteExtensions
             note.Title,
             note.Content,
             note.Timestamp,
-            note.Owner,
+            note.OwnerId,
             note.RelatedNotes,
             note.SharedWith,
             note.IsPublic,
+            note.CreatedAt,
+            note.LastModifiedAt,
             node);
     }
 
@@ -26,10 +28,12 @@ public static class NoteExtensions
             note.Title,
             note.Content,
             note.Timestamp,
-            note.Owner,
+            note.OwnerId,
             note.RelatedNotes,
             note.SharedWith,
-            note.IsPublic
+            note.IsPublic,
+            note.CreatedAt,
+            note.LastModifiedAt
             );
     }
 }
