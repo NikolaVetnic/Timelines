@@ -23,11 +23,6 @@ public static class DatabaseExtensions
 
         await context.AddRangeAsync(InitialData.Nodes);
 
-        if (await context.Phases.AnyAsync())
-            return;
-
-        await context.AddRangeAsync(InitialData.Phases);
-
         await context.SaveChangesAsync();
     }
     

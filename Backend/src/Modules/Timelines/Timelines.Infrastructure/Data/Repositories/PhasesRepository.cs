@@ -1,11 +1,11 @@
 ﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
-using Nodes.Application.Data.Abstractions;
-using Nodes.Application.Entities.Phases.Exceptions;
+using Timelines.Application.Data.Abstractions;
+using Timelines.Application.Entities.Phases.Exceptions;
 
-namespace Nodes.Infrastructure.Data.Repositories;
+namespace Timelines.Infrastructure.Data.Repositories;
 
-public class PhasesRepository(INodesDbContext dbContext) : IPhasesRepository
+public class PhasesRepository(ITimelinesDbContext dbContext) : IPhasesRepository
 {
     public async Task CreatePhaseAsync(Phase phase, CancellationToken cancellationToken)
     {

@@ -2,6 +2,7 @@ using BuildingBlocks.Api.Converters;
 using BuildingBlocks.Application.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Timelines.Api.Controllers.Phases;
 using Timelines.Api.Controllers.Timelines;
 using Timelines.Application.Data;
 using Timelines.Application.Extensions;
@@ -24,8 +25,10 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddApiServices(this IServiceCollection services)
     {
         TypeAdapterConfig.GlobalSettings.Scan(typeof(TimelineIdConverter).Assembly);
+        TypeAdapterConfig.GlobalSettings.Scan(typeof(PhaseIdConverter).Assembly);
 
         services.AddControllers().AddApplicationPart(typeof(TimelinesController).Assembly);
+        services.AddControllers().AddApplicationPart(typeof(PhasesController).Assembly);
 
         services.AddScoped<ITimelinesService, TimelinesService>();
 

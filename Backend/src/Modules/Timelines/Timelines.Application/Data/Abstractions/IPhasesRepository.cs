@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
 
-namespace Nodes.Application.Data.Abstractions;
+namespace Timelines.Application.Data.Abstractions;
 
 public interface IPhasesRepository
 {

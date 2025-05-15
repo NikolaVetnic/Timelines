@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using Nodes.Application.Entities.Phases.Commands.CreatePhase;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OpenIddict.Validation.AspNetCore;
+using Timelines.Application.Entities.Phases.Commands.CreatePhase;
 
-namespace Nodes.Api.Controllers.Phases;
+namespace Timelines.Api.Controllers.Phases;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
 public class PhasesController(ISender sender) : ControllerBase
 {
     [HttpPost]

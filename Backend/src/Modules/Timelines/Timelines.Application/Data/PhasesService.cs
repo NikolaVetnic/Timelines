@@ -2,11 +2,10 @@
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Phase.Dtos;
 using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
-using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 using Mapster;
-using Nodes.Application.Data.Abstractions;
+using Timelines.Application.Data.Abstractions;
 
-namespace Nodes.Application.Data;
+namespace Timelines.Application.Data;
 
 public class PhasesService(IServiceProvider serviceProvider, IPhasesRepository phasesRepository) : IPhasesService
 {

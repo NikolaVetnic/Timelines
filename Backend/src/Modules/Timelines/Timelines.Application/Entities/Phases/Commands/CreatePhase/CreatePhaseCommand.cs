@@ -1,6 +1,6 @@
 ﻿using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
 
-namespace Nodes.Application.Entities.Phases.Commands.CreatePhase;
+namespace Timelines.Application.Entities.Phases.Commands.CreatePhase;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public record CreatePhaseCommand : ICommand<CreatePhaseResult>

@@ -2,10 +2,9 @@
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Phase.Events;
 using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
-using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Nodes.Domain.Models;
+namespace Timelines.Domain.Models;
 
 public class Phase : Aggregate<PhaseId>
 {
@@ -130,7 +129,3 @@ public class Phase : Aggregate<PhaseId>
 public class DependsOnPhaseIdListConverter() : ValueConverter<List<PhaseId>, string>(
     list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),
     json => JsonSerializer.Deserialize<List<PhaseId>>(json, new JsonSerializerOptions()) ?? new List<PhaseId>());
-
-public class NodeIdListConverter() : ValueConverter<List<NodeId>, string>(
-    list => JsonSerializer.Serialize(list, (JsonSerializerOptions)null!),
-    json => JsonSerializer.Deserialize<List<NodeId>>(json, new JsonSerializerOptions()) ?? new List<NodeId>());

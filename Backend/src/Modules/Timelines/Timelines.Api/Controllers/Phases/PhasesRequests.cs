@@ -1,7 +1,7 @@
-﻿using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
-using System;
+﻿using System;
+using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
 
-namespace Nodes.Api.Controllers.Phases;
+namespace Timelines.Api.Controllers.Phases;
 
 public class CreatePhaseRequest
 {

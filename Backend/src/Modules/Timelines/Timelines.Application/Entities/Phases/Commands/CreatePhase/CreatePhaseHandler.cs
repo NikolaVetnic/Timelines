@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.Domain.Nodes.Phase.ValueObjects;
-using Nodes.Application.Data.Abstractions;
+using Timelines.Application.Data.Abstractions;
 
-namespace Nodes.Application.Entities.Phases.Commands.CreatePhase;
+namespace Timelines.Application.Entities.Phases.Commands.CreatePhase;
 
 internal class CreatePhaseHandler(IPhasesRepository phasesRepository) : ICommandHandler<CreatePhaseCommand, CreatePhaseResult>
 {
