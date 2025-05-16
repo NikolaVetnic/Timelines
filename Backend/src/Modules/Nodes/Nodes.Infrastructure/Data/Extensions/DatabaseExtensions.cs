@@ -22,6 +22,7 @@ public static class DatabaseExtensions
             return;
 
         await context.AddRangeAsync(InitialData.Nodes);
+
         await context.SaveChangesAsync();
     }
     

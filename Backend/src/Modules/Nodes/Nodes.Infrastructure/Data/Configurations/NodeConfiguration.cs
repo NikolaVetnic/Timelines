@@ -23,7 +23,7 @@ public class NodeConfiguration : IEntityTypeConfiguration<Node>
         builder.Property(n => n.Importance)
             .IsRequired();
 
-        builder.Property(n => n.Phase)
+        builder.Property(n => n.PhaseId)
             .IsRequired();
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Timelines.Infrastructure.Data;
@@ -12,9 +13,11 @@ using Timelines.Infrastructure.Data;
 namespace Timelines.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(TimelinesDbContext))]
-    partial class TimelinesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250515083250_AddPhase")]
+    partial class AddPhase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,10 +69,6 @@ namespace Timelines.Infrastructure.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("NodeIds");
 
-                    b.Property<string>("OwnerId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<Guid>("Parent")
                         .HasColumnType("uuid");
 
@@ -91,16 +90,11 @@ namespace Timelines.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text[]");
 
-                    b.Property<Guid>("TimelineId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TimelineId");
 
                     b.ToTable("Phases", "Timelines");
                 });
@@ -133,10 +127,6 @@ namespace Timelines.Infrastructure.Data.Migrations
                     b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<string>("PhaseIds")
-                        .HasColumnType("text")
-                        .HasColumnName("PhaseIds");
 
                     b.Property<string>("Title")
                         .IsRequired()

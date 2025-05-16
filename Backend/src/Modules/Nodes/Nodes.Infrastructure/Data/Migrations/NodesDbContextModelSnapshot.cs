@@ -19,7 +19,7 @@ namespace Nodes.Infrastructure.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Nodes")
-                .HasAnnotation("ProductVersion", "9.0.4")
+                .HasAnnotation("ProductVersion", "9.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -65,9 +65,8 @@ namespace Nodes.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Phase")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("PhaseId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ReminderIds")
                         .HasColumnType("text")
@@ -89,6 +88,8 @@ namespace Nodes.Infrastructure.Data.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PhaseId");
 
                     b.HasIndex("TimelineId");
 

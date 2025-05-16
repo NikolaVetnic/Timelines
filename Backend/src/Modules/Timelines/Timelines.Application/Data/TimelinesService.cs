@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Mapster;
@@ -32,7 +33,6 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
                             id: n.Id!.ToString(),
                             title: n.Title,
                             description: n.Description,
-                            phase: n.Phase,
                             timestamp: n.Timestamp,
                             importance: n.Importance,
                             categories: n.Categories,
@@ -87,13 +87,22 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
             timeline.RemoveNode(nodeId);
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
     }
+
+    public async Task AddPhase(TimelineId timelineId, PhaseId phaseId, CancellationToken cancellationToken)
+    {
+        var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
+        timeline.AddPhase(phaseId);
+        await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
+    }
+
     #region Relationships
-    public async Task<List<TimelineBaseDto>> GetTimelinesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds,
-        CancellationToken cancellationToken)
+
+    public async Task<List<TimelineBaseDto>> GetTimelinesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         var timelines = await timelinesRepository.GetTimelinesBelongingToNodeIdsAsync(nodeIds, cancellationToken);
         var timelineBaseDtos = timelines.Adapt<List<TimelineBaseDto>>();
         return timelineBaseDtos;
     }
+
     #endregion
 }

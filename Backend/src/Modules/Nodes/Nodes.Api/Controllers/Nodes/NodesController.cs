@@ -103,7 +103,7 @@ public class NodesController(ISender sender) : ControllerBase
             Id = NodeId.Of(Guid.Parse(nodeId)),
             Title = request.Title,
             Description = request.Description,
-            Phase = request.Phase,
+            PhaseId = request.PhaseId,
             Timestamp = request.Timestamp,
             Importance = request.Importance,
             Categories = request.Categories,

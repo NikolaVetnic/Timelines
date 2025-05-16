@@ -25,9 +25,10 @@ namespace Nodes.Infrastructure.Data.Migrations
                     Tags = table.Column<List<string>>(type: "text[]", nullable: false),
                     Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    Phase = table.Column<string>(type: "text", nullable: false),
+                    PhaseId = table.Column<Guid>(type: "uuid", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Importance = table.Column<int>(type: "integer", nullable: false),
+                    OwnerId = table.Column<string>(type: "text", nullable: false),
                     TimelineId = table.Column<Guid>(type: "uuid", nullable: false),
                     FileAssetIds = table.Column<string>(type: "text", nullable: true),
                     NoteIds = table.Column<string>(type: "text", nullable: true),
@@ -41,6 +42,12 @@ namespace Nodes.Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Nodes", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Nodes_PhaseId",
+                schema: "Nodes",
+                table: "Nodes",
+                column: "PhaseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Nodes_TimelineId",

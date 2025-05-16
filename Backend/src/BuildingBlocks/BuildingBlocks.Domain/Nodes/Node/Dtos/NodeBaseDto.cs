@@ -8,7 +8,6 @@ public class NodeBaseDto(
     string description,
     DateTime timestamp,
     int importance,
-    string phase,
     List<string> categories,
     List<string> tags)
 {
@@ -21,8 +20,6 @@ public class NodeBaseDto(
     [JsonPropertyName("timestamp")] public DateTime Timestamp { get; set; } = timestamp;
 
     [JsonPropertyName("importance")] public int Importance { get; set; } = importance;
-
-    [JsonPropertyName("phase")] public string Phase { get; set; } = phase;
 
     [JsonPropertyName("categories")] public List<string> Categories { get; set; } = categories;
 

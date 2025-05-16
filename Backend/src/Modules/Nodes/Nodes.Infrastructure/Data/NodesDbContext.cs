@@ -1,11 +1,11 @@
 using System.Reflection;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Nodes.Application.Data.Abstractions;
 
 namespace Nodes.Infrastructure.Data;
 
-public class NodesDbContext(DbContextOptions<NodesDbContext> options) :
-    DbContext(options), INodesDbContext
+public class NodesDbContext(DbContextOptions<NodesDbContext> options) : DbContext(options), INodesDbContext
 {
     public DbSet<Node> Nodes { get; init; }
 
@@ -26,7 +26,7 @@ public class NodesDbContext(DbContextOptions<NodesDbContext> options) :
             entity.Property(n => n.Description).IsRequired();
             entity.Property(n => n.Timestamp).IsRequired();
             entity.Property(n => n.Importance).IsRequired();
-            entity.Property(n => n.Phase).IsRequired();
+            entity.Property(n => n.PhaseId).IsRequired();
 
             // Map the ReminderIds as a collection of IDs
             entity.Ignore(n => n.ReminderIds); // This prevents EF from expecting a navigation property
@@ -60,6 +60,12 @@ public class NodesDbContext(DbContextOptions<NodesDbContext> options) :
                 .HasConversion(new NoteIdListConverter())
                 .HasColumnName("NoteIds")
                 .IsRequired(false);
+
+            entity.Property(r => r.PhaseId).IsRequired();
+            entity.HasIndex(r => r.PhaseId); // Add an index for efficient querying
+            entity.Property(r => r.PhaseId)
+                .HasConversion(new PhaseIdValueConverter()) // Apply the value converter
+                .IsRequired();
         });
 
         // Apply all configurations taken from classes that implement IEntityTypeConfiguration<>

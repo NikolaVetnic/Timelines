@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Nodes.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(NodesDbContext))]
-    [Migration("20250425194242_NodesInit")]
+    [Migration("20250515083218_NodesInit")]
     partial class NodesInit
     {
         /// <inheritdoc />
@@ -22,7 +22,7 @@ namespace Nodes.Infrastructure.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Nodes")
-                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("ProductVersion", "9.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -64,9 +64,12 @@ namespace Nodes.Infrastructure.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("NoteIds");
 
-                    b.Property<string>("Phase")
+                    b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Guid>("PhaseId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ReminderIds")
                         .HasColumnType("text")
@@ -88,6 +91,8 @@ namespace Nodes.Infrastructure.Data.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PhaseId");
 
                     b.HasIndex("TimelineId");
 
