@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { FaTrash } from "react-icons/fa";
+import { FaSignOutAlt, FaTrash } from "react-icons/fa";
 import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
 import { useNavigate } from "react-router";
+import { useAuth } from "../../../../context/AuthContext";
 import TimelineService from "../../../../services/TimelineService";
 import Button from "../../buttons/Button/Button";
 import CreateTimelineModal from "../../modals/CreateTimelineModal/CreateTimelineModal";
@@ -25,12 +26,91 @@ const TimelineList = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [timelineToEdit, setTimelineToEdit] = useState(null);
 
+  const { logout } = useAuth();
+
+  const [isMobile, setIsMobile] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [allTimelinesLoaded, setAllTimelinesLoaded] = useState(false);
+  const observer = useRef();
+  const loadMoreRef = useRef();
+
+  // Detect mobile view
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, []);
+
+  // Infinite scroll implementation
+  useEffect(() => {
+    if (!isMobile || loadingMore || allTimelinesLoaded) return;
+
+    const observerCallback = (entries) => {
+      const [entry] = entries;
+      if (entry.isIntersecting && currentPage < totalPages) {
+        loadMoreTimelines();
+      }
+    };
+
+    const options = {
+      root: null,
+      rootMargin: "100px",
+      threshold: 0.1,
+    };
+
+    observer.current = new IntersectionObserver(observerCallback, options);
+
+    if (loadMoreRef.current) {
+      observer.current.observe(loadMoreRef.current);
+    }
+
+    return () => {
+      if (observer.current) {
+        observer.current.disconnect();
+      }
+    };
+  }, [isMobile, loadingMore, allTimelinesLoaded, currentPage, totalPages]);
+
+  const loadMoreTimelines = useCallback(async () => {
+    if (loadingMore || allTimelinesLoaded || currentPage >= totalPages) return;
+
+    setLoadingMore(true);
+    try {
+      const nextPage = currentPage + 1;
+      const response = await TimelineService.getAllTimelines(
+        nextPage - 1,
+        itemsPerPage
+      );
+
+      if (response.items.length === 0) {
+        setAllTimelinesLoaded(true);
+        return;
+      }
+
+      setTimelines((prev) => [...prev, ...response.items]);
+      setCurrentPage(nextPage);
+      setTotalPages(response.totalPages);
+    } catch (error) {
+      console.error("Error loading more timelines:", error);
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [currentPage, itemsPerPage, loadingMore, allTimelinesLoaded, totalPages]);
+
   const fetchTimelines = async (page = 1, size = 10) => {
     setIsLoading(true);
     setError(null);
+    setAllTimelinesLoaded(false);
     try {
       const response = await TimelineService.getAllTimelines(page - 1, size);
-      setTimelines(response.items);
+      if (page === 1) {
+        setTimelines(response.items);
+      } else {
+        setTimelines((prev) => [...prev, ...response.items]);
+      }
       setTotalPages(response.totalPages);
       setSelectedTimelines([]);
     } catch (error) {
@@ -160,8 +240,15 @@ const TimelineList = () => {
           )}
           <Button
             text="Create New Timeline"
+            size="small"
             onClick={handleOpenModal}
             variant="success"
+          />
+          <Button
+            icon={<FaSignOutAlt />}
+            iconOnly
+            size="small"
+            onClick={logout}
           />
         </div>
       </div>

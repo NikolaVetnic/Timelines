@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import RemindersList from "../../../../core/components/lists/RemindersList/RemindersList";
 import CreateReminderModal from "../../../../core/components/modals/CreateReminderModal/CreateReminderModal";
 import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";

@@ -1,7 +1,9 @@
 import { toast } from "react-toastify";
-import deleteById from "../core/api/delete";
-import { getAll, getAllWithoutPagination, getById } from "../core/api/get";
-import Post from "../core/api/post";
+import { deleteById } from "../core/api/delete";
+import { getAll } from "../core/api/getAll";
+import { getById } from "../core/api/getById";
+import { getAllWithoutPagination } from "../core/api/getWithoutPagination";
+import { Post } from "../core/api/post";
 import API_BASE_URL from "../data/constants";
 
 class ReminderService {
