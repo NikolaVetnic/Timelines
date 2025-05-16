@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { api } from './apiConfig';
 
 /**
  * Delete data by ID
@@ -7,25 +7,14 @@ import axios from 'axios';
  * @param {string} id - The ID of the resource to delete
  * @returns {Promise<Object>} - The delete confirmation message
  */
-const deleteById = async (apiUrl, exactPath, id) => {
+export const deleteById = async (apiUrl, exactPath, id) => {
   try {
-    if (!id) {
-      throw new Error('ID is required to delete the resource.');
-    }
-
-    const response = await axios.delete(`${apiUrl}${exactPath}${id}`, {
-      headers: {
-        'Accept': 'application/json',
-      },
-    });
-
+    if (!id) throw new Error('ID is required');
+    const response = await api.delete(`${apiUrl}${exactPath}${id}`);
     return response.data;
   } catch (error) {
-    const errorMessage = error.response
-      ? error.response.data
-      : { message: 'Network error, please try again later.' };
-    throw new Error(errorMessage);
+    const errorMessage = error.response?.data || { message: 'Network error' };
+    throw errorMessage;
   }
 };
 
-export default deleteById;
