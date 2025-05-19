@@ -17,4 +17,7 @@ public interface IPhasesRepository
     Task<long> PhaseCountAsync(CancellationToken cancellationToken);
     Task UpdatePhaseAsync(Phase phase, CancellationToken cancellationToken);
 
+    Task DeletePhaseAsync(PhaseId phaseId, CancellationToken cancellationToken);
+
+
 }

@@ -16,4 +16,7 @@ public interface IPhasesService
     Task<List<PhaseBaseDto>> GetPhasesBaseBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken);
 
     Task<long> CountPhasesAsync(CancellationToken cancellationToken);
+
+    Task DeletePhase(PhaseId phaseId, CancellationToken cancellationToken);
+
 }

@@ -17,6 +17,8 @@ public interface ITimelinesService
     Task RemoveNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 
     Task AddPhase(TimelineId timelineId, PhaseId phaseId, CancellationToken cancellationToken);
+    Task RemovePhase(TimelineId timelineId, PhaseId phaseId, CancellationToken cancellationToken);
+
 
     Task<List<TimelineBaseDto>> GetTimelinesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 }

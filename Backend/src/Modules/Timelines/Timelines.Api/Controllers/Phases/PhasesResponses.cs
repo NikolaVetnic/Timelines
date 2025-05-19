@@ -11,3 +11,5 @@ public record GetPhaseByIdResponse(PhaseDto Phases);
 public record ListPhasesResponse(PaginatedResult<PhaseDto> Phases);
 
 public record UpdatePhaseResponse(PhaseBaseDto Phase);
+
+public record DeletePhaseResponse(bool PhaseDeleted);

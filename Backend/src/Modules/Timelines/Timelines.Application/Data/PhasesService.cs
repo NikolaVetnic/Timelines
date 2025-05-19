@@ -2,7 +2,6 @@
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Phase.Dtos;
 using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
-using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
@@ -71,5 +70,14 @@ public class PhasesService(IServiceProvider serviceProvider, IPhasesRepository p
     public async Task<long> CountPhasesAsync(CancellationToken cancellationToken)
     {
         return await phasesRepository.PhaseCountAsync(cancellationToken); 
+    }
+
+    public async Task DeletePhase(PhaseId phaseId, CancellationToken cancellationToken)
+    {
+        var phase = await phasesRepository.GetPhaseByIdAsync(phaseId, cancellationToken);
+
+        await TimelinesService.RemovePhase(phase.TimelineId, phaseId, cancellationToken);
+
+        await phasesRepository.DeletePhaseAsync(phaseId, cancellationToken);
     }
 }

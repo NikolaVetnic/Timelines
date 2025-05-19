@@ -122,6 +122,13 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
     }
 
+    public async Task RemovePhase(TimelineId timelineId, PhaseId phaseId, CancellationToken cancellationToken)
+    {
+        var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
+        timeline.RemovePhase(phaseId);
+        await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
+    }
+
     #region Relationships
 
     public async Task<List<TimelineBaseDto>> GetTimelinesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
