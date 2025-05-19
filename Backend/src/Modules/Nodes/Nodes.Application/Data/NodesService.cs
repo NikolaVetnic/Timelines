@@ -22,7 +22,6 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     private ITimelinesService TimelinesService => serviceProvider.GetRequiredService<ITimelinesService>();
     private IFilesService FilesService => serviceProvider.GetRequiredService<IFilesService>();
     private INotesService NotesService => serviceProvider.GetRequiredService<INotesService>();
-    private IPhasesService PhasesService => serviceProvider.GetRequiredService<IPhasesService>();
 
     #region List
 
@@ -32,9 +31,6 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
         var fileAssets = await FilesService
             .GetFileAssetsBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
-
-        var phases = await PhasesService
-            .GetPhasesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
         var reminders = await RemindersService
             .GetRemindersBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
@@ -48,8 +44,6 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         var nodeDtos = nodes.Select(n =>
             n.ToNodeDto(timelines
                     .First(t => t.Id == n.TimelineId.ToString()),
-                    phases
-                        .First(p => p.Id == n.PhaseId.ToString()),
                 fileAssets
                     .Where(f => n.FileAssetIds.Select(id => id.ToString()).Contains(f.Id))
                     .Select(f => new FileAssetBaseDto(
@@ -132,12 +126,11 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
 
         var timeline = await TimelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
-        var phase = await PhasesService.GetPhaseBaseByIdAsync(node.PhaseId, cancellationToken);
         var fileAssets = await FilesService.GetFileAssetsBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
         var notes = await NotesService.GetNotesBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
         var reminders = await RemindersService.GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
 
-        var nodeDto = node.ToNodeDto(timeline, phase, fileAssets, notes, reminders);
+        var nodeDto = node.ToNodeDto(timeline, fileAssets, notes, reminders);
 
         return nodeDto;
     }
@@ -151,12 +144,11 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
 
         var timeline = await TimelinesService.GetTimelineByIdAsync(node.TimelineId, cancellationToken);
-        var phase = await PhasesService.GetPhaseBaseByIdAsync(node.PhaseId, cancellationToken);
         var fileAssets = await FilesService.GetFileAssetsBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
         var notes = await NotesService.GetNotesBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
         var reminders = await RemindersService.GetRemindersBaseBelongingToNodeIdsAsync([node.Id], cancellationToken);
 
-        var nodeDto = node.ToNodeDto(timeline, phase, fileAssets, notes, reminders);
+        var nodeDto = node.ToNodeDto(timeline, fileAssets, notes, reminders);
 
         return nodeDto;
     }
@@ -171,7 +163,6 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
             NodeId.Of(Guid.NewGuid()),
             nodeTemplate.Title,
             nodeTemplate.Description,
-            nodeTemplate.PhaseId,
             nodeTemplate.Timestamp,
             nodeTemplate.Importance,
             nodeTemplate.OwnerId,

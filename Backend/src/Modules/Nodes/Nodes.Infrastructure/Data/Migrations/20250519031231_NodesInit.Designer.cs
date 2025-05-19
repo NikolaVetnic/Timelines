@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Nodes.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(NodesDbContext))]
-    [Migration("20250515083218_NodesInit")]
+    [Migration("20250519031231_NodesInit")]
     partial class NodesInit
     {
         /// <inheritdoc />
@@ -68,9 +68,6 @@ namespace Nodes.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("PhaseId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("ReminderIds")
                         .HasColumnType("text")
                         .HasColumnName("ReminderIds");
@@ -91,8 +88,6 @@ namespace Nodes.Infrastructure.Data.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PhaseId");
 
                     b.HasIndex("TimelineId");
 

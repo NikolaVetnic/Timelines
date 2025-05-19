@@ -2,7 +2,6 @@ using BuildingBlocks.Domain.Files.File.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
-using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 namespace Nodes.Infrastructure.Data.Extensions;
@@ -17,7 +16,6 @@ internal static class InitialData
                 Id = NodeId.Of(Guid.Parse("2df76835-c92b-45d0-9232-61901c4abe97")),
                 Title = "Start Court Proceedings",
                 Description = "Beginning of the court proceedings in John Doe vs New York City.",
-                PhaseId = PhaseId.Of(Guid.Parse("b6facdf1-5a3c-4521-9e60-8f9a24e3ad3b")),
                 Timestamp = DateTime.UtcNow,
                 Importance = 0,
                 OwnerId = "11111111-1111-1111-1111-111111111111",
@@ -34,7 +32,6 @@ internal static class InitialData
                 Id = NodeId.Of(Guid.Parse("6968d886-9e39-4fc0-9f2c-a5fbc1548970")),
                 Title = "Witness Cross-Examination",
                 Description = "Cross-examination of the witness is due on 16 January 2025.",
-                PhaseId = PhaseId.Of(Guid.Parse("f1801bf8-78a5-4417-bd7c-0397094fcb05")),
                 Timestamp = DateTime.UtcNow,
                 Importance = 1,
                 OwnerId = "22222222-2222-2222-2222-222222222222",

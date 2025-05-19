@@ -18,7 +18,6 @@ internal class UpdateNodeHandler(INodesRepository nodesRepository, ITimelinesSer
 
         node.Title = command.Title ?? node.Title;
         node.Description = command.Description ?? node.Description;
-        node.PhaseId = command.PhaseId ?? node.PhaseId;
         node.Timestamp = command.Timestamp ?? node.Timestamp;
         node.Importance = command.Importance ?? node.Importance;
         node.Categories = command.Categories ?? node.Categories;

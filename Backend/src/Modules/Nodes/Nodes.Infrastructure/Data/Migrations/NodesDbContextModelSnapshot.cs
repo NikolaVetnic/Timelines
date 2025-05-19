@@ -65,9 +65,6 @@ namespace Nodes.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("PhaseId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("ReminderIds")
                         .HasColumnType("text")
                         .HasColumnName("ReminderIds");
@@ -88,8 +85,6 @@ namespace Nodes.Infrastructure.Data.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PhaseId");
 
                     b.HasIndex("TimelineId");
 

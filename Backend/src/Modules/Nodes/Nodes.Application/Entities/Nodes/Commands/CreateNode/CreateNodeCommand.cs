@@ -1,5 +1,4 @@
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
 namespace Nodes.Application.Entities.Nodes.Commands.CreateNode;
@@ -9,7 +8,6 @@ public record CreateNodeCommand : ICommand<CreateNodeResult>
 {
     public required string Title { get; set; }
     public required string Description { get; set; }
-    public required PhaseId PhaseId { get; set; }
     public required DateTime Timestamp { get; set; }
     public required int Importance { get; set; }
     public required List<string> Categories { get; set; }
@@ -37,9 +35,6 @@ public class CreateNodeCommandValidator : AbstractValidator<CreateNodeCommand>
 
         RuleFor(x => x.Importance)
             .InclusiveBetween(1, 10).WithMessage("Importance must be between 1 and 10.");
-
-        RuleFor(x => x.PhaseId)
-            .NotEmpty().WithMessage("Phase is required.");
         
         RuleFor(x => x)
             .NotNull().WithMessage("Node cannot be null.")
