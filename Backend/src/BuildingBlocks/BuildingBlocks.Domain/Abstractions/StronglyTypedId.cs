@@ -11,6 +11,6 @@ public abstract class StronglyTypedId
     }
 
     public Guid Value { get; }
-    
-    public abstract override string ToString(); 
+
+    public abstract override string ToString();
 }

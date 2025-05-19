@@ -40,6 +40,13 @@ public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext d
                throw new TimelineNotFoundException(timelineId.ToString());
     }
 
+    public async Task<Timeline> GetTrackedTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Timelines
+                   .SingleOrDefaultAsync(t => t.Id == timelineId, cancellationToken) ??
+               throw new TimelineNotFoundException(timelineId.ToString());
+    }
+
     #endregion
 
     public async Task CreateTimelineAsync(Timeline timeline, CancellationToken cancellationToken)
@@ -48,7 +55,7 @@ public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext d
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task UpdateTimelineAsync(Timeline timeline, CancellationToken cancellationToken)
+    public async Task UpdateTimelineAsync(Timeline timeline, CancellationToken cancellationToken = default)
     {
         dbContext.Timelines.Update(timeline);
         await dbContext.SaveChangesAsync(cancellationToken);

@@ -22,6 +22,11 @@ public static class DatabaseExtensions
             return;
 
         await context.AddRangeAsync(InitialData.Timelines);
+
+        if (await context.Phases.AnyAsync())
+            return;
+
+        await context.AddRangeAsync(InitialData.Phases);
         await context.SaveChangesAsync();
     }
     
