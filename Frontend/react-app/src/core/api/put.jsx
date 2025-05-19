@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { api } from './apiConfig';
 
 /**
  * Update existing data
@@ -7,19 +7,12 @@ import axios from 'axios';
  * @param {Object} data - The data to send for update
  * @returns {Promise<Object>} - Returns updated data response
  */
-const Put = async (apiUrl, exactPath, data) => {
+export const Put = async (apiUrl, exactPath, data) => {
   try {
-    const response = await axios.put(`${apiUrl}${exactPath}`, data, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    });
-
+    const response = await api.put(`${apiUrl}${exactPath}`, data);
     return response.data;
   } catch (error) {
-    throw error.response ? error.response.data : new Error('Network error, please try again later.');
+    const errorMessage = error.response?.data || { message: 'Network error' };
+    throw errorMessage;
   }
 };
-
-export default Put;
