@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { FaSignOutAlt, FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
 import { useNavigate } from "react-router";
-import { useAuth } from "../../../../context/AuthContext";
 import TimelineService from "../../../../services/TimelineService";
 import Button from "../../buttons/Button/Button";
 import CreateTimelineModal from "../../modals/CreateTimelineModal/CreateTimelineModal";
@@ -25,8 +24,6 @@ const TimelineList = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [timelineToEdit, setTimelineToEdit] = useState(null);
-
-  const { logout } = useAuth();
 
   const [isMobile, setIsMobile] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -210,19 +207,10 @@ const TimelineList = () => {
   }
 
   return (
+    
     <div className="timeline-list-container">
       <div className="timeline-list-header">
-        <h2 className="timeline-list-title">Timelines</h2>
         <div className="timeline-list-actions">
-          {selectedTimelines.length > 0 && (
-            <Button
-              icon={<FaTrash />}
-              iconOnly
-              variant="danger"
-              size="small"
-              onClick={() => setIsDeleteModalOpen(true)}
-            />
-          )}
           {timelines.length > 0 && (
             <Button
               icon={
@@ -244,13 +232,16 @@ const TimelineList = () => {
             onClick={handleOpenModal}
             variant="success"
           />
-          <Button
-            icon={<FaSignOutAlt />}
-            iconOnly
-            size="small"
-            onClick={logout}
-          />
         </div>
+        {selectedTimelines.length > 0 && (
+            <Button
+              icon={<FaTrash />}
+              iconOnly
+              variant="danger"
+              size="small"
+              onClick={() => setIsDeleteModalOpen(true)}
+            />
+          )}
       </div>
 
       <div className="timeline-list-content">
