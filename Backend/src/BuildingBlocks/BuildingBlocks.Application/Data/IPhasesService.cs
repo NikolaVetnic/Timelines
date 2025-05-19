@@ -18,5 +18,5 @@ public interface IPhasesService
     Task<long> CountPhasesAsync(CancellationToken cancellationToken);
 
     Task DeletePhase(PhaseId phaseId, CancellationToken cancellationToken);
-
+    Task DeletePhases(TimelineId timelineId, IEnumerable<PhaseId> phaseIds, CancellationToken cancellationToken);
 }

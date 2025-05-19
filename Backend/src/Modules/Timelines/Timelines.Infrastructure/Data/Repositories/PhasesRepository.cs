@@ -82,4 +82,14 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
         dbContext.Phases.Remove(phaseToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task DeletePhases(IEnumerable<PhaseId> phaseIds, CancellationToken cancellationToken)
+    {
+        var phasesToDelete = await dbContext.Phases
+            .Where(p => phaseIds.Contains(p.Id))
+            .ToListAsync(cancellationToken);
+
+        dbContext.Phases.RemoveRange(phasesToDelete);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
 }

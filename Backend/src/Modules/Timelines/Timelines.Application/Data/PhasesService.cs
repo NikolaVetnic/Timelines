@@ -80,4 +80,13 @@ public class PhasesService(IServiceProvider serviceProvider, IPhasesRepository p
 
         await phasesRepository.DeletePhaseAsync(phaseId, cancellationToken);
     }
+
+    public async Task DeletePhases(TimelineId timelineId, IEnumerable<PhaseId> phaseIds, CancellationToken cancellationToken)
+    {
+        var input = phaseIds.ToList();
+
+        await TimelinesService.RemovePhases(timelineId, input, cancellationToken);
+
+        await phasesRepository.DeletePhases(input, cancellationToken);
+    }
 }

@@ -108,7 +108,7 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
 
     public async Task RemoveNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
-        var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
+        var timeline = await timelinesRepository.GetTrackedTimelineByIdAsync(timelineId, cancellationToken);
 
         foreach (var nodeId in nodeIds)
             timeline.RemoveNode(nodeId);
@@ -126,6 +126,15 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
     {
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
         timeline.RemovePhase(phaseId);
+        await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
+    }
+
+    public async Task RemovePhases(TimelineId timelineId, IEnumerable<PhaseId> phaseIds, CancellationToken cancellationToken)
+    {
+        var timeline = await timelinesRepository.GetTrackedTimelineByIdAsync(timelineId, cancellationToken);
+
+        foreach (var phaseId in phaseIds)
+            timeline.RemovePhase(phaseId);
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
     }
 

@@ -206,8 +206,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
 
-        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
-        await timelinesService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
+        await TimelinesService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
 
         await nodesRepository.DeleteNode(nodeId, cancellationToken);
     }
@@ -217,8 +216,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     {
         var input = nodeIds.ToList();
 
-        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
-        await timelinesService.RemoveNodes(timelineId, input, cancellationToken);
+        await TimelinesService.RemoveNodes(timelineId, input, cancellationToken);
 
         await nodesRepository.DeleteNodes(input, cancellationToken);
     }
