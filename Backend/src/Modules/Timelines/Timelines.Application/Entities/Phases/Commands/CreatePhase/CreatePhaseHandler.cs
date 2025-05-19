@@ -11,8 +11,8 @@ internal class CreatePhaseHandler(ICurrentUser currentUser, IPhasesRepository ph
         var userId = currentUser.UserId!;
         var phase = command.ToPhase(userId);
 
-        await phasesRepository.CreatePhaseAsync(phase, cancellationToken);
         await timelinesService.AddPhase(phase.TimelineId, phase.Id, cancellationToken);
+        await phasesRepository.CreatePhaseAsync(phase, cancellationToken);
 
         return new CreatePhaseResult(phase.Id);
     }
