@@ -42,5 +42,4 @@ public static class PhaseExtensions
             phase.Stakeholders,
             phase.Tags);
     }
-
 }

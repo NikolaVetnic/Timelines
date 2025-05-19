@@ -1,6 +1,5 @@
 ﻿using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
-using BuildingBlocks.Domain.Timelines.Phase.Dtos;
 using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 
 namespace Timelines.Application.Entities.Phases.Queries.ListNodesByPhaseId;
@@ -12,4 +11,3 @@ public record ListNodesByPhaseIdQuery(PhaseId Id, PaginationRequest PaginationRe
 }
 
 public record ListNodesByPhaseIdResult(PaginatedResult<NodeBaseDto> Nodes);
-
