@@ -20,7 +20,6 @@ public record CreatePhaseCommand : ICommand<CreatePhaseResult>
     public required List<string> Stakeholders { get; set; } = [];
     public required List<string> Tags { get; set; } = [];
     public required TimelineId TimelineId { get; set; }
-
 }
 
 public record CreatePhaseResult(PhaseId Id);
