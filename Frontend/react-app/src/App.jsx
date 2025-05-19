@@ -6,12 +6,12 @@ import {
 } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import AppLayout from "./components/AppLayout/AppLayout";
-import ErrorPage from "./components/Pages/ErrorPage";
-import LoginPage from "./components/Pages/LoginPage";
 import Timeline from "./components/Timelines/Timeline/Timeline";
 import { AuthProvider } from "./context/AuthContext";
 import AuthGuard from "./core/auth/AuthGuard";
-import TimelineList from "./core/components/lists/TimelineList/TimelineList";
+import ErrorPage from "./pages/ErrorPage";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
 import "./styles/App.css";
 
 
@@ -28,7 +28,7 @@ const router = createBrowserRouter(
           </AuthGuard>
         }
       >
-        <Route index element={<TimelineList />} />
+        <Route index element={<HomePage />} />
         <Route path="timelines/:id" element={<Timeline />} />
       </Route>
 
