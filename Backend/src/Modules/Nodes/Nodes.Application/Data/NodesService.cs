@@ -7,13 +7,11 @@ using BuildingBlocks.Domain.Notes.Note.Dtos;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
-using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Extensions;
-using Nodes.Domain.Models;
 
 // ReSharper disable NullableWarningSuppressionIsUsed
 namespace Nodes.Application.Data;
