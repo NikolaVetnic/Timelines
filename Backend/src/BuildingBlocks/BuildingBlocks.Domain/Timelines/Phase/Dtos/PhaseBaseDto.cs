@@ -17,8 +17,7 @@ public class PhaseBaseDto(
     List<PhaseId> dependsOn,
     string assignedTo,
     List<string> stakeholders,
-    List<string> tags,
-    List<string> nodeIds
+    List<string> tags
 )
 {
     [JsonPropertyName("id")] public string? Id { get; set; } = id;
@@ -48,6 +47,4 @@ public class PhaseBaseDto(
     [JsonPropertyName("stakeholders")] public List<string> Stakeholders { get; set; } = stakeholders;
 
     [JsonPropertyName("tags")] public List<string> Tags { get; set; } = tags;
-
-    [JsonPropertyName("nodeIds")] public List<string> NodeIds { get; set; } = nodeIds;
 }

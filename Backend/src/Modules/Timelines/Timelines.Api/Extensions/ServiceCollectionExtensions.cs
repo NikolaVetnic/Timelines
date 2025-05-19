@@ -31,6 +31,7 @@ public static class ServiceCollectionExtensions
         services.AddControllers().AddApplicationPart(typeof(PhasesController).Assembly);
 
         services.AddScoped<ITimelinesService, TimelinesService>();
+        services.AddScoped<IPhasesService, PhasesService>();
 
         return services;
     }
