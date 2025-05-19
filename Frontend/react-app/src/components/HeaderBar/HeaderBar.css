@@ -1,0 +1,22 @@
+.headbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #2c3e50;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.headbar-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.headbar-search {
+    flex: 1;
+    max-width: 500px;
+    margin: 0 1rem;
+}
