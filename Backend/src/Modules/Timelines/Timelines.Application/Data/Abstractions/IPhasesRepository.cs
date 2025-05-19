@@ -15,4 +15,6 @@ public interface IPhasesRepository
 
     Task<IEnumerable<Phase>> GetPhasesBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken);
     Task<long> PhaseCountAsync(CancellationToken cancellationToken);
+    Task UpdatePhaseAsync(Phase phase, CancellationToken cancellationToken);
+
 }

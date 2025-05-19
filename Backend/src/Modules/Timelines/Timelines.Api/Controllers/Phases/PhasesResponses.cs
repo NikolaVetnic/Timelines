@@ -9,3 +9,5 @@ public record CreatePhaseResponse(PhaseId Id);
 public record GetPhaseByIdResponse(PhaseDto Phases);
 
 public record ListPhasesResponse(PaginatedResult<PhaseDto> Phases);
+
+public record UpdatePhaseResponse(PhaseBaseDto Phase);

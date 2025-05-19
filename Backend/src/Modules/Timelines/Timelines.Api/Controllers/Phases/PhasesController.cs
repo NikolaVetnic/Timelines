@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Validation.AspNetCore;
+using System;
 using System.Threading.Tasks;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using Timelines.Application.Entities.Phases.Commands.CreatePhase;
+using Timelines.Application.Entities.Phases.Commands.UpdatePhase;
 using Timelines.Application.Entities.Phases.Queries.GetPhaseById;
 using Timelines.Application.Entities.Phases.Queries.ListPhases;
 
@@ -50,6 +53,36 @@ public class PhasesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new ListPhasesQuery(query));
         var response = result.Adapt<ListPhasesResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpPut("{phaseId}")]
+    [ProducesResponseType(typeof(UpdatePhaseResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<UpdatePhaseResponse>> Update([FromRoute] string phaseId, [FromBody] UpdatePhaseRequest request)
+    {
+        var command = new UpdatePhaseCommand
+        {
+            Id = PhaseId.Of(Guid.Parse(phaseId)),
+            Title = request.Title,
+            Description = request.Description,
+            StartDate = request.StartDate,
+            EndDate = request.EndDate,
+            Duration = request.Duration,
+            Status = request.Status,
+            Progress = request.Progress,
+            IsCompleted = request.IsCompleted,
+            Parent = request.Parent,
+            DependsOn = request.DependsOn,
+            AssignedTo = request.AssignedTo,
+            Stakeholders = request.Stakeholders,
+            Tags = request.Tags,
+            TimelineId = request.TimelineId
+        };
+
+        var result = await sender.Send(command);
+        var response = result.Adapt<UpdatePhaseResponse>();
 
         return Ok(response);
     }

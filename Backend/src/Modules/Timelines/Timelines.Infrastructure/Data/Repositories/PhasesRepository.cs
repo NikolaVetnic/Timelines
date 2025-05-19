@@ -67,4 +67,10 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
             .Where(n => n.OwnerId == currentUser.UserId!)
             .LongCountAsync(cancellationToken);
     }
+
+    public async Task UpdatePhaseAsync(Phase phase, CancellationToken cancellationToken)
+    {
+        dbContext.Phases.Update(phase);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
 }
