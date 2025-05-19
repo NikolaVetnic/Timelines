@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Application.Pagination;
+using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Timelines.Phase.Dtos;
 using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 
@@ -9,6 +10,8 @@ public record CreatePhaseResponse(PhaseId Id);
 public record GetPhaseByIdResponse(PhaseDto Phases);
 
 public record ListPhasesResponse(PaginatedResult<PhaseDto> Phases);
+
+public record ListNodesByPhaseIdResponse(PaginatedResult<NodeBaseDto> Nodes);
 
 public record UpdatePhaseResponse(PhaseBaseDto Phase);
 

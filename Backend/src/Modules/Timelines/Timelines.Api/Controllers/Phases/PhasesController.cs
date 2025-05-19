@@ -9,6 +9,7 @@ using Timelines.Application.Entities.Phases.Commands.CreatePhase;
 using Timelines.Application.Entities.Phases.Commands.DeletePhase;
 using Timelines.Application.Entities.Phases.Commands.UpdatePhase;
 using Timelines.Application.Entities.Phases.Queries.GetPhaseById;
+using Timelines.Application.Entities.Phases.Queries.ListNodesByPhaseId;
 using Timelines.Application.Entities.Phases.Queries.ListPhases;
 
 namespace Timelines.Api.Controllers.Phases;
@@ -54,6 +55,17 @@ public class PhasesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new ListPhasesQuery(query));
         var response = result.Adapt<ListPhasesResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet("{phaseId}/Nodes")]
+    [ProducesResponseType(typeof(ListNodesByPhaseIdResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListNodesByPhaseIdResponse>> GetNodes(string phaseId, [FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListNodesByPhaseIdQuery(phaseId, query));
+        var response = result.Adapt<ListNodesByPhaseIdResponse>();
 
         return Ok(response);
     }

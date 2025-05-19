@@ -7,11 +7,13 @@ using BuildingBlocks.Domain.Notes.Note.Dtos;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using Nodes.Application.Data.Abstractions;
 using Nodes.Application.Entities.Nodes.Extensions;
+using Nodes.Domain.Models;
 
 // ReSharper disable NullableWarningSuppressionIsUsed
 namespace Nodes.Application.Data;
@@ -100,6 +102,18 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         return nodesDtos;
     }
 
+    public async Task<List<NodeBaseDto>> ListNodesBelongingToPhasePaginated(DateTime startDate, DateTime? endDate, int pageIndex, int pageSize,
+        CancellationToken cancellationToken)
+    {
+        var nodes = await nodesRepository.ListNodesBelongingToPhaseAsync(startDate, endDate, pageIndex, pageSize, cancellationToken);
+
+        var nodesDtos = nodes
+            .Select(n => n.ToNodeBaseDto())
+            .ToList();
+
+        return nodesDtos;
+    }
+
     public async Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds,
         CancellationToken cancellationToken)
     {
@@ -115,6 +129,11 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     public async Task<long> CountNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
         return await nodesRepository.NodeCountByTimelineIdAsync(timelineId, cancellationToken);
+    }
+
+    public async Task<long> CountNodesBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken)
+    {
+        return await nodesRepository.NodeCountBelongingToPhase(startDate, endDate, cancellationToken);
     }
 
     #endregion
