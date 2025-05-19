@@ -1,11 +1,11 @@
 ﻿using BuildingBlocks.Application.Data;
-using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Phase.Dtos;
 using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Mapster;
+using Microsoft.Extensions.DependencyInjection;
 using Timelines.Application.Data.Abstractions;
 using Timelines.Application.Entities.Phases.Extensions;
 
@@ -13,11 +13,23 @@ namespace Timelines.Application.Data;
 
 public class PhasesService(IServiceProvider serviceProvider, IPhasesRepository phasesRepository) : IPhasesService
 {
+    private ITimelinesService TimelinesService => serviceProvider.GetRequiredService<ITimelinesService>();
+
     public async Task<PhaseBaseDto> GetPhaseBaseByIdAsync(PhaseId phaseId, CancellationToken cancellationToken)
     {
         var phase = await phasesRepository.GetPhaseByIdAsync(phaseId, cancellationToken);
-
         var phaseDto = phase.Adapt<PhaseBaseDto>();
+
+        return phaseDto;
+    }
+
+    public async Task<PhaseDto> GetPhaseByIdAsync(PhaseId phaseId, CancellationToken cancellationToken)
+    {
+        var phase = await phasesRepository.GetPhaseByIdAsync(phaseId, cancellationToken);
+        var phaseDto = phase.Adapt<PhaseDto>();
+
+        var timeline = await TimelinesService.GetTimelineBaseByIdAsync(phase.TimelineId, cancellationToken);
+        phaseDto.Timeline = timeline;
 
         return phaseDto;
     }

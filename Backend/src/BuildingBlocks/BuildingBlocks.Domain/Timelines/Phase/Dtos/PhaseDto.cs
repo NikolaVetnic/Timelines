@@ -1,4 +1,8 @@
-﻿using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
+﻿using BuildingBlocks.Domain.Nodes.Node.Dtos;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
+using System.Text.Json.Serialization;
+using System.Xml.Linq;
+using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 
 namespace BuildingBlocks.Domain.Timelines.Phase.Dtos;
 
@@ -16,6 +20,9 @@ PhaseId parent,
 List<PhaseId> dependsOn,
 string assignedTo,
 List<string> stakeholders,
-List<string> tags) : PhaseBaseDto(id, title, description, startDate, endDate, duration, status, progress, isCompleted, parent, dependsOn, assignedTo, stakeholders, tags)
+List<string> tags,
+TimelineBaseDto timeline) : PhaseBaseDto(id, title, description, startDate, endDate, duration, status, progress, isCompleted, parent, dependsOn, assignedTo, stakeholders, tags)
 {
+    [JsonPropertyName("timeline")] public TimelineBaseDto Timeline { get; set; } = timeline;
+
 }
