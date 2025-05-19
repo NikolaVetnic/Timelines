@@ -7,7 +7,7 @@ namespace Timelines.Api.Controllers.Phases;
 
 public record CreatePhaseResponse(PhaseId Id);
 
-public record GetPhaseByIdResponse(PhaseDto Phases);
+public record GetPhaseByIdResponse(PhaseDto Phase);
 
 public record ListPhasesResponse(PaginatedResult<PhaseDto> Phases);
 
