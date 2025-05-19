@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { FaRedo } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Button from "../../core/components/buttons/Button/Button";
@@ -89,14 +88,8 @@ const LoginPage = () => {
 
       {authError && (
         <div className="error-message">
-          <p>{authError}</p>
-          <Button
-            className="error-retry-button"
-            icon={<FaRedo />}
-            text="Try Again"
-            variant="danger"
-            onClick={() => window.location.reload()}
-          />
+          {/* <p>{authError}</p> */}
+          <p>Username or password are incorrect.</p>
         </div>
       )}
 
