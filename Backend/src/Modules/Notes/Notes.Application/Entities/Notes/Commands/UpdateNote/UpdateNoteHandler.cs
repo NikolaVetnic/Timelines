@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.Application.Data;
-using BuildingBlocks.Domain.Nodes.Node.Dtos;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Notes.Application.Data.Abstractions;
 using Notes.Application.Entities.Notes.Exceptions;
@@ -23,33 +22,16 @@ internal class UpdateNoteHandler(INotesRepository notesRepository, INodesService
         note.SharedWith = command.SharedWith ?? note.SharedWith;
         note.IsPublic = command.IsPublic ?? note.IsPublic;
 
-        var node = await UpdateNode(note, command.NodeId, cancellationToken);
+        var node = await nodesService.GetNodeByIdAsync(
+            command.NodeId ?? note.NodeId, cancellationToken);
+
+        if (node.Id is null)
+            throw new NotFoundException($"Related node with ID {command.NodeId ?? note.NodeId} not found");
+
+        note.NodeId = NodeId.Of(Guid.Parse(node.Id));
 
         await notesRepository.UpdateNoteAsync(note, cancellationToken);
 
         return new UpdateNoteResult(note.ToNoteDto(node));
-    }
-
-    private async Task<NodeDto> UpdateNode(Note note, NodeId? id, CancellationToken cancellationToken)
-    {
-        var node = await nodesService.GetNodeByIdAsync(note.NodeId, cancellationToken);
-
-        if (id is null)
-            return node;
-
-        try
-        {
-            node = await nodesService.GetNodeByIdAsync(id, cancellationToken);
-
-            if (node.Id is not null)
-                note.NodeId = NodeId.Of(Guid.Parse(node.Id));
-        }
-        catch (Exception)
-        {
-            // ToDo: Replace this with proper logger (Serilog?)
-            Console.WriteLine($"Related node with ID {id} not found");
-        }
-
-        return node;
     }
 }
