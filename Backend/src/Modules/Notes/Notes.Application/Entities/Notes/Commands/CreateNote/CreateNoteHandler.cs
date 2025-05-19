@@ -12,8 +12,8 @@ internal class CreateNoteHandler(ICurrentUser currentUser, INotesRepository note
         var userId = currentUser.UserId!;
         var note = command.ToNote(userId);
 
-        await notesRepository.AddNoteAsync(note, cancellationToken);
         await nodesService.AddNote(note.NodeId, note.Id, cancellationToken);
+        await notesRepository.AddNoteAsync(note, cancellationToken);
 
         return new CreateNoteResult(note.Id);
     }

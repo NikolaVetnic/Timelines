@@ -11,8 +11,8 @@ internal class CreateNodeHandler(ICurrentUser currentUser, INodesRepository node
         var userId = currentUser.UserId!;
         var node = command.ToNode(userId);
 
-        await nodesRepository.CreateNodeAsync(node, cancellationToken);
         await timelineService.AddNode(node.TimelineId, node.Id, cancellationToken);
+        await nodesRepository.CreateNodeAsync(node, cancellationToken);
 
         return new CreateNodeResult(node.Id);
     }

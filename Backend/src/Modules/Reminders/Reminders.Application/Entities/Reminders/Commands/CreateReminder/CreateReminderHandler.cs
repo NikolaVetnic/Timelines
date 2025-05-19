@@ -12,8 +12,8 @@ internal class CreateReminderHandler(ICurrentUser currentUser, IRemindersReposit
         var userId = currentUser.UserId!;
         var reminder = command.ToReminder(userId);
 
-        await reminderRepository.AddReminderAsync(reminder, cancellationToken);
         await nodesService.AddReminder(reminder.NodeId, reminder.Id, cancellationToken);
+        await reminderRepository.AddReminderAsync(reminder, cancellationToken);
 
         return new CreateReminderResult(reminder.Id);
     }
