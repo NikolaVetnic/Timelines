@@ -1,7 +1,6 @@
 ﻿using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using System.Collections.Generic;
 using System;
-using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 
 namespace Nodes.Api.Controllers.Nodes;
 

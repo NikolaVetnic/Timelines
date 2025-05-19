@@ -9,6 +9,17 @@ namespace Timelines.Infrastructure.Data.Repositories;
 
 public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbContext) : IPhasesRepository
 {
+    public async Task<List<Phase>> ListPhasesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        return await dbContext.Phases
+            .AsNoTracking()
+            .OrderBy(p => p.CreatedBy)
+            .Where(p => p.OwnerId == currentUser.UserId!)
+            .Skip(pageSize * pageIndex)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken: cancellationToken);
+    }
+
     public async Task CreatePhaseAsync(Phase phase, CancellationToken cancellationToken)
     {
         dbContext.Phases.Add(phase);
@@ -48,5 +59,12 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
             .AsNoTracking()
             .Where(n => timelineIds.Contains(n.TimelineId))
             .ToListAsync(cancellationToken: cancellationToken);
+    }
+
+    public async Task<long> PhaseCountAsync(CancellationToken cancellationToken)
+    {
+        return await dbContext.Phases
+            .Where(n => n.OwnerId == currentUser.UserId!)
+            .LongCountAsync(cancellationToken);
     }
 }

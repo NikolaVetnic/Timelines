@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using BuildingBlocks.Application.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Validation.AspNetCore;
+using System.Threading.Tasks;
 using Timelines.Application.Entities.Phases.Commands.CreatePhase;
 using Timelines.Application.Entities.Phases.Queries.GetPhaseById;
+using Timelines.Application.Entities.Phases.Queries.ListPhases;
 
 namespace Timelines.Api.Controllers.Phases;
 
@@ -37,6 +39,17 @@ public class PhasesController(ISender sender) : ControllerBase
             return NotFound();
 
         var response = result.Adapt<GetPhaseByIdResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(ListPhasesResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListPhasesResponse>> Get([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListPhasesQuery(query));
+        var response = result.Adapt<ListPhasesResponse>();
 
         return Ok(response);
     }
