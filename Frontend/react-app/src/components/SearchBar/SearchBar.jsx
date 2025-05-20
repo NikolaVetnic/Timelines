@@ -51,7 +51,13 @@ const SearchBar = ({ onSearch, searchResults, onResultClick }) => {
     }
   };
 
-  return (
+  const clearResults = () => {
+    setSearchTerm("");
+    setShowResults(false);
+    onSearch("");
+  };
+
+return (
     <>
       {isMobile ? (
         <>
@@ -87,6 +93,15 @@ const SearchBar = ({ onSearch, searchResults, onResultClick }) => {
 
               {showResults && searchResults.length > 0 && (
                 <div className="mobile-search-results">
+                  <div className="search-results-header">
+                    <span>Search Results</span>
+                    <button 
+                      className="clear-results-button"
+                      onClick={clearResults}
+                    >
+                      Clear
+                    </button>
+                  </div>
                   {searchResults.map((timeline) => (
                     <div
                       key={timeline.id}
@@ -113,10 +128,18 @@ const SearchBar = ({ onSearch, searchResults, onResultClick }) => {
                 onChange={handleInputChange}
                 className="search-bar-input"
               />
+              {searchTerm && (
+                <Button
+                  icon={<FaTimes />}
+                  iconOnly
+                  size="small"
+                  onClick={clearResults}
+                  className="search-clear-button"
+                />
+              )}
               <Button
                 type="submit"
                 size="small"
-                disabled
                 icon={<FaSearch />}
                 iconOnly
                 className="search-bar-button"
@@ -126,6 +149,15 @@ const SearchBar = ({ onSearch, searchResults, onResultClick }) => {
 
           {showResults && searchResults.length > 0 && (
             <div className="desktop-search-results">
+              <div className="search-results-header">
+                <span>Search Results</span>
+                <button 
+                  className="clear-results-button"
+                  onClick={clearResults}
+                >
+                  Clear
+                </button>
+              </div>
               {searchResults.map((timeline) => (
                 <div
                   key={timeline.id}
