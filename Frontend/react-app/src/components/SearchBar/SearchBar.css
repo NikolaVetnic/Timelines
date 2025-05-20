@@ -23,6 +23,10 @@
     border-color: #3498db;
 }
 
+.search-results-text {
+    color: var(--enmBlue);
+}
+
 .search-bar-button {
     position: absolute;
         right: 0;

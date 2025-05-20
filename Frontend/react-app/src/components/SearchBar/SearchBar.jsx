@@ -94,7 +94,7 @@ return (
               {showResults && searchResults.length > 0 && (
                 <div className="mobile-search-results">
                   <div className="search-results-header">
-                    <span>Search Results</span>
+                    <span className="search-results-text">Search Results</span>
                     <button 
                       className="clear-results-button"
                       onClick={clearResults}
@@ -128,15 +128,6 @@ return (
                 onChange={handleInputChange}
                 className="search-bar-input"
               />
-              {searchTerm && (
-                <Button
-                  icon={<FaTimes />}
-                  iconOnly
-                  size="small"
-                  onClick={clearResults}
-                  className="search-clear-button"
-                />
-              )}
               <Button
                 type="submit"
                 size="small"
@@ -150,7 +141,7 @@ return (
           {showResults && searchResults.length > 0 && (
             <div className="desktop-search-results">
               <div className="search-results-header">
-                <span>Search Results</span>
+                <span className="search-results-text">Search Result</span>
                 <button 
                   className="clear-results-button"
                   onClick={clearResults}
