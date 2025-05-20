@@ -28,8 +28,8 @@ const router = createBrowserRouter(
           </AuthGuard>
         }
       >
-        <Route index element={<HomePage />} />
-        <Route path="timelines/:id" element={<Timeline />} />
+        <Route id="homePage" index element={<HomePage />} />
+        <Route id="timelinePage" path="timelines/:id" element={<Timeline />} />
       </Route>
 
       <Route path="*" element={<ErrorPage />} />
