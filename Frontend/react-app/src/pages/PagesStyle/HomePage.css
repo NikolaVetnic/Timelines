@@ -8,6 +8,22 @@
     height: 100%;
 }
 
+.timeline-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+    padding-top: 0.2rem;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.timeline-list-content {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+    /* For smooth scrolling on iOS */
+}
 .timeline-list-header {
     display: flex;
     flex-wrap: wrap;
@@ -25,23 +41,6 @@
     font-size: clamp(2rem, 2vw, 1.8rem);
     color: #2c3e50;
     max-width: 100%;
-}
-
-.timeline-list-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.2rem;
-    padding-top: 0.2rem;
-    width: 100%;
-    overflow: hidden;
-}
-
-.timeline-list-content {
-    flex: 1;
-    overflow-y: auto;
-    margin-bottom: 1rem;
-    -webkit-overflow-scrolling: touch;
-    /* For smooth scrolling on iOS */
 }
 
 .timeline-list-actions {
