@@ -1,7 +1,8 @@
 import { toast } from "react-toastify";
-import deleteById from "../core/api/delete";
-import { getAll, getById } from "../core/api/get";
-import Post from "../core/api/post";
+import { deleteById } from "../core/api/delete";
+import { getAll } from "../core/api/getAll";
+import { getById } from "../core/api/getById";
+import { Post } from "../core/api/post";
 import API_BASE_URL, { FILE_NUMBER_TO_TYPE, FILE_TYPE_TO_NUMBER } from "../data/constants";
 
 class FileService {

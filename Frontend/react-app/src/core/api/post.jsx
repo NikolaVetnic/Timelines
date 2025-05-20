@@ -1,4 +1,6 @@
-import axios from 'axios';
+// post.js
+import qs from 'qs';
+import { api } from './apiConfig';
 
 /**
  * Create new data
@@ -7,19 +9,21 @@ import axios from 'axios';
  * @param {Object} data - The data to send
  * @returns {Promise<Object>} - Returns created data response
  */
-const Post = async (apiUrl, exactPath, data) => {
+export const Post = async (apiUrl, exactPath, data, isFormUrlEncoded = false) => {
   try {
-    const response = await axios.post(`${apiUrl}${exactPath}`, data, {
+    const config = {
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    });
+        'Content-Type': isFormUrlEncoded 
+          ? 'application/x-www-form-urlencoded' 
+          : 'application/json'
+      }
+    };
 
+    const requestData = isFormUrlEncoded ? qs.stringify(data) : data;
+    const response = await api.post(`${apiUrl}${exactPath}`, requestData, config);
     return response.data;
   } catch (error) {
-    throw error.response ? error.response.data : new Error('Network error, please try again later.');
+    const errorMessage = error.response?.data || { message: 'Network error' };
+    throw errorMessage;
   }
 };
-
-export default Post;
