@@ -8,4 +8,6 @@ public abstract class Entity<T> : IEntity<T>
     public DateTime? LastModifiedAt { get; set; }
     public string? LastModifiedBy { get; set; }
     public bool IdDeleted { get; protected set; } = false;
+    public DateTime? DeletedAt { get; protected set; }
+    public string? DeletedBy { get; protected set; }
 }
