@@ -29,4 +29,5 @@ services:
   proxy:
     volumes:
       - ${PWD}/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./certs:/etc/nginx/certs:ro
       - /var/www/frontend:/usr/share/nginx/html:ro

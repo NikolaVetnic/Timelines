@@ -45,7 +45,8 @@ builder.Services.AddCors(options =>
             if (allowedOrigins != null)
                 policy.WithOrigins(allowedOrigins)
                     .AllowAnyMethod()
-                    .AllowAnyHeader();
+                    .AllowAnyHeader()
+                    .AllowCredentials();
         });
 });
 
@@ -84,6 +85,8 @@ switch (app.Environment.EnvironmentName)
 
 app.UseRouting();
 
+app.UseCors("AllowSpecificOrigins");
+
 app.UseMiddleware<ApiKeyMiddleware>();
 
 app.UseAuthentication();
@@ -105,8 +108,6 @@ app.UseHealthChecks("/health",
     {
         ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
     });
-
-app.UseCors("AllowSpecificOrigins");
 
 app.Run();
 
