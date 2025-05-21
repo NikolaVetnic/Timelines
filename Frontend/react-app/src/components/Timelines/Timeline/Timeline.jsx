@@ -5,6 +5,7 @@ import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router";
 import Button from "../../../core/components/buttons/Button/Button";
 import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
+import CreateTimelineModal from "../../../core/components/modals/CreateTimelineModal/CreateTimelineModal";
 import DeleteModal from "../../../core/components/modals/DeleteModal/DeleteModal";
 import recalculateStrip from "../../../core/utils/RecalculateStrip";
 import NodeService from "../../../services/NodeService";
@@ -29,7 +30,9 @@ const Timeline = () => {
   const [selectedNodes, setSelectedNodes] = useState([]);
   const [nodesToDelete, setNodesToDelete] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
+  const [showCloneModal, setShowCloneModal] = useState(false);
 
+  
   const fetchTimeline = useCallback(async () => {
     const response = await TimelineService.getTimelineById(id);
     setTimeline(response);
@@ -159,6 +162,12 @@ const Timeline = () => {
           </>
         )}
         <Button
+          text="Clone This Timeline"
+          onClick={() => setShowCloneModal(true)}
+          variant="primary"
+          size="small"
+        />
+        <Button
           text="Add Node"
           onClick={() => setShowCreateModal(true)}
           variant="success"
@@ -171,6 +180,15 @@ const Timeline = () => {
         onClose={() => setShowCreateModal(false)}
         timelineId={id}
         onNodeCreated={fetchTimeline}
+      />
+
+      <CreateTimelineModal
+        isOpen={showCloneModal}
+        onClose={() => setShowCloneModal(false)}
+        onTimelineCreated={() => {
+          setShowCloneModal(false);
+        }}
+        initialTemplate={id}
       />
 
       <DeleteModal
