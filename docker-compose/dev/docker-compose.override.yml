@@ -41,9 +41,6 @@ services:
   proxy:
     depends_on:
       - tl-frontend
-    ports:
-      - "80:80"
-      - "443:443"
     volumes:
       - ${PWD}/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./certs:/etc/nginx/certs:ro
