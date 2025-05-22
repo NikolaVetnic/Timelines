@@ -24,7 +24,7 @@ public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext d
     public async Task<long> TimelineCountAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Timelines
-            .Where(t => t.OwnerId == currentUser.UserId! && t.IsDeleted == false)
+            .Where(t => t.OwnerId == currentUser.UserId! && !t.IsDeleted)
             .LongCountAsync(cancellationToken);
     }
 
@@ -74,7 +74,7 @@ public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext d
                 dbContext.Timelines
                     .AsNoTracking()
                     .AsEnumerable()
-                    .Where(t => t.NodeIds.Any(nodeIds.Contains) && t.OwnerId == currentUser.UserId!)
+                    .Where(t => t.NodeIds.Any(nodeIds.Contains) && t.OwnerId == currentUser.UserId! && !t.IsDeleted)
                     .ToList(),
             cancellationToken);
     }

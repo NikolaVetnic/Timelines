@@ -19,7 +19,7 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
         return await dbContext.Reminders
             .AsNoTracking()
             .OrderBy(r => r.NotifyAt)
-            .Where(r => r.OwnerId == currentUser.UserId!)
+            .Where(r => r.OwnerId == currentUser.UserId! && r.IsDeleted == false)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -29,7 +29,7 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
     {
         return await dbContext.Reminders
             .AsNoTracking()
-            .Where(r => r.NodeId == nodeId && r.OwnerId == currentUser.UserId!)
+            .Where(r => r.NodeId == nodeId && r.OwnerId == currentUser.UserId! && r.IsDeleted == false)
             .OrderBy(r => r.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)
@@ -40,7 +40,7 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
     {
         return await dbContext.Reminders
                    .AsNoTracking()
-                   .SingleOrDefaultAsync(r => r.Id == reminderId && r.OwnerId == currentUser.UserId!, cancellationToken) ??
+                   .SingleOrDefaultAsync(r => r.Id == reminderId && r.OwnerId == currentUser.UserId! && r.IsDeleted == false, cancellationToken) ??
                throw new ReminderNotFoundException(reminderId.ToString());
     }
 

@@ -20,7 +20,7 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
     {
         return await dbContext.Notes
             .AsNoTracking()
-            .Where(n => n.OwnerId == currentUser.UserId!)
+            .Where(n => n.OwnerId == currentUser.UserId! && !n.IsDeleted)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -121,7 +121,7 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
     {
         return await dbContext.Notes
             .AsNoTracking()
-            .Where(n => nodeIds.Contains(n.NodeId) && n.OwnerId == currentUser.UserId!)
+            .Where(n => nodeIds.Contains(n.NodeId) && n.OwnerId == currentUser.UserId! && n.IsDeleted == false)
             .ToListAsync(cancellationToken: cancellationToken);
     }
 }

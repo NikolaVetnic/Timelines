@@ -19,7 +19,7 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
         return await dbContext.FileAssets
             .AsNoTracking()
             .OrderBy(f => f.CreatedBy)
-            .Where(f => f.OwnerId == currentUser.UserId!)
+            .Where(f => f.OwnerId == currentUser.UserId! && f.IsDeleted == false)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -29,7 +29,7 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
     {
         return await dbContext.FileAssets
             .AsNoTracking()
-            .Where(f => f.NodeId == nodeId && f.OwnerId == currentUser.UserId!)
+            .Where(f => f.NodeId == nodeId && f.OwnerId == currentUser.UserId! && f.IsDeleted == false)
             .OrderBy(f => f.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)
