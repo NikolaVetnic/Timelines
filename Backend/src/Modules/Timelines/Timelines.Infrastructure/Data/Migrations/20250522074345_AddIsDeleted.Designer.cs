@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Timelines.Infrastructure.Data;
@@ -11,9 +12,11 @@ using Timelines.Infrastructure.Data;
 namespace Timelines.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(TimelinesDbContext))]
-    partial class TimelinesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250522074345_AddIsDeleted")]
+    partial class AddIsDeleted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
