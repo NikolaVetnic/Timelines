@@ -1,6 +1,6 @@
-import { useRouteError, useNavigate } from "react-router-dom";
 import { FaHome, FaRedo, FaSignInAlt } from "react-icons/fa";
-import Button from "../../core/components/buttons/Button/Button";
+import { useNavigate, useRouteError } from "react-router-dom";
+import Button from "../core/components/buttons/Button/Button";
 import "./PagesStyle/ErrorPage.css";
 
 const ErrorPage = () => {

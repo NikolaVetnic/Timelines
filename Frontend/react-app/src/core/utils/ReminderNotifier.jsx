@@ -25,9 +25,8 @@ const ReminderNotifier = () => {
       
 
       allReminders.forEach(reminder => {
-        if (!reminder.notificationTime) return;
-
-        const reminderTime = new Date(reminder.notificationTime);
+        if (!reminder.notifyAt) return;
+        const reminderTime = new Date(reminder.notifyAt);
         const timeDifference = reminderTime.getTime() - now.getTime();
 
         // todo: enable this check when update is available

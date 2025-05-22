@@ -43,35 +43,6 @@ body {
   overflow: hidden;
 }
 
-.app-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100%;
-  height: 100vh;
-  background-color: var(--enmGray);
-}
-
-.app-content {
-  display: flex;
-  flex-direction: column;
-  width: 900px;
-  max-width: 100%;
-  background-color: #fff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  height: calc(100vh);
-  max-height: calc(100vh);
-  overflow: hidden;
-}
-
-.content-wrapper {
-  flex: 1;
-  overflow-y: auto;
-  padding: 5px;
-  min-height: 0;
-}
-
 a {
   color: var(--enmBlue);
   text-decoration: none;
@@ -90,64 +61,4 @@ h5,
 h6 {
   color: var(--enmBlue);
   margin: 0;
-}
-
-/* Bug Report Button Styles - More Prominent */
-.bug-report-button {
-  position: fixed;
-  top: 20px;
-  width: 47px;
-  height: 47px;
-  border-radius: 50%;
-  background-color: var(--enmOrange);
-  color: white;
-  border: 3px solid white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  z-index: 10000;
-  transition: all 0.3s ease;
-  font-weight: bold;
-  animation: pulse 2s infinite;
-}
-
-.bug-report-button:hover {
-  background-color: #d45a1f;
-  transform: scale(1.15) rotate(10deg);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-}
-
-.bug-report-button:active {
-  transform: scale(0.95);
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(231, 106, 41, 0.7);
-  }
-
-  70% {
-    box-shadow: 0 0 0 12px rgba(231, 106, 41, 0);
-  }
-
-  100% {
-    box-shadow: 0 0 0 0 rgba(231, 106, 41, 0);
-  }
-}
-
-.bug-report-button svg {
-  width: 28px;
-  height: 28px;
-}
-
-@media (max-width: 900px) {
-  .bug-report-button {
-    right: 100px;
-  }
-
-  .app-content {
-    padding: 5px;
-  }
 }
