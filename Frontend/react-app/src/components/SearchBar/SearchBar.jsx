@@ -133,6 +133,7 @@ return (
                 size="small"
                 icon={<FaSearch />}
                 iconOnly
+                disabled
                 className="search-bar-button"
               />
             </div>
