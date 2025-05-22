@@ -86,8 +86,10 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
     {
         var nodeToDelete = await dbContext.Nodes
             .FirstAsync(n => n.Id == nodeId, cancellationToken);
+
+        nodeToDelete.MarkAsDeleted();
         
-        dbContext.Nodes.Remove(nodeToDelete);
+        dbContext.Nodes.Update(nodeToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
     
@@ -96,8 +98,13 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
         var nodesToDelete = await dbContext.Nodes
             .Where(n => nodeIds.Contains(n.Id))
             .ToListAsync(cancellationToken);
-        
-        dbContext.Nodes.RemoveRange(nodesToDelete);
+
+        foreach (var node in nodesToDelete)
+        {
+            node.MarkAsDeleted();
+        }
+
+        dbContext.Nodes.UpdateRange(nodesToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
