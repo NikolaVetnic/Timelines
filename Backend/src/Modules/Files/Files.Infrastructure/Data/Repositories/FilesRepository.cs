@@ -69,7 +69,9 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
         var fileAssetToDelete = await dbContext.FileAssets
             .FirstAsync(f => f.Id == fileAssetId, cancellationToken);
 
-        dbContext.FileAssets.Remove(fileAssetToDelete);
+        fileAssetToDelete.MarkAsDeleted();
+
+        dbContext.FileAssets.Update(fileAssetToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -79,7 +81,12 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
             .Where(f => fileAssetIds.Contains(f.Id))
             .ToListAsync(cancellationToken);
 
-        dbContext.FileAssets.RemoveRange(fileAssetsToDelete);
+        foreach (var fileAsset in fileAssetsToDelete)
+        {
+            fileAsset.MarkAsDeleted();
+        }
+
+        dbContext.FileAssets.UpdateRange(fileAssetsToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
