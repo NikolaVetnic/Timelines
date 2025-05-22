@@ -77,7 +77,9 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
         var reminderToDelete = await dbContext.Reminders
             .FirstAsync(r => r.Id == reminderId, cancellationToken);
 
-        dbContext.Reminders.Remove(reminderToDelete);
+        reminderToDelete.MarkAsDeleted();
+
+        dbContext.Reminders.Update(reminderToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -87,7 +89,12 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
             .Where(r => reminderIds.Contains(r.Id))
             .ToListAsync(cancellationToken);
 
-        dbContext.Reminders.RemoveRange(remindersToDelete);
+        foreach (var reminder in remindersToDelete)
+        {
+            reminder.MarkAsDeleted();
+        }
+
+        dbContext.Reminders.UpdateRange(remindersToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 }
