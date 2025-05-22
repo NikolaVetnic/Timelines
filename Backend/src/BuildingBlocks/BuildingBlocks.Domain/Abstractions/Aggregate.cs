@@ -20,12 +20,12 @@ public abstract class Aggregate<TId> : Entity<TId>, IAggregate<TId>
         _domainEvents.Add(domainEvent);
     }
 
-    //public virtual void MarkAsDeleted(string deletedBy = null)
-    //{
-    //    IsDeleted = true;
-    //    DeletedOn = DateTime.UtcNow;
-    //    DeletedBy = deletedBy;
+    public virtual void MarkAsDeleted(string deletedBy = null)
+    {
+        IsDeleted = true;
+        DeletedAt = DateTime.UtcNow;
+        DeletedBy = deletedBy;
 
-    //    //AddDomainEvent(new EntityDeletedEvent<TId>(this)); //todo: create event?
-    //}
+        //AddDomainEvent(new EntityDeletedEvent<TId>(this)); //todo: create event?
+    }
 }
