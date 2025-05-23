@@ -97,4 +97,22 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
         dbContext.Reminders.UpdateRange(remindersToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task DeleteRemindersByNodeIds(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        foreach (var nodeId in nodeIds)
+        {
+            var remindersToDelete = await dbContext.Reminders
+                .Where(n => n.NodeId == nodeId)
+                .ToListAsync(cancellationToken);
+
+            foreach (var reminder in remindersToDelete)
+            {
+                reminder.MarkAsDeleted();
+            }
+
+            dbContext.Reminders.UpdateRange(remindersToDelete);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
+    }
 }
