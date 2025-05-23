@@ -16,4 +16,5 @@ public interface IRemindersService
 
     Task DeleteReminder(ReminderId reminderId, CancellationToken cancellationToken);
     Task DeleteReminders(NodeId nodeId, IEnumerable<ReminderId> reminderIds, CancellationToken cancellationToken);
+    Task DeleteRemindersByNodeIds(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 }
