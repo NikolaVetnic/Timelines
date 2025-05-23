@@ -90,6 +90,24 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task DeleteFileAssetsByNodeIds(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        foreach (var nodeId in nodeIds)
+        {
+            var fileAssetsToDelete = await dbContext.FileAssets
+                .Where(n => n.NodeId == nodeId)
+                .ToListAsync(cancellationToken);
+
+            foreach (var fileAsset in fileAssetsToDelete)
+            {
+                fileAsset.MarkAsDeleted();
+            }
+
+            dbContext.FileAssets.UpdateRange(fileAssetsToDelete);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
+    }
+
     public async Task<IEnumerable<FileAsset>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets
