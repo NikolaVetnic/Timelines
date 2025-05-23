@@ -15,6 +15,7 @@ public interface IFilesService
 
     Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken);
     Task DeleteFiles(NodeId nodeId, IEnumerable<FileAssetId> fileAssetIds, CancellationToken cancellationToken);
+    Task DeleteFileAssetsByNodeIds(IEnumerable<NodeId> nodeId, CancellationToken cancellationToken);
 
     Task<List<FileAssetBaseDto>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 }

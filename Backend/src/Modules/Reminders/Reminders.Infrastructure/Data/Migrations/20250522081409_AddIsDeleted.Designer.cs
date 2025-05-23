@@ -2,28 +2,31 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Timelines.Infrastructure.Data;
+using Reminders.Infrastructure.Data;
 
 #nullable disable
 
-namespace Timelines.Infrastructure.Data.Migrations
+namespace Reminders.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(TimelinesDbContext))]
-    partial class TimelinesDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(RemindersDbContext))]
+    [Migration("20250522081409_AddIsDeleted")]
+    partial class AddIsDeleted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Timelines")
+                .HasDefaultSchema("Reminders")
                 .HasAnnotation("ProductVersion", "9.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Timelines.Domain.Models.Timeline", b =>
+            modelBuilder.Entity("Reminders.Domain.Models.Reminder", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -42,7 +45,8 @@ namespace Timelines.Infrastructure.Data.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -53,21 +57,33 @@ namespace Timelines.Infrastructure.Data.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<string>("NodeIds")
-                        .HasColumnType("text")
-                        .HasColumnName("NodeIds");
+                    b.Property<Guid>("NodeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("NotifyAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("RelatedReminders")
+                        .HasColumnType("text")
+                        .HasColumnName("RelatedReminders");
+
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Timelines", "Timelines");
+                    b.HasIndex("NodeId");
+
+                    b.ToTable("Reminders", "Reminders");
                 });
 #pragma warning restore 612, 618
         }

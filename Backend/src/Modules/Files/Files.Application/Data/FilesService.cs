@@ -85,6 +85,11 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
         await filesRepository.DeleteFileAssets(input, cancellationToken);
     }
 
+    public async Task DeleteFileAssetsByNodeIds(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        await filesRepository.DeleteFileAssetsByNodeIds(nodeIds, cancellationToken);
+    }
+
     public async Task<List<FileAssetBaseDto>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         var fileAssets = await filesRepository.GetFileAssetsBaseBelongingToNodeIdsAsync(nodeIds, cancellationToken);

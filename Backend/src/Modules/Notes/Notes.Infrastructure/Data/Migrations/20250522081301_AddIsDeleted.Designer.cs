@@ -2,31 +2,38 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Notes.Infrastructure.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Timelines.Infrastructure.Data;
 
 #nullable disable
 
-namespace Timelines.Infrastructure.Data.Migrations
+namespace Notes.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(TimelinesDbContext))]
-    partial class TimelinesDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(NotesDbContext))]
+    [Migration("20250522081301_AddIsDeleted")]
+    partial class AddIsDeleted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Timelines")
+                .HasDefaultSchema("Notes")
                 .HasAnnotation("ProductVersion", "9.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Timelines.Domain.Models.Timeline", b =>
+            modelBuilder.Entity("Notes.Domain.Models.Note", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -40,11 +47,10 @@ namespace Timelines.Infrastructure.Data.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPublic")
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("LastModifiedAt")
@@ -53,13 +59,23 @@ namespace Timelines.Infrastructure.Data.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<string>("NodeIds")
-                        .HasColumnType("text")
-                        .HasColumnName("NodeIds");
+                    b.Property<Guid>("NodeId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("RelatedNotes")
+                        .HasColumnType("text")
+                        .HasColumnName("RelatedNotes");
+
+                    b.Property<string>("SharedWith")
+                        .HasColumnType("text")
+                        .HasColumnName("SharedWith");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -67,7 +83,9 @@ namespace Timelines.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Timelines", "Timelines");
+                    b.HasIndex("NodeId");
+
+                    b.ToTable("Notes", "Notes");
                 });
 #pragma warning restore 612, 618
         }

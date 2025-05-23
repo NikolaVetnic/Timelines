@@ -30,7 +30,7 @@ public interface INodesService
     Task RemoveNotes(NodeId nodeId, IEnumerable<NoteId> noteIds, CancellationToken cancellationToken);
 
     Task DeleteNode(NodeId nodeId, CancellationToken cancellationToken);
-    Task DeleteNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
+    Task DeleteNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds, IFilesService filesService, INotesService notesService, IRemindersService remindersService, CancellationToken cancellationToken);
 
     Task<List<NodeBaseDto>> GetNodesBaseBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken);
 
