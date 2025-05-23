@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa6";
 import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router";
+import { useMatches } from "react-router-dom";
 import Button from "../../../core/components/buttons/Button/Button";
 import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
 import DeleteModal from "../../../core/components/modals/DeleteModal/DeleteModal";
@@ -29,6 +30,9 @@ const Timeline = () => {
   const [selectedNodes, setSelectedNodes] = useState([]);
   const [nodesToDelete, setNodesToDelete] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
+
+  const matches = useMatches();
+  const parentMatch = matches[matches.length - 2];  
 
   const fetchTimeline = useCallback(async () => {
     const response = await TimelineService.getTimelineById(id);
@@ -123,7 +127,13 @@ const Timeline = () => {
           icon={<FaArrowLeft />}
           iconOnly
           noBackground
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            if (parentMatch?.pathname) {
+              navigate(parentMatch.pathname);
+            } else {
+              navigate(-1);
+            }
+          }}
         />
       </div>
 

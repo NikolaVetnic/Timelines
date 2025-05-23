@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Breadcrumbs from "./components/Breadcrumbs/Breadcrumbs";
 import ErrorPage from "./components/Pages/ErrorPage";
 import LoginPage from "./components/Pages/LoginPage";
 import Timeline from "./components/Timelines/Timeline/Timeline";
@@ -26,6 +27,7 @@ function AppLayout() {
     <div className="app-container">
       <ReminderNotifier />
       <div className="app-content">
+         <Breadcrumbs />
         <div className="content-wrapper">
           <Outlet />
           <ToastContainer />
@@ -55,19 +57,21 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route errorElement={<ErrorPage />}>
       <Route path="/login" element={<LoginPage />} />
-
       <Route
         path="/"
-        element={
-          <AuthGuard>
-            <AppLayout />
-          </AuthGuard>
-        }
+        element={<AuthGuard><AppLayout /></AuthGuard>}
+        handle={{ crumb: () => "Home" }}
       >
-        <Route index element={<TimelineList />} />
-        <Route path="timelines/:id" element={<Timeline />} />
+        <Route
+          index
+          element={<TimelineList />}
+        />
+        <Route
+          path="timelines/:id"
+          element={<Timeline />}
+          handle={{ crumb: ({ params, matches }) => `${params.id}` }}
+        />
       </Route>
-
       <Route path="*" element={<ErrorPage />} />
     </Route>
   )
