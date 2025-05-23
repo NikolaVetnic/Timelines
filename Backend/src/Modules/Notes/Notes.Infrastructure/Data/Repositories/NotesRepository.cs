@@ -112,7 +112,13 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
             var notesToDelete = await dbContext.Notes
                 .Where(n => n.NodeId == nodeId)
                 .ToListAsync(cancellationToken);
-            dbContext.Notes.RemoveRange(notesToDelete);
+
+            foreach (var note in notesToDelete)
+            {
+                note.MarkAsDeleted();
+            }
+
+            dbContext.Notes.UpdateRange(notesToDelete);
             await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
