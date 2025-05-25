@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.Application.Cqrs;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Notes.Domain.Models;
 using Notes.Infrastructure.Data;
 using Assembly = System.Reflection.Assembly;
