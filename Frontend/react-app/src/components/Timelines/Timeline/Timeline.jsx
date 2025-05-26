@@ -34,7 +34,6 @@ const Timeline = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [showCloneModal, setShowCloneModal] = useState(false);
 
-  
   const matches = useMatches();
   const parentMatch = matches[matches.length - 2];  
 
