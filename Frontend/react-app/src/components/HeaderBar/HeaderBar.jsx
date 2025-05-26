@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { FaBars, FaSignOutAlt, FaTimes } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Button from "../../core/components/buttons/Button/Button";
 import SearchBar from "../SearchBar/SearchBar";
@@ -9,6 +10,7 @@ const HeaderBar = ({ onSearch, searchResults, onResultClick }) => {
   const { logout } = useAuth();
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate(); 
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -54,7 +56,13 @@ const HeaderBar = ({ onSearch, searchResults, onResultClick }) => {
 
   return (
     <header className="headbar">
-      <h2 className="headbar-title">Timelines</h2>
+      <h2 
+        className="headbar-title"
+        onClick={() => navigate('/')}
+        style={{ cursor: 'pointer' }}
+      >
+        Timelines
+      </h2>
       
       <div className="headbar-search">
         <SearchBar 
