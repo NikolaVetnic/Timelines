@@ -6,7 +6,7 @@ using Nodes.Application.Entities.Nodes.Extensions;
 
 namespace Nodes.Application.Entities.Nodes.Commands.UpdateNode;
 
-internal class UpdateNodeHandler(INodesRepository nodesRepository, ITimelinesService timelineService)
+internal class UpdateNodeHandler(INodesRepository nodesRepository, ITimelinesService timelinesService)
     : ICommandHandler<UpdateNodeCommand, UpdateNodeResult>
 {
     public async Task<UpdateNodeResult> Handle(UpdateNodeCommand command, CancellationToken cancellationToken)
@@ -18,17 +18,15 @@ internal class UpdateNodeHandler(INodesRepository nodesRepository, ITimelinesSer
 
         node.Title = command.Title ?? node.Title;
         node.Description = command.Description ?? node.Description;
-        node.Phase = command.Phase ?? node.Phase;
         node.Timestamp = command.Timestamp ?? node.Timestamp;
         node.Importance = command.Importance ?? node.Importance;
         node.Categories = command.Categories ?? node.Categories;
         node.Tags = command.Tags ?? node.Tags;
 
-        var timeline = await timelineService.GetTimelineByIdAsync(command.TimelineId ?? node.TimelineId, cancellationToken);
+        var timeline = await timelinesService.GetTimelineByIdAsync(command.TimelineId ?? node.TimelineId, cancellationToken);
 
         if (timeline.Id is null)
-            throw new NotFoundException(
-                $"Related timeline with ID {command.TimelineId ?? node.TimelineId} not found");
+            throw new NotFoundException($"Related timeline with ID {command.TimelineId ?? node.TimelineId} not found");
         
         node.TimelineId = TimelineId.Of(Guid.Parse(timeline.Id));
         
