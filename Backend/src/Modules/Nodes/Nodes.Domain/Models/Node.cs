@@ -4,6 +4,7 @@ using BuildingBlocks.Domain.Nodes.Node.Events;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Nodes.Domain.Models;
@@ -16,7 +17,6 @@ public class Node : Aggregate<NodeId>
     public List<string> Tags { get; set; } = [];
     public required string Title { get; set; }
     public required string Description { get; set; }
-    public required string Phase { get; set; }
     public required DateTime Timestamp { get; set; }
     public required int Importance { get; set; }
     public required string OwnerId { get; set; }
@@ -28,7 +28,7 @@ public class Node : Aggregate<NodeId>
 
     #region Node
 
-    public static Node Create(NodeId id, string title, string description, string phase,
+    public static Node Create(NodeId id, string title, string description,
         DateTime timestamp, int importance, string ownerId, List<string> categories, List<string> tags, TimelineId timelineId)
     {
         var node = new Node
@@ -36,7 +36,6 @@ public class Node : Aggregate<NodeId>
             Id = id,
             Title = title,
             Description = description,
-            Phase = phase,
             Timestamp = timestamp,
             Importance = importance,
             OwnerId = ownerId,
@@ -59,14 +58,13 @@ public class Node : Aggregate<NodeId>
     }
 
     public void Update(string title, string description, DateTime timestamp,
-        int importance, string ownerId, string phase)
+        int importance, string ownerId, PhaseId phaseId)
     {
         Title = title;
         Description = description;
         Timestamp = timestamp;
         Importance = importance;
         OwnerId = ownerId;
-        Phase = phase;
         AddDomainEvent(new NodeUpdatedEvent(Id));
     }
 

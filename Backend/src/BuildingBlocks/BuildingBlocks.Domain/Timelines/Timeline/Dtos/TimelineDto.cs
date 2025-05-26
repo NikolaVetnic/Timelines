@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using BuildingBlocks.Domain.Nodes.Node.Dtos;
+using BuildingBlocks.Domain.Timelines.Phase.Dtos;
 
 namespace BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 
@@ -12,4 +13,6 @@ public class TimelineDto(
     public TimelineDto() : this(null, string.Empty, string.Empty, String.Empty) { }
 
     [JsonPropertyName("nodes")] public List<NodeBaseDto> Nodes { get; set; } = [];
+
+    [JsonPropertyName("phases")] public List<PhaseBaseDto> Phases { get; set; } = [];
 }

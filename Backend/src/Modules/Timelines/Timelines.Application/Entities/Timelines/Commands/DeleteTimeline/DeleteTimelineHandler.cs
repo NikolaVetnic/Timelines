@@ -5,7 +5,7 @@ using Timelines.Application.Entities.Timelines.Exceptions;
 namespace Timelines.Application.Entities.Timelines.Commands.DeleteTimeline;
 
 public class DeleteTimelineHandler(INodesService nodesService, IFilesService filesService,
-    INotesService notesService, IRemindersService remindersService, ITimelinesRepository timelinesRepository) : ICommandHandler<DeleteTimelineCommand, DeleteTimelineResult>
+    INotesService notesService, IRemindersService remindersService, IPhasesService phasesService, ITimelinesRepository timelinesRepository) : ICommandHandler<DeleteTimelineCommand, DeleteTimelineResult>
 {
     public async Task<DeleteTimelineResult> Handle(DeleteTimelineCommand command, CancellationToken cancellationToken)
     {
@@ -15,6 +15,7 @@ public class DeleteTimelineHandler(INodesService nodesService, IFilesService fil
             throw new TimelineNotFoundException(command.Id.ToString());
         
         await nodesService.DeleteNodes(timeline.Id, timeline.NodeIds, filesService, notesService, remindersService, cancellationToken);
+        await phasesService.DeletePhases(timeline.Id, timeline.PhaseIds, cancellationToken);
         await timelinesRepository.DeleteTimeline(timeline.Id, cancellationToken);
 
         return new DeleteTimelineResult(true);

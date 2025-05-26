@@ -31,6 +31,19 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<List<Node>> ListNodesBelongingToPhaseAsync(DateTime startDate, DateTime? endDate, int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        return await dbContext.Nodes
+            .AsNoTracking()
+            .Where(n => n.OwnerId == currentUser.UserId!)
+            .Where(n => n.CreatedAt >= startDate && n.CreatedAt <= endDate)
+            .OrderBy(n => n.CreatedAt)
+            .Skip(pageIndex * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+    }
+
+
     public async Task<long> NodeCountAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Nodes
@@ -41,6 +54,14 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
     public async Task<long> NodeCountByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
         return await dbContext.Nodes.LongCountAsync(n => n.TimelineId == timelineId && n.IsDeleted == false, cancellationToken);
+    }
+
+    public async Task<long> NodeCountBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken)
+    {
+        return await dbContext.Nodes
+            .Where(n => n.OwnerId == currentUser.UserId!)
+            .Where(n => n.CreatedAt >= startDate && n.CreatedAt <= endDate)
+            .LongCountAsync(cancellationToken);
     }
 
     #endregion

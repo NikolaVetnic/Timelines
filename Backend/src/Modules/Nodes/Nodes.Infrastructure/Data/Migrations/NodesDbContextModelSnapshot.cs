@@ -74,10 +74,6 @@ namespace Nodes.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Phase")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("ReminderIds")
                         .HasColumnType("text")
                         .HasColumnName("ReminderIds");
