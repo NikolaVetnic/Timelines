@@ -195,3 +195,61 @@
   background-color: var(--primaryActive);
   transform: translateY(1px);
 }
+
+/* Tooltip styles - Updated for bottom positioning */
+.btn-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.btn-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--enmGray);
+  color: var(--white);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  margin-top: 8px; /* Changed from margin-bottom */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.btn-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%; /* Arrow now points upward */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent var(--enmGray) transparent; /* Arrow points up */
+}
+
+.btn:hover + .btn-tooltip,
+.btn:focus + .btn-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Special cases for different button shapes */
+.btn-circle + .btn-tooltip,
+.btn-square + .btn-tooltip {
+  margin-top: 4px; /* Changed from margin-bottom */
+}
+
+.btn-no-bg + .btn-tooltip {
+  background-color: var(--enmGray);
+}
+
+.btn-no-bg + .btn-tooltip::after {
+  border-color: transparent transparent var(--enmGray) transparent; /* Arrow points up */
+}
