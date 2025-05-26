@@ -90,9 +90,7 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
             .ToListAsync(cancellationToken);
 
         foreach (var reminder in remindersToDelete)
-        {
             reminder.MarkAsDeleted();
-        }
 
         dbContext.Reminders.UpdateRange(remindersToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
@@ -107,9 +105,7 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
                 .ToListAsync(cancellationToken);
 
             foreach (var reminder in remindersToDelete)
-            {
                 reminder.MarkAsDeleted();
-            }
 
             dbContext.Reminders.UpdateRange(remindersToDelete);
             await dbContext.SaveChangesAsync(cancellationToken);
