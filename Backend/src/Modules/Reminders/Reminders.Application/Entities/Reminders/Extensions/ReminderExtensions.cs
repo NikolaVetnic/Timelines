@@ -13,6 +13,7 @@ public static class ReminderExtensions
             reminder.Description,
             reminder.NotifyAt,
             reminder.Priority,
+            reminder.ColorHex,
             node);
     }
 
@@ -23,7 +24,8 @@ public static class ReminderExtensions
             reminder.Title,
             reminder.Description,
             reminder.NotifyAt,
-            reminder.Priority
+            reminder.Priority,
+            reminder.ColorHex
             );
     }
 }

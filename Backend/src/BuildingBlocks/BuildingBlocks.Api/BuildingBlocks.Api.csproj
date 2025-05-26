@@ -13,7 +13,7 @@
 
     <ItemGroup>
         <PackageReference Include="Mapster" Version="7.4.0"/>
-        <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="6.2.1"/>
+        <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="6.3.0" />
     </ItemGroup>
 
 </Project>
