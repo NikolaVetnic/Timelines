@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FaTrash } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
 import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
 import { useNavigate } from "react-router";
 import Button from "../core/components/buttons/Button/Button";
@@ -226,7 +227,8 @@ const HomePage = () => {
             />
           )}
           <Button
-            text="Create New Timeline"
+            icon={<IoMdAdd />}
+            iconOnly
             size="small"
             onClick={handleOpenModal}
             variant="success"
@@ -264,6 +266,7 @@ const HomePage = () => {
 
       {isModalOpen && (
         <CreateTimelineModal
+          isOpen={isModalOpen}
           onClose={handleCloseModal}
           onTimelineCreated={handleTimelineCreated}
         />
