@@ -130,6 +130,27 @@ class TimelineService {
       toast.error(errorMessage);
     }
   }
+
+static async searchTimelines(query) {
+  try {
+    const allTimelinesResponse = await TimelineService.getAllTimelines(0, 1000);
+    const allTimelines = allTimelinesResponse.items || [];
+
+    const filtered = allTimelines.filter(timeline => {
+      const searchContent = `${timeline.title} ${timeline.description}`.toLowerCase();
+      return searchContent.includes(query.toLowerCase());
+    });
+
+    return {
+      items: filtered,
+      totalCount: filtered.length
+    };
+  } catch (error) {
+    const errorMessage = error.response?.data?.message || "Search failed";
+    toast.error(errorMessage);
+    return { items: [], totalCount: 0 };
+  }
+}
 }
 
 export default TimelineService;
