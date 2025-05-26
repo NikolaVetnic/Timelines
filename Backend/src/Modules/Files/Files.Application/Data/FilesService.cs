@@ -80,8 +80,6 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
     {
         var input = fileAssetIds.ToList();
 
-        await NodesService.RemoveFileAssets(nodeId, input, cancellationToken);
-
         await filesRepository.DeleteFileAssets(input, cancellationToken);
     }
 
