@@ -223,6 +223,7 @@ const HomePage = () => {
               iconOnly
               onClick={toggleSelectAll}
               variant="secondary"
+              tooltip="Select All"
               size="small"
             />
           )}
@@ -231,17 +232,21 @@ const HomePage = () => {
             iconOnly
             size="small"
             onClick={handleOpenModal}
+            tooltip="Create/Clone timeline"
             variant="success"
           />
         </div>
         {selectedTimelines.length > 0 && (
-            <Button
-              icon={<FaTrash />}
-              iconOnly
-              variant="danger"
-              size="small"
-              onClick={() => setIsDeleteModalOpen(true)}
-            />
+            <div className="timeline-list-action-delete">
+              <Button
+                icon={<FaTrash />}
+                iconOnly
+                variant="danger"
+                tooltip="Delete Selected"
+                size="small"
+                onClick={() => setIsDeleteModalOpen(true)}
+              />
+            </div>
           )}
       </div>
 
