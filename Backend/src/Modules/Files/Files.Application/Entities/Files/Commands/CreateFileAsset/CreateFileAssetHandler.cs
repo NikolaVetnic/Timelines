@@ -4,7 +4,8 @@ using Files.Application.Data.Abstractions;
 
 namespace Files.Application.Entities.Files.Commands.CreateFileAsset;
 
-internal class CreateFileAssetHandler(ICurrentUser currentUser, IFilesRepository filesRepository, INodesService nodesService) : ICommandHandler<CreateFileAssetCommand, CreateFileAssetResult>
+internal class CreateFileAssetHandler(ICurrentUser currentUser, IFilesRepository filesRepository, INodesService nodesService)
+    : ICommandHandler<CreateFileAssetCommand, CreateFileAssetResult>
 {
     public async Task<CreateFileAssetResult> Handle(CreateFileAssetCommand command, CancellationToken cancellationToken)
     {
@@ -18,6 +19,7 @@ internal class CreateFileAssetHandler(ICurrentUser currentUser, IFilesRepository
         return new CreateFileAssetResult(fileAsset.Id);
     }
 }
+
 internal static class CreateFileAssetCommandExtensions
 {
     public static FileAsset ToFileAsset(this CreateFileAssetCommand command, string userId)

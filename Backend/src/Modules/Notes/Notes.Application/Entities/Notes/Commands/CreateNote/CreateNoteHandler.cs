@@ -13,8 +13,8 @@ internal class CreateNoteHandler(ICurrentUser currentUser, INotesRepository note
         var note = command.ToNote(userId);
 
         await nodesService.EnsureNodeBelongsToOwner(note.NodeId, cancellationToken);
-        await nodesService.AddNote(note.NodeId, note.Id, cancellationToken);
         await notesRepository.AddNoteAsync(note, cancellationToken);
+        await nodesService.AddNote(note.NodeId, note.Id, cancellationToken);
 
         return new CreateNoteResult(note.Id);
     }
