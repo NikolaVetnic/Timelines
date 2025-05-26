@@ -47,6 +47,12 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
     {
         return await timelinesRepository.TimelineCountAsync(cancellationToken);
     }
+
+    public async Task EnsureTimelineBelongsToOwner(TimelineId timelineId, CancellationToken cancellationToken)
+    {
+        await timelinesRepository.EnsureTimelineBelongsToOwner(timelineId, cancellationToken);
+    }
+
     #endregion
     
     #region Get
