@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaClone, FaTrash } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa6";
+import { IoMdAdd } from "react-icons/io";
 import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router";
 import { useMatches } from "react-router-dom";
@@ -153,6 +154,7 @@ const Timeline = () => {
                 iconOnly
                 onClick={handleDeleteSelected}
                 variant="danger"
+                tooltip="Delete Selected"
                 size="small"
               />
             )}
@@ -167,20 +169,25 @@ const Timeline = () => {
               iconOnly
               onClick={toggleSelectAll}
               variant="secondary"
+              tooltip="Select All"
               size="small"
             />
           </>
         )}
         <Button
-          text="Clone This Timeline"
+          icon={<FaClone />}
+          iconOnly
           onClick={() => setShowCloneModal(true)}
           variant="primary"
           size="small"
+          tooltip="Clone this timeline"
         />
         <Button
-          text="Add Node"
+          icon={<IoMdAdd />}
+          iconOnly
           onClick={() => setShowCreateModal(true)}
           variant="success"
+          tooltip="Add Node"
           size="small"
         />
       </div>
