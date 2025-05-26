@@ -4,8 +4,8 @@ using Timelines.Application.Entities.Timelines.Exceptions;
 
 namespace Timelines.Application.Entities.Timelines.Commands.DeleteTimeline;
 
-public class DeleteTimelineHandler(INodesService nodesService, IPhasesService phasesService, ITimelinesRepository timelinesRepository) 
-    : ICommandHandler<DeleteTimelineCommand, DeleteTimelineResult>
+public class DeleteTimelineHandler(INodesService nodesService, 
+    IPhasesService phasesService, ITimelinesRepository timelinesRepository) : ICommandHandler<DeleteTimelineCommand, DeleteTimelineResult>
 {
     public async Task<DeleteTimelineResult> Handle(DeleteTimelineCommand command, CancellationToken cancellationToken)
     {

@@ -85,8 +85,11 @@ public class RemindersService(IServiceProvider serviceProvider, IRemindersReposi
     {
         var input = reminderIds.ToList();
 
-        await NodesService.RemoveReminders(nodeId, input, cancellationToken);
-
         await remindersRepository.DeleteReminders(input, cancellationToken);
+    }
+
+    public async Task DeleteRemindersByNodeIds(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        await remindersRepository.DeleteRemindersByNodeIds(nodeIds, cancellationToken);
     }
 }

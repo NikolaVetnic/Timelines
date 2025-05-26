@@ -15,7 +15,7 @@ public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext d
     {
         return await dbContext.Timelines
             .AsNoTracking()
-            .Where(t => t.OwnerId == currentUser.UserId!)
+            .Where(t => t.OwnerId == currentUser.UserId! && t.IsDeleted == false)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -24,7 +24,7 @@ public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext d
     public async Task<long> TimelineCountAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Timelines
-            .Where(t => t.OwnerId == currentUser.UserId!)
+            .Where(t => t.OwnerId == currentUser.UserId! && !t.IsDeleted)
             .LongCountAsync(cancellationToken);
     }
 
@@ -66,7 +66,9 @@ public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext d
         var timelineToDelete = await dbContext.Timelines
             .FirstAsync(t => t.Id == timelineId && t.OwnerId == currentUser.UserId!, cancellationToken);
 
-        dbContext.Timelines.Remove(timelineToDelete);
+        timelineToDelete.MarkAsDeleted();
+
+        dbContext.Timelines.Update(timelineToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -79,7 +81,7 @@ public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext d
                 dbContext.Timelines
                     .AsNoTracking()
                     .AsEnumerable()
-                    .Where(t => t.NodeIds.Any(nodeIds.Contains) && t.OwnerId == currentUser.UserId!)
+                    .Where(t => t.NodeIds.Any(nodeIds.Contains) && t.OwnerId == currentUser.UserId! && !t.IsDeleted)
                     .ToList(),
             cancellationToken);
     }

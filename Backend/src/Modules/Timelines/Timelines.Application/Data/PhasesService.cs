@@ -85,8 +85,6 @@ public class PhasesService(IServiceProvider serviceProvider, IPhasesRepository p
     {
         var input = phaseIds.ToList();
 
-        await TimelinesService.RemovePhases(timelineId, input, cancellationToken);
-
         await phasesRepository.DeletePhases(input, cancellationToken);
     }
 }
