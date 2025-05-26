@@ -224,14 +224,13 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         await nodesRepository.DeleteNode(nodeId, cancellationToken);
     }
 
-    public async Task DeleteNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds, IFilesService filesService, INotesService notesService, IRemindersService remindersService,
-        CancellationToken cancellationToken)
+    public async Task DeleteNodes(TimelineId timelineId, IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         var input = nodeIds.ToList();
 
-        await filesService.DeleteFileAssetsByNodeIds(input, cancellationToken);
-        await notesService.DeleteNotesByNodeIds(input, cancellationToken);
-        await remindersService.DeleteRemindersByNodeIds(input, cancellationToken);
+        await FilesService.DeleteFileAssetsByNodeIds(input, cancellationToken);
+        await NotesService.DeleteNotesByNodeIds(input, cancellationToken);
+        await RemindersService.DeleteRemindersByNodeIds(input, cancellationToken);
         await nodesRepository.DeleteNodes(input, cancellationToken);
     }
 
