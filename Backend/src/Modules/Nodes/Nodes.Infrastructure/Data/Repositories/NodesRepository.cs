@@ -64,16 +64,6 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task EnsureNodeBelongsToOwner(NodeId nodeId, CancellationToken cancellationToken)
-    {
-        var node = await dbContext.Nodes
-            .AsNoTracking()
-            .SingleOrDefaultAsync(n => n.Id == nodeId && n.OwnerId == currentUser.UserId!, cancellationToken);
-
-        if (node is null)
-            throw new NodeNotFoundException(nodeId.ToString());
-    }
-
     #endregion
 
     #region Get

@@ -28,16 +28,6 @@ public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext d
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task EnsureTimelineBelongsToOwner(TimelineId timelineId, CancellationToken cancellationToken)
-    {
-        var timeline = await dbContext.Timelines
-            .AsNoTracking()
-            .SingleOrDefaultAsync(t => t.Id == timelineId && t.OwnerId == currentUser.UserId!, cancellationToken);
-
-        if (timeline is null)
-            throw new TimelineNotFoundException(timelineId.ToString());
-    }
-
     #endregion
 
     #region Get

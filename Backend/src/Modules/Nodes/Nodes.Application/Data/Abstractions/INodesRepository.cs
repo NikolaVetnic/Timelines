@@ -11,7 +11,6 @@ public interface INodesRepository
     Task<long> NodeCountAsync(CancellationToken cancellationToken);
     Task<long> NodeCountByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken);
     Task<long> NodeCountBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken);
-    Task EnsureNodeBelongsToOwner(NodeId nodeId, CancellationToken cancellationToken);
 
     Task<Node> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
     Task<Node> GetTrackedNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken);

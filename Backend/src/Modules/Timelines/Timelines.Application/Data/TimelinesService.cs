@@ -76,7 +76,7 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
 
     public async Task EnsureTimelineBelongsToOwner(TimelineId timelineId, CancellationToken cancellationToken)
     {
-        await timelinesRepository.EnsureTimelineBelongsToOwner(timelineId, cancellationToken);
+        await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
     }
 
     #endregion

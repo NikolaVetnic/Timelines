@@ -7,7 +7,6 @@ public interface ITimelinesRepository
 {
     Task<List<Timeline>> ListTimelinesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<long> TimelineCountAsync(CancellationToken cancellationToken);
-    Task EnsureTimelineBelongsToOwner(TimelineId timelineId, CancellationToken cancellationToken);
 
     Task<Timeline> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken);
     Task<Timeline> GetTrackedTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken);

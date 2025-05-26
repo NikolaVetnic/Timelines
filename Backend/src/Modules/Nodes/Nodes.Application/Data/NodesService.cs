@@ -137,7 +137,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task EnsureNodeBelongsToOwner(NodeId nodeId, CancellationToken cancellationToken)
     {
-        await nodesRepository.EnsureNodeBelongsToOwner(nodeId, cancellationToken);
+        await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
     }
 
     #endregion
