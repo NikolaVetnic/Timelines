@@ -196,7 +196,6 @@
   transform: translateY(1px);
 }
 
-/* Tooltip styles - Updated for bottom positioning */
 .btn-wrapper {
   position: relative;
   display: inline-flex;
@@ -218,7 +217,7 @@
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s ease, visibility 0.2s ease;
-  margin-top: 8px; /* Changed from margin-bottom */
+  margin-top: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 100;
 }
@@ -226,12 +225,12 @@
 .btn-tooltip::after {
   content: '';
   position: absolute;
-  bottom: 100%; /* Arrow now points upward */
+  bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
   border-width: 5px;
   border-style: solid;
-  border-color: transparent transparent var(--enmGray) transparent; /* Arrow points up */
+  border-color: transparent transparent var(--enmGray) transparent;
 }
 
 .btn:hover + .btn-tooltip,
@@ -240,10 +239,9 @@
   visibility: visible;
 }
 
-/* Special cases for different button shapes */
 .btn-circle + .btn-tooltip,
 .btn-square + .btn-tooltip {
-  margin-top: 4px; /* Changed from margin-bottom */
+  margin-top: 4px;
 }
 
 .btn-no-bg + .btn-tooltip {
@@ -251,5 +249,5 @@
 }
 
 .btn-no-bg + .btn-tooltip::after {
-  border-color: transparent transparent var(--enmGray) transparent; /* Arrow points up */
+  border-color: transparent transparent var(--enmGray) transparent;
 }
