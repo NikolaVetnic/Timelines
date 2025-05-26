@@ -4,8 +4,7 @@ using Nodes.Application.Data.Abstractions;
 
 namespace Nodes.Infrastructure.Data;
 
-public class NodesDbContext(DbContextOptions<NodesDbContext> options) :
-    DbContext(options), INodesDbContext
+public class NodesDbContext(DbContextOptions<NodesDbContext> options) : DbContext(options), INodesDbContext
 {
     public DbSet<Node> Nodes { get; init; }
 
@@ -26,7 +25,6 @@ public class NodesDbContext(DbContextOptions<NodesDbContext> options) :
             entity.Property(n => n.Description).IsRequired();
             entity.Property(n => n.Timestamp).IsRequired();
             entity.Property(n => n.Importance).IsRequired();
-            entity.Property(n => n.Phase).IsRequired();
 
             // Map the ReminderIds as a collection of IDs
             entity.Ignore(n => n.ReminderIds); // This prevents EF from expecting a navigation property

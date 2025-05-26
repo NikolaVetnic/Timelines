@@ -100,6 +100,18 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         return nodesDtos;
     }
 
+    public async Task<List<NodeBaseDto>> ListNodesBelongingToPhasePaginated(DateTime startDate, DateTime? endDate, int pageIndex, int pageSize,
+        CancellationToken cancellationToken)
+    {
+        var nodes = await nodesRepository.ListNodesBelongingToPhaseAsync(startDate, endDate, pageIndex, pageSize, cancellationToken);
+
+        var nodesDtos = nodes
+            .Select(n => n.ToNodeBaseDto())
+            .ToList();
+
+        return nodesDtos;
+    }
+
     public async Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds,
         CancellationToken cancellationToken)
     {
@@ -115,6 +127,11 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     public async Task<long> CountNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
         return await nodesRepository.NodeCountByTimelineIdAsync(timelineId, cancellationToken);
+    }
+
+    public async Task<long> CountNodesBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken)
+    {
+        return await nodesRepository.NodeCountBelongingToPhase(startDate, endDate, cancellationToken);
     }
 
     #endregion
@@ -163,7 +180,6 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
             NodeId.Of(Guid.NewGuid()),
             nodeTemplate.Title,
             nodeTemplate.Description,
-            nodeTemplate.Phase,
             nodeTemplate.Timestamp,
             nodeTemplate.Importance,
             nodeTemplate.OwnerId,
@@ -207,8 +223,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     {
         var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
 
-        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
-        await timelinesService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
+        await TimelinesService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
 
         await nodesRepository.DeleteNode(nodeId, cancellationToken);
     }
@@ -218,8 +233,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     {
         var input = nodeIds.ToList();
 
-        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
-        await timelinesService.RemoveNodes(timelineId, input, cancellationToken);
+        await TimelinesService.RemoveNodes(timelineId, input, cancellationToken);
 
         await nodesRepository.DeleteNodes(input, cancellationToken);
     }
