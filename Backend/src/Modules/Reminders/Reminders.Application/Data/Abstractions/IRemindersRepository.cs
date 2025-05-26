@@ -18,4 +18,5 @@ public interface IRemindersRepository
     Task UpdateReminderAsync(Reminder reminder, CancellationToken cancellationToken);
     Task DeleteReminder(ReminderId reminderId, CancellationToken cancellationToken);
     Task DeleteReminders(IEnumerable<ReminderId> reminderIds, CancellationToken cancellationToken);
+    Task DeleteRemindersByNodeIds(IEnumerable<NodeId> reminderIds, CancellationToken cancellationToken);
 }
