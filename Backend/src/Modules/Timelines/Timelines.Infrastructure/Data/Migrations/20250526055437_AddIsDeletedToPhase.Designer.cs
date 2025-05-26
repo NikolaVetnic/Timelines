@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Timelines.Infrastructure.Data;
@@ -12,9 +13,11 @@ using Timelines.Infrastructure.Data;
 namespace Timelines.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(TimelinesDbContext))]
-    partial class TimelinesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250526055437_AddIsDeletedToPhase")]
+    partial class AddIsDeletedToPhase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

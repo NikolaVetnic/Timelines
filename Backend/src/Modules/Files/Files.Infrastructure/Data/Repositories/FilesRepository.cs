@@ -19,7 +19,7 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
         return await dbContext.FileAssets
             .AsNoTracking()
             .OrderBy(f => f.CreatedBy)
-            .Where(f => f.OwnerId == currentUser.UserId!)
+            .Where(f => f.OwnerId == currentUser.UserId! && f.IsDeleted == false)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -29,7 +29,7 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
     {
         return await dbContext.FileAssets
             .AsNoTracking()
-            .Where(f => f.NodeId == nodeId && f.OwnerId == currentUser.UserId!)
+            .Where(f => f.NodeId == nodeId && f.OwnerId == currentUser.UserId! && f.IsDeleted == false)
             .OrderBy(f => f.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)
@@ -69,7 +69,9 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
         var fileAssetToDelete = await dbContext.FileAssets
             .FirstAsync(f => f.Id == fileAssetId, cancellationToken);
 
-        dbContext.FileAssets.Remove(fileAssetToDelete);
+        fileAssetToDelete.MarkAsDeleted();
+
+        dbContext.FileAssets.Update(fileAssetToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -79,8 +81,27 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
             .Where(f => fileAssetIds.Contains(f.Id))
             .ToListAsync(cancellationToken);
 
-        dbContext.FileAssets.RemoveRange(fileAssetsToDelete);
+        foreach (var fileAsset in fileAssetsToDelete)
+            fileAsset.MarkAsDeleted();
+
+        dbContext.FileAssets.UpdateRange(fileAssetsToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task DeleteFileAssetsByNodeIds(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        foreach (var nodeId in nodeIds)
+        {
+            var fileAssetsToDelete = await dbContext.FileAssets
+                .Where(n => n.NodeId == nodeId)
+                .ToListAsync(cancellationToken);
+
+            foreach (var fileAsset in fileAssetsToDelete)
+                fileAsset.MarkAsDeleted();
+
+            dbContext.FileAssets.UpdateRange(fileAssetsToDelete);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
     }
 
     public async Task<IEnumerable<FileAsset>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)

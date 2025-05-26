@@ -19,7 +19,7 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
         return await dbContext.Reminders
             .AsNoTracking()
             .OrderBy(r => r.NotifyAt)
-            .Where(r => r.OwnerId == currentUser.UserId!)
+            .Where(r => r.OwnerId == currentUser.UserId! && r.IsDeleted == false)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -29,7 +29,7 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
     {
         return await dbContext.Reminders
             .AsNoTracking()
-            .Where(r => r.NodeId == nodeId && r.OwnerId == currentUser.UserId!)
+            .Where(r => r.NodeId == nodeId && r.OwnerId == currentUser.UserId! && r.IsDeleted == false)
             .OrderBy(r => r.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)
@@ -40,7 +40,7 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
     {
         return await dbContext.Reminders
                    .AsNoTracking()
-                   .SingleOrDefaultAsync(r => r.Id == reminderId && r.OwnerId == currentUser.UserId!, cancellationToken) ??
+                   .SingleOrDefaultAsync(r => r.Id == reminderId && r.OwnerId == currentUser.UserId! && r.IsDeleted == false, cancellationToken) ??
                throw new ReminderNotFoundException(reminderId.ToString());
     }
 
@@ -77,7 +77,9 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
         var reminderToDelete = await dbContext.Reminders
             .FirstAsync(r => r.Id == reminderId, cancellationToken);
 
-        dbContext.Reminders.Remove(reminderToDelete);
+        reminderToDelete.MarkAsDeleted();
+
+        dbContext.Reminders.Update(reminderToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -87,7 +89,26 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
             .Where(r => reminderIds.Contains(r.Id))
             .ToListAsync(cancellationToken);
 
-        dbContext.Reminders.RemoveRange(remindersToDelete);
+        foreach (var reminder in remindersToDelete)
+            reminder.MarkAsDeleted();
+
+        dbContext.Reminders.UpdateRange(remindersToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task DeleteRemindersByNodeIds(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
+    {
+        foreach (var nodeId in nodeIds)
+        {
+            var remindersToDelete = await dbContext.Reminders
+                .Where(n => n.NodeId == nodeId)
+                .ToListAsync(cancellationToken);
+
+            foreach (var reminder in remindersToDelete)
+                reminder.MarkAsDeleted();
+
+            dbContext.Reminders.UpdateRange(remindersToDelete);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
     }
 }

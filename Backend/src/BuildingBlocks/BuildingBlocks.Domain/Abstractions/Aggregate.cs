@@ -19,4 +19,11 @@ public abstract class Aggregate<TId> : Entity<TId>, IAggregate<TId>
     {
         _domainEvents.Add(domainEvent);
     }
+
+    public virtual void MarkAsDeleted(string? deletedBy = null)
+    {
+        IsDeleted = true;
+        DeletedAt = DateTime.UtcNow;
+        DeletedBy = deletedBy;
+    }
 }
