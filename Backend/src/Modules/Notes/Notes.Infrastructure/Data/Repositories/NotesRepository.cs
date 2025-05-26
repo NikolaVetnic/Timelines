@@ -97,9 +97,7 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
             .ToListAsync(cancellationToken);
 
         foreach (var note in notesToDelete)
-        {
             note.MarkAsDeleted();
-        }
 
         dbContext.Notes.UpdateRange(notesToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
@@ -114,9 +112,7 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
                 .ToListAsync(cancellationToken);
 
             foreach (var note in notesToDelete)
-            {
                 note.MarkAsDeleted();
-            }
 
             dbContext.Notes.UpdateRange(notesToDelete);
             await dbContext.SaveChangesAsync(cancellationToken);

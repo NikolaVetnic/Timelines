@@ -82,9 +82,7 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
             .ToListAsync(cancellationToken);
 
         foreach (var fileAsset in fileAssetsToDelete)
-        {
             fileAsset.MarkAsDeleted();
-        }
 
         dbContext.FileAssets.UpdateRange(fileAssetsToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
@@ -99,9 +97,7 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
                 .ToListAsync(cancellationToken);
 
             foreach (var fileAsset in fileAssetsToDelete)
-            {
                 fileAsset.MarkAsDeleted();
-            }
 
             dbContext.FileAssets.UpdateRange(fileAssetsToDelete);
             await dbContext.SaveChangesAsync(cancellationToken);

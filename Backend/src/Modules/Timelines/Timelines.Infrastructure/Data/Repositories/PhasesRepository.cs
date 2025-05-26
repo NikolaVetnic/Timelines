@@ -92,9 +92,7 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
             .ToListAsync(cancellationToken);
 
         foreach (var phase in phasesToDelete)
-        {
             phase.MarkAsDeleted();
-        }
 
         dbContext.Phases.UpdateRange(phasesToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);

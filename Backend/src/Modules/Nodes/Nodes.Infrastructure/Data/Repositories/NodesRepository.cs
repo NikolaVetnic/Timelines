@@ -43,7 +43,6 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
             .ToListAsync(cancellationToken);
     }
 
-
     public async Task<long> NodeCountAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Nodes
