@@ -5,7 +5,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import Breadcrumbs from "./components/Breadcrumbs/Breadcrumbs";
 import AppLayout from "./components/AppLayout/AppLayout";
 import Timeline from "./components/Timelines/Timeline/Timeline";
 import { AuthProvider } from "./context/AuthContext";
@@ -27,7 +26,7 @@ const router = createBrowserRouter(
       >
         <Route
           index
-          element={<TimelineList />}
+          element={<HomePage />}
         />
         <Route
           path="timelines/:id"
