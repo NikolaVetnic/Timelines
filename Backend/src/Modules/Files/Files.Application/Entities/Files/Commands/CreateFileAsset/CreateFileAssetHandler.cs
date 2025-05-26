@@ -11,9 +11,10 @@ internal class CreateFileAssetHandler(ICurrentUser currentUser, IFilesRepository
         var userId = currentUser.UserId!;
         var fileAsset = command.ToFileAsset(userId);
 
-        await nodesService.AddFileAsset(fileAsset.NodeId, fileAsset.Id, cancellationToken);
+        await nodesService.EnsureNodeBelongsToOwner(fileAsset.NodeId, cancellationToken);
         await filesRepository.AddFileAssetAsync(fileAsset, cancellationToken);
-
+        await nodesService.AddFileAsset(fileAsset.NodeId, fileAsset.Id, cancellationToken);
+        
         return new CreateFileAssetResult(fileAsset.Id);
     }
 }

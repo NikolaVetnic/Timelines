@@ -117,6 +117,11 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         return await nodesRepository.NodeCountByTimelineIdAsync(timelineId, cancellationToken);
     }
 
+    public async Task EnsureNodeBelongsToOwner(NodeId nodeId, CancellationToken cancellationToken)
+    {
+        return await nodesRepository.EnsureNodeBelongsToOwner(nodeId, cancellationToken);
+    }
+
     #endregion
 
     #region Get

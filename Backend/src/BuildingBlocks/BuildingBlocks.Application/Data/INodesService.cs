@@ -14,6 +14,7 @@ public interface INodesService
     Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
     Task<long> CountNodesAsync(CancellationToken cancellationToken);
     Task<long> CountNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken);
+    Task EnsureNodeBelongsToOwner(NodeId nodeId, CancellationToken cancellationToken);
 
     Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
     Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
