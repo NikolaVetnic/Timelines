@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { PRIORITY_OPTIONS } from "../../../../data/constants";
 import Button from "../../buttons/Button/Button";
@@ -48,23 +48,12 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
 const handleSave = () => {
   if (!validate()) return;
 
-  const localDate = new Date(formData.notifyAt);
-  
-  const notifyAtUTC = new Date(
-    Date.UTC(
-      localDate.getFullYear(),
-      localDate.getMonth(),
-      localDate.getDate(),
-      localDate.getHours(),
-      localDate.getMinutes(),
-      localDate.getSeconds()
-    )
-  ).toISOString();
-  
+  const notifyAt = new Date(formData.notifyAt).toISOString();
+
   const newReminder = {
     title: formData.title,
     description: formData.description || "",
-    notifyAt: notifyAtUTC,
+    notifyAt: notifyAt,
     priority: formData.priority || 0,
     nodeId: nodeId,
   };
@@ -101,21 +90,16 @@ const handleSave = () => {
           placeholder="Description (Optional)"
         />
 
-        <FormField
+       <FormField
           label="Notify At"
           type="datetime-local"
           name="notifyAt"
           value={formData.notifyAt}
-          onChange={(e) => {
-            const value = e.target.value;
-            setFormData(prev => ({
-              ...prev,
-              notifyAt: value ? value.replace("Z", "") : value
-            }));
-          }}
+          onChange={handleChange}
           required
           error={errors.notifyAt}
         />
+
         <FormField
           label="Priority Level"
           type="select"
