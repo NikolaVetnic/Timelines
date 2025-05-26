@@ -30,6 +30,27 @@ class TimelineService {
     }
   }
 
+    /**
+   * Create a new timeline
+   * @param {string} timelineId - Timeline id
+   * @param {string} title - Timeline title
+   * @param {string} description - Timeline description
+   * @returns {Promise<Object>} - Created timeline data
+   */
+  static async cloneTimeline(timelineId, title, description) {
+  try {
+    const response = await Post(API_BASE_URL, `/Timelines/Clone/${timelineId}`, {
+      title,
+      description
+    });
+    toast.success("Timeline cloned successfully!");
+    return response.timeline.id;
+  } catch (error) {
+    const errorMessage = error.response?.data?.message || "Failed to clone timeline";
+    toast.error(errorMessage);
+  }
+}
+
   /**
    * Get all timelines with pagination
    * @param {number} pageIndex - The page index (default: 0)
