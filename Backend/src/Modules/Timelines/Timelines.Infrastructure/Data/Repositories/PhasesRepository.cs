@@ -14,7 +14,7 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
         return await dbContext.Phases
             .AsNoTracking()
             .OrderBy(p => p.CreatedBy)
-            .Where(p => p.OwnerId == currentUser.UserId!)
+            .Where(p => p.OwnerId == currentUser.UserId! && !p.IsDeleted)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -30,7 +30,7 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
     {
         return await dbContext.Phases
                    .AsNoTracking()
-                   .SingleOrDefaultAsync(n => n.Id == phaseId, cancellationToken) ??
+                   .SingleOrDefaultAsync(p => p.Id == phaseId && !p.IsDeleted, cancellationToken) ??
                throw new PhaseNotFoundException(phaseId.ToString());
     }
 
@@ -40,7 +40,7 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
                 dbContext.Phases
                     .AsNoTracking()
                     .AsEnumerable()
-                    .Where(t => t.NodeIds.Any(nodeId => nodeIds.Contains(nodeId)))
+                    .Where(p => p.NodeIds.Any(nodeId => nodeIds.Contains(nodeId)) && !p.IsDeleted)
                     .ToList(),
             cancellationToken);
     }
@@ -49,7 +49,7 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
     {
         return await dbContext.Phases
             .AsNoTracking()
-            .Where(n => phaseIds.Contains(n.Id) && n.OwnerId == currentUser.UserId!)
+            .Where(p => phaseIds.Contains(p.Id) && p.OwnerId == currentUser.UserId! && !p.IsDeleted)
             .ToListAsync(cancellationToken);
     }
 
@@ -57,14 +57,14 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
     {
         return await dbContext.Phases
             .AsNoTracking()
-            .Where(n => timelineIds.Contains(n.TimelineId))
+            .Where(p => timelineIds.Contains(p.TimelineId) && !p.IsDeleted)
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
     public async Task<long> PhaseCountAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Phases
-            .Where(n => n.OwnerId == currentUser.UserId!)
+            .Where(p => p.OwnerId == currentUser.UserId!)
             .LongCountAsync(cancellationToken);
     }
 
