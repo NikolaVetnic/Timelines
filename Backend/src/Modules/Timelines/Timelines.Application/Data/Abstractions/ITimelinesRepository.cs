@@ -9,6 +9,7 @@ public interface ITimelinesRepository
     Task<long> TimelineCountAsync(CancellationToken cancellationToken);
 
     Task<Timeline> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken);
+    Task<Timeline> GetTrackedTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken);
 
     Task CreateTimelineAsync(Timeline timeline, CancellationToken cancellationToken);
     Task UpdateTimelineAsync(Timeline timeline, CancellationToken cancellationToken);
