@@ -1,5 +1,4 @@
-﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
-using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
+﻿using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Text.Json;
@@ -22,7 +21,6 @@ public class Phase : Aggregate<PhaseId>
     public required string AssignedTo { get; set; }
     public List<string> Stakeholders { get; set; } = [];
     public List<string> Tags { get; set; } = [];
-    public List<NodeId> NodeIds { get; set; } = [];
     public required TimelineId TimelineId { get; set; }
     public required string OwnerId { get; set; }
 
@@ -57,8 +55,6 @@ public class Phase : Aggregate<PhaseId>
 
         foreach (var tag in tags)
             phase.AddTag(tag);
-
-        phase.NodeIds = [];
 
         phase.AddDomainEvent(new PhaseCreatedEvent(phase.Id));
 
@@ -110,22 +106,6 @@ public class Phase : Aggregate<PhaseId>
     private void RemoveTag(string tag)
     {
         Tags.Remove(tag);
-    }
-
-    #endregion
-
-    #region Nodes
-
-    public void AddNodes(NodeId nodeId)
-    {
-        if (!NodeIds.Contains(nodeId))
-            NodeIds.Add(nodeId);
-    }
-
-    public void RemoveNodes(NodeId nodeId)
-    {
-        if (NodeIds.Contains(nodeId))
-            NodeIds.Remove(nodeId);
     }
 
     #endregion

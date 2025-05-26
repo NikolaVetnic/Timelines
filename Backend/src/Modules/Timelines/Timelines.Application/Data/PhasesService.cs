@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.Application.Data;
-using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Phase.Dtos;
 using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
@@ -46,13 +45,6 @@ public class PhasesService(IServiceProvider serviceProvider, IPhasesRepository p
         phaseDto.Timeline = timeline;
 
         return phaseDto;
-    }
-
-    public async Task<List<PhaseBaseDto>> GetPhasesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
-    {
-        var phases = await phasesRepository.GetPhasesBelongingToNodeIdsAsync(nodeIds, cancellationToken);
-        var phaseBaseDtos = phases.Adapt<List<PhaseBaseDto>>();
-        return phaseBaseDtos;
     }
 
     public async Task<List<PhaseBaseDto>> GetPhasesByIdsAsync(IEnumerable<PhaseId> phaseIds, CancellationToken cancellationToken)

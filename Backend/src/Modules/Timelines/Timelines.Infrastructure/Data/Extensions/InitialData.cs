@@ -48,7 +48,6 @@ internal static class InitialData
                 AssignedTo = "John Doe",
                 Stakeholders = ["Jane Smith", "Bob Johnson"],
                 Tags = ["court", "complaint"],
-                NodeIds = [NodeId.Of(Guid.Parse("2df76835-c92b-45d0-9232-61901c4abe97"))],
                 TimelineId = TimelineId.Of(Guid.Parse("d87c1c54-b287-4a82-b45b-65db1d71e2fd")),
                 OwnerId = "11111111-1111-1111-1111-111111111111",
             },
@@ -68,7 +67,6 @@ internal static class InitialData
                 AssignedTo = "Jane Smith",
                 Stakeholders = ["John Doe", "Bob Johnson"],
                 Tags = ["investigation", "interview"],
-                NodeIds = [NodeId.Of(Guid.Parse("6968d886-9e39-4fc0-9f2c-a5fbc1548970"))],
                 TimelineId = TimelineId.Of(Guid.Parse("f739b2c7-883e-46c6-917c-d29114e3e017")),
                 OwnerId = "22222222-2222-2222-2222-222222222222",
             }
