@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.Application.Data;
-using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Timelines.Application.Data.Abstractions;
@@ -32,17 +31,6 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
                    .AsNoTracking()
                    .SingleOrDefaultAsync(p => p.Id == phaseId && !p.IsDeleted, cancellationToken) ??
                throw new PhaseNotFoundException(phaseId.ToString());
-    }
-
-    public async Task<IEnumerable<Phase>> GetPhasesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
-    {
-        return await Task.Run(() =>
-                dbContext.Phases
-                    .AsNoTracking()
-                    .AsEnumerable()
-                    .Where(p => p.NodeIds.Any(nodeId => nodeIds.Contains(nodeId)) && !p.IsDeleted)
-                    .ToList(),
-            cancellationToken);
     }
 
     public async Task<List<Phase>> GetPhasesByIdsAsync(IEnumerable<PhaseId> phaseIds, CancellationToken cancellationToken)
