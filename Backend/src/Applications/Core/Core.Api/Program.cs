@@ -3,7 +3,6 @@ using BuildingBlocks.Api.Middlewares;
 using BuildingBlocks.Application.Exceptions.Handlers;
 using BuildingBlocks.Domain;
 using BuildingBlocks.Infrastructure.Extensions;
-using Carter;
 using Core.Api.Extensions;
 using Core.Api.Sdk;
 using Core.Api.Sdk.Interfaces;
@@ -24,7 +23,6 @@ builder.Configuration
 builder.Services.AddControllers();
 builder.Services.AddSwaggerDocumentation();
 
-builder.Services.AddCarter();
 builder.Services.AddModules(builder.Configuration);
 builder.Services.AddInterceptors();
 
@@ -91,7 +89,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.UseModules();
-app.MapCarter();
 
 app.MapGet("/", BuildingBlocksTestClass.GetTestString);
 

@@ -10,6 +10,7 @@ public class CreateReminderCommand : ICommand<CreateReminderResult>
     public required string Description { get; set; }
     public required DateTime NotifyAt { get; set; }
     public required int Priority { get; set; }
+    public required string ColorHex { get; set; }
     public required NodeId NodeId { get; set; }
 }
 
@@ -33,6 +34,9 @@ public class CreateReminderCommandValidator : AbstractValidator<CreateReminderCo
 
         RuleFor(x => x.Priority)
             .NotEmpty().WithMessage("Priority is required.");
+        
+        RuleFor(x => x.ColorHex)
+            .NotEmpty().WithMessage("Color is required.");
         
         RuleFor(x => x.NodeId)
             .NotEmpty().WithMessage("NodeId is required.");

@@ -80,7 +80,8 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
                         title: r.Title,
                         description: r.Description,
                         notifyAt: r.NotifyAt,
-                        priority: r.Priority)
+                        priority: r.Priority,
+                        colorHex: r.ColorHex)
                     )
                     .ToList()
             )
