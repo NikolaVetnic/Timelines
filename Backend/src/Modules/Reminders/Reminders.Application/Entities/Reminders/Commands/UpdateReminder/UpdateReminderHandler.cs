@@ -20,6 +20,7 @@ internal class UpdateReminderHandler(IRemindersRepository remindersRepository, I
         reminder.Description = command.Description ?? reminder.Description;
         reminder.NotifyAt = command.NotifyAt ?? reminder.NotifyAt;
         reminder.Priority = command.Priority ?? reminder.Priority;
+        reminder.ColorHex = command.ColorHex ?? reminder.ColorHex;
 
         var node = await nodesService.GetNodeByIdAsync(command.NodeId ?? reminder.NodeId, cancellationToken);
 

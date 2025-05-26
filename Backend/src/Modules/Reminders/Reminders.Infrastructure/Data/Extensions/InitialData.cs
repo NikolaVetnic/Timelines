@@ -15,6 +15,7 @@ internal static class InitialData
                 Description = "Important meeting with Timo",
                 NotifyAt = DateTime.UtcNow.AddHours(2),
                 Priority = 3,
+                ColorHex = "#007bff",
                 OwnerId = "11111111-1111-1111-1111-111111111111",
                 NodeId = NodeId.Of(Guid.Parse("2df76835-c92b-45d0-9232-61901c4abe97"))
             },
@@ -26,6 +27,7 @@ internal static class InitialData
                 Description = "Basic team sync with the team",
                 NotifyAt = DateTime.UtcNow.AddHours(2),
                 Priority = 1,
+                ColorHex = "#e76a29",
                 OwnerId = "22222222-2222-2222-2222-222222222222",
                 NodeId = NodeId.Of(Guid.Parse("6968d886-9e39-4fc0-9f2c-a5fbc1548970"))
             },

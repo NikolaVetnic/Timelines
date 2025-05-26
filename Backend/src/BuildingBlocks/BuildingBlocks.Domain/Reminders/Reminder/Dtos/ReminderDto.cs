@@ -9,7 +9,8 @@ public class ReminderDto(
     string description,
     DateTime notifyAt,
     int priority,
-    NodeBaseDto node) : ReminderBaseDto(id, title, description, notifyAt, priority)
+    string colorHex,
+    NodeBaseDto node) : ReminderBaseDto(id, title, description, notifyAt, priority, colorHex)
 {
     [JsonPropertyName("node")] public NodeBaseDto Node { get; set; } = node;
 }
