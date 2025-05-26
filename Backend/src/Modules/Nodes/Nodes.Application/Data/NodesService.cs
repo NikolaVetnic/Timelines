@@ -119,7 +119,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task EnsureNodeBelongsToOwner(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return await nodesRepository.EnsureNodeBelongsToOwner(nodeId, cancellationToken);
+        await nodesRepository.EnsureNodeBelongsToOwner(nodeId, cancellationToken);
     }
 
     #endregion

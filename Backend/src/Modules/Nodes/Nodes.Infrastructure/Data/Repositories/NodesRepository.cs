@@ -50,9 +50,7 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
             .SingleOrDefaultAsync(n => n.Id == nodeId && n.OwnerId == currentUser.UserId!, cancellationToken);
 
         if (node is null)
-        {
             throw new NodeNotFoundException(nodeId.ToString());
-        }
     }
 
     #endregion
