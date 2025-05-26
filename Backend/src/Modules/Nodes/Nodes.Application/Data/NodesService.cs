@@ -205,11 +205,6 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task DeleteNode(NodeId nodeId, CancellationToken cancellationToken)
     {
-        var node = await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
-
-        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
-        await timelinesService.RemoveNode(node.TimelineId, node.Id, cancellationToken);
-
         await nodesRepository.DeleteNode(nodeId, cancellationToken);
     }
 
@@ -217,9 +212,6 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         CancellationToken cancellationToken)
     {
         var input = nodeIds.ToList();
-
-        var timelinesService = serviceProvider.GetRequiredService<ITimelinesService>();
-        await timelinesService.RemoveNodes(timelineId, input, cancellationToken);
 
         await filesService.DeleteFileAssetsByNodeIds(input, cancellationToken);
         await notesService.DeleteNotesByNodeIds(input, cancellationToken);
