@@ -18,7 +18,7 @@ jobs:
 
                   if [[ ! "$BRANCH_NAME" =~ ^(feature|chore|refactoring)/.+$ ]]; then
                     echo "❌ Invalid branch name: $BRANCH_NAME"
-                    echo "👉 Branch name must begin with 'feature/', 'chore/', 'refactoring/' or 'release/'"
+                    echo "👉 Branch name must begin with 'jssbg', 'feature/', 'chore/', 'refactoring/' or 'release/'"
                     exit 1
                   fi
 
