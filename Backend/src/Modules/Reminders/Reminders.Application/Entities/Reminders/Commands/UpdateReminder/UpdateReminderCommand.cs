@@ -12,6 +12,7 @@ public class UpdateReminderCommand : ICommand<UpdateReminderResult>
     public string? Description { get; set; }
     public DateTime? NotifyAt { get; set; }
     public int? Priority { get; set; }
+    public string? ColorHex { get; set; }
     public NodeId? NodeId { get; set; }
 }
 

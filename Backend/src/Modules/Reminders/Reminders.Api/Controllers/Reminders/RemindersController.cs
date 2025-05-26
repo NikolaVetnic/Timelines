@@ -69,6 +69,7 @@ public class RemindersController(ISender sender) : ControllerBase
             Description = request.Description,
             NotifyAt = request.NotifyAt,
             Priority = request.Priority,
+            ColorHex = request.ColorHex,
             NodeId = request.NodeId,
         };
 

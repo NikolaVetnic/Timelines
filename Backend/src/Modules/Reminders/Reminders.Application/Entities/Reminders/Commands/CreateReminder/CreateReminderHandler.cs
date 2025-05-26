@@ -30,6 +30,7 @@ internal static class CreateReminderCommandExtensions
             command.Description,
             command.NotifyAt,
             command.Priority,
+            command.ColorHex,
             userId,
             command.NodeId
         );

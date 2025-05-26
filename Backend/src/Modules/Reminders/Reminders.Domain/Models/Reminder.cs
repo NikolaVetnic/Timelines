@@ -12,13 +12,14 @@ public class Reminder : Aggregate<ReminderId>
     public required string Description { get; set; }
     public required DateTime NotifyAt { get; set; }
     public required int Priority { get; set; }
+    public required string ColorHex { get; set; }
     public required string OwnerId { get; set; }
     public List<ReminderId> RelatedReminders { get; set; } = [];
     public required NodeId NodeId { get; set; }
 
     #region Reminder
 
-    public static Reminder Create(ReminderId id, string title, string description, DateTime notifyAt, int priority, string ownerId, NodeId nodeId)
+    public static Reminder Create(ReminderId id, string title, string description, DateTime notifyAt, int priority, string colorHex, string ownerId, NodeId nodeId)
     {
         var reminder = new Reminder
         {
@@ -27,6 +28,7 @@ public class Reminder : Aggregate<ReminderId>
             Description = description,
             NotifyAt = notifyAt,
             Priority = priority,
+            ColorHex = colorHex,
             OwnerId = ownerId,
             NodeId = nodeId
         };
@@ -38,12 +40,13 @@ public class Reminder : Aggregate<ReminderId>
         return reminder;
     }
 
-    public void Update(string title, string description, DateTime notifyAt, int priority, string ownerId)
+    public void Update(string title, string description, DateTime notifyAt, int priority, string colorHex, string ownerId)
     {
         Title = title;
         Description = description;
         NotifyAt = notifyAt;
         Priority = priority;
+        ColorHex = colorHex;
         OwnerId = ownerId;
 
         AddDomainEvent(new ReminderUpdatedEvent(Id));
