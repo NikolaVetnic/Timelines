@@ -135,6 +135,11 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         return await nodesRepository.NodeCountBelongingToPhase(startDate, endDate, cancellationToken);
     }
 
+    public async Task EnsureNodeBelongsToOwner(NodeId nodeId, CancellationToken cancellationToken)
+    {
+        await nodesRepository.GetNodeByIdAsync(nodeId, cancellationToken);
+    }
+
     #endregion
 
     #region Get
