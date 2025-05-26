@@ -78,8 +78,6 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
     {
         var input = noteIds.ToList();
 
-        await NodesService.RemoveNotes(nodeId, input, cancellationToken);
-
         await notesRepository.DeleteNotes(input, cancellationToken);
     }
 
