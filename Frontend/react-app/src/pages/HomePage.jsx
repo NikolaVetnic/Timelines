@@ -25,6 +25,7 @@ const HomePage = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [timelineToEdit, setTimelineToEdit] = useState(null);
+  const [selectedTimelineTitle, setSelectedTimelineTitle] = useState("");
 
   const [isMobile, setIsMobile] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -91,8 +92,6 @@ const HomePage = () => {
       setTimelines((prev) => [...prev, ...response.items]);
       setCurrentPage(nextPage);
       setTotalPages(response.totalPages);
-    } catch (error) {
-      console.error("Error loading more timelines:", error);
     } finally {
       setLoadingMore(false);
     }
@@ -195,6 +194,14 @@ const HomePage = () => {
     setEditModalOpen(true);
   };
 
+  const handleDeleteClick = async () => {
+  if (selectedTimelines.length === 1) {
+      const timeline = await TimelineService.getTimelineById(selectedTimelines[0]);
+      setSelectedTimelineTitle(timeline.title);
+  }
+  setIsDeleteModalOpen(true);
+};
+
   if (isLoading) {
     return <div className="loading-state">Loading timelines...</div>;
   }
@@ -244,7 +251,7 @@ const HomePage = () => {
                 variant="danger"
                 tooltip="Delete Selected"
                 size="small"
-                onClick={() => setIsDeleteModalOpen(true)}
+                onClick={handleDeleteClick}
               />
             </div>
           )}
@@ -284,13 +291,14 @@ const HomePage = () => {
           onTimelineUpdated={() => fetchTimelines(currentPage, itemsPerPage)}
         />
       )}
-
+    
       {isDeleteModalOpen && (
         <DeleteModal
           itemType="timeline"
           isOpen={isDeleteModalOpen}
           onClose={() => setIsDeleteModalOpen(false)}
           onConfirm={handleDeleteSelected}
+          itemTitle={selectedTimelineTitle}
           count={selectedTimelines.length}
         />
       )}

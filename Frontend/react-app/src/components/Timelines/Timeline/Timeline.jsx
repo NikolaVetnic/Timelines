@@ -212,6 +212,11 @@ const Timeline = () => {
         onClose={() => setDeleteModal(false)}
         itemType="node"
         onConfirm={confirmDeleteNodes}
+        itemTitle={
+          selectedNodes.length === 1 
+            ? timeline.nodes.find(n => n.id === selectedNodes[0])?.title 
+            : ""
+        }
         count={selectedNodes.length}
       />
 
