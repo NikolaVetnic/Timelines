@@ -185,6 +185,8 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%;
+  display: block;
 }
 
 .btn-login:hover {

@@ -95,10 +95,10 @@ const HeaderBar = ({ onSearch, searchResults, onResultClick }) => {
             </button>
             <div className="mobile-menu-content">
               <Button
+                className="mobile-menu-logout"
                 text="Logout"
                 size="small"
                 onClick={handleLogout}
-                fullWidth
               />
             </div>
           </div>
