@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import { forwardRef, useState } from "react";
 
 import { FaMinus, FaPlus } from "react-icons/fa";
 import File from "../../Files/File/File";
@@ -100,9 +100,6 @@ const Node = forwardRef(
               }
               setModalActive={setModalActive}
             />
-            <p className="node-phase">
-              <strong>Phase:</strong> {node.phase}
-            </p>
             <Categories
               node={node}
               categories={categories}
