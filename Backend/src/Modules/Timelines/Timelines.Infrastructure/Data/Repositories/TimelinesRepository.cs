@@ -15,7 +15,7 @@ public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext d
     {
         return await dbContext.Timelines
             .AsNoTracking()
-            .Where(t => t.OwnerId == currentUser.UserId! && t.IsDeleted == false)
+            .Where(t => t.OwnerId == currentUser.UserId! && !t.IsDeleted)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
