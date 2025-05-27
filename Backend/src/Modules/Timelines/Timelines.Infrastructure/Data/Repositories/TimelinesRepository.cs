@@ -21,6 +21,17 @@ public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext d
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
+    public async Task<List<Timeline>> ListFlaggedForDeletionTimelinesPaginatedAsync(int pageIndex, int pageSize,
+        CancellationToken cancellationToken)
+    {
+        return await dbContext.Timelines
+            .AsNoTracking()
+            .Where(t => t.OwnerId == currentUser.UserId! && t.IsDeleted)
+            .Skip(pageSize * pageIndex)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken: cancellationToken);
+    }
+
     public async Task<long> TimelineCountAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Timelines
