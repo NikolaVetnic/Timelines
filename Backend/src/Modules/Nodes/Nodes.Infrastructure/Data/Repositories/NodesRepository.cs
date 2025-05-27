@@ -14,7 +14,7 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
         return await dbContext.Nodes
             .AsNoTracking()
             .OrderBy(n => n.Timestamp)
-            .Where(n => n.OwnerId == currentUser.UserId!)
+            .Where(n => n.OwnerId == currentUser.UserId! && n.IsDeleted == false)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -24,7 +24,7 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
     {
         return await dbContext.Nodes
             .AsNoTracking()
-            .Where(n => n.TimelineId == timelineId)
+            .Where(n => n.TimelineId == timelineId && n.IsDeleted == false)
             .OrderBy(f => f.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)
@@ -43,17 +43,16 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
             .ToListAsync(cancellationToken);
     }
 
-
     public async Task<long> NodeCountAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Nodes
-            .Where(n => n.OwnerId == currentUser.UserId!)
+            .Where(n => n.OwnerId == currentUser.UserId! && n.IsDeleted == false)
             .LongCountAsync(cancellationToken);
     }
 
     public async Task<long> NodeCountByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
-        return await dbContext.Nodes.LongCountAsync(n => n.TimelineId == timelineId, cancellationToken);
+        return await dbContext.Nodes.LongCountAsync(n => n.TimelineId == timelineId && n.IsDeleted == false, cancellationToken);
     }
 
     public async Task<long> NodeCountBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken)
@@ -107,8 +106,10 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
     {
         var nodeToDelete = await dbContext.Nodes
             .FirstAsync(n => n.Id == nodeId, cancellationToken);
+
+        nodeToDelete.MarkAsDeleted();
         
-        dbContext.Nodes.Remove(nodeToDelete);
+        dbContext.Nodes.Update(nodeToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
     
@@ -117,8 +118,13 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
         var nodesToDelete = await dbContext.Nodes
             .Where(n => nodeIds.Contains(n.Id))
             .ToListAsync(cancellationToken);
-        
-        dbContext.Nodes.RemoveRange(nodesToDelete);
+
+        foreach (var node in nodesToDelete)
+        {
+            node.MarkAsDeleted();
+        }
+
+        dbContext.Nodes.UpdateRange(nodesToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 

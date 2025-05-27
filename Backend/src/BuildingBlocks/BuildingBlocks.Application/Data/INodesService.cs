@@ -16,6 +16,7 @@ public interface INodesService
     Task<long> CountNodesAsync(CancellationToken cancellationToken);
     Task<long> CountNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken);
     Task<long> CountNodesBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken);
+    Task EnsureNodeBelongsToOwner(NodeId nodeId, CancellationToken cancellationToken);
 
     Task<NodeDto> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
     Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken);

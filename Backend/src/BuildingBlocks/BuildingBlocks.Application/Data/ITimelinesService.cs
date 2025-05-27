@@ -11,6 +11,7 @@ public interface ITimelinesService
     Task<TimelineDto> GetTimelineByIdAsync(TimelineId timelineId, CancellationToken cancellationToken);
     Task<TimelineBaseDto> GetTimelineBaseByIdAsync(TimelineId timelineId, CancellationToken cancellationToken);
     Task<long> CountTimelinesAsync(CancellationToken cancellationToken);
+    Task EnsureTimelineBelongsToOwner(TimelineId timelineId, CancellationToken cancellationToken);
 
     Task AddNode(TimelineId timelineId, NodeId nodeId, CancellationToken cancellationToken);
     Task RemoveNode(TimelineId timelineId, NodeId nodeId, CancellationToken cancellationToken);
