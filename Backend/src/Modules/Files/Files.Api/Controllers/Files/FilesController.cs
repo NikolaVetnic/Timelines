@@ -7,6 +7,7 @@ using Files.Application.Entities.Files.Commands.DeleteFileAsset;
 using Files.Application.Entities.Files.Commands.UpdateFileAsset;
 using Files.Application.Entities.Files.Queries.GetFileAssetById;
 using Files.Application.Entities.Files.Queries.ListFileAssets;
+using Files.Application.Entities.Files.Queries.ListFlaggedForDeletionFileAssets;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Validation.AspNetCore;
@@ -53,6 +54,17 @@ public class FilesController(ISender sender) : ControllerBase
     public async Task<ActionResult<ListFileAssetsResponse>> Get([FromQuery] PaginationRequest query)
     {
         var result = await sender.Send(new ListFileAssetsQuery(query));
+        var response = result.Adapt<ListFileAssetsResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet("Entity/Deleted")]
+    [ProducesResponseType(typeof(ListFileAssetsResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListFileAssetsResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListFlaggedForDeletionFileAssetsQuery(query));
         var response = result.Adapt<ListFileAssetsResponse>();
 
         return Ok(response);
