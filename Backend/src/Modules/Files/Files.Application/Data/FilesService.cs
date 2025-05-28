@@ -27,6 +27,20 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
         return fileAssetsDtos;
     }
 
+    public async Task<List<FileAssetDto>> ListFlaggedForDeletionFileAssetsPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        var nodes = await NodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
+
+        var fileAssets = await filesRepository.ListFlaggedForDeletionFileAssetsPaginatedAsync(pageIndex, pageSize, cancellationToken);
+
+        var fileAssetsDtos = fileAssets.Select(f =>
+            f.ToFileAssetDto(
+                nodes.First(n => n.Id == f.NodeId.ToString())
+            )).ToList();
+
+        return fileAssetsDtos;
+    }
+
     public async Task<List<FileAssetBaseDto>> ListFileAssetsByNodeIdPaginated(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         var fileAssets = await filesRepository.ListFileAssetsByNodeIdPaginatedAsync(nodeId, pageIndex, pageSize, cancellationToken);
