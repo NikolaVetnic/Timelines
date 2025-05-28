@@ -25,6 +25,17 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
+    public async Task<List<FileAsset>> ListFlaggedForDeletionFileAssetsPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        return await dbContext.FileAssets
+            .AsNoTracking()
+            .OrderBy(f => f.CreatedBy)
+            .Where(f => f.OwnerId == currentUser.UserId! && f.IsDeleted)
+            .Skip(pageSize * pageIndex)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken: cancellationToken);
+    }
+
     public async Task<List<FileAsset>> ListFileAssetsByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets
