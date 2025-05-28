@@ -8,7 +8,6 @@ using OpenIddict.Validation.AspNetCore;
 using Timelines.Application.Entities.PhysicalPersons.Commands.CreatePhysicalPerson;
 using Timelines.Application.Entities.PhysicalPersons.Commands.DeletePhysicalPerson;
 using Timelines.Application.Entities.PhysicalPersons.Commands.UpdatePhysicalPerson;
-using Timelines.Application.Entities.PhysicalPersons.Queries;
 using Timelines.Application.Entities.PhysicalPersons.Queries.GetPhysicalPersonById;
 using Timelines.Application.Entities.PhysicalPersons.Queries.ListPhysicalPersons;
 
@@ -31,7 +30,7 @@ public class PhysicalPersonsController(ISender sender) : ControllerBase
         return CreatedAtAction(nameof(Create), new { id = response.Id }, response);
     }
     
-    [HttpGet("{phaseId}")]
+    [HttpGet("{physicalPersonId}")]
     [ProducesResponseType(typeof(GetPhysicalPersonByIdResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -5,7 +5,7 @@ using Timelines.Application.Entities.PhysicalPersons.Extensions;
 
 namespace Timelines.Application.Entities.PhysicalPersons.Commands.UpdatePhysicalPerson;
 
-public class UpdatePhysicalPersonHandler(IPhysicalPersonsRepository physicalPersonsRepository, ITimelinesService timelinesService) : ICommandHandler<UpdatePhysicalPersonCommand, UpdatePhysicalPersonResult>
+internal class UpdatePhysicalPersonHandler(IPhysicalPersonsRepository physicalPersonsRepository, ITimelinesService timelinesService) : ICommandHandler<UpdatePhysicalPersonCommand, UpdatePhysicalPersonResult>
 {
     public async Task<UpdatePhysicalPersonResult> Handle(UpdatePhysicalPersonCommand command, CancellationToken cancellationToken)
     {

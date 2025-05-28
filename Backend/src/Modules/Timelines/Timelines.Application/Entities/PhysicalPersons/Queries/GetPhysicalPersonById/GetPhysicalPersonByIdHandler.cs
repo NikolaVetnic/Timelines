@@ -6,7 +6,7 @@ using Timelines.Application.Entities.Timelines.Exceptions;
 
 namespace Timelines.Application.Entities.PhysicalPersons.Queries.GetPhysicalPersonById;
 
-public class GetPhysicalPersonByIdHandler(IPhysicalPersonsRepository physicalPersonsRepository, ITimelinesService timelinesService) : IQueryHandler<GetPhysicalPersonByIdQuery, GetPhysicalPersonByIdResult>
+internal class GetPhysicalPersonByIdHandler(IPhysicalPersonsRepository physicalPersonsRepository, ITimelinesService timelinesService) : IQueryHandler<GetPhysicalPersonByIdQuery, GetPhysicalPersonByIdResult>
 {
     public async Task<GetPhysicalPersonByIdResult> Handle(GetPhysicalPersonByIdQuery request, CancellationToken cancellationToken)
     {

@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
+﻿using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using System.Reflection;
 using BuildingBlocks.Domain.Timelines.PhysicalPerson.ValueObjects;

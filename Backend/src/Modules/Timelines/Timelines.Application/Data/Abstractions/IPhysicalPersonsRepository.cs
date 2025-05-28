@@ -17,6 +17,4 @@ public interface IPhysicalPersonsRepository
     Task UpdatePhysicalPersonAsync(PhysicalPerson phase, CancellationToken cancellationToken);
     Task DeletePhysicalPersonAsync(PhysicalPersonId phaseId, CancellationToken cancellationToken);
     Task DeletePhysicalPersons(IEnumerable<PhysicalPersonId> phaseIds, CancellationToken cancellationToken);
-
-
 }

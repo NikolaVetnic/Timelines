@@ -4,7 +4,7 @@ using Timelines.Application.Data.Abstractions;
 
 namespace Timelines.Application.Entities.PhysicalPersons.Commands.CreatePhysicalPerson;
 
-public class CreatePhysicalPersonHandler(ICurrentUser currentUser, IPhysicalPersonsRepository physicalPersonsRepository, ITimelinesService timelinesService) : ICommandHandler<CreatePhysicalPersonCommand, CreatePhysicalPersonResult>
+internal class CreatePhysicalPersonHandler(ICurrentUser currentUser, IPhysicalPersonsRepository physicalPersonsRepository, ITimelinesService timelinesService) : ICommandHandler<CreatePhysicalPersonCommand, CreatePhysicalPersonResult>
 {
     public async Task<CreatePhysicalPersonResult> Handle(CreatePhysicalPersonCommand command, CancellationToken cancellationToken)
     {
