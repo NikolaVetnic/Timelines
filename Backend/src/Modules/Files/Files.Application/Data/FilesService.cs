@@ -13,6 +13,8 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
 {
     private INodesService NodesService => serviceProvider.GetRequiredService<INodesService>();
 
+    #region List
+
     public async Task<List<FileAssetDto>> ListFileAssetsPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         var nodes = await NodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
@@ -52,6 +54,20 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
         return fileAssetsDtos;
     }
 
+    public async Task<long> CountFileAssetsAsync(CancellationToken cancellationToken)
+    {
+        return await filesRepository.FileAssetCountAsync(cancellationToken);
+    }
+
+    public async Task<long> CountFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    {
+        return await filesRepository.FileAssetCountByNodeIdAsync(nodeId, cancellationToken);
+    }
+
+    #endregion
+
+    #region Get
+
     public async Task<FileAssetDto> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken)
     {
         var file = await filesRepository.GetFileAssetByIdAsync(fileAssetId, cancellationToken);
@@ -71,15 +87,15 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
         return fileBaseDto;
     }
 
-    public async Task<long> CountFileAssetsAsync(CancellationToken cancellationToken)
+    public async Task<List<FileAssetBaseDto>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
-        return await filesRepository.FileAssetCountAsync(cancellationToken);
+        var fileAssets = await filesRepository.GetFileAssetsBaseBelongingToNodeIdsAsync(nodeIds, cancellationToken);
+        var fileAssetBaseDtos = fileAssets.Adapt<List<FileAssetBaseDto>>();
+
+        return fileAssetBaseDtos;
     }
 
-    public async Task<long> CountFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
-    {
-        return await filesRepository.FileAssetCountByNodeIdAsync(nodeId, cancellationToken);
-    }
+    #endregion
 
     public async Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)
     {
@@ -100,13 +116,5 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
     public async Task DeleteFileAssetsByNodeIds(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         await filesRepository.DeleteFileAssetsByNodeIds(nodeIds, cancellationToken);
-    }
-
-    public async Task<List<FileAssetBaseDto>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
-    {
-        var fileAssets = await filesRepository.GetFileAssetsBaseBelongingToNodeIdsAsync(nodeIds, cancellationToken);
-        var fileAssetBaseDtos = fileAssets.Adapt<List<FileAssetBaseDto>>();
-
-        return fileAssetBaseDtos;
     }
 }
