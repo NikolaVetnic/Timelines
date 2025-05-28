@@ -7,6 +7,7 @@ namespace BuildingBlocks.Application.Data;
 public interface IFilesService
 {
     Task<List<FileAssetDto>> ListFileAssetsPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken);
+    Task<List<FileAssetDto>> ListFlaggedForDeletionFileAssetsPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<FileAssetBaseDto>> ListFileAssetsByNodeIdPaginated(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<FileAssetDto> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken);
     Task<FileAssetBaseDto> GetFileAssetBaseByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken);
