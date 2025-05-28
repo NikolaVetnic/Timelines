@@ -8,6 +8,7 @@ public interface IFilesRepository
     Task AddFileAssetAsync(FileAsset fileAsset, CancellationToken cancellationToken);
   
     Task<List<FileAsset>> ListFileAssetsPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
+    Task<List<FileAsset>> ListFlaggedForDeletionFileAssetsPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<FileAsset>> ListFileAssetsByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<FileAsset> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken);
     Task UpdateFileAssetAsync(FileAsset fileAsset, CancellationToken cancellationToken);
