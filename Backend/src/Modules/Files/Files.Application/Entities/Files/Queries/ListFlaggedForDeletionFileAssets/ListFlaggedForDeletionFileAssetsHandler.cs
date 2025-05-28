@@ -13,7 +13,7 @@ internal class ListFlaggedForDeletionFileAssetsHandler(IFilesService filesServic
 
         var totalCount = await filesService.CountFileAssetsAsync(cancellationToken);
 
-        var fileAssets = await filesService.ListFileAssetsPaginated(pageIndex, pageSize, cancellationToken);
+        var fileAssets = await filesService.ListFlaggedForDeletionFileAssetsPaginated(pageIndex, pageSize, cancellationToken);
 
         return new ListFlaggedForDeletionFileAssetsResult(
             new PaginatedResult<FileAssetDto>(
