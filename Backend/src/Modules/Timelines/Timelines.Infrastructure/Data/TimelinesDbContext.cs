@@ -1,7 +1,10 @@
-﻿using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
+﻿using System.Collections.Immutable;
+using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using System.Reflection;
+using BuildingBlocks.Domain.Timelines.PhysicalPerson.ValueObjects;
 using Timelines.Application.Data.Abstractions;
+using PhaseId = BuildingBlocks.Domain.Timelines.Phase.ValueObjects.PhaseId;
 
 namespace Timelines.Infrastructure.Data;
 
@@ -11,6 +14,8 @@ public class TimelinesDbContext(DbContextOptions<TimelinesDbContext> options) :
     public DbSet<Timeline> Timelines { get; init; }
 
     public DbSet<Phase> Phases { get; init; }
+    
+    public DbSet<PhysicalPerson> PhysicalPersons { get; init; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -18,6 +23,11 @@ public class TimelinesDbContext(DbContextOptions<TimelinesDbContext> options) :
 
         // Specify schema for this module
         builder.HasDefaultSchema("Timelines");
+        
+        // Prevent EF from ever trying to map any Id as an entity
+        builder.Ignore<TimelineId>();
+        builder.Ignore<PhaseId>();
+        builder.Ignore<PhysicalPersonId>();
 
         // Configure entities
         builder.Entity<Timeline>(entity =>
@@ -54,9 +64,9 @@ public class TimelinesDbContext(DbContextOptions<TimelinesDbContext> options) :
             entity.Property(p => p.Id)
                 .HasConversion(new PhaseIdValueConverter());
 
-            entity.Property(r => r.TimelineId).IsRequired();
-            entity.HasIndex(r => r.TimelineId); // Add an index for efficient querying
-            entity.Property(r => r.TimelineId)
+            entity.Property(p => p.TimelineId).IsRequired();
+            entity.HasIndex(p => p.TimelineId); // Add an index for efficient querying
+            entity.Property(p => p.TimelineId)
                 .HasConversion(new TimelineIdValueConverter()) // Apply the value converter
                 .IsRequired();
 
@@ -77,6 +87,36 @@ public class TimelinesDbContext(DbContextOptions<TimelinesDbContext> options) :
                 .HasConversion(new DependsOnPhaseIdListConverter())
                 .HasColumnName("DependsOn")
                 .IsRequired(false);
+        });
+
+        builder.Entity<PhysicalPerson>(entity =>
+        {
+            entity.ToTable("PhysicalPersons");
+            
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.Id)
+                .HasConversion(new PhysicalPersonIdValueConverter());
+            
+            entity.Property(p => p.TimelineId).IsRequired();
+            entity.HasIndex(p => p.TimelineId); // Add an index for efficient querying
+            entity.Property(p => p.TimelineId)
+                .HasConversion(new TimelineIdValueConverter()) // Apply the value converter
+                .IsRequired();
+            
+            entity.Property(p => p.FirstName).IsRequired();
+            entity.Property(p => p.MiddleName).IsRequired(false);
+            entity.Property(p => p.LastName).IsRequired();
+            entity.Property(p => p.ParentName).IsRequired();
+            entity.Property(p => p.BirthDate).IsRequired();
+            entity.Property(p => p.StreetAddress).IsRequired();
+            entity.Property(p => p.PersonalIdNumber).IsRequired();
+            entity.Property(p => p.IdCardNumber).IsRequired();
+            entity.Property(p => p.EmailAddress).IsRequired();
+            entity.Property(p => p.PhoneNumber).IsRequired();
+            entity.Property(p => p.BankAccountNumber).IsRequired(false);
+            entity.Property(p => p.Comment).IsRequired(false);
+            entity.Property(p => p.TimelineId).IsRequired();
+            entity.Property(p => p.OwnerId).IsRequired();
         });
 
         // Apply all configurations taken from classes that implement IEntityTypeConfiguration<>

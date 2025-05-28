@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
+using BuildingBlocks.Domain.Timelines.PhysicalPerson.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.Events;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -14,6 +15,7 @@ public class Timeline : Aggregate<TimelineId>
     public required string OwnerId { get; set; }
     public List<NodeId> NodeIds { get; set; } = [];
     public List<PhaseId> PhaseIds { get; set; } = [];
+    public List<PhysicalPersonId> PhysicalPersonIds { get; set; } = [];
 
     #region Timeline
 
@@ -74,6 +76,22 @@ public class Timeline : Aggregate<TimelineId>
             PhaseIds.Remove(phaseId);
     }
 
+    #endregion
+    
+    #region PhysicalPersons
+
+    public void AddPhysicalPerson(PhysicalPersonId physicalPersonId)
+    {
+        if (!PhysicalPersonIds.Contains(physicalPersonId))
+            PhysicalPersonIds.Add(physicalPersonId);
+    }
+
+    public void RemovePhysicalPerson(PhysicalPersonId physicalPersonId)
+    {
+        if (PhysicalPersonIds.Contains(physicalPersonId))
+            PhysicalPersonIds.Remove(physicalPersonId);
+    }
+    
     #endregion
 }
 
