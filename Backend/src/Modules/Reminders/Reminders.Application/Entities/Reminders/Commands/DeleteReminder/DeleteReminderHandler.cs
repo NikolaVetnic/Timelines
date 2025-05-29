@@ -3,7 +3,8 @@ using Reminders.Application.Entities.Reminders.Exceptions;
 
 namespace Reminders.Application.Entities.Reminders.Commands.DeleteReminder;
 
-public class DeleteReminderHandler(IRemindersService remindersService) : ICommandHandler<DeleteReminderCommand, DeleteReminderResult>
+internal class DeleteReminderHandler(IRemindersService remindersService)
+    : ICommandHandler<DeleteReminderCommand, DeleteReminderResult>
 {
     public async Task<DeleteReminderResult> Handle(DeleteReminderCommand command, CancellationToken cancellationToken)
     {

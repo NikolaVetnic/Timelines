@@ -4,7 +4,8 @@ using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 
 namespace Timelines.Application.Entities.Timelines.Queries.ListTimelines;
 
-public class ListTimelinesHandler(ITimelinesService timelineService) : IQueryHandler<ListTimelinesQuery, ListTimelinesResult>
+internal class ListTimelinesHandler(ITimelinesService timelineService)
+    : IQueryHandler<ListTimelinesQuery, ListTimelinesResult>
 {
     public async Task<ListTimelinesResult> Handle(ListTimelinesQuery query, CancellationToken cancellationToken)
     {

@@ -4,7 +4,8 @@ using BuildingBlocks.Domain.Files.File.Dtos;
 
 namespace Files.Application.Entities.Files.Queries.ListFileAssets;
 
-public class ListFileAssetsHandler(IFilesService filesService) : IQueryHandler<ListFileAssetsQuery, ListFileAssetsResult>
+internal class ListFileAssetsHandler(IFilesService filesService)
+    : IQueryHandler<ListFileAssetsQuery, ListFileAssetsResult>
 {
     public async Task<ListFileAssetsResult> Handle(ListFileAssetsQuery query, CancellationToken cancellationToken)
     {
