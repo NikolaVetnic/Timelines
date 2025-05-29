@@ -31,6 +31,22 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
         return noteDtos;
     }
 
+    public async Task<List<NoteDto>> ListFlaggedForDeletionNotesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        var nodes = await NodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
+
+        var notes = await notesRepository.ListFlaggedForDeletionNotesPaginatedAsync(pageIndex, pageSize, cancellationToken);
+
+        // Exclude Notes whose Nodes have been deleted
+        var noteDtos = notes
+            .Select(n => (Note: n, Node: nodes.FirstOrDefault(d => d.Id == n.NodeId.ToString())))
+            .Where(x => x.Node != null)
+            .Select(x => x.Note.ToNoteDto(x.Node!))
+            .ToList();
+
+        return noteDtos;
+    }
+
     public async Task<List<NoteBaseDto>> ListNotesByNodeIdPaginated(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         var notes = await notesRepository.ListNotesByNodeIdPaginatedAsync(nodeId, pageIndex, pageSize, cancellationToken);
