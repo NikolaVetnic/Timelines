@@ -27,7 +27,7 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
             .ToList();
 
         // ToDo: Handle orphaned entities (Files, Notes, Reminders, but Nodes as well)
-        
+
         return noteDtos;
     }
 

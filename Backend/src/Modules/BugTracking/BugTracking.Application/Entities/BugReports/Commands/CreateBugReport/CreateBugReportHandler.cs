@@ -11,10 +11,10 @@ public class CreateBugReportHandler(IBugTrackingDbContext dbContext) :
     public async Task<CreateBugReportResult> Handle(CreateBugReportCommand command, CancellationToken cancellationToken)
     {
         var bugReport = command.ToBugReport();
-        
+
         dbContext.BugReports.Add(bugReport);
         await dbContext.SaveChangesAsync(cancellationToken);
-        
+
         return new CreateBugReportResult(bugReport.Id);
     }
 }

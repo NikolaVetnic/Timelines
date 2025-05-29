@@ -44,27 +44,27 @@ public class NodeIdJsonConverter : JsonConverter<NodeId>
         switch (reader.TokenType)
         {
             case JsonTokenType.String:
-            {
-                var guidString = reader.GetString();
-                if (!Guid.TryParse(guidString, out var guid))
-                    throw new JsonException($"Invalid GUID format for NodeId: {guidString}");
+                {
+                    var guidString = reader.GetString();
+                    if (!Guid.TryParse(guidString, out var guid))
+                        throw new JsonException($"Invalid GUID format for NodeId: {guidString}");
 
-                return NodeId.Of(guid);
-            }
+                    return NodeId.Of(guid);
+                }
             case JsonTokenType.StartObject:
-            {
-                using var jsonDoc = JsonDocument.ParseValue(ref reader);
+                {
+                    using var jsonDoc = JsonDocument.ParseValue(ref reader);
 
-                if (!jsonDoc.RootElement.TryGetProperty("id", out JsonElement idElement))
-                    throw new JsonException("Expected property 'id' not found.");
+                    if (!jsonDoc.RootElement.TryGetProperty("id", out JsonElement idElement))
+                        throw new JsonException("Expected property 'id' not found.");
 
-                var guidString = idElement.GetString();
+                    var guidString = idElement.GetString();
 
-                if (!Guid.TryParse(guidString, out var guid))
-                    throw new JsonException($"Invalid GUID format for NodeId: {guidString}");
+                    if (!Guid.TryParse(guidString, out var guid))
+                        throw new JsonException($"Invalid GUID format for NodeId: {guidString}");
 
-                return NodeId.Of(guid);
-            }
+                    return NodeId.Of(guid);
+                }
             default:
                 throw new JsonException(
                     $"Unexpected token parsing NodeId. Expected String or StartObject, got {reader.TokenType}.");

@@ -20,6 +20,6 @@ public interface INodesRepository
     Task UpdateNodeAsync(Node node, CancellationToken cancellationToken);
     Task DeleteNode(NodeId nodeId, CancellationToken cancellationToken);
     Task DeleteNodes(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
-    
+
     Task<IEnumerable<Node>> GetNodesBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken);
 }

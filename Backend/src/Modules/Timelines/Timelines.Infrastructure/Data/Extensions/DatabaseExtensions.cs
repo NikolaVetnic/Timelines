@@ -29,7 +29,7 @@ public static class DatabaseExtensions
         await context.AddRangeAsync(InitialData.Phases);
         await context.SaveChangesAsync();
     }
-    
+
     public static async Task MigrateTimelinesDatabaseAsync(this IServiceProvider services)
     {
         using var scope = services.CreateScope();

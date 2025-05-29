@@ -26,7 +26,7 @@ public class CreateReminderCommandValidator : AbstractValidator<CreateBugReportC
         RuleFor(x => x.Description)
             .NotEmpty().WithMessage("Description is required.")
             .MaximumLength(2000).WithMessage("Description must not exceed 2000 characters.");
-        
+
         RuleFor(x => x.ReporterName)
             .NotEmpty().WithMessage("Reporter's name is required.")
             .MaximumLength(100).WithMessage("Reporter's name must not exceed 100 characters.");

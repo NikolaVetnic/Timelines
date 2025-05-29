@@ -27,9 +27,9 @@ internal class UpdateNodeHandler(INodesRepository nodesRepository, ITimelinesSer
 
         if (timeline.Id is null)
             throw new NotFoundException($"Related timeline with ID {command.TimelineId ?? node.TimelineId} not found");
-        
+
         node.TimelineId = TimelineId.Of(Guid.Parse(timeline.Id));
-        
+
         await nodesRepository.UpdateNodeAsync(node, cancellationToken);
 
         return new UpdateNodeResult(node.ToNodeBaseDto());

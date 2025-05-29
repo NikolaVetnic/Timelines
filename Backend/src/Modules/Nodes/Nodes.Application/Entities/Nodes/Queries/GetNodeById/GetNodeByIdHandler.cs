@@ -11,7 +11,7 @@ internal class GetNodeByIdHandler(INodesService nodesService) : IQueryHandler<Ge
 
         if (nodeDto is null)
             throw new NodeNotFoundException(query.Id.ToString());
-        
+
         return new GetNodeByIdResult(nodeDto);
     }
 }

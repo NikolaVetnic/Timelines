@@ -61,7 +61,7 @@ public class PhasesService(IServiceProvider serviceProvider, IPhasesRepository p
 
     public async Task<long> CountPhasesAsync(CancellationToken cancellationToken)
     {
-        return await phasesRepository.PhaseCountAsync(cancellationToken); 
+        return await phasesRepository.PhaseCountAsync(cancellationToken);
     }
 
     public async Task DeletePhase(PhaseId phaseId, CancellationToken cancellationToken)

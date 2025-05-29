@@ -95,7 +95,7 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
         dbContext.Nodes.Add(node);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
-    
+
     public async Task UpdateNodeAsync(Node node, CancellationToken cancellationToken = default)
     {
         dbContext.Nodes.Update(node);
@@ -108,11 +108,11 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
             .FirstAsync(n => n.Id == nodeId, cancellationToken);
 
         nodeToDelete.MarkAsDeleted();
-        
+
         dbContext.Nodes.Update(nodeToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
-    
+
     public async Task DeleteNodes(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         var nodesToDelete = await dbContext.Nodes
