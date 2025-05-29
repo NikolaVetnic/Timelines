@@ -25,6 +25,17 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
+    public async Task<List<Reminder>> ListFlaggedForDeletionRemindersPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        return await dbContext.Reminders
+            .AsNoTracking()
+            .OrderBy(r => r.NotifyAt)
+            .Where(r => r.OwnerId == currentUser.UserId! && r.IsDeleted)
+            .Skip(pageSize * pageIndex)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken: cancellationToken);
+    }
+
     public async Task<List<Reminder>> ListRemindersByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.Reminders

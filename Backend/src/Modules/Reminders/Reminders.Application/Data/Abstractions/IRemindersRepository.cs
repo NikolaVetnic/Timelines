@@ -8,6 +8,7 @@ public interface IRemindersRepository
     Task AddReminderAsync(Reminder reminder, CancellationToken cancellationToken);
 
     Task<List<Reminder>> ListRemindersPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
+    Task<List<Reminder>> ListFlaggedForDeletionRemindersPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<Reminder>> ListRemindersByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<Reminder> GetReminderByIdAsync(ReminderId reminderId, CancellationToken cancellationToken);
     Task<long> ReminderCountAsync(CancellationToken cancellationToken);
