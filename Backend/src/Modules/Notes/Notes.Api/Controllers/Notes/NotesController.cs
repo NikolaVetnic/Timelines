@@ -8,6 +8,7 @@ using Notes.Application.Entities.Notes.Commands.CreateNote;
 using Notes.Application.Entities.Notes.Commands.DeleteNote;
 using Notes.Application.Entities.Notes.Commands.UpdateNote;
 using Notes.Application.Entities.Notes.Queries.GetNoteById;
+using Notes.Application.Entities.Notes.Queries.ListFlaggedForDeletionNotes;
 using Notes.Application.Entities.Notes.Queries.ListNotes;
 using OpenIddict.Validation.AspNetCore;
 
@@ -52,6 +53,17 @@ public class NotesController(ISender sender) : ControllerBase
     public async Task<ActionResult<ListNotesResponse>> Get([FromQuery] PaginationRequest query)
     {
         var result = await sender.Send(new ListNotesQuery(query));
+        var response = result.Adapt<ListNotesResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet("Entity/Deleted")]
+    [ProducesResponseType(typeof(ListNotesResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListNotesResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListFlaggedForDeletionNotesQuery(query));
         var response = result.Adapt<ListNotesResponse>();
 
         return Ok(response);
