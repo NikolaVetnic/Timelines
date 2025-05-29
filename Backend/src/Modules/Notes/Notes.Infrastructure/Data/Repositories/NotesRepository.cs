@@ -37,14 +37,14 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<long> NoteCountAsync(CancellationToken cancellationToken)
+    public async Task<long> CountAllNotesAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Notes
             .Where(n => n.OwnerId == currentUser.UserId!)
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<long> NoteCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    public async Task<long> AllNoteCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
         return await dbContext.Notes
             .Where(n => n.OwnerId == currentUser.UserId!)

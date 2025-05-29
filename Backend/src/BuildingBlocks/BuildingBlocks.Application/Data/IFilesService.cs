@@ -11,7 +11,7 @@ public interface IFilesService
     Task<FileAssetDto> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken);
     Task<FileAssetBaseDto> GetFileAssetBaseByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken);
     Task<long> CountAllFileAssetsAsync(CancellationToken cancellationToken);
-    Task<long> CountFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken);
+    Task<long> CountAllFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken);
 
     Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken);
     Task DeleteFiles(NodeId nodeId, IEnumerable<FileAssetId> fileAssetIds, CancellationToken cancellationToken);

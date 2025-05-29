@@ -50,14 +50,14 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<long> AllFileAssetCountAsync(CancellationToken cancellationToken)
+    public async Task<long> CountAllFileAssetsAsync(CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets
             .Where(f => f.OwnerId == currentUser.UserId!)
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<long> FileAssetCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    public async Task<long> CountAllFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets
             .Where(f => f.OwnerId == currentUser.UserId!)
