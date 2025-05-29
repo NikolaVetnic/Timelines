@@ -9,7 +9,7 @@ public class CreatePhaseRequest
     public string Title { get; set; }
     public string Description { get; set; }
     public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public DateTime? EndDate { get; set; }
     public TimeSpan? Duration { get; set; }
     public string Status { get; set; }
     public decimal Progress { get; set; }
@@ -27,7 +27,7 @@ public class UpdatePhaseRequest
     public string Title { get; set; }
     public string Description { get; set; }
     public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public DateTime? EndDate { get; set; }
     public TimeSpan? Duration { get; set; }
     public string Status { get; set; }
     public decimal Progress { get; set; }
