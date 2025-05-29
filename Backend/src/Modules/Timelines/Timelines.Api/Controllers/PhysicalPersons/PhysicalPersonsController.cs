@@ -35,9 +35,9 @@ public class PhysicalPersonsController(ISender sender) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<GetPhysicalPersonByIdResponse>> GetById(
-        [FromRoute] string phaseId)
+        [FromRoute] string physicalPersonId)
     {
-        var result = await sender.Send(new GetPhysicalPersonByIdQuery(phaseId));
+        var result = await sender.Send(new GetPhysicalPersonByIdQuery(physicalPersonId));
 
         if (result is null)
             return NotFound();
