@@ -50,7 +50,7 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<long> FileAssetCountAsync(CancellationToken cancellationToken)
+    public async Task<long> AllFileAssetCountAsync(CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets
             .Where(f => f.OwnerId == currentUser.UserId!)

@@ -57,9 +57,9 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
         return fileBaseDto;
     }
 
-    public async Task<long> CountFileAssetsAsync(CancellationToken cancellationToken)
+    public async Task<long> CountAllFileAssetsAsync(CancellationToken cancellationToken)
     {
-        return await filesRepository.FileAssetCountAsync(cancellationToken);
+        return await filesRepository.AllFileAssetCountAsync(cancellationToken);
     }
 
     public async Task<long> CountFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
