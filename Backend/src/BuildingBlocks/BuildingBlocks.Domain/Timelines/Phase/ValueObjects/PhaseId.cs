@@ -35,7 +35,6 @@ public class PhaseIdValueConverter : ValueConverter<PhaseId, Guid>
     }
 }
 
-
 public class PhaseIdJsonConverter : JsonConverter<PhaseId>
 {
     public override PhaseId Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
