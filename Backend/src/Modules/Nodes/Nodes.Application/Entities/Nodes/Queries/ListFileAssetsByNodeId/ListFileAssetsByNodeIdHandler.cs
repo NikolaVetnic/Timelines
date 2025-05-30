@@ -11,15 +11,13 @@ public class ListFileAssetsByNodeIdHandler(IFilesService filesService) : IQueryH
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var totalCount = await filesService.CountFileAssetsByNodeIdAsync(query.Id, cancellationToken);
-
         var fileAssets = await filesService.ListFileAssetsByNodeIdPaginated(query.Id, pageIndex, pageSize, cancellationToken);
 
         return new ListFileAssetsByNodeIdResult(
             new PaginatedResult<FileAssetBaseDto>(
                 pageIndex,
                 pageSize,
-                totalCount,
+                fileAssets.Count,
                 fileAssets));
     }
 }

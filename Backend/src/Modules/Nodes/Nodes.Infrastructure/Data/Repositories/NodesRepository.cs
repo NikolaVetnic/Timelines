@@ -24,7 +24,7 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
     {
         return await dbContext.Nodes
             .AsNoTracking()
-            .Where(n => n.TimelineId == timelineId && n.IsDeleted == false)
+            .Where(n => n.TimelineId == timelineId && !n.IsDeleted)
             .OrderBy(f => f.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)

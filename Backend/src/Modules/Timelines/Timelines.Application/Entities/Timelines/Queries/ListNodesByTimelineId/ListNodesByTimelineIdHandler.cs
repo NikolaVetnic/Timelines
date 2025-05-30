@@ -11,15 +11,13 @@ public class ListNodesByTimelineIdHandler(INodesService nodesService) : IQueryHa
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var totalCount = await nodesService.CountNodesByTimelineIdAsync(query.Id, cancellationToken);
-
         var nodes = await nodesService.ListNodesByTimelineIdPaginated(query.Id, pageIndex, pageSize, cancellationToken);
 
         return new ListNodesByTimelineIdResult(
             new PaginatedResult<NodeBaseDto>(
                 pageIndex,
                 pageSize,
-                totalCount,
+                nodes.Count,
                 nodes));
     }
 }
