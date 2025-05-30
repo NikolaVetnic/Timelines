@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
+using Reminders.Application.Extensions;
 
 namespace Reminders.Infrastructure.Data.Extensions;
 
@@ -13,7 +14,7 @@ internal static class InitialData
                 Id = ReminderId.Of(Guid.Parse("2e1c4902-7841-484c-b997-0a8cd3955e72")),
                 Title = "Meeting Room 1 - Daily",
                 Description = "Important meeting with Timo",
-                NotifyAt = DateTime.UtcNow.AddHours(2),
+                NotifyAt = DateTime.UtcNow.TruncateToMinute().AddHours(2),
                 Priority = 3,
                 ColorHex = "#007bff",
                 OwnerId = "11111111-1111-1111-1111-111111111111",
@@ -25,7 +26,7 @@ internal static class InitialData
                 Id = ReminderId.Of(Guid.Parse("74f40a78-bda2-4177-bffd-86e6648c4318")),
                 Title = "Weekly Team Sync",
                 Description = "Basic team sync with the team",
-                NotifyAt = DateTime.UtcNow.AddHours(2),
+                NotifyAt = DateTime.UtcNow.TruncateToMinute().AddHours(4),
                 Priority = 1,
                 ColorHex = "#e76a29",
                 OwnerId = "22222222-2222-2222-2222-222222222222",
