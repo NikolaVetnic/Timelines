@@ -30,7 +30,7 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
     {
         return await dbContext.Notes
             .AsNoTracking()
-            .Where(n => n.NodeId == nodeId && n.OwnerId == currentUser.UserId!)
+            .Where(n => n.NodeId == nodeId && n.OwnerId == currentUser.UserId! && !n.IsDeleted)
             .OrderBy(n => n.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)
