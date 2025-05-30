@@ -11,15 +11,13 @@ public class ListTimelinesHandler(ITimelinesService timelineService) : IQueryHan
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var totalCount = await timelineService.CountTimelinesAsync(cancellationToken);
-
         var nodes = await timelineService.ListTimelinesPaginated(pageIndex, pageSize, cancellationToken);
 
         return new ListTimelinesResult(
             new PaginatedResult<TimelineDto>(
                 pageIndex,
                 pageSize,
-                totalCount,
+                nodes.Count,
                 nodes));
     }
 }

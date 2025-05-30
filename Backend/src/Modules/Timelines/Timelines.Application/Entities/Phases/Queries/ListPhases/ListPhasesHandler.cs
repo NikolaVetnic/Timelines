@@ -11,15 +11,13 @@ internal class ListPhasesHandler(IPhasesService phasesService) : IQueryHandler<L
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var totalCount = await phasesService.CountPhasesAsync(cancellationToken);
-
         var phases = await phasesService.ListPhasesPaginated(pageIndex, pageSize, cancellationToken);
 
         return new ListPhasesResult(
             new PaginatedResult<PhaseDto>(
                 pageIndex,
                 pageSize,
-                totalCount,
+                phases.Count,
                 phases));
     }
 }
