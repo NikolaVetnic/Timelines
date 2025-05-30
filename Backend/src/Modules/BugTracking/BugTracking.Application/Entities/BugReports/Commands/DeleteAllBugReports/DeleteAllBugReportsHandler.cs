@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BugTracking.Application.Entities.BugReports.Commands.DeleteAllBugReports;
 
-public class DeleteAllBugReportsHandler(IBugTrackingDbContext dbContext) : ICommandHandler<DeleteAllBugReportsCommand, DeleteAllBugReportsResult>
+internal class DeleteAllBugReportsHandler(IBugTrackingDbContext dbContext)
+    : ICommandHandler<DeleteAllBugReportsCommand, DeleteAllBugReportsResult>
 {
     public async Task<DeleteAllBugReportsResult> Handle(DeleteAllBugReportsCommand request, CancellationToken cancellationToken)
     {

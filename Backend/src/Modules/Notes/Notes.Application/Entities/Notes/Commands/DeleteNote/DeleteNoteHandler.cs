@@ -3,7 +3,8 @@ using Notes.Application.Entities.Notes.Exceptions;
 
 namespace Notes.Application.Entities.Notes.Commands.DeleteNote;
 
-public class DeleteNoteHandler(INotesService notesService) : ICommandHandler<DeleteNoteCommand, DeleteNoteResult>
+internal class DeleteNoteHandler(INotesService notesService)
+    : ICommandHandler<DeleteNoteCommand, DeleteNoteResult>
 {
     public async Task<DeleteNoteResult> Handle(DeleteNoteCommand command, CancellationToken cancellationToken)
     {

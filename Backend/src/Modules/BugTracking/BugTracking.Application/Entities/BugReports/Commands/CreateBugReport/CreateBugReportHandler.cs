@@ -5,8 +5,8 @@ using BuildingBlocks.Domain.BugTracking.BugReport.ValueObject;
 
 namespace BugTracking.Application.Entities.BugReports.Commands.CreateBugReport;
 
-public class CreateBugReportHandler(IBugTrackingDbContext dbContext) :
-    ICommandHandler<CreateBugReportCommand, CreateBugReportResult>
+internal class CreateBugReportHandler(IBugTrackingDbContext dbContext)
+    : ICommandHandler<CreateBugReportCommand, CreateBugReportResult>
 {
     public async Task<CreateBugReportResult> Handle(CreateBugReportCommand command, CancellationToken cancellationToken)
     {

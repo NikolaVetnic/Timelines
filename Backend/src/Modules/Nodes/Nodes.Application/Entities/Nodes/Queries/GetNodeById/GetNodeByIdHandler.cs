@@ -3,7 +3,8 @@ using Nodes.Application.Entities.Nodes.Exceptions;
 
 namespace Nodes.Application.Entities.Nodes.Queries.GetNodeById;
 
-internal class GetNodeByIdHandler(INodesService nodesService) : IQueryHandler<GetNodeByIdQuery, GetNodeByIdResult>
+internal class GetNodeByIdHandler(INodesService nodesService)
+    : IQueryHandler<GetNodeByIdQuery, GetNodeByIdResult>
 {
     public async Task<GetNodeByIdResult> Handle(GetNodeByIdQuery query, CancellationToken cancellationToken)
     {

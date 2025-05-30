@@ -4,7 +4,8 @@ using BuildingBlocks.Domain.Nodes.Node.Dtos;
 
 namespace Timelines.Application.Entities.Timelines.Queries.ListNodesByTimelineId;
 
-public class ListNodesByTimelineIdHandler(INodesService nodesService) : IQueryHandler<ListNodesByTimelineIdQuery, ListNodesByTimelineIdResult>
+internal class ListNodesByTimelineIdHandler(INodesService nodesService)
+    : IQueryHandler<ListNodesByTimelineIdQuery, ListNodesByTimelineIdResult>
 {
     public async Task<ListNodesByTimelineIdResult> Handle(ListNodesByTimelineIdQuery query, CancellationToken cancellationToken)
     {

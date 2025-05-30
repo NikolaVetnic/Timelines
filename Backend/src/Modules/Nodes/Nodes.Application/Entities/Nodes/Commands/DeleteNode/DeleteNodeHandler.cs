@@ -4,7 +4,8 @@ using Nodes.Application.Entities.Nodes.Exceptions;
 
 namespace Nodes.Application.Entities.Nodes.Commands.DeleteNode;
 
-public class DeleteNodeHandler(IFilesService filesService, INotesService notesService, IRemindersService remindersService, INodesRepository nodesRepository) : ICommandHandler<DeleteNodeCommand, DeleteNodeResult>
+internal class DeleteNodeHandler(IFilesService filesService, INotesService notesService, IRemindersService remindersService, INodesRepository nodesRepository)
+    : ICommandHandler<DeleteNodeCommand, DeleteNodeResult>
 {
     public async Task<DeleteNodeResult> Handle(DeleteNodeCommand command, CancellationToken cancellationToken)
     {

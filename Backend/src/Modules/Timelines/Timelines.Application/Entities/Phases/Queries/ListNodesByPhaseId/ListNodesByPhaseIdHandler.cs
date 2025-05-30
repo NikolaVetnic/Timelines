@@ -4,7 +4,8 @@ using BuildingBlocks.Domain.Nodes.Node.Dtos;
 
 namespace Timelines.Application.Entities.Phases.Queries.ListNodesByPhaseId;
 
-public class ListNodesByPhaseIdHandler(IPhasesService phasesService, INodesService nodesService) : IQueryHandler<ListNodesByPhaseIdQuery, ListNodesByPhaseIdResult>
+internal class ListNodesByPhaseIdHandler(IPhasesService phasesService, INodesService nodesService)
+    : IQueryHandler<ListNodesByPhaseIdQuery, ListNodesByPhaseIdResult>
 {
     public async Task<ListNodesByPhaseIdResult> Handle(ListNodesByPhaseIdQuery query, CancellationToken cancellationToken)
     {

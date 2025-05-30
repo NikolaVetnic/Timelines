@@ -4,7 +4,8 @@ using BuildingBlocks.Domain.Reminders.Reminder.Dtos;
 
 namespace Reminders.Application.Entities.Reminders.Queries.ListReminders;
 
-public class ListRemindersHandler(IRemindersService remindersService) : IQueryHandler<ListRemindersQuery, ListRemindersResult>
+internal class ListRemindersHandler(IRemindersService remindersService)
+    : IQueryHandler<ListRemindersQuery, ListRemindersResult>
 {
     public async Task<ListRemindersResult> Handle(ListRemindersQuery query, CancellationToken cancellationToken)
     {

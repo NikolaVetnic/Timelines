@@ -4,7 +4,8 @@ using BuildingBlocks.Domain.Notes.Note.Dtos;
 
 namespace Nodes.Application.Entities.Nodes.Queries.ListNotesByNodeId;
 
-public class ListNotesByNodeIdHandler(INotesService notesService) : IQueryHandler<ListNotesByNodeIdQuery, ListNotesByNodeIdResult>
+internal class ListNotesByNodeIdHandler(INotesService notesService)
+    : IQueryHandler<ListNotesByNodeIdQuery, ListNotesByNodeIdResult>
 {
     public async Task<ListNotesByNodeIdResult> Handle(ListNotesByNodeIdQuery query, CancellationToken cancellationToken)
     {

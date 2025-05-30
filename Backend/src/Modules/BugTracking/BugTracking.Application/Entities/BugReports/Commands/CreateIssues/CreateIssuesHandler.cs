@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace BugTracking.Application.Entities.BugReports.Commands.CreateIssues;
 
-public class CreateIssuesHandler(IBugTrackingDbContext dbContext, IConfiguration configuration)
+internal class CreateIssuesHandler(IBugTrackingDbContext dbContext, IConfiguration configuration)
     : ICommandHandler<CreateIssuesCommand, CreateIssuesResult>
 {
     public async Task<CreateIssuesResult> Handle(CreateIssuesCommand command, CancellationToken cancellationToken)

@@ -3,7 +3,8 @@ using Files.Application.Entities.Files.Exceptions;
 
 namespace Files.Application.Entities.Files.Commands.DeleteFileAsset;
 
-public class DeleteFileAssetHandler(IFilesService filesService) : ICommandHandler<DeleteFileAssetCommand, DeleteFileAssetResult>
+internal class DeleteFileAssetHandler(IFilesService filesService)
+    : ICommandHandler<DeleteFileAssetCommand, DeleteFileAssetResult>
 {
     public async Task<DeleteFileAssetResult> Handle(DeleteFileAssetCommand command, CancellationToken cancellationToken)
     {

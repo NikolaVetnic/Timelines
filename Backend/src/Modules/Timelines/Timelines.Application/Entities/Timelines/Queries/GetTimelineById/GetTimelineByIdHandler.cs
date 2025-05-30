@@ -3,7 +3,8 @@ using Timelines.Application.Entities.Timelines.Exceptions;
 
 namespace Timelines.Application.Entities.Timelines.Queries.GetTimelineById;
 
-internal class GetTimelineByIdHandler(ITimelinesService timelinesService) : IQueryHandler<GetTimelineByIdQuery, GetTimelineByIdResult>
+internal class GetTimelineByIdHandler(ITimelinesService timelinesService)
+    : IQueryHandler<GetTimelineByIdQuery, GetTimelineByIdResult>
 {
     public async Task<GetTimelineByIdResult> Handle(GetTimelineByIdQuery query, CancellationToken cancellationToken)
     {
