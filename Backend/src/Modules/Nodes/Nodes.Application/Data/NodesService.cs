@@ -122,7 +122,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task<long> CountAllNodesAsync(CancellationToken cancellationToken)
     {
-        return await nodesRepository.AllNodeCountAsync(cancellationToken);
+        return await nodesRepository.CountAllNodesAsync(cancellationToken);
     }
 
     public async Task<long> CountAllNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)

@@ -8,7 +8,7 @@ public interface INodesRepository
     Task<List<Node>> ListNodesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<Node>> ListNodesByTimelineIdPaginatedAsync(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<Node>> ListNodesBelongingToPhaseAsync(DateTime startDate, DateTime? endDate, int pageIndex, int pageSize, CancellationToken cancellationToken);
-    Task<long> AllNodeCountAsync(CancellationToken cancellationToken);
+    Task<long> CountAllNodesAsync(CancellationToken cancellationToken);
     Task<long> CountAllNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken);
     Task<long> NodeCountBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken);
 

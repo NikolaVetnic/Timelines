@@ -43,7 +43,7 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<long> AllNodeCountAsync(CancellationToken cancellationToken)
+    public async Task<long> CountAllNodesAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Nodes
             .Where(n => n.OwnerId == currentUser.UserId! && n.IsDeleted == false)
