@@ -51,7 +51,7 @@ public class PhasesController(ISender sender) : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(ListPhasesResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ListPhasesResponse>> Get([FromQuery] PaginationRequest query)
+    public async Task<ActionResult<ListPhasesResponse>> List([FromQuery] PaginationRequest query)
     {
         var result = await sender.Send(new ListPhasesQuery(query));
         var response = result.Adapt<ListPhasesResponse>();

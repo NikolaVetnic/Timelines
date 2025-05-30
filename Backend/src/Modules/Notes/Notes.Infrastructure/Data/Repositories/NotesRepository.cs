@@ -20,7 +20,7 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
     {
         return await dbContext.Notes
             .AsNoTracking()
-            .Where(n => n.OwnerId == currentUser.UserId!)
+            .Where(n => n.OwnerId == currentUser.UserId! && !n.IsDeleted)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -84,7 +84,9 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
         var noteToDelete = await dbContext.Notes
             .FirstAsync(n => n.Id == noteId && n.OwnerId == currentUser.UserId!, cancellationToken);
 
-        dbContext.Notes.Remove(noteToDelete);
+        noteToDelete.MarkAsDeleted();
+
+        dbContext.Notes.Update(noteToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -94,7 +96,10 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
             .Where(n => noteIds.Contains(n.Id))
             .ToListAsync(cancellationToken);
 
-        dbContext.Notes.RemoveRange(notesToDelete);
+        foreach (var note in notesToDelete)
+            note.MarkAsDeleted();
+
+        dbContext.Notes.UpdateRange(notesToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -105,7 +110,11 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
             var notesToDelete = await dbContext.Notes
                 .Where(n => n.NodeId == nodeId)
                 .ToListAsync(cancellationToken);
-            dbContext.Notes.RemoveRange(notesToDelete);
+
+            foreach (var note in notesToDelete)
+                note.MarkAsDeleted();
+
+            dbContext.Notes.UpdateRange(notesToDelete);
             await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
@@ -114,7 +123,7 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
     {
         return await dbContext.Notes
             .AsNoTracking()
-            .Where(n => nodeIds.Contains(n.NodeId) && n.OwnerId == currentUser.UserId!)
+            .Where(n => nodeIds.Contains(n.NodeId) && n.OwnerId == currentUser.UserId! && n.IsDeleted == false)
             .ToListAsync(cancellationToken: cancellationToken);
     }
 }

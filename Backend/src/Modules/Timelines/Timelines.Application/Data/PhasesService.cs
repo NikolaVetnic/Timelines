@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.Application.Data;
-using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Phase.Dtos;
 using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
@@ -48,13 +47,6 @@ public class PhasesService(IServiceProvider serviceProvider, IPhasesRepository p
         return phaseDto;
     }
 
-    public async Task<List<PhaseBaseDto>> GetPhasesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
-    {
-        var phases = await phasesRepository.GetPhasesBelongingToNodeIdsAsync(nodeIds, cancellationToken);
-        var phaseBaseDtos = phases.Adapt<List<PhaseBaseDto>>();
-        return phaseBaseDtos;
-    }
-
     public async Task<List<PhaseBaseDto>> GetPhasesByIdsAsync(IEnumerable<PhaseId> phaseIds, CancellationToken cancellationToken)
     {
         return (await phasesRepository.GetPhasesByIdsAsync(phaseIds, cancellationToken)).Select(n => n.ToPhaseBaseDto()).ToList();
@@ -84,8 +76,6 @@ public class PhasesService(IServiceProvider serviceProvider, IPhasesRepository p
     public async Task DeletePhases(TimelineId timelineId, IEnumerable<PhaseId> phaseIds, CancellationToken cancellationToken)
     {
         var input = phaseIds.ToList();
-
-        await TimelinesService.RemovePhases(timelineId, input, cancellationToken);
 
         await phasesRepository.DeletePhases(input, cancellationToken);
     }

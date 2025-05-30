@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.Application.Data;
-using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Timelines.Application.Data.Abstractions;
@@ -14,7 +13,7 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
         return await dbContext.Phases
             .AsNoTracking()
             .OrderBy(p => p.CreatedBy)
-            .Where(p => p.OwnerId == currentUser.UserId!)
+            .Where(p => p.OwnerId == currentUser.UserId! && !p.IsDeleted)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -30,26 +29,15 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
     {
         return await dbContext.Phases
                    .AsNoTracking()
-                   .SingleOrDefaultAsync(n => n.Id == phaseId, cancellationToken) ??
+                   .SingleOrDefaultAsync(p => p.Id == phaseId && !p.IsDeleted, cancellationToken) ??
                throw new PhaseNotFoundException(phaseId.ToString());
-    }
-
-    public async Task<IEnumerable<Phase>> GetPhasesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
-    {
-        return await Task.Run(() =>
-                dbContext.Phases
-                    .AsNoTracking()
-                    .AsEnumerable()
-                    .Where(t => t.NodeIds.Any(nodeId => nodeIds.Contains(nodeId)))
-                    .ToList(),
-            cancellationToken);
     }
 
     public async Task<List<Phase>> GetPhasesByIdsAsync(IEnumerable<PhaseId> phaseIds, CancellationToken cancellationToken)
     {
         return await dbContext.Phases
             .AsNoTracking()
-            .Where(n => phaseIds.Contains(n.Id) && n.OwnerId == currentUser.UserId!)
+            .Where(p => phaseIds.Contains(p.Id) && p.OwnerId == currentUser.UserId! && !p.IsDeleted)
             .ToListAsync(cancellationToken);
     }
 
@@ -57,14 +45,14 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
     {
         return await dbContext.Phases
             .AsNoTracking()
-            .Where(n => timelineIds.Contains(n.TimelineId))
+            .Where(p => timelineIds.Contains(p.TimelineId) && !p.IsDeleted)
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
     public async Task<long> PhaseCountAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Phases
-            .Where(n => n.OwnerId == currentUser.UserId!)
+            .Where(p => p.OwnerId == currentUser.UserId!)
             .LongCountAsync(cancellationToken);
     }
 
@@ -79,7 +67,9 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
         var phaseToDelete = await dbContext.Phases
             .FirstAsync(p => p.Id == phaseId, cancellationToken);
 
-        dbContext.Phases.Remove(phaseToDelete);
+        phaseToDelete.MarkAsDeleted();
+
+        dbContext.Phases.Update(phaseToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -89,7 +79,10 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
             .Where(p => phaseIds.Contains(p.Id))
             .ToListAsync(cancellationToken);
 
-        dbContext.Phases.RemoveRange(phasesToDelete);
+        foreach (var phase in phasesToDelete)
+            phase.MarkAsDeleted();
+
+        dbContext.Phases.UpdateRange(phasesToDelete);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 }
