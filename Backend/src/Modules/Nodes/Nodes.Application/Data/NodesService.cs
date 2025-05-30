@@ -120,14 +120,14 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
             .ToList();
     }
 
-    public async Task<long> CountNodesAsync(CancellationToken cancellationToken)
+    public async Task<long> CountAllNodesAsync(CancellationToken cancellationToken)
     {
-        return await nodesRepository.NodeCountAsync(cancellationToken);
+        return await nodesRepository.CountAllNodesAsync(cancellationToken);
     }
 
-    public async Task<long> CountNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
+    public async Task<long> CountAllNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
-        return await nodesRepository.NodeCountByTimelineIdAsync(timelineId, cancellationToken);
+        return await nodesRepository.CountAllNodesByTimelineIdAsync(timelineId, cancellationToken);
     }
 
     public async Task<long> CountNodesBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken)

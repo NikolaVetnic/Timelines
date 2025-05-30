@@ -57,14 +57,14 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
         return fileBaseDto;
     }
 
-    public async Task<long> CountFileAssetsAsync(CancellationToken cancellationToken)
+    public async Task<long> CountAllFileAssetsAsync(CancellationToken cancellationToken)
     {
-        return await filesRepository.FileAssetCountAsync(cancellationToken);
+        return await filesRepository.CountAllFileAssetsAsync(cancellationToken);
     }
 
-    public async Task<long> CountFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    public async Task<long> CountAllFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return await filesRepository.FileAssetCountByNodeIdAsync(nodeId, cancellationToken);
+        return await filesRepository.CountAllFileAssetsByNodeIdAsync(nodeId, cancellationToken);
     }
 
     public async Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)
