@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
+    <PackageReference Include="NetArchTest.Rules" Version="1.3.2" />
+    <PackageReference Include="TngTech.ArchUnitNET.xUnit" Version="0.11.4" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Applications\Core\Core.Api\Core.Api.csproj" />
+    <ProjectReference Include="..\..\..\..\Modules\Nodes\Nodes.Api\Nodes.Api.csproj" />
+    <ProjectReference Include="..\..\..\..\Modules\Nodes\Nodes.Application\Nodes.Application.csproj" />
+    <ProjectReference Include="..\..\..\..\Modules\Nodes\Nodes.Domain\Nodes.Domain.csproj" />
+    <ProjectReference Include="..\..\..\..\Modules\Nodes\Nodes.Infrastructure\Nodes.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
