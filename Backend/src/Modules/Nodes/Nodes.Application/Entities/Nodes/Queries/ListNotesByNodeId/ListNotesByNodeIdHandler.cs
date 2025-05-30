@@ -11,15 +11,13 @@ public class ListNotesByNodeIdHandler(INotesService notesService) : IQueryHandle
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var totalCount = await notesService.CountNotesByNodeIdAsync(query.Id, cancellationToken);
-
-        var fileAssets = await notesService.ListNotesByNodeIdPaginated(query.Id, pageIndex, pageSize, cancellationToken);
+        var notes = await notesService.ListNotesByNodeIdPaginated(query.Id, pageIndex, pageSize, cancellationToken);
 
         return new ListNotesByNodeIdResult(
             new PaginatedResult<NoteBaseDto>(
                 pageIndex,
                 pageSize,
-                totalCount,
-                fileAssets));
+                notes.Count,
+                notes));
     }
 }
