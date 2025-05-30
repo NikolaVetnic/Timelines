@@ -9,8 +9,8 @@ public record CreatePhaseCommand : ICommand<CreatePhaseResult>
     public required string Title { get; set; }
     public required string Description { get; set; }
     public required DateTime StartDate { get; set; }
-    public required DateTime EndDate { get; set; }
-    public required TimeSpan Duration { get; set; }
+    public DateTime EndDate { get; set; }
+    public TimeSpan Duration { get; set; }
     public required string Status { get; set; }
     public required decimal Progress { get; set; }
     public required bool IsCompleted { get; set; }
