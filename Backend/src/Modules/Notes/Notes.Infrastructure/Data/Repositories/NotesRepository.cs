@@ -44,7 +44,7 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<long> AllNoteCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    public async Task<long> CountAllNotesByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
         return await dbContext.Notes
             .Where(n => n.OwnerId == currentUser.UserId!)
