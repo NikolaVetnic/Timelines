@@ -12,15 +12,13 @@ internal class ListRemindersByNodeIdHandler(IRemindersService remindersService)
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var totalCount = await remindersService.CountRemindersByNodeIdAsync(query.Id, cancellationToken);
-
-        var fileAssets = await remindersService.ListRemindersByNodeIdPaginated(query.Id, pageIndex, pageSize, cancellationToken);
+        var reminders = await remindersService.ListRemindersByNodeIdPaginated(query.Id, pageIndex, pageSize, cancellationToken);
 
         return new ListRemindersByNodeIdResult(
             new PaginatedResult<ReminderBaseDto>(
                 pageIndex,
                 pageSize,
-                totalCount,
-                fileAssets));
+                reminders.Count,
+                reminders));
     }
 }

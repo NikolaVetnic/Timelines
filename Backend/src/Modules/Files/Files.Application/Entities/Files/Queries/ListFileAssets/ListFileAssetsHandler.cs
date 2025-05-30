@@ -12,15 +12,13 @@ internal class ListFileAssetsHandler(IFilesService filesService)
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var totalCount = await filesService.CountFileAssetsAsync(cancellationToken);
-
         var fileAssets = await filesService.ListFileAssetsPaginated(pageIndex, pageSize, cancellationToken);
 
         return new ListFileAssetsResult(
             new PaginatedResult<FileAssetDto>(
                 pageIndex,
                 pageSize,
-                totalCount,
+                fileAssets.Count,
                 fileAssets));
     }
 }

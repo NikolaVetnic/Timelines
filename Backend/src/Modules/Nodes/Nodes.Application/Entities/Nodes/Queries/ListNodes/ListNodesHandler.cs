@@ -12,15 +12,13 @@ internal class ListNodesHandler(INodesService nodesService)
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var totalCount = await nodesService.CountNodesAsync(cancellationToken);
-
         var nodes = await nodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
 
         return new ListNodesResult(
             new PaginatedResult<NodeDto>(
                 pageIndex,
                 pageSize,
-                totalCount,
+                nodes.Count,
                 nodes));
     }
 }

@@ -12,15 +12,13 @@ internal class ListRemindersHandler(IRemindersService remindersService)
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var totalCount = await remindersService.CountRemindersAsync(cancellationToken);
-
         var reminders = await remindersService.ListRemindersPaginated(pageIndex, pageSize, cancellationToken);
 
         return new ListRemindersResult(
             new PaginatedResult<ReminderDto>(
                 pageIndex,
                 pageSize,
-                totalCount,
+                reminders.Count,
                 reminders));
     }
 }

@@ -29,7 +29,7 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
     {
         return await dbContext.FileAssets
             .AsNoTracking()
-            .Where(f => f.NodeId == nodeId && f.OwnerId == currentUser.UserId! && f.IsDeleted == false)
+            .Where(f => f.NodeId == nodeId && f.OwnerId == currentUser.UserId! && !f.IsDeleted)
             .OrderBy(f => f.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)
