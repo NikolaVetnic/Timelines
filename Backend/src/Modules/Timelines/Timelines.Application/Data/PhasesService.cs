@@ -13,21 +13,6 @@ public class PhasesService(IServiceProvider serviceProvider, IPhasesRepository p
 {
     private ITimelinesService TimelinesService => serviceProvider.GetRequiredService<ITimelinesService>();
 
-    public async Task<List<PhaseDto>> ListPhasesPaginated(int pageIndex, int pageSize,
-        CancellationToken cancellationToken)
-    {
-        var timelines = await TimelinesService.ListTimelinesPaginated(pageIndex, pageSize, cancellationToken);
-
-        var phases = await phasesRepository.ListPhasesPaginatedAsync(pageIndex, pageSize, cancellationToken);
-
-        var phasesDtos = phases.Select(p =>
-            p.ToPhaseDto(
-                timelines.First(t => t.Id == p.TimelineId.ToString())
-            )).ToList();
-
-        return phasesDtos;
-    }
-
     public async Task<PhaseBaseDto> GetPhaseBaseByIdAsync(PhaseId phaseId, CancellationToken cancellationToken)
     {
         var phase = await phasesRepository.GetPhaseByIdAsync(phaseId, cancellationToken);
@@ -57,11 +42,6 @@ public class PhasesService(IServiceProvider serviceProvider, IPhasesRepository p
         var phases = await phasesRepository.GetPhasesBelongingToTimelineIdsAsync(timelineIds, cancellationToken);
         var phaseBaseDtos = phases.Adapt<List<PhaseBaseDto>>();
         return phaseBaseDtos;
-    }
-
-    public async Task<long> CountPhasesAsync(CancellationToken cancellationToken)
-    {
-        return await phasesRepository.PhaseCountAsync(cancellationToken); 
     }
 
     public async Task DeletePhase(PhaseId phaseId, CancellationToken cancellationToken)
