@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Reminders.Application.Data.Abstractions;
+using Reminders.Application.Extensions;
 
 namespace Reminders.Application.Entities.Reminders.Commands.CreateReminder;
 
@@ -27,7 +28,7 @@ internal static class CreateReminderCommandExtensions
             ReminderId.Of(Guid.NewGuid()),
             command.Title,
             command.Description,
-            command.NotifyAt,
+            command.NotifyAt.TruncateToMinute(),
             command.Priority,
             command.ColorHex,
             userId,

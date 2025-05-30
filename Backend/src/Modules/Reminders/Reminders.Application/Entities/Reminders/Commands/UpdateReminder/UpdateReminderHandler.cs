@@ -3,6 +3,7 @@ using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Reminders.Application.Data.Abstractions;
 using Reminders.Application.Entities.Reminders.Exceptions;
 using Reminders.Application.Entities.Reminders.Extensions;
+using Reminders.Application.Extensions;
 
 namespace Reminders.Application.Entities.Reminders.Commands.UpdateReminder;
 
@@ -21,6 +22,8 @@ internal class UpdateReminderHandler(IRemindersRepository remindersRepository, I
         reminder.NotifyAt = command.NotifyAt ?? reminder.NotifyAt;
         reminder.Priority = command.Priority ?? reminder.Priority;
         reminder.ColorHex = command.ColorHex ?? reminder.ColorHex;
+
+        reminder.NotifyAt = reminder.NotifyAt.TruncateToMinute();
 
         var node = await nodesService.GetNodeByIdAsync(command.NodeId ?? reminder.NodeId, cancellationToken);
 
