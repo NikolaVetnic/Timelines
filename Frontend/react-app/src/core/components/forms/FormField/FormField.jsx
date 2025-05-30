@@ -1,5 +1,7 @@
 import Fuse from 'fuse.js';
 import { useEffect, useRef, useState } from "react";
+import { AiFillEyeInvisible } from "react-icons/ai";
+import { MdVisibility } from "react-icons/md";
 import "./FormField.css";
 
 const FormField = ({
@@ -20,6 +22,7 @@ const FormField = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredOptions, setFilteredOptions] = useState(options || []);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const dropdownRef = useRef(null);
   const inputRef = useRef(null);
   const dropdownListRef = useRef(null);
@@ -85,6 +88,17 @@ const FormField = ({
 
   const handleClassicSelectChange = (e) => {
     onChange({ target: { name, value: e.target.value } });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const getInputType = () => {
+    if (type === 'password') {
+      return showPassword ? 'text' : 'password';
+    }
+    return type;
   };
 
   return (
@@ -168,18 +182,30 @@ const FormField = ({
           </div>
         )
       ) : (
-        <input
-          type={type}
-          name={name}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          min={min}
-          max={max}
-          required={required}
-          className={error ? "form-field-error-input" : ""}
-          disabled={disabled}
-        />
+        <div className="form-field-input-wrapper">
+          <input
+            type={getInputType()}
+            name={name}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            min={min}
+            max={max}
+            required={required}
+            className={error ? "form-field-error-input" : ""}
+            disabled={disabled}
+          />
+          {type === "password" && (
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={togglePasswordVisibility}
+              tabIndex="-1" // Prevent the button from being focusable
+            >
+              {showPassword ? <AiFillEyeInvisible /> : <MdVisibility />}
+            </button>
+          )}
+        </div>
       )}
       {error && <div className="form-field-error">{error}</div>}
     </div>

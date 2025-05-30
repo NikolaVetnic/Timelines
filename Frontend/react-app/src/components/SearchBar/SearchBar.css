@@ -29,14 +29,19 @@
 
 .search-bar-button {
     position: absolute;
-        right: 0;
-        top: 0;
-    height: 100%;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-60%);
     border: none;
-        background-color: transparent;
-        color: #666;
-    padding: 0 0.75rem;
+    background-color: transparent;
+    color: #666;
+    padding: 0;
     cursor: pointer;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Desktop Search Results */

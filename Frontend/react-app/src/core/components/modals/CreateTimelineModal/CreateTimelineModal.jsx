@@ -47,18 +47,31 @@ const CreateTimelineModal = ({ isOpen, onClose, onTimelineCreated, initialTempla
     }
   };
 
-  const fetchTemplateData = async (timelineId) => {
-    setIsFetchingTemplate(true);
+const fetchTemplateData = async (timelineId) => {
+  setIsFetchingTemplate(true);
+  try {
     let timeline;
     if(timelineId instanceof Object) {
       timeline = await TimelineService.getTimelineById(timelineId.target.value);
     } else {
       timeline = await TimelineService.getTimelineById(timelineId);
     }
+    
+    if (!timeline) {
+      setTitle("");
+      setDescription("");
+      return;
+    }
+    
     setTitle(timeline.title || "");
     setDescription(timeline.description || "");
+  } catch (error) {
+    setTitle("");
+    setDescription("");
+  } finally {
     setIsFetchingTemplate(false);
-  };
+  }
+};
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -70,7 +83,12 @@ const CreateTimelineModal = ({ isOpen, onClose, onTimelineCreated, initialTempla
   };
 
   const handleTemplateSelect = async (selectedValue) => {
-    if (!selectedValue) return;
+    if (!selectedValue) {
+      setSelectedTemplate("");
+      setTitle("");
+      setDescription("");
+      return;
+    }
     
     setSelectedTemplate(selectedValue);
     await fetchTemplateData(selectedValue);
@@ -187,7 +205,7 @@ const CreateTimelineModal = ({ isOpen, onClose, onTimelineCreated, initialTempla
             size="small"
             onClick={handleCreateTimeline}
             disabled={!title.trim() || (useTemplate && !selectedTemplate) || isFetchingTemplate}
-            loading={isFetchingTemplate ? "true" : undefined}  // Fix for boolean attribute warning
+            loading={isFetchingTemplate ? "true" : undefined}
           />
         </div>
       </div>

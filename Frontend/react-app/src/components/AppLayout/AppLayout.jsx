@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import BugReportModal from "../../core/components/modals/BugReportModal/BugReportModal";
 import ReminderNotifier from "../../core/utils/ReminderNotifier";
 import TimelineService from "../../services/TimelineService";
+import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
 import HeaderBar from "../HeaderBar/HeaderBar";
 import "./AppLayout.css";
 
@@ -45,6 +46,7 @@ function AppLayout() {
 
       <div className="app-content-wrapper">
         <div className="app-content">
+          <Breadcrumbs />
           <div className="content-wrapper">
             <Outlet />
             <ToastContainer />

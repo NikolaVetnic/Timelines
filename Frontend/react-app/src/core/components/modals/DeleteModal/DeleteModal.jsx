@@ -1,9 +1,5 @@
-import React from "react";
 import Button from "../../buttons/Button/Button";
 import "./DeleteModal.css";
-
-const deleteMessageOne = "Are you sure you want to delete";
-const deleteMessageTwo = "This action cannot be undone.";
 
 const DeleteModal = ({
   isOpen,
@@ -13,24 +9,14 @@ const DeleteModal = ({
   itemTitle,
   count = 1,
 }) => {
+  const deleteMessageOne = "Are you sure you want to delete";
+  const deleteMessageTwo = "This action cannot be undone.";
+
   if (!isOpen) return null;
 
-  // todo: find better solution
   const getMessage = () => {
-    if (itemType === "timeline") {
-      return `${deleteMessageOne} ${count} ${
-        count === 1 ? "timeline" : "timelines"
-      }? ${deleteMessageTwo}`;
-    } else if (itemType === "node") {
-      return `${deleteMessageOne} ${count} ${
-        count === 1 ? "node" : "nodes"
-      }? ${deleteMessageTwo}`;
-    } else if (itemType === "reminder") {
-      return `${deleteMessageOne} ${count} ${
-        count === 1 ? "reminder" : "reminders"
-      }? ${deleteMessageTwo}`;
-    }
-    return `${deleteMessageOne} the ${itemType} "${itemTitle}"? ${deleteMessageTwo}`;
+    return count > 1 ? `${deleteMessageOne} the ${count} ${itemType}s? ${deleteMessageTwo}` 
+    : `${deleteMessageOne} the ${itemType} "${itemTitle}"? ${deleteMessageTwo}`;
   };
 
   const getTitle = () => {

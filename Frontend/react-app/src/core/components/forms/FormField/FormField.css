@@ -128,3 +128,31 @@
 .form-field-dropdown-options::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
 }
+
+
+.form-field-input-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #666;
+  font-size: 1.2em;
+}
+
+.password-toggle:hover {
+  color: #333;
+}
+
+/* Adjust input padding to make room for the toggle */
+input[type="password"],
+input[type="text"] {
+  padding-right: 40px !important;
+}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { PRIORITY_OPTIONS } from "../../../../data/constants";
 import Button from "../../buttons/Button/Button";
+import ColorPicker from "../../forms/ColorPicker/ColorPicker";
 import FormField from "../../forms/FormField/FormField";
 import "./CreateReminderModal.css";
 
@@ -12,6 +13,7 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
     description: "",
     notifyAt: "",
     priority: 1,
+    colorHex: "#ffff00"
   });
   const [errors, setErrors] = useState({});
 
@@ -22,16 +24,39 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
         description: "",
         priority: 1,
         notifyAt: "",
+        colorHex: "#ffff00"
       });
       setErrors({});
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    const getDefaultColor = (priority) => {
+      switch(priority) {
+        case 2: return '#ffa500';
+        case 1: return '#ffff00';
+        default: return '#ff0000';
+      }
+    };
+    
+    setFormData(prev => ({
+      ...prev,
+      colorHex: getDefaultColor(prev.priority)
+    }));
+  }, [formData.priority]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: name === "priority" ? Number(value) : value,
+    }));
+  };
+
+  const handleColorChange = (color) => {
+    setFormData(prev => ({
+      ...prev,
+      colorHex: color
     }));
   };
 
@@ -48,19 +73,20 @@ const CreateReminderModal = ({ isOpen, closeModal, saveReminder, nodeId }) => {
 const handleSave = () => {
   if (!validate()) return;
 
-  const notifyAt = new Date(formData.notifyAt).toISOString();
-
+  const selectedDate = new Date(formData.notifyAt);
+  // const isoDateTime = new Date(selectedDate.getTime() - (selectedDate.getTimezoneOffset() * 60000)).toISOString();
+  
   const newReminder = {
     title: formData.title,
     description: formData.description || "",
-    notifyAt: notifyAt,
+    notifyAt: selectedDate,
     priority: formData.priority || 0,
     nodeId: nodeId,
+    colorHex: formData.colorHex
   };
 
   saveReminder(newReminder);
 };
-
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
@@ -90,7 +116,7 @@ const handleSave = () => {
           placeholder="Description (Optional)"
         />
 
-       <FormField
+        <FormField
           label="Notify At"
           type="datetime-local"
           name="notifyAt"
@@ -110,6 +136,14 @@ const handleSave = () => {
           required
           error={errors.priority}
         />
+
+        <div className="color-picker-section">
+          <label>Color</label>
+          <ColorPicker 
+            color={formData.colorHex}
+            onChange={handleColorChange}
+          />
+        </div>
 
         <div className={`${root}-actions`}>
           <Button

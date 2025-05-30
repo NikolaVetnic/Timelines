@@ -1,8 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FaTrash } from "react-icons/fa";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FaClone, FaTrash } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa6";
+import { IoMdAdd } from "react-icons/io";
 import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router";
+import { useMatches } from "react-router-dom";
 import Button from "../../../core/components/buttons/Button/Button";
 import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
 import CreateTimelineModal from "../../../core/components/modals/CreateTimelineModal/CreateTimelineModal";
@@ -32,7 +34,9 @@ const Timeline = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [showCloneModal, setShowCloneModal] = useState(false);
 
-  
+  const matches = useMatches();
+  const parentMatch = matches[matches.length - 2];  
+
   const fetchTimeline = useCallback(async () => {
     const response = await TimelineService.getTimelineById(id);
     setTimeline(response);
@@ -126,7 +130,13 @@ const Timeline = () => {
           icon={<FaArrowLeft />}
           iconOnly
           noBackground
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            if (parentMatch?.pathname) {
+              navigate(parentMatch.pathname);
+            } else {
+              navigate(-1);
+            }
+          }}
         />
       </div>
 
@@ -143,6 +153,7 @@ const Timeline = () => {
                 iconOnly
                 onClick={handleDeleteSelected}
                 variant="danger"
+                tooltip="Delete Selected"
                 size="small"
               />
             )}
@@ -157,20 +168,25 @@ const Timeline = () => {
               iconOnly
               onClick={toggleSelectAll}
               variant="secondary"
+              tooltip="Select All"
               size="small"
             />
           </>
         )}
         <Button
-          text="Clone This Timeline"
+          icon={<FaClone />}
+          iconOnly
           onClick={() => setShowCloneModal(true)}
           variant="primary"
           size="small"
+          tooltip="Clone this timeline"
         />
         <Button
-          text="Add Node"
+          icon={<IoMdAdd />}
+          iconOnly
           onClick={() => setShowCreateModal(true)}
           variant="success"
+          tooltip="Add Node"
           size="small"
         />
       </div>
@@ -196,6 +212,11 @@ const Timeline = () => {
         onClose={() => setDeleteModal(false)}
         itemType="node"
         onConfirm={confirmDeleteNodes}
+        itemTitle={
+          selectedNodes.length === 1 
+            ? timeline.nodes.find(n => n.id === selectedNodes[0])?.title 
+            : ""
+        }
         count={selectedNodes.length}
       />
 

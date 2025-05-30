@@ -1,0 +1,95 @@
+.reminder-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.reminder-modal-overlay.high-priority-pulse-overlay {
+    animation: fadeIn 0.3s ease-out forwards, fullScreenPulse 2s infinite;
+}
+
+.reminder-modal-message {
+    margin-bottom: 1.5rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+.reminder-modal-message p {
+    margin-bottom: 0.5rem;
+}
+
+.reminder-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.reminder-modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 450px;
+    max-width: 90%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(-20px);
+    animation: slideUp 0.3s ease-out forwards;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 3px solid transparent;
+}
+
+.high-priority-pulse {
+    animation: pulse 2s infinite;
+    border-width: 1px;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+    opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 var(--pulse-color-80);
+        border-color: var(--pulse-color-100);
+    }
+    70% {
+        box-shadow: 0 0 0 25px var(--pulse-color-00);
+        border-color: var(--pulse-color-70);
+    }
+    100% {
+        box-shadow: 0 0 0 0 var(--pulse-color-00);
+        border-color: var(--pulse-color-40);
+    }
+}
+
+@keyframes fullScreenPulse {
+    0% {
+        box-shadow: inset 0 0 0 0 var(--pulse-color-40);
+    }
+    70% {
+        box-shadow: inset 0 0 0 100vh var(--pulse-color-00);
+    }
+    100% {
+        box-shadow: inset 0 0 0 0 var(--pulse-color-00);
+    }
+}

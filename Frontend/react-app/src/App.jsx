@@ -19,19 +19,21 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route errorElement={<ErrorPage />}>
       <Route path="/login" element={<LoginPage />} />
-
       <Route
         path="/"
-        element={
-          <AuthGuard>
-            <AppLayout />
-          </AuthGuard>
-        }
+        element={<AuthGuard><AppLayout /></AuthGuard>}
+        handle={{ crumb: () => "Home" }}
       >
-        <Route id="homePage" index element={<HomePage />} />
-        <Route id="timelinePage" path="timelines/:id" element={<Timeline />} />
+        <Route
+          index
+          element={<HomePage />}
+        />
+        <Route
+          path="timelines/:id"
+          element={<Timeline />}
+          handle={{ crumb: ({ params, matches }) => `${params.id}` }}
+        />
       </Route>
-
       <Route path="*" element={<ErrorPage />} />
     </Route>
   )
