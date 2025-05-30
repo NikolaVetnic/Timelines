@@ -6,14 +6,13 @@ using Timelines.Application.Entities.Phases.Extensions;
 
 namespace Timelines.Application.Entities.Phases.Queries.ListPhases;
 
-internal class ListPhasesHandler(IPhasesRepository phasesRepository, ITimelinesService timelineService) : IQueryHandler<ListPhasesQuery, ListPhasesResult>
+internal class ListPhasesHandler(IPhasesRepository phasesRepository, ITimelinesService timelineService)
+    : IQueryHandler<ListPhasesQuery, ListPhasesResult>
 {
     public async Task<ListPhasesResult> Handle(ListPhasesQuery query, CancellationToken cancellationToken)
     {
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
-
-        var totalCount = await phasesRepository.PhaseCountAsync(cancellationToken);
 
         var phases = await phasesRepository.ListPhasesPaginatedAsync(pageIndex, pageSize, cancellationToken);
         var timeline = await timelineService.GetTimelineBaseByIdAsync(phases[0].TimelineId, cancellationToken);
@@ -24,7 +23,7 @@ internal class ListPhasesHandler(IPhasesRepository phasesRepository, ITimelinesS
             new PaginatedResult<PhaseDto>(
                 pageIndex,
                 pageSize,
-                totalCount,
+                phases.Count,
                 phaseDtos));
     }
 }
