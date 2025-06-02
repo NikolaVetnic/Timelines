@@ -8,7 +8,7 @@ const INITIAL_PERSON_DATA = {
   middleName: "",
   lastName: "",
   parentName: "",
-  birthDate: new Date().toISOString().slice(0, 10), // Default to today's date
+  birthDate: new Date().toISOString().slice(0, 10),
   streetAddress: "",
   personalIdNumber: "",
   idCardNumber: "",
@@ -44,10 +44,7 @@ const CreatePhysicalPersonModal = ({ isOpen, onClose, onSubmit }) => {
     <div className="create-physical-person-modal-overlay">
       <div className="create-physical-person-modal-content">
         <div className="create-physical-person-modal-header">
-          <h3>Add Physical Person</h3>
-          <button className="create-physical-person-modal-close-x" onClick={onClose}>
-            &times;
-          </button>
+          <h3>Create Physical Person</h3>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -120,14 +117,16 @@ const CreatePhysicalPersonModal = ({ isOpen, onClose, onSubmit }) => {
           />
 
           <div className="create-physical-person-modal-actions">
-            <Button 
+            <Button
+              text="Cancel"
               type="button" 
               onClick={onClose}
               disabled={isSubmitting}
             >
               Cancel
             </Button>
-            <Button 
+            <Button
+              text="Create"
               type="submit" 
               variant="success"
               disabled={isSubmitting}
