@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBug } from "react-icons/fa";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useMatches, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BugReportModal from "../../core/components/modals/BugReportModal/BugReportModal";
 import ReminderNotifier from "../../core/utils/ReminderNotifier";
+import PhysicalPersonService from "../../services/PhysicalPersonService";
 import TimelineService from "../../services/TimelineService";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
 import HeaderBar from "../HeaderBar/HeaderBar";
@@ -12,8 +13,64 @@ import "./AppLayout.css";
 
 function AppLayout() {
   const navigate = useNavigate();
+  const matches = useMatches();
   const [isBugReportOpen, setIsBugReportOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [breadcrumbs, setBreadcrumbs] = useState([]);
+
+useEffect(() => {
+  const buildBreadcrumbs = async () => {
+    const crumbs = await Promise.all(
+      matches
+        .filter(match => match.handle?.crumb)
+        .map(async (match) => {
+          const crumbInfo = typeof match.handle.crumb === 'function' 
+            ? match.handle.crumb({ params: match.params }) 
+            : match.handle.crumb;
+
+          if (match.pathname === '/') {
+            return {
+              ...crumbInfo,
+              path: match.pathname
+            };
+          }
+
+          if (match.params.id && crumbInfo.idParam === 'id') {
+            try {
+              const timeline = await TimelineService.getTimelineById(match.params.id);
+              return {
+                ...crumbInfo,
+                title: timeline?.title || crumbInfo.title,
+                path: match.pathname
+              };
+            } catch (error) {
+              console.error("Failed to fetch timeline:", error);
+              return crumbInfo;
+            }
+          }
+
+          if (match.params.personId && crumbInfo.personIdParam === 'personId') {
+            try {
+              const person = await PhysicalPersonService.getPhysicalPersonById(match.params.personId);
+              return {
+                ...crumbInfo,
+                title: person ? `${person.firstName} ${person.lastName}` : 'Person',
+                path: match.pathname
+              };
+            } catch (error) {
+              console.error("Failed to fetch person:", error);
+              return crumbInfo;
+            }
+          }
+
+          return crumbInfo;
+        })
+    );
+    setBreadcrumbs(crumbs.filter(crumb => crumb));
+  };
+
+  buildBreadcrumbs();
+}, [matches]);
 
   const handleSearch = async (query) => {
     if (query.trim() === "") {
@@ -46,7 +103,7 @@ function AppLayout() {
 
       <div className="app-content-wrapper">
         <div className="app-content">
-          <Breadcrumbs />
+          <Breadcrumbs crumbs={breadcrumbs} />
           <div className="content-wrapper">
             <Outlet />
             <ToastContainer />
