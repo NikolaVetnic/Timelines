@@ -253,3 +253,10 @@
 .btn-no-bg + .btn-tooltip::after {
   border-color: transparent transparent var(--enmGray) transparent;
 }
+
+/* Full Width for buttons */
+.btn-full-width {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

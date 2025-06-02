@@ -12,6 +12,7 @@ const Button = ({
   icon = null,
   iconOnly = false,
   noBackground = false,
+  fullWidth = false,
   tooltip = "",
   ...props
 }) => {
@@ -23,6 +24,7 @@ const Button = ({
     disabled ? "btn-disabled" : "",
     iconOnly ? "btn-icon-only" : "",
     noBackground ? "btn-no-bg" : "",
+    fullWidth ? "btn-full-width" : "",
     className,
   ]
     .filter(Boolean)
