@@ -27,6 +27,20 @@ public class RemindersService(IServiceProvider serviceProvider, IRemindersReposi
         return reminderDtos;
     }
 
+    public async Task<List<ReminderDto>> ListFlaggedForDeletionRemindersPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        var nodes = await NodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
+
+        var reminders = await remindersRepository.ListFlaggedForDeletionRemindersPaginatedAsync(pageIndex, pageSize, cancellationToken);
+
+        var reminderDtos = reminders.Select(n =>
+            n.ToReminderDto(
+                nodes.First(d => d.Id == n.NodeId.ToString())
+            )).ToList();
+
+        return reminderDtos;
+    }
+
     public async Task<List<ReminderBaseDto>> ListRemindersByNodeIdPaginated(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         var reminders = await remindersRepository.ListRemindersByNodeIdPaginatedAsync(nodeId, pageIndex, pageSize, cancellationToken);

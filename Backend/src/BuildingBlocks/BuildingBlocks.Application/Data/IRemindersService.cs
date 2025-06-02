@@ -7,6 +7,7 @@ namespace BuildingBlocks.Application.Data;
 public interface IRemindersService
 {
     Task<List<ReminderDto>> ListRemindersPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken);
+    Task<List<ReminderDto>> ListFlaggedForDeletionRemindersPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<ReminderBaseDto>> ListRemindersByNodeIdPaginated(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<ReminderDto> GetReminderByIdAsync(ReminderId reminderId, CancellationToken cancellationToken);
     Task<ReminderBaseDto> GetReminderBaseByIdAsync(ReminderId reminderId, CancellationToken cancellationToken);
