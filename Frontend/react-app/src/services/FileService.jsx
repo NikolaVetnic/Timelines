@@ -45,8 +45,7 @@ class FileService {
         "Content-Type": "application/json",
       },
     });
-
-    console.log('Upload response:', response);
+    
     toast.success("File uploaded successfully!");
     
     return {
