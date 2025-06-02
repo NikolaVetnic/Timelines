@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useMatches, useNavigate } from "react-router-dom";
-import "./Breadcrumbs.css";
+import { Link } from "react-router";
+import { useMatches, useNavigate } from "react-router-dom";
 
-const Breadcrumbs = () => {
+const Breadcrumbs = ({ crumbs = [] }) => {
   const matches = useMatches();
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
@@ -16,37 +16,29 @@ const Breadcrumbs = () => {
     return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
-  const allBreadcrumbs = matches
-    .filter((match) => match.handle?.crumb)
-    .map((match) => {
-      const crumb = typeof match.handle.crumb === "function"
-        ? match.handle.crumb({ params: match.params, matches })
-        : match.handle.crumb;
+  const displayCrumbs = crumbs.length > 0 ? crumbs : 
+    matches
+      .filter(match => match.handle?.crumb)
+      .map(match => ({
+        ...(typeof match.handle.crumb === 'function' ? 
+          match.handle.crumb({ params: match.params, matches }) : 
+          match.handle.crumb),
+        path: match.pathname
+      }));
 
-      return {
-        name: crumb,
-        path: match.pathname,
-      };
-    });
-
-  if (allBreadcrumbs.length === 1 && allBreadcrumbs[0].path === "/") {
-    return null;
-  }
-
-  const breadcrumbs = allBreadcrumbs.slice(-5);
-  const lastIndex = breadcrumbs.length - 1;
+  if (displayCrumbs.length <= 1) return null;
 
   if (isMobile) {
     return (
       <div className="breadcrumb-dropdown-container">
         <select
           className="breadcrumb-select"
-          value={breadcrumbs[lastIndex].path}
+          value={displayCrumbs[displayCrumbs.length - 1].path}
           onChange={(e) => navigate(e.target.value)}
         >
-          {breadcrumbs.map(({ name, path }, idx) => (
-            <option key={idx} value={path}>
-              {name}
+          {displayCrumbs.map((crumb, idx) => (
+            <option key={idx} value={crumb.path}>
+              {crumb.title || crumb.name || 'Untitled'}
             </option>
           ))}
         </select>
@@ -56,11 +48,17 @@ const Breadcrumbs = () => {
 
   return (
     <nav className="breadcrumb-nav">
-      {breadcrumbs.map(({ name, path }, idx) => {
-        const isLast = idx === lastIndex;
+      {displayCrumbs.map((crumb, idx) => {
+        const isLast = idx === displayCrumbs.length - 1;
         return (
           <span key={idx} className={`breadcrumb-item ${isLast ? "active" : ""}`}>
-            {!isLast ? <Link to={path}>{name}</Link> : name}
+            {!isLast ? (
+              <Link to={crumb.path}>
+                {crumb.title || crumb.name || 'Untitled'}
+              </Link>
+            ) : (
+              crumb.title || crumb.name || 'Untitled'
+            )}
             {!isLast && <span className="separator"> / </span>}
           </span>
         );
