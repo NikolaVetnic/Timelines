@@ -6,6 +6,7 @@ namespace Nodes.Application.Data.Abstractions;
 public interface INodesRepository
 {
     Task<List<Node>> ListNodesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
+    Task<List<Node>> ListFlaggedForDeletionNodesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<Node>> ListNodesByTimelineIdPaginatedAsync(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<Node>> ListNodesBelongingToPhaseAsync(DateTime startDate, DateTime? endDate, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<long> NodeCountAsync(CancellationToken cancellationToken);

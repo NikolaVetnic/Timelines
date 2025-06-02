@@ -9,12 +9,24 @@ namespace Nodes.Infrastructure.Data.Repositories;
 public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext) : INodesRepository
 {
     #region List
+
     public async Task<List<Node>> ListNodesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
     {
         return await dbContext.Nodes
             .AsNoTracking()
             .OrderBy(n => n.Timestamp)
             .Where(n => n.OwnerId == currentUser.UserId! && n.IsDeleted == false)
+            .Skip(pageSize * pageIndex)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken: cancellationToken);
+    }
+
+    public async Task<List<Node>> ListFlaggedForDeletionNodesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Nodes
+            .AsNoTracking()
+            .OrderBy(n => n.Timestamp)
+            .Where(n => n.OwnerId == currentUser.UserId! && n.IsDeleted)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
