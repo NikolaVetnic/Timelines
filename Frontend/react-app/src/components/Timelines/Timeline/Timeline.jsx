@@ -4,7 +4,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { IoMdAdd } from "react-icons/io";
 import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router";
-import { useMatches } from "react-router-dom";
+import { Outlet, useMatches } from "react-router-dom";
 import Button from "../../../core/components/buttons/Button/Button";
 import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
 import CreateTimelineModal from "../../../core/components/modals/CreateTimelineModal/CreateTimelineModal";
@@ -13,6 +13,7 @@ import recalculateStrip from "../../../core/utils/RecalculateStrip";
 import NodeService from "../../../services/NodeService";
 import TimelineService from "../../../services/TimelineService";
 import Node from "../../Nodes/Node/Node/Node";
+import PhysicalPersonPanel from "../PhysicalPerson/PhysicalPerson";
 import "./Timeline.css";
 
 const Timeline = () => {
@@ -36,6 +37,10 @@ const Timeline = () => {
 
   const matches = useMatches();
   const parentMatch = matches[matches.length - 2];  
+
+  const isDetailsView = matches.some(match => 
+    match.pathname.includes('physical-persons')
+  );
 
   const fetchTimeline = useCallback(async () => {
     const response = await TimelineService.getTimelineById(id);
@@ -123,7 +128,9 @@ const Timeline = () => {
   }
 
   return (
-    <div className="timeline-container" key={timeline.id}>
+    <>
+      {!isDetailsView ? (
+               <div className="timeline-container" key={timeline.id}>
       <div className="timeline-back-button-container">
         <Button
           className="back-button"
@@ -220,6 +227,8 @@ const Timeline = () => {
         count={selectedNodes.length}
       />
 
+      <PhysicalPersonPanel timelineId={timeline?.id} />
+
       {timeline.nodes && timeline.nodes.length > 0 ? (
         <div className="timeline-nodes-container">
           {timeline.nodes.length > 1 && (
@@ -255,6 +264,10 @@ const Timeline = () => {
         </div>
       )}
     </div>
+      ) : (
+        <Outlet />
+      )}
+    </>
   );
 };
 
