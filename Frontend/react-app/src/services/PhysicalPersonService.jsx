@@ -46,6 +46,28 @@ class PhysicalPersonService {
     }
   }
 
+/**
+ * Get all physical persons for a timeline
+ * @param {string} timelineId - The timeline ID
+ * @returns {Promise<Array>} - Array of physical persons
+ */
+static async getPhysicalPersonsByTimelineWithoutPagination(timelineId) {
+  try {
+    const response = await getAll(API_BASE_URL, '/PhysicalPersons');
+    
+    const filteredPersons = response.physicalPersons?.data?.filter(person => 
+      person.timeline?.id === timelineId
+    ) || [];
+    
+    return filteredPersons;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch physical persons";
+    toast.error(errorMessage);
+    return [];
+  }
+}
+
   /**
    * Get a single physical person by ID
    * @param {string} id - The physical person ID
@@ -54,10 +76,9 @@ class PhysicalPersonService {
   static async getPhysicalPersonById(id) {
     try {
       const response = await getById(API_BASE_URL, "/PhysicalPersons/", id);
-      return response.physicalPerson || response;
+      return response.physicalPerson;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to fetch physical person";
+      const errorMessage = "Failed to fetch physical person";
       toast.error(errorMessage);
     }
   }
