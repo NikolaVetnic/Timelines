@@ -71,9 +71,7 @@ static getDefaultColorForPriority(priority) {
         totalPages: Math.ceil((response.reminders.count || 0) / pageSize),
       };
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 
-                        error.message || 
-                        "Failed to fetch node reminders";
+      const errorMessage = "Failed to fetch node reminders";
       toast.error(errorMessage);
     }
   }   
