@@ -10,6 +10,7 @@ using System;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Reminders.Application.Entities.Reminders.Commands.DeleteReminder;
 using Reminders.Application.Entities.Reminders.Commands.UpdateReminder;
+using Reminders.Application.Entities.Reminders.Queries.ListFlaggedForDeletionReminders;
 
 namespace Reminders.Api.Controllers.Reminders;
 
@@ -52,6 +53,17 @@ public class RemindersController(ISender sender) : ControllerBase
     public async Task<ActionResult<ListRemindersResponse>> Get([FromQuery] PaginationRequest query)
     {
         var result = await sender.Send(new ListRemindersQuery(query));
+        var response = result.Adapt<ListRemindersResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet("Entity/Deleted")]
+    [ProducesResponseType(typeof(ListRemindersResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListRemindersResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListFlaggedForDeletionRemindersQuery(query));
         var response = result.Adapt<ListRemindersResponse>();
 
         return Ok(response);
