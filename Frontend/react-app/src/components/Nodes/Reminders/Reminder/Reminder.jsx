@@ -41,7 +41,7 @@ const Reminder = ({ node, onToggle }) => {
     fetchReminders();
   }, [fetchReminders]);
 
-  const totalPages = Math.ceil(totalCount / itemsPerPage) || 1;
+  const totalPages = Math.max(1, Math.ceil(totalCount / itemsPerPage));
 
   const handlePageChange = (page) => {
     setCurrentPage(page - 1);
