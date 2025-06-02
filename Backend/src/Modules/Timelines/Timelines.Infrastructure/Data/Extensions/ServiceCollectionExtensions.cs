@@ -21,8 +21,10 @@ public static class ServiceCollectionExtensions
 
         // Register DbContext interface
         services.AddScoped<ITimelinesDbContext, TimelinesDbContext>();
-        services.AddScoped<ITimelinesRepository, TimelinesRepository>();
+        
         services.AddScoped<IPhasesRepository, PhasesRepository>();
+        services.AddScoped<IPhysicalPersonsRepository, PhysicalPersonsRepository>();
+        services.AddScoped<ITimelinesRepository, TimelinesRepository>();
 
         return services;
     }

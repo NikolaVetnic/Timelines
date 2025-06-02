@@ -18,16 +18,28 @@ public static class DatabaseExtensions
 
     private static async Task SeedAsync(TimelinesDbContext context)
     {
-        if (await context.Timelines.AnyAsync())
-            return;
+        var isDbSeeded = false;
 
-        await context.AddRangeAsync(InitialData.Timelines);
+        if (!await context.Timelines.AnyAsync())
+        {
+            await context.AddRangeAsync(InitialData.Timelines);
+            isDbSeeded = true;
+        }
 
-        if (await context.Phases.AnyAsync())
-            return;
+        if (!await context.Phases.AnyAsync())
+        {
+            await context.AddRangeAsync(InitialData.Phases);
+            isDbSeeded = true;
+        }
 
-        await context.AddRangeAsync(InitialData.Phases);
-        await context.SaveChangesAsync();
+        if (!await context.PhysicalPersons.AnyAsync())
+        {
+            await context.AddRangeAsync(InitialData.PhysicalPersons);
+            isDbSeeded = true;
+        }
+
+        if (isDbSeeded)
+            await context.SaveChangesAsync();
     }
 
     public static async Task MigrateTimelinesDatabaseAsync(this IServiceProvider services)

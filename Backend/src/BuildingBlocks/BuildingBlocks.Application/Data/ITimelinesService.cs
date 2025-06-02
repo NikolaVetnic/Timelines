@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
+using BuildingBlocks.Domain.Timelines.PhysicalPerson.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 
@@ -21,6 +22,10 @@ public interface ITimelinesService
     Task AddPhase(TimelineId timelineId, PhaseId phaseId, CancellationToken cancellationToken);
     Task RemovePhase(TimelineId timelineId, PhaseId phaseId, CancellationToken cancellationToken);
     Task RemovePhases(TimelineId timelineId, IEnumerable<PhaseId> phaseIds, CancellationToken cancellationToken);
+    
+    Task AddPhysicalPerson(TimelineId timelineId, PhysicalPersonId physicalPersonId, CancellationToken cancellationToken);
+    Task RemovePhysicalPerson(TimelineId timelineId, PhysicalPersonId physicalPersonId, CancellationToken cancellationToken);
+    Task RemovePhysicalPersons(TimelineId timelineId, IEnumerable<PhysicalPersonId> physicalPersonIds, CancellationToken cancellationToken);
 
     Task<List<TimelineBaseDto>> GetTimelinesBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 }

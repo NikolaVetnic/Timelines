@@ -11,15 +11,13 @@ internal class ListNotesHandler(INotesService notesService) : IQueryHandler<List
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var totalCount = await notesService.CountNotesAsync(cancellationToken);
-
         var notes = await notesService.ListNotesPaginated(pageIndex, pageSize, cancellationToken);
 
         return new ListNotesResult(
             new PaginatedResult<NoteDto>(
                 pageIndex,
                 pageSize,
-                totalCount,
+                notes.Count,
                 notes));
     }
 }

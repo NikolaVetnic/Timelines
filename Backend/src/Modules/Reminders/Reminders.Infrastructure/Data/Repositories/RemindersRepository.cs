@@ -40,7 +40,7 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
     {
         return await dbContext.Reminders
             .AsNoTracking()
-            .Where(r => r.NodeId == nodeId && r.OwnerId == currentUser.UserId! && r.IsDeleted == false)
+            .Where(r => r.NodeId == nodeId && r.OwnerId == currentUser.UserId! && !r.IsDeleted)
             .OrderBy(r => r.CreatedAt)
             .Skip(pageIndex * pageSize)
             .Take(pageSize)
