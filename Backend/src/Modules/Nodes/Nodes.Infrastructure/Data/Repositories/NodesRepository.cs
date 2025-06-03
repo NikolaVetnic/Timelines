@@ -43,14 +43,14 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<long> NodeCountAsync(CancellationToken cancellationToken)
+    public async Task<long> CountAllNodesAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Nodes
             .Where(n => n.OwnerId == currentUser.UserId! && n.IsDeleted == false)
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<long> NodeCountByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
+    public async Task<long> CountAllNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
         return await dbContext.Nodes.LongCountAsync(n => n.TimelineId == timelineId && n.IsDeleted == false, cancellationToken);
     }

@@ -44,14 +44,14 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
                throw new ReminderNotFoundException(reminderId.ToString());
     }
 
-    public async Task<long> ReminderCountAsync(CancellationToken cancellationToken)
+    public async Task<long> CountAllRemindersAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Reminders
             .Where(r => r.OwnerId == currentUser.UserId!)
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<long> ReminderCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    public async Task<long> CountAllRemindersByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
         return await dbContext.Reminders
             .Where(r => r.OwnerId == currentUser.UserId!)
