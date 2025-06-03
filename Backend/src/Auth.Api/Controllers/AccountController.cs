@@ -1,16 +1,14 @@
 using System.Threading.Tasks;
 using Auth.Application.Entities.Commands.RegisterUser;
-using Auth.Domain.Models;
 using BuildingBlocks.Api.Attributes;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AccountController(ISender sender, UserManager<ApplicationUser> userManager) : ControllerBase
+public class AccountController(ISender sender) : ControllerBase
 {
     [HttpPost("Register")]
     [RequireApiKey]

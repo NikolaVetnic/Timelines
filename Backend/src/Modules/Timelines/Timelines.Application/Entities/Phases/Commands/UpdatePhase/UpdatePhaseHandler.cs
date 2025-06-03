@@ -24,11 +24,17 @@ internal class UpdatePhaseHandler(IPhasesRepository phasesRepository, ITimelines
         phase.Status = command.Status ?? phase.Status;
         phase.Progress = command.Progress ?? phase.Progress;
         phase.IsCompleted = command.IsCompleted ?? phase.IsCompleted;
-        phase.Parent = command.Parent ?? phase.Parent;
-        phase.DependsOn = command.DependsOn.ToList() ?? phase.DependsOn;
+        
+        if (command.DependsOn != null) 
+            phase.DependsOn = command.DependsOn.ToList();
+        
         phase.AssignedTo = command.AssignedTo ?? phase.AssignedTo;
-        phase.Stakeholders = command.Stakeholders.ToList() ?? phase.Stakeholders;
-        phase.Tags = command.Tags.ToList() ?? phase.Tags;
+        
+        if (command.Stakeholders != null) 
+            phase.Stakeholders = command.Stakeholders.ToList();
+
+        if (command.Tags != null) 
+            phase.Tags = command.Tags.ToList();
 
         var timeline = await timelinesService.GetTimelineByIdAsync(command.TimelineId ?? phase.TimelineId, cancellationToken);
 

@@ -8,7 +8,7 @@ public record CreateNoteCommand : ICommand<CreateNoteResult>
     public required string Title { get; set; }
     public required string Content { get; set; }
     public required DateTime Timestamp { get; set; }
-    public List<string> SharedWith { get; set; }
+    public List<string>? SharedWith { get; set; }
     public required bool IsPublic { get; set; }
     public required NodeId NodeId { get; set; }
 }
