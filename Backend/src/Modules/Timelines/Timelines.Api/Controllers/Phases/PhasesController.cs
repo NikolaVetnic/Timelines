@@ -86,7 +86,6 @@ public class PhasesController(ISender sender) : ControllerBase
             Status = request.Status,
             Progress = request.Progress,
             IsCompleted = request.IsCompleted,
-            Parent = request.Parent,
             DependsOn = request.DependsOn,
             AssignedTo = request.AssignedTo,
             Stakeholders = request.Stakeholders,

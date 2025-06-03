@@ -15,7 +15,6 @@ public record UpdatePhaseCommand : ICommand<UpdatePhaseResult>
     public string? Status { get; set; }
     public decimal? Progress { get; set; }
     public bool? IsCompleted { get; set; }
-    public PhaseId? Parent { get; set; }
     public PhaseId[]? DependsOn { get; set; }
     public string? AssignedTo { get; set; }
     public string[]? Stakeholders { get; set; }

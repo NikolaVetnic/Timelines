@@ -12,7 +12,6 @@ public record UpdateNodeCommand : ICommand<UpdateNodeResult>
     public required NodeId Id { get; set; }
     public string? Title { get; set; }
     public string? Description { get; set; }
-    public PhaseId PhaseId { get; set; }
     public DateTime? Timestamp { get; set; }
     public int? Importance { get; set; }
     public List<string>? Categories { get; set; }
