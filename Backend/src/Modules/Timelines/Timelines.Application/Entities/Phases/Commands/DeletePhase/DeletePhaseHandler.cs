@@ -3,7 +3,8 @@ using Timelines.Application.Entities.Phases.Exceptions;
 
 namespace Timelines.Application.Entities.Phases.Commands.DeletePhase;
 
-public class DeletePhaseHandler(IPhasesService phasesService) : ICommandHandler<DeletePhaseCommand, DeletePhaseResult>
+internal class DeletePhaseHandler(IPhasesService phasesService)
+    : ICommandHandler<DeletePhaseCommand, DeletePhaseResult>
 {
     public async Task<DeletePhaseResult> Handle(DeletePhaseCommand command, CancellationToken cancellationToken)
     {

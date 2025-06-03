@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BugTracking.Application.Entities.BugReports.Queries.ListBugReports;
 
-public class ListBugReportsHandler(IBugTrackingDbContext dbContext)
+internal class ListBugReportsHandler(IBugTrackingDbContext dbContext)
     : IQueryHandler<ListBugReportsQuery, ListBugReportsResult>
 {
     public async Task<ListBugReportsResult> Handle(ListBugReportsQuery request, CancellationToken cancellationToken)
