@@ -2,8 +2,7 @@
 
 namespace Timelines.Application.Entities.Phases.Commands.DeletePhase;
 
-internal class DeletePhaseHandler(IPhasesRepository phasesRepository)
-    : ICommandHandler<DeletePhaseCommand, DeletePhaseResult>
+internal class DeletePhaseHandler(IPhasesRepository phasesRepository) : ICommandHandler<DeletePhaseCommand, DeletePhaseResult>
 {
     public async Task<DeletePhaseResult> Handle(DeletePhaseCommand command, CancellationToken cancellationToken)
     {
