@@ -4,7 +4,8 @@ using BuildingBlocks.Domain.Nodes.Node.Dtos;
 
 namespace Nodes.Application.Entities.Nodes.Queries.ListNodes;
 
-internal class ListNodesHandler(INodesService nodesService) : IQueryHandler<ListNodesQuery, ListNodesResult>
+internal class ListNodesHandler(INodesService nodesService)
+    : IQueryHandler<ListNodesQuery, ListNodesResult>
 {
     public async Task<ListNodesResult> Handle(ListNodesQuery query, CancellationToken cancellationToken)
     {
