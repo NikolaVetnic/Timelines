@@ -3,7 +3,8 @@ using Timelines.Application.Entities.Phases.Exceptions;
 
 namespace Timelines.Application.Entities.Phases.Queries.GetPhaseById;
 
-internal class GetPhaseByIdHandler(IPhasesService phasesService) : IQueryHandler<GetPhaseByIdQuery, GetPhaseByIdResult>
+internal class GetPhaseByIdHandler(IPhasesService phasesService)
+    : IQueryHandler<GetPhaseByIdQuery, GetPhaseByIdResult>
 {
     public async Task<GetPhaseByIdResult> Handle(GetPhaseByIdQuery query, CancellationToken cancellationToken)
     {
