@@ -19,7 +19,7 @@ public class FileAsset : Aggregate<FileAssetId>
 
     #region File
 
-    public static FileAsset Create(FileAssetId id, string name, string description, float size, EFileType type, string ownerId, byte[] content, bool isPublic, List<string> sharedWith, NodeId nodeId)
+    public static FileAsset Create(FileAssetId id, string name, string description, float size, EFileType type, string ownerId, byte[] content, bool isPublic, List<string>? sharedWith, NodeId nodeId)
     {
         var file = new FileAsset
         {
