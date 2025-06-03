@@ -13,7 +13,6 @@ public class PhaseBaseDto(
     string status,
     decimal progress,
     bool isCompleted,
-    PhaseId parent,
     List<PhaseId> dependsOn,
     string assignedTo,
     List<string> stakeholders,
@@ -37,8 +36,6 @@ public class PhaseBaseDto(
     [JsonPropertyName("progress")] public decimal Progress { get; set; } = progress;
 
     [JsonPropertyName("isCompleted")] public bool IsCompleted { get; set; } = isCompleted;
-
-    [JsonPropertyName("parent")] public PhaseId Parent { get; set; } = parent;
 
     [JsonPropertyName("dependsOn")] public List<PhaseId> DependsOn { get; set; } = dependsOn;
 

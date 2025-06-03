@@ -34,7 +34,6 @@ internal static class CreatePhaseCommandExtensions
             command.Status,
             command.Progress,
             command.IsCompleted,
-            command.Parent,
             command.DependsOn,
             command.AssignedTo,
             command.Stakeholders,

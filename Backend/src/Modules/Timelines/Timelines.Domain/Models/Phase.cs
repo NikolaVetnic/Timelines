@@ -16,7 +16,6 @@ public class Phase : Aggregate<PhaseId>
     public required string Status { get; set; }
     public required decimal Progress { get; set; }
     public required bool IsCompleted { get; set; }
-    public required PhaseId? Parent { get; set; }
     public required List<PhaseId> DependsOn { get; set; }
     public required string AssignedTo { get; set; }
     public List<string> Stakeholders { get; set; } = [];
@@ -29,7 +28,7 @@ public class Phase : Aggregate<PhaseId>
     public static Phase Create(PhaseId id, string title, string description,
         DateTime startDate, DateTime? endDate, TimeSpan? duration,
         string status, decimal progress, bool isCompleted,
-        PhaseId parent, List<PhaseId> dependsOn, string assignedTo,
+        List<PhaseId> dependsOn, string assignedTo,
         List<string> stakeholders, List<string> tags, TimelineId timelineId, string ownerId)
     {
         var phase = new Phase
@@ -43,7 +42,6 @@ public class Phase : Aggregate<PhaseId>
             Status = status,
             Progress = progress,
             IsCompleted = isCompleted,
-            Parent = parent,
             DependsOn = dependsOn,
             AssignedTo = assignedTo,
             TimelineId = timelineId,
@@ -64,7 +62,7 @@ public class Phase : Aggregate<PhaseId>
     public void Update(PhaseId id, string title, string description,
         DateTime startDate, DateTime? endDate, TimeSpan? duration,
         string status, decimal progress, bool isCompleted,
-        PhaseId parent, List<PhaseId> dependsOn, string assignedTo)
+        List<PhaseId> dependsOn, string assignedTo)
     {
         Title = title;
         Description = description;
@@ -74,7 +72,6 @@ public class Phase : Aggregate<PhaseId>
         Status = status;
         Progress = progress;
         IsCompleted = isCompleted;
-        Parent = parent;
         DependsOn = dependsOn;
         AssignedTo = assignedTo;
 

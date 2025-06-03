@@ -1,18 +1,16 @@
 ﻿using BuildingBlocks.Application.Data;
-using Timelines.Application.Entities.Phases.Exceptions;
+using Timelines.Application.Data.Abstractions;
+using Timelines.Application.Entities.Phases.Extensions;
 
 namespace Timelines.Application.Entities.Phases.Queries.GetPhaseById;
 
-internal class GetPhaseByIdHandler(IPhasesService phasesService)
-    : IQueryHandler<GetPhaseByIdQuery, GetPhaseByIdResult>
+internal class GetPhaseByIdHandler(IPhasesRepository phasesRepository, ITimelinesService timelinesService) : IQueryHandler<GetPhaseByIdQuery, GetPhaseByIdResult>
 {
     public async Task<GetPhaseByIdResult> Handle(GetPhaseByIdQuery query, CancellationToken cancellationToken)
     {
-        var phaseDto = await phasesService.GetPhaseByIdAsync(query.Id, cancellationToken);
+        var phase = await phasesRepository.GetPhaseByIdAsync(query.Id, cancellationToken);
+        var timelines = await timelinesService.GetTimelineByIdAsync(phase.TimelineId, cancellationToken);
 
-        if (phaseDto is null)
-            throw new PhaseNotFoundException(query.Id.ToString());
-
-        return new GetPhaseByIdResult(phaseDto);
+        return new GetPhaseByIdResult(phase.ToPhaseDto(timelines));
     }
 }

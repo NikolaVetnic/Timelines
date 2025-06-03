@@ -78,10 +78,6 @@ public class TimelinesDbContext(DbContextOptions<TimelinesDbContext> options) :
             entity.Property(p => p.Progress).IsRequired();
             entity.Property(p => p.IsCompleted).IsRequired();
 
-            entity.Property(p => p.Parent)
-                .HasConversion(new PhaseIdValueConverter())
-                .IsRequired();
-
             entity.Property(p => p.DependsOn)
                 .HasConversion(new DependsOnPhaseIdListConverter())
                 .HasColumnName("DependsOn")

@@ -14,12 +14,11 @@ TimeSpan? duration,
 string status,
 decimal progress,
 bool isCompleted,
-PhaseId parent,
 List<PhaseId> dependsOn,
 string assignedTo,
 List<string> stakeholders,
 List<string> tags,
-TimelineBaseDto timeline) : PhaseBaseDto(id, title, description, startDate, endDate, duration, status, progress, isCompleted, parent, dependsOn, assignedTo, stakeholders, tags)
+TimelineBaseDto timeline) : PhaseBaseDto(id, title, description, startDate, endDate, duration, status, progress, isCompleted, dependsOn, assignedTo, stakeholders, tags)
 {
     [JsonPropertyName("timeline")] public TimelineBaseDto Timeline { get; set; } = timeline;
 }
