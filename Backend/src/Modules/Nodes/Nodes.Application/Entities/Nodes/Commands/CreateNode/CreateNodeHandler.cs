@@ -4,7 +4,8 @@ using Nodes.Application.Data.Abstractions;
 
 namespace Nodes.Application.Entities.Nodes.Commands.CreateNode;
 
-internal class CreateNodeHandler(ICurrentUser currentUser, INodesRepository nodesRepository, ITimelinesService timelineService) : ICommandHandler<CreateNodeCommand, CreateNodeResult>
+internal class CreateNodeHandler(ICurrentUser currentUser, INodesRepository nodesRepository, ITimelinesService timelineService)
+    : ICommandHandler<CreateNodeCommand, CreateNodeResult>
 {
     public async Task<CreateNodeResult> Handle(CreateNodeCommand command, CancellationToken cancellationToken)
     {

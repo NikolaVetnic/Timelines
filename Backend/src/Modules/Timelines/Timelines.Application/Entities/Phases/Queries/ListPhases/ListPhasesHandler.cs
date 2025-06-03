@@ -1,8 +1,6 @@
 ﻿using BuildingBlocks.Application.Data;
 using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.Timelines.Phase.Dtos;
-using Timelines.Application.Data.Abstractions;
-using Timelines.Application.Entities.Phases.Extensions;
 
 namespace Timelines.Application.Entities.Phases.Queries.ListPhases;
 

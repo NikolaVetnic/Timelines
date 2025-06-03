@@ -6,7 +6,8 @@ using Timelines.Application.Entities.PhysicalPersons.Extensions;
 
 namespace Timelines.Application.Entities.PhysicalPersons.Queries.ListPhysicalPersons;
 
-internal class ListPhysicalPersonsHandler(IPhysicalPersonsRepository physicalPersonsRepository, ITimelinesService timelinesService) : IQueryHandler<ListPhysicalPersonsQuery, ListPhysicalPersonsResult>
+internal class ListPhysicalPersonsHandler(IPhysicalPersonsRepository physicalPersonsRepository, ITimelinesService timelinesService)
+    : IQueryHandler<ListPhysicalPersonsQuery, ListPhysicalPersonsResult>
 {
     public async Task<ListPhysicalPersonsResult> Handle(ListPhysicalPersonsQuery query, CancellationToken cancellationToken)
     {

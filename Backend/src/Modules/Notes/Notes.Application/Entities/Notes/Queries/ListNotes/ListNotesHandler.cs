@@ -4,7 +4,8 @@ using BuildingBlocks.Domain.Notes.Note.Dtos;
 
 namespace Notes.Application.Entities.Notes.Queries.ListNotes;
 
-internal class ListNotesHandler(INotesService notesService) : IQueryHandler<ListNotesQuery, ListNotesResult>
+internal class ListNotesHandler(INotesService notesService)
+    : IQueryHandler<ListNotesQuery, ListNotesResult>
 {
     public async Task<ListNotesResult> Handle(ListNotesQuery query, CancellationToken cancellationToken)
     {
