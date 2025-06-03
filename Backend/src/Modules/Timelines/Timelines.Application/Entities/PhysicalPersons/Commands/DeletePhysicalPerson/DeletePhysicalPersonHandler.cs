@@ -2,7 +2,8 @@ using Timelines.Application.Data.Abstractions;
 
 namespace Timelines.Application.Entities.PhysicalPersons.Commands.DeletePhysicalPerson;
 
-internal class DeletePhysicalPersonHandler(IPhysicalPersonsRepository physicalPersonsRepository) : ICommandHandler<DeletePhysicalPersonCommand, DeletePhysicalPersonResult>
+internal class DeletePhysicalPersonHandler(IPhysicalPersonsRepository physicalPersonsRepository)
+    : ICommandHandler<DeletePhysicalPersonCommand, DeletePhysicalPersonResult>
 {
     public async Task<DeletePhysicalPersonResult> Handle(DeletePhysicalPersonCommand command, CancellationToken cancellationToken)
     {

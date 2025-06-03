@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Auth.Application.Entities.Commands.RegisterUser;
 
-public class RegisterUserHandler(UserManager<ApplicationUser> userManager)
+internal class RegisterUserHandler(UserManager<ApplicationUser> userManager)
     : IRequestHandler<RegisterUserCommand, RegisterUserResult>
 {
     public async Task<RegisterUserResult> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
