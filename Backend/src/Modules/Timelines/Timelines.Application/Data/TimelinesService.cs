@@ -107,7 +107,6 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
                             status: p.Status,
                             progress: p.Progress,
                             isCompleted: p.IsCompleted,
-                            parent: p.Parent,
                             dependsOn: p.DependsOn,
                             assignedTo: p.AssignedTo,
                             stakeholders: p.Stakeholders,

@@ -56,12 +56,12 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
 
     public async Task<long> CountFileAssetsAsync(CancellationToken cancellationToken)
     {
-        return await filesRepository.FileAssetCountAsync(cancellationToken);
+        return await filesRepository.CountAllFileAssetsAsync(cancellationToken);
     }
 
     public async Task<long> CountFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return await filesRepository.FileAssetCountByNodeIdAsync(nodeId, cancellationToken);
+        return await filesRepository.CountAllFileAssetsByNodeIdAsync(nodeId, cancellationToken);
     }
 
     #endregion
