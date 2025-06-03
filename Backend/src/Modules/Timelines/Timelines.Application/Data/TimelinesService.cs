@@ -57,7 +57,6 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
                             status: p.Status,
                             progress: p.Progress,
                             isCompleted: p.IsCompleted,
-                            parent: p.Parent,
                             dependsOn: p.DependsOn,
                             assignedTo: p.AssignedTo,
                             stakeholders: p.Stakeholders,
@@ -121,10 +120,9 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
             .ToList();
         return timelineDtos;
     }
-
-    public async Task<long> CountTimelinesAsync(CancellationToken cancellationToken)
+    public async Task<long> CountAllTimelinesAsync(CancellationToken cancellationToken)
     {
-        return await timelinesRepository.TimelineCountAsync(cancellationToken);
+        return await timelinesRepository.CountAllTimelinesAsync(cancellationToken);
     }
 
     public async Task EnsureTimelineBelongsToOwner(TimelineId timelineId, CancellationToken cancellationToken)

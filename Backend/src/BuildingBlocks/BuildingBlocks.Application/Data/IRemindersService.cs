@@ -12,8 +12,8 @@ public interface IRemindersService
     Task<ReminderDto> GetReminderByIdAsync(ReminderId reminderId, CancellationToken cancellationToken);
     Task<ReminderBaseDto> GetReminderBaseByIdAsync(ReminderId reminderId, CancellationToken cancellationToken);
     Task<List<ReminderBaseDto>> GetRemindersBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
-    Task<long> CountRemindersAsync(CancellationToken cancellationToken);
-    Task<long> CountRemindersByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken);
+    Task<long> CountAllRemindersAsync(CancellationToken cancellationToken);
+    Task<long> CountAllRemindersByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken);
 
     Task DeleteReminder(ReminderId reminderId, CancellationToken cancellationToken);
     Task DeleteReminders(NodeId nodeId, IEnumerable<ReminderId> reminderIds, CancellationToken cancellationToken);

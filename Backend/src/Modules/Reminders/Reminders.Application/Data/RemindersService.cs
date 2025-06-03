@@ -77,14 +77,14 @@ public class RemindersService(IServiceProvider serviceProvider, IRemindersReposi
         return reminderBaseDtos;
     }
 
-    public async Task<long> CountRemindersAsync(CancellationToken cancellationToken)
+    public async Task<long> CountAllRemindersAsync(CancellationToken cancellationToken)
     {
-        return await remindersRepository.ReminderCountAsync(cancellationToken);
+        return await remindersRepository.CountAllRemindersAsync(cancellationToken);
     }
 
-    public async Task<long> CountRemindersByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    public async Task<long> CountAllRemindersByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return await remindersRepository.ReminderCountByNodeIdAsync(nodeId, cancellationToken);
+        return await remindersRepository.CountAllRemindersByNodeIdAsync(nodeId, cancellationToken);
     }
 
     public async Task DeleteReminder(ReminderId reminderId, CancellationToken cancellationToken)

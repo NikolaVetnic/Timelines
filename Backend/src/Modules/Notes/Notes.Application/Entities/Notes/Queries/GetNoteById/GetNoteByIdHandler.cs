@@ -3,7 +3,8 @@ using Notes.Application.Entities.Notes.Exceptions;
 
 namespace Notes.Application.Entities.Notes.Queries.GetNoteById;
 
-internal class GetNoteByIdHandler(INotesService notesService) : IQueryHandler<GetNoteByIdQuery, GetNoteByIdResult>
+internal class GetNoteByIdHandler(INotesService notesService)
+    : IQueryHandler<GetNoteByIdQuery, GetNoteByIdResult>
 {
     public async Task<GetNoteByIdResult> Handle(GetNoteByIdQuery query, CancellationToken cancellationToken)
     {

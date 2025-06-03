@@ -4,7 +4,8 @@ using Timelines.Application.Data.Abstractions;
 
 namespace Timelines.Application.Entities.Phases.Commands.CreatePhase;
 
-internal class CreatePhaseHandler(ICurrentUser currentUser, IPhasesRepository phasesRepository, ITimelinesService timelinesService) : ICommandHandler<CreatePhaseCommand, CreatePhaseResult>
+internal class CreatePhaseHandler(ICurrentUser currentUser, IPhasesRepository phasesRepository, ITimelinesService timelinesService)
+    : ICommandHandler<CreatePhaseCommand, CreatePhaseResult>
 {
     public async Task<CreatePhaseResult> Handle(CreatePhaseCommand command, CancellationToken cancellationToken)
     {
@@ -33,7 +34,6 @@ internal static class CreatePhaseCommandExtensions
             command.Status,
             command.Progress,
             command.IsCompleted,
-            command.Parent,
             command.DependsOn,
             command.AssignedTo,
             command.Stakeholders,

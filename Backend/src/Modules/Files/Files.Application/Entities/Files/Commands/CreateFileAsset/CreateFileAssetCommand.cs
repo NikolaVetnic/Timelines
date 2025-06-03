@@ -12,7 +12,7 @@ public record CreateFileAssetCommand : ICommand<CreateFileAssetResult>
     public required float Size { get; set; }
     public required EFileType Type { get; set; }
     public required byte[] Content { get; set; }
-    public List<string> SharedWith { get; set; }
+    public List<string>? SharedWith { get; set; }
     public required bool IsPublic { get; set; }
     public required NodeId NodeId { get; set; }
 }

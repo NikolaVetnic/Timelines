@@ -11,8 +11,8 @@ public interface IRemindersRepository
     Task<List<Reminder>> ListFlaggedForDeletionRemindersPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<Reminder>> ListRemindersByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<Reminder> GetReminderByIdAsync(ReminderId reminderId, CancellationToken cancellationToken);
-    Task<long> ReminderCountAsync(CancellationToken cancellationToken);
-    Task<long> ReminderCountByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken);
+    Task<long> CountAllRemindersAsync(CancellationToken cancellationToken);
+    Task<long> CountAllRemindersByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken);
 
     Task<IEnumerable<Reminder>> GetRemindersBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 

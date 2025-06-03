@@ -4,20 +4,21 @@ using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 
 namespace Timelines.Application.Entities.Timelines.Queries.ListTimelines;
 
-public class ListTimelinesHandler(ITimelinesService timelineService) : IQueryHandler<ListTimelinesQuery, ListTimelinesResult>
+internal class ListTimelinesHandler(ITimelinesService timelineService)
+    : IQueryHandler<ListTimelinesQuery, ListTimelinesResult>
 {
     public async Task<ListTimelinesResult> Handle(ListTimelinesQuery query, CancellationToken cancellationToken)
     {
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var nodes = await timelineService.ListTimelinesPaginated(pageIndex, pageSize, cancellationToken);
+        var timelines = await timelineService.ListTimelinesPaginated(pageIndex, pageSize, cancellationToken);
 
         return new ListTimelinesResult(
             new PaginatedResult<TimelineDto>(
                 pageIndex,
                 pageSize,
-                nodes.Count,
-                nodes));
+                timelines.Count,
+                timelines));
     }
 }

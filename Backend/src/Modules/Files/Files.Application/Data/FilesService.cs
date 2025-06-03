@@ -95,7 +95,17 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
         return fileAssetBaseDtos;
     }
 
-    #endregion
+    public async Task<long> CountAllFileAssetsAsync(CancellationToken cancellationToken)
+    {
+        return await filesRepository.CountAllFileAssetsAsync(cancellationToken);
+    }
+
+    public async Task<long> CountAllFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
+    {
+        return await filesRepository.CountAllFileAssetsByNodeIdAsync(nodeId, cancellationToken);
+    }
+
+#endregion
 
     public async Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)
     {

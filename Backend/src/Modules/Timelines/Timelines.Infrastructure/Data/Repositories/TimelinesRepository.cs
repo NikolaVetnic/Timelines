@@ -32,7 +32,7 @@ public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext d
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<long> TimelineCountAsync(CancellationToken cancellationToken)
+    public async Task<long> CountAllTimelinesAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Timelines
             .Where(t => t.OwnerId == currentUser.UserId! && !t.IsDeleted)

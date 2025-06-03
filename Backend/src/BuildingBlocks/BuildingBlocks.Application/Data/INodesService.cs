@@ -13,8 +13,8 @@ public interface INodesService
     Task<List<NodeBaseDto>> ListNodesByTimelineIdPaginated(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<NodeBaseDto>> ListNodesBelongingToPhasePaginated(DateTime startDate, DateTime? endDate, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
-    Task<long> CountNodesAsync(CancellationToken cancellationToken);
-    Task<long> CountNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken);
+    Task<long> CountAllNodesAsync(CancellationToken cancellationToken);
+    Task<long> CountAllNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken);
     Task<long> CountNodesBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken);
     Task EnsureNodeBelongsToOwner(NodeId nodeId, CancellationToken cancellationToken);
 

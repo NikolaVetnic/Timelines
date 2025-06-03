@@ -19,7 +19,7 @@ public class Note : Aggregate<NoteId>
 
     #region Note
 
-    public static Note Create(NoteId id, string title, string content, DateTime timestamp, string ownerId, List<string> sharedWith, bool isPublic, NodeId nodeId)
+    public static Note Create(NoteId id, string title, string content, DateTime timestamp, string ownerId, List<string>? sharedWith, bool isPublic, NodeId nodeId)
     {
         var note = new Note
         {
