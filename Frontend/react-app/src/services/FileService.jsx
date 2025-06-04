@@ -30,7 +30,7 @@ class FileService {
       size: fileData.file.size,
       type: this.getFileTypeNumber(fileData.file.type) || 1,
       owner: "username",
-      content: fileContent,
+      content: fileContent, // This is the base64 content
       sharedWith: [],
       isPublic: false,
       nodeId: fileData.nodeId,
@@ -40,17 +40,12 @@ class FileService {
       throw new Error("Missing required fields for file upload");
     }
 
-    const response = await Post(API_BASE_URL, "/Files", filePayload, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    console.log('Upload response:', response);
+    const response = await Post(API_BASE_URL, "/Files", filePayload);
+    
     toast.success("File uploaded successfully!");
     
     return {
-      ...response.data,
+      ...response,
       url: URL.createObjectURL(fileData.file),
       name: fileData.file.name,
       size: fileData.file.size,

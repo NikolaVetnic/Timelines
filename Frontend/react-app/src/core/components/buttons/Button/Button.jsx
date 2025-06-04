@@ -1,4 +1,3 @@
-import React from "react";
 import "./Button.css";
 
 const Button = ({
@@ -13,6 +12,8 @@ const Button = ({
   icon = null,
   iconOnly = false,
   noBackground = false,
+  fullWidth = false,
+  tooltip = "",
   ...props
 }) => {
   const buttonClasses = [
@@ -23,10 +24,13 @@ const Button = ({
     disabled ? "btn-disabled" : "",
     iconOnly ? "btn-icon-only" : "",
     noBackground ? "btn-no-bg" : "",
+    fullWidth ? "btn-full-width" : "",
     className,
   ]
     .filter(Boolean)
     .join(" ");
+
+  const tooltipText = tooltip || text;
 
   const content = (
     <>
@@ -39,15 +43,21 @@ const Button = ({
   );
 
   return (
-    <button
-      className={buttonClasses}
-      onClick={onClick}
-      disabled={disabled}
-      type={type}
-      {...props}
-    >
-      {content}
-    </button>
+    <div className="btn-wrapper">
+      <button
+        className={buttonClasses}
+        onClick={onClick}
+        disabled={disabled}
+        type={type}
+        aria-label={tooltipText}
+        {...props}
+      >
+        {content}
+      </button>
+      {iconOnly && tooltipText && (
+        <span className="btn-tooltip">{tooltipText}</span>
+      )}
+    </div>
   );
 };
 

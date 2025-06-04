@@ -1,8 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FaTrash } from "react-icons/fa";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FaClone, FaTrash } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa6";
+import { IoMdAdd } from "react-icons/io";
 import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router";
+import { Outlet, useMatches } from "react-router-dom";
 import Button from "../../../core/components/buttons/Button/Button";
 import CreateNodeModal from "../../../core/components/modals/CreateNodeModal/CreateNodeModal";
 import CreateTimelineModal from "../../../core/components/modals/CreateTimelineModal/CreateTimelineModal";
@@ -11,6 +13,7 @@ import recalculateStrip from "../../../core/utils/RecalculateStrip";
 import NodeService from "../../../services/NodeService";
 import TimelineService from "../../../services/TimelineService";
 import Node from "../../Nodes/Node/Node/Node";
+import PhysicalPersonPanel from "../PhysicalPerson/PhysicalPerson";
 import "./Timeline.css";
 
 const Timeline = () => {
@@ -32,7 +35,13 @@ const Timeline = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [showCloneModal, setShowCloneModal] = useState(false);
 
-  
+  const matches = useMatches();
+  const parentMatch = matches[matches.length - 2];  
+
+  const isDetailsView = matches.some(match => 
+    match.pathname.includes('physical-persons')
+  );
+
   const fetchTimeline = useCallback(async () => {
     const response = await TimelineService.getTimelineById(id);
     setTimeline(response);
@@ -119,14 +128,22 @@ const Timeline = () => {
   }
 
   return (
-    <div className="timeline-container" key={timeline.id}>
+    <>
+      {!isDetailsView ? (
+               <div className="timeline-container" key={timeline.id}>
       <div className="timeline-back-button-container">
         <Button
           className="back-button"
           icon={<FaArrowLeft />}
           iconOnly
           noBackground
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            if (parentMatch?.pathname) {
+              navigate(parentMatch.pathname);
+            } else {
+              navigate(-1);
+            }
+          }}
         />
       </div>
 
@@ -143,6 +160,7 @@ const Timeline = () => {
                 iconOnly
                 onClick={handleDeleteSelected}
                 variant="danger"
+                tooltip="Delete Selected"
                 size="small"
               />
             )}
@@ -157,20 +175,25 @@ const Timeline = () => {
               iconOnly
               onClick={toggleSelectAll}
               variant="secondary"
+              tooltip="Select All"
               size="small"
             />
           </>
         )}
         <Button
-          text="Clone This Timeline"
+          icon={<FaClone />}
+          iconOnly
           onClick={() => setShowCloneModal(true)}
           variant="primary"
           size="small"
+          tooltip="Clone this timeline"
         />
         <Button
-          text="Add Node"
+          icon={<IoMdAdd />}
+          iconOnly
           onClick={() => setShowCreateModal(true)}
           variant="success"
+          tooltip="Add Node"
           size="small"
         />
       </div>
@@ -196,8 +219,15 @@ const Timeline = () => {
         onClose={() => setDeleteModal(false)}
         itemType="node"
         onConfirm={confirmDeleteNodes}
+        itemTitle={
+          selectedNodes.length === 1 
+            ? timeline.nodes.find(n => n.id === selectedNodes[0])?.title 
+            : ""
+        }
         count={selectedNodes.length}
       />
+
+      <PhysicalPersonPanel timelineId={timeline?.id} />
 
       {timeline.nodes && timeline.nodes.length > 0 ? (
         <div className="timeline-nodes-container">
@@ -234,6 +264,10 @@ const Timeline = () => {
         </div>
       )}
     </div>
+      ) : (
+        <Outlet />
+      )}
+    </>
   );
 };
 

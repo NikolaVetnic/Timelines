@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { PiSelectionAll, PiSelectionAllFill } from "react-icons/pi";
@@ -25,83 +25,11 @@ const HomePage = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [timelineToEdit, setTimelineToEdit] = useState(null);
-
-  const [isMobile, setIsMobile] = useState(false);
-  const [loadingMore, setLoadingMore] = useState(false);
-  const [allTimelinesLoaded, setAllTimelinesLoaded] = useState(false);
-  const observer = useRef();
-  const loadMoreRef = useRef();
-
-  // Detect mobile view
-  useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
-    return () => window.removeEventListener("resize", checkIfMobile);
-  }, []);
-
-  // Infinite scroll implementation
-  useEffect(() => {
-    if (!isMobile || loadingMore || allTimelinesLoaded) return;
-
-    const observerCallback = (entries) => {
-      const [entry] = entries;
-      if (entry.isIntersecting && currentPage < totalPages) {
-        loadMoreTimelines();
-      }
-    };
-
-    const options = {
-      root: null,
-      rootMargin: "100px",
-      threshold: 0.1,
-    };
-
-    observer.current = new IntersectionObserver(observerCallback, options);
-
-    if (loadMoreRef.current) {
-      observer.current.observe(loadMoreRef.current);
-    }
-
-    return () => {
-      if (observer.current) {
-        observer.current.disconnect();
-      }
-    };
-  }, [isMobile, loadingMore, allTimelinesLoaded, currentPage, totalPages]);
-
-  const loadMoreTimelines = useCallback(async () => {
-    if (loadingMore || allTimelinesLoaded || currentPage >= totalPages) return;
-
-    setLoadingMore(true);
-    try {
-      const nextPage = currentPage + 1;
-      const response = await TimelineService.getAllTimelines(
-        nextPage - 1,
-        itemsPerPage
-      );
-
-      if (response.items.length === 0) {
-        setAllTimelinesLoaded(true);
-        return;
-      }
-
-      setTimelines((prev) => [...prev, ...response.items]);
-      setCurrentPage(nextPage);
-      setTotalPages(response.totalPages);
-    } catch (error) {
-      console.error("Error loading more timelines:", error);
-    } finally {
-      setLoadingMore(false);
-    }
-  }, [currentPage, itemsPerPage, loadingMore, allTimelinesLoaded, totalPages]);
+  const [selectedTimelineTitle, setSelectedTimelineTitle] = useState("");
 
   const fetchTimelines = async (page = 1, size = 10) => {
     setIsLoading(true);
     setError(null);
-    setAllTimelinesLoaded(false);
     try {
       const response = await TimelineService.getAllTimelines(page - 1, size);
       if (page === 1) {
@@ -195,6 +123,14 @@ const HomePage = () => {
     setEditModalOpen(true);
   };
 
+  const handleDeleteClick = async () => {
+  if (selectedTimelines.length === 1) {
+      const timeline = await TimelineService.getTimelineById(selectedTimelines[0]);
+      setSelectedTimelineTitle(timeline.title);
+  }
+  setIsDeleteModalOpen(true);
+};
+
   if (isLoading) {
     return <div className="loading-state">Loading timelines...</div>;
   }
@@ -223,6 +159,7 @@ const HomePage = () => {
               iconOnly
               onClick={toggleSelectAll}
               variant="secondary"
+              tooltip="Select All"
               size="small"
             />
           )}
@@ -231,17 +168,21 @@ const HomePage = () => {
             iconOnly
             size="small"
             onClick={handleOpenModal}
+            tooltip="Create/Clone timeline"
             variant="success"
           />
         </div>
         {selectedTimelines.length > 0 && (
-            <Button
-              icon={<FaTrash />}
-              iconOnly
-              variant="danger"
-              size="small"
-              onClick={() => setIsDeleteModalOpen(true)}
-            />
+            <div className="timeline-list-action-delete">
+              <Button
+                icon={<FaTrash />}
+                iconOnly
+                variant="danger"
+                tooltip="Delete Selected"
+                size="small"
+                onClick={handleDeleteClick}
+              />
+            </div>
           )}
       </div>
 
@@ -279,13 +220,14 @@ const HomePage = () => {
           onTimelineUpdated={() => fetchTimelines(currentPage, itemsPerPage)}
         />
       )}
-
+    
       {isDeleteModalOpen && (
         <DeleteModal
           itemType="timeline"
           isOpen={isDeleteModalOpen}
           onClose={() => setIsDeleteModalOpen(false)}
           onConfirm={handleDeleteSelected}
+          itemTitle={selectedTimelineTitle}
           count={selectedTimelines.length}
         />
       )}

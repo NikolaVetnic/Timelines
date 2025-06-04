@@ -40,7 +40,11 @@
     font-size: 1.5rem;
     cursor: pointer;
     padding: 0.5rem;
-    order: 2; /* Ensures it appears on the right */
+    order: 2;
+}
+
+.mobile-menu-logout {
+    width: 100%;
 }
 
 .mobile-menu {
@@ -102,7 +106,7 @@
 
 @media (max-width: 768px) {
     .headbar {
-        flex-wrap: nowrap; /* Changed from wrap to nowrap */
+        flex-wrap: nowrap; 
     }
 
     .headbar-search {
