@@ -40,7 +40,6 @@ class FileService {
       throw new Error("Missing required fields for file upload");
     }
 
-    // Remove the extra headers object from the Post call
     const response = await Post(API_BASE_URL, "/Files", filePayload);
     
     toast.success("File uploaded successfully!");
