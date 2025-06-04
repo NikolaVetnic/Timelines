@@ -11,21 +11,11 @@ internal class ListPhysicalPersonsHandler(IPhysicalPersonsRepository physicalPer
 {
     public async Task<ListPhysicalPersonsResult> Handle(ListPhysicalPersonsQuery query, CancellationToken cancellationToken)
     {
-        var pageIndex = query.PaginationRequest.PageIndex;
-        var pageSize = query.PaginationRequest.PageSize;
-
-        var totalCount = await physicalPersonsRepository.PhysicalPersonCountAsync(cancellationToken);
-
-        var physicalPersons = await physicalPersonsRepository.ListPhysicalPersonsPaginatedAsync(pageIndex, pageSize, cancellationToken);
+        var physicalPersons = await physicalPersonsRepository.ListPhysicalPersonsAsync(query.TimelineId, cancellationToken);
         var timeline = await timelinesService.GetTimelineBaseByIdAsync(physicalPersons[0].TimelineId, cancellationToken);
         
         var physicalPersonDtos = physicalPersons.Select(p => p.ToPhysicalPersonDto(timeline)).ToList();
 
-        return new ListPhysicalPersonsResult(
-            new PaginatedResult<PhysicalPersonDto>(
-                pageIndex,
-                pageSize,
-                totalCount,
-                physicalPersonDtos));
+        return new ListPhysicalPersonsResult(physicalPersonDtos);
     }
 }

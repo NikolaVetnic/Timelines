@@ -7,31 +7,43 @@ import { Post } from "../core/api/post";
 import API_BASE_URL from "../data/constants";
 
 class ReminderService {
-   /**
-   * Create a new reminder
-   * @param {Object} reminderData - The reminder data to create
-   * @returns {Promise<Object>} - Created reminder data
-   */
-  static async createReminder(reminderData) {
-    try {
-      const formattedData = {
-        title: reminderData.title,
-        description: reminderData.description || "",
-        notifyAt: reminderData.notifyAt,
-        priority: reminderData.priority || 0,
-        nodeId: reminderData.nodeId,
-      };
+/**
+ * Create a new reminder
+ * @param {Object} reminderData - The reminder data to create
+ * @returns {Promise<Object>} - Created reminder data
+ */
+static async createReminder(reminderData) {
+  try {
+    const formattedData = {
+      title: reminderData.title,
+      description: reminderData.description || "",
+      notifyAt: reminderData.notifyAt,
+      priority: reminderData.priority || 0,
+      nodeId: reminderData.nodeId,
+      colorHex: reminderData.colorHex || this.getDefaultColorForPriority(reminderData.priority)
+    };
 
-      const response = await Post(API_BASE_URL, "/Reminders", formattedData);
-      toast.success("Reminder created successfully!");
-      return response;
-    } catch (error) {
-      const errorMessage = error.response?.data?.message || 
-                        error.message || 
-                        "Failed to create reminder";
-      toast.error(errorMessage);
-    }
+    const response = await Post(API_BASE_URL, "/Reminders", formattedData);
+    toast.success("Reminder created successfully!");
+    return response;
+  } catch (error) {
+    const errorMessage = error.response?.data?.message || 
+                      error.message || 
+                      "Failed to create reminder";
+    toast.error(errorMessage);
   }
+}
+
+static getDefaultColorForPriority(priority) {
+  switch(priority) {
+    case 2:
+      return '#ffa500';
+    case 1: 
+      return '#ffff00';
+    default:
+      return '#ff0000';
+  }
+}
 
   /**
    * Get reminders by node ID with server-side pagination
@@ -59,9 +71,7 @@ class ReminderService {
         totalPages: Math.ceil((response.reminders.count || 0) / pageSize),
       };
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 
-                        error.message || 
-                        "Failed to fetch node reminders";
+      const errorMessage = "Failed to fetch node reminders";
       toast.error(errorMessage);
     }
   }   

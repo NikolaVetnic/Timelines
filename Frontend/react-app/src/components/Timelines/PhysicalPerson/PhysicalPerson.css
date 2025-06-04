@@ -1,0 +1,87 @@
+/* Physical Person Panel Styles */
+.physical-person-toggle {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--primary-color, #4a6baf);
+  color: white;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  padding: 12px 6px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+}
+
+.physical-person-toggle:hover {
+  background: var(--primary-dark, #3a5a9f);
+  padding-left: 10px;
+}
+
+.physical-person-toggle svg {
+  font-size: 1.2rem;
+}
+
+.physical-person-panel {
+  position: fixed;
+  left: -380px;
+  top: 68px;
+  width: 380px;
+  height: calc(100vh - 68px);
+  background: white;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  transition: left 0.3s ease;
+  z-index: 99;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+}
+
+.physical-person-panel.open {
+  left: 0;
+}
+
+.physical-person-panel * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.physical-person-card {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.physical-person-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.physical-person-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.physical-person-card {
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  background: #f9f9f9;
+}
+
+.physical-person-card h4 {
+  margin: 0 0 5px 0;
+}
+
+.physical-person-card p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #666;
+}

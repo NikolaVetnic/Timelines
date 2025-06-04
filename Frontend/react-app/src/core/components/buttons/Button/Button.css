@@ -185,6 +185,8 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%;
+  display: block;
 }
 
 .btn-login:hover {
@@ -194,4 +196,67 @@
 .btn-login:active {
   background-color: var(--primaryActive);
   transform: translateY(1px);
+}
+
+.btn-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.btn-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--enmGray);
+  color: var(--white);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  margin-top: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.btn-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent var(--enmGray) transparent;
+}
+
+.btn:hover + .btn-tooltip,
+.btn:focus + .btn-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.btn-circle + .btn-tooltip,
+.btn-square + .btn-tooltip {
+  margin-top: 4px;
+}
+
+.btn-no-bg + .btn-tooltip {
+  background-color: var(--enmGray);
+}
+
+.btn-no-bg + .btn-tooltip::after {
+  border-color: transparent transparent var(--enmGray) transparent;
+}
+
+/* Full Width for buttons */
+.btn-full-width {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

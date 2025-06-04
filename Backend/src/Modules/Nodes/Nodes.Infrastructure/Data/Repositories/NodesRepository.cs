@@ -97,7 +97,7 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
     {
         return await dbContext.Nodes
             .AsNoTracking()
-            .Where(n => nodeIds.Contains(n.Id) && n.OwnerId == currentUser.UserId!)
+            .Where(n => nodeIds.Contains(n.Id) && n.OwnerId == currentUser.UserId! && !n.IsDeleted)
             .ToListAsync(cancellationToken);
     }
     #endregion
