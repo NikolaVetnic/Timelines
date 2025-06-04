@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.Timelines.PhysicalPerson.Dtos;
 using BuildingBlocks.Domain.Timelines.PhysicalPerson.ValueObjects;
@@ -8,7 +9,7 @@ public record CreatePhysicalPersonResponse(PhysicalPersonId Id);
 
 public record GetPhysicalPersonByIdResponse(PhysicalPersonDto PhysicalPerson);
 
-public record ListPhysicalPersonsResponse(PaginatedResult<PhysicalPersonDto> PhysicalPersons);
+public record ListPhysicalPersonsResponse(IEnumerable<PhysicalPersonDto> PhysicalPersons);
 
 public record UpdatePhysicalPersonResponse(PhysicalPersonBaseDto PhysicalPerson);
 
