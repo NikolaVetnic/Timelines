@@ -8,12 +8,21 @@ namespace Timelines.Infrastructure.Data.Repositories;
 
 public class PhysicalPersonsRepository(ICurrentUser currentUser, ITimelinesDbContext dbContext) : IPhysicalPersonsRepository
 {
-    public async Task<List<PhysicalPerson>> ListPhysicalPersonsPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    public async Task<List<PhysicalPerson>> ListPhysicalPersonsAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
         return await dbContext.PhysicalPersons
             .AsNoTracking()
             .OrderBy(p => p.CreatedBy)
-            .Where(p => p.OwnerId == currentUser.UserId! && !p.IsDeleted)
+            .Where(p => p.TimelineId == timelineId && p.OwnerId == currentUser.UserId && !p.IsDeleted)
+            .ToListAsync(cancellationToken: cancellationToken);
+    }
+
+    public async Task<List<PhysicalPerson>> ListPhysicalPersonsPaginatedAsync(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        return await dbContext.PhysicalPersons
+            .AsNoTracking()
+            .OrderBy(p => p.CreatedBy)
+            .Where(p => p.TimelineId == timelineId && p.OwnerId == currentUser.UserId! && !p.IsDeleted)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);

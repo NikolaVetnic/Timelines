@@ -1,0 +1,49 @@
+.breadcrumb-nav {
+  padding: 1rem 0;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.breadcrumb-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.breadcrumb-item {
+  color: #0077cc;
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-item.active {
+  color: #333;
+  font-weight: bold;
+}
+
+.separator {
+  margin: 0 0.5rem;
+  color: #aaa;
+}
+
+@media (max-width: 768px) {
+  .breadcrumb-nav {
+    display: none;
+  }
+
+  .breadcrumb-dropdown-container {
+    padding: 0.5rem 0;
+  }
+
+  .breadcrumb-select {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+}

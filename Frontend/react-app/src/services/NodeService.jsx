@@ -81,7 +81,7 @@ class NodeService {
     try {
       const response = await getAll(
         API_BASE_URL,
-        `/Nodes/timeline/${timelineId}`,
+        `/Timeline/${timelineId}/Nodes`,
         pageIndex,
         pageSize
       );

@@ -14,7 +14,7 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
         return await dbContext.Nodes
             .AsNoTracking()
             .OrderBy(n => n.Timestamp)
-            .Where(n => n.OwnerId == currentUser.UserId! && n.IsDeleted == false)
+            .Where(n => n.OwnerId == currentUser.UserId! && !n.IsDeleted)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
@@ -85,7 +85,7 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
     {
         return await dbContext.Nodes
             .AsNoTracking()
-            .Where(n => nodeIds.Contains(n.Id) && n.OwnerId == currentUser.UserId!)
+            .Where(n => nodeIds.Contains(n.Id) && n.OwnerId == currentUser.UserId! && !n.IsDeleted)
             .ToListAsync(cancellationToken);
     }
     #endregion

@@ -26,6 +26,8 @@
   --backgroundStripe: #333;
   --white: white;
   --text: #007aff;
+  --primary-color: #4a6baf;
+  --primary-dark: #3a5a9f;
 }
 
 * {
