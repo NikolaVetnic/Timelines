@@ -7,7 +7,8 @@ public interface IPhysicalPersonsRepository
 {
     Task CreatePhysicalPersonAsync(PhysicalPerson phase, CancellationToken cancellationToken);
 
-    Task<List<PhysicalPerson>> ListPhysicalPersonsPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
+    Task<List<PhysicalPerson>> ListPhysicalPersonsAsync(TimelineId timelineId, CancellationToken cancellationToken);
+    Task<List<PhysicalPerson>> ListPhysicalPersonsPaginatedAsync(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<PhysicalPerson> GetPhysicalPersonByIdAsync(PhysicalPersonId phaseId, CancellationToken cancellationToken);
     Task<List<PhysicalPerson>> GetPhysicalPersonsByIdsAsync(IEnumerable<PhysicalPersonId> phaseIds, CancellationToken cancellationToken);
 
