@@ -20,17 +20,6 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<List<Node>> ListFlaggedForDeletionNodesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
-    {
-        return await dbContext.Nodes
-            .AsNoTracking()
-            .OrderBy(n => n.Timestamp)
-            .Where(n => n.OwnerId == currentUser.UserId! && n.IsDeleted)
-            .Skip(pageSize * pageIndex)
-            .Take(pageSize)
-            .ToListAsync(cancellationToken: cancellationToken);
-    }
-
     public async Task<List<Node>> ListNodesByTimelineIdPaginatedAsync(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.Nodes
