@@ -20,16 +20,18 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
         return await dbContext.Nodes
             .AsNoTracking()
             .OrderBy(n => n.Timestamp)
+            .Where(n => n.OwnerId == currentUser.UserId)
             .Where(predicate)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<long> CountAllNodesAsync(CancellationToken cancellationToken)
+    public async Task<long> CountNodesAsync(Expression<Func<Node, bool>> predicate, CancellationToken cancellationToken)
     {
         return await dbContext.Nodes
-            .Where(n => n.OwnerId == currentUser.UserId! && n.IsDeleted == false)
+            .Where(n => n.OwnerId == currentUser.UserId)
+            .Where(predicate)
             .LongCountAsync(cancellationToken);
     }
 
