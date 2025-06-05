@@ -12,18 +12,6 @@
     flex: 1;
 }
 
-.app-content {
-    display: flex;
-    flex-direction: column;
-    width: 900px;
-    max-width: 100%;
-    background-color: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px 20px 0 20px;
-    height: calc(100vh - 68px);
-        overflow-y: auto;
-}
-
 .content-wrapper {
     flex: 1;
     overflow-y: auto;
