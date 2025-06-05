@@ -90,6 +90,71 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         return nodeDtos;
     }
 
+    public async Task<List<NodeDto>> ListFlaggedForDeletionNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, n => n.OwnerId == currentUser.UserId && n.IsDeleted, cancellationToken);
+
+        var fileAssets = await FilesService
+            .GetFileAssetsBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
+
+        var reminders = await RemindersService
+            .GetRemindersBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
+
+        var timelines = await TimelinesService
+            .GetTimelinesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
+
+        var notes = await NotesService
+            .GetNotesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
+
+        var nodeDtos = nodes.Select(n =>
+            n.ToNodeDto(timelines
+                    .First(t => t.Id == n.TimelineId.ToString()),
+                fileAssets
+                    .Where(f => n.FileAssetIds.Select(id => id.ToString()).Contains(f.Id))
+                    .Select(f => new FileAssetBaseDto(
+                        id: f.Id!.ToString(),
+                        name: f.Name,
+                        description: f.Description,
+                        size: f.Size,
+                        type: f.Type,
+                        owner: f.Owner,
+                        content: f.Content,
+                        isPublic: f.IsPublic,
+                        sharedWith: f.SharedWith)
+                    )
+                    .ToList(),
+                notes
+                    .Where(r => n.NoteIds.Select(id => id.ToString()).Contains(r.Id))
+                    .Select(r => new NoteBaseDto(
+                        id: r.Id!.ToString(),
+                        title: r.Title,
+                        content: r.Content,
+                        timestamp: r.Timestamp,
+                        ownerId: r.OwnerId,
+                        relatedNotes: r.RelatedNotes,
+                        sharedWith: r.SharedWith,
+                        isPublic: r.IsPublic,
+                        createdAt: r.CreatedAt,
+                        lastModifiedAt: r.LastModifiedAt)
+                    )
+                    .ToList(),
+                reminders
+                    .Where(r => n.ReminderIds.Select(id => id.ToString()).Contains(r.Id))
+                    .Select(r => new ReminderBaseDto(
+                        id: r.Id!.ToString(),
+                        title: r.Title,
+                        description: r.Description,
+                        notifyAt: r.NotifyAt,
+                        priority: r.Priority,
+                        colorHex: r.ColorHex)
+                    )
+                    .ToList()
+            )
+        ).ToList();
+
+        return nodeDtos;
+    }
+
     public async Task<List<NodeBaseDto>> ListNodesByTimelineIdPaginated(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         var nodes = await nodesRepository.ListNodesPaginatedAsync( pageIndex, pageSize, n => n.TimelineId == timelineId && !n.IsDeleted, cancellationToken);
