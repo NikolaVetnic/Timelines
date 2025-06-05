@@ -8,6 +8,7 @@ import ReminderNotifier from "../../core/utils/ReminderNotifier";
 import PhysicalPersonService from "../../services/PhysicalPersonService";
 import TimelineService from "../../services/TimelineService";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
+import Footer from "../Footer/Footer";
 import HeaderBar from "../HeaderBar/HeaderBar";
 import "./AppLayout.css";
 
@@ -125,6 +126,7 @@ useEffect(() => {
           onClose={() => setIsBugReportOpen(false)}
         />
       )}
+      <Footer />
     </div>
   );
 }

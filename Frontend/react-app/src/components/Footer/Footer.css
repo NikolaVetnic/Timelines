@@ -1,0 +1,25 @@
+.footer {
+  padding: 1.5rem;
+  text-align: center;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  margin-top: auto;
+  width: 100%;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.footer__content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer__api-url {
+  background-color: #34495e;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-family: monospace;
+  word-break: break-all;
+}
