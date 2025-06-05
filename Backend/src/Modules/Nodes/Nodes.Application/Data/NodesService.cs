@@ -16,7 +16,7 @@ using Nodes.Application.Entities.Nodes.Extensions;
 // ReSharper disable NullableWarningSuppressionIsUsed
 namespace Nodes.Application.Data;
 
-public class NodesService(IServiceProvider serviceProvider, INodesRepository nodesRepository, ICurrentUser currentUser) : INodesService
+public class NodesService(IServiceProvider serviceProvider, INodesRepository nodesRepository) : INodesService
 {
     private IRemindersService RemindersService => serviceProvider.GetRequiredService<IRemindersService>();
     private ITimelinesService TimelinesService => serviceProvider.GetRequiredService<ITimelinesService>();
@@ -27,7 +27,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
-        var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, n => n.OwnerId == currentUser.UserId && !n.IsDeleted, cancellationToken);
+        var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, n => !n.IsDeleted, cancellationToken);
 
         var fileAssets = await FilesService
             .GetFileAssetsBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
@@ -92,7 +92,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task<List<NodeDto>> ListFlaggedForDeletionNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
-        var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, n => n.OwnerId == currentUser.UserId && n.IsDeleted, cancellationToken);
+        var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, n => n.IsDeleted, cancellationToken);
 
         var fileAssets = await FilesService
             .GetFileAssetsBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
@@ -187,7 +187,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task<long> CountAllNodesAsync(CancellationToken cancellationToken)
     {
-        return await nodesRepository.CountAllNodesAsync(cancellationToken);
+        return await nodesRepository.CountNodesAsync(n => true ,cancellationToken);
     }
 
     public async Task<long> CountAllNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
