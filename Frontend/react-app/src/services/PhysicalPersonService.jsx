@@ -53,13 +53,9 @@ class PhysicalPersonService {
  */
 static async getPhysicalPersonsByTimelineWithoutPagination(timelineId) {
   try {
-    const response = await getAll(API_BASE_URL, '/PhysicalPersons');
+    const response = await getAll(API_BASE_URL, `/PhysicalPersons/Timeline/${timelineId}`);
     
-    const filteredPersons = response.physicalPersons?.data?.filter(person => 
-      person.timeline?.id === timelineId
-    ) || [];
-    
-    return filteredPersons;
+    return response.physicalPersons;
   } catch (error) {
     const errorMessage =
       error.response?.data?.message || "Failed to fetch physical persons";
