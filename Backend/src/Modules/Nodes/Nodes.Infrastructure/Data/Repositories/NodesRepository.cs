@@ -26,29 +26,6 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<List<Node>> ListNodesByTimelineIdPaginatedAsync(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken)
-    {
-        return await dbContext.Nodes
-            .AsNoTracking()
-            .Where(n => n.TimelineId == timelineId && !n.IsDeleted)
-            .OrderBy(f => f.CreatedAt)
-            .Skip(pageIndex * pageSize)
-            .Take(pageSize)
-            .ToListAsync(cancellationToken);
-    }
-
-    public async Task<List<Node>> ListNodesBelongingToPhaseAsync(DateTime startDate, DateTime? endDate, int pageIndex, int pageSize, CancellationToken cancellationToken)
-    {
-        return await dbContext.Nodes
-            .AsNoTracking()
-            .Where(n => n.OwnerId == currentUser.UserId!)
-            .Where(n => n.CreatedAt >= startDate && n.CreatedAt <= endDate)
-            .OrderBy(n => n.CreatedAt)
-            .Skip(pageIndex * pageSize)
-            .Take(pageSize)
-            .ToListAsync(cancellationToken);
-    }
-
     public async Task<long> CountAllNodesAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Nodes

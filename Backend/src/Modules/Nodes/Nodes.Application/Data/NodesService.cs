@@ -92,7 +92,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task<List<NodeBaseDto>> ListNodesByTimelineIdPaginated(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
-        var nodes = await nodesRepository.ListNodesByTimelineIdPaginatedAsync(timelineId, pageIndex, pageSize, cancellationToken);
+        var nodes = await nodesRepository.ListNodesPaginatedAsync( pageIndex, pageSize, n => n.TimelineId == timelineId && !n.IsDeleted, cancellationToken);
 
         var nodesDtos = nodes
             .Select(n => n.ToNodeBaseDto())
@@ -104,7 +104,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
     public async Task<List<NodeBaseDto>> ListNodesBelongingToPhasePaginated(DateTime startDate, DateTime? endDate, int pageIndex, int pageSize,
         CancellationToken cancellationToken)
     {
-        var nodes = await nodesRepository.ListNodesBelongingToPhaseAsync(startDate, endDate, pageIndex, pageSize, cancellationToken);
+        var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, n => n.CreatedAt >= startDate && n.CreatedAt <= endDate && !n.IsDeleted, cancellationToken);
 
         var nodesDtos = nodes
             .Select(n => n.ToNodeBaseDto())
