@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { useMatches, useNavigate } from "react-router-dom";
+import "./Breadcrumbs.css";
 
 const Breadcrumbs = ({ crumbs = [] }) => {
   const matches = useMatches();
