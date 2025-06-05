@@ -16,7 +16,7 @@ using Nodes.Application.Entities.Nodes.Extensions;
 // ReSharper disable NullableWarningSuppressionIsUsed
 namespace Nodes.Application.Data;
 
-public class NodesService(IServiceProvider serviceProvider, INodesRepository nodesRepository) : INodesService
+public class NodesService(IServiceProvider serviceProvider, INodesRepository nodesRepository, ICurrentUser currentUser) : INodesService
 {
     private IRemindersService RemindersService => serviceProvider.GetRequiredService<IRemindersService>();
     private ITimelinesService TimelinesService => serviceProvider.GetRequiredService<ITimelinesService>();
@@ -27,7 +27,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
-        var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, cancellationToken);
+        var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, n => n.OwnerId == currentUser.UserId && !n.IsDeleted, cancellationToken);
 
         var fileAssets = await FilesService
             .GetFileAssetsBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
