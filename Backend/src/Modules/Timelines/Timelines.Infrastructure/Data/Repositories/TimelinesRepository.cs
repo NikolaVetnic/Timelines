@@ -92,7 +92,7 @@ public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext d
                 dbContext.Timelines
                     .AsNoTracking()
                     .AsEnumerable()
-                    .Where(t => t.NodeIds.Any(nodeIds.Contains) && t.OwnerId == currentUser.UserId! && !t.IsDeleted)
+                    .Where(t => t.NodeIds.Any(nodeIds.Contains) && t.OwnerId == currentUser.UserId!)
                     .ToList(),
             cancellationToken);
     }
