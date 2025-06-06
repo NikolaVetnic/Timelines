@@ -5,4 +5,4 @@ namespace Timelines.Application.Entities.Timelines.Queries.ListFlaggedForDeletio
 
 public record ListFlaggedForDeletionTimelinesQuery(PaginationRequest PaginationRequest) : IQuery<ListFlaggedForDeletionTimelinesResponse>;
 
-public record ListFlaggedForDeletionTimelinesResponse(PaginatedResult<TimelineDto> Nodes);
+public record ListFlaggedForDeletionTimelinesResponse(PaginatedResult<TimelineDto> Timelines);
