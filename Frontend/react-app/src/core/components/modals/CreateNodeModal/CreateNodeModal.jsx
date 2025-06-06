@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 import NodeService from "../../../../services/NodeService";
+import Button from "../../buttons/Button/Button";
 import FormField from "../../forms/FormField/FormField";
 import "./CreateNodeModal.css";
-import Button from "../../buttons/Button/Button";
 
 const INITIAL_NODE_DATA = {
   title: "",
@@ -117,11 +116,8 @@ const CreateNodeModal = ({ isOpen, onClose, timelineId, onNodeCreated }) => {
         timelineId: timelineId,
       });
 
-      toast.success("Node created successfully!");
       onNodeCreated();
       closeModal();
-    } catch (error) {
-      toast.error(error.message || "Failed to create node");
     } finally {
       setIsCreating(false);
     }

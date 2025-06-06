@@ -1,8 +1,8 @@
-// src/services/PhysicalPersonService.js
 import { toast } from "react-toastify";
 import { deleteById } from "../core/api/delete";
 import { getAll } from "../core/api/getAll";
 import { getById } from "../core/api/getById";
+import { getAllWithoutPagination } from "../core/api/getWithoutPagination";
 import { Post } from "../core/api/post";
 import { Put } from "../core/api/put";
 import API_BASE_URL from "../data/constants";
@@ -14,19 +14,20 @@ class PhysicalPersonService {
    * @param {string} timelineId - Associated timeline ID
    * @returns {Promise<Object>} - Created physical person data
    */
-  static async createPhysicalPerson(personData, timelineId) {
-    try {
-      const response = await Post(API_BASE_URL, "/PhysicalPersons", {
-        ...personData,
-        timelineId
+  static createPhysicalPerson(personData, timelineId) {
+    return Post(API_BASE_URL, "/PhysicalPersons", {
+      ...personData,
+      timelineId
+    })
+      .then(response => {
+        toast.success("Physical person created successfully!");
+        return response.data;
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to create physical person";
+        toast.error(errorMessage);
+        throw error;
       });
-      toast.success("Physical person created successfully!");
-      return response.data;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to create physical person";
-      toast.error(errorMessage);
-    }
   }
 
   /**
@@ -34,49 +35,43 @@ class PhysicalPersonService {
    * @param {string} timelineId - The timeline ID
    * @returns {Promise<Array>} - Array of physical persons
    */
-  static async getPhysicalPersonsByTimeline(timelineId) {
-    try {
-      const response = await getAll(API_BASE_URL, `/PhysicalPersons`);
-      return response.physicalPersons || [];
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to fetch physical persons";
-      toast.error(errorMessage);
-      return [];
-    }
+  static getPhysicalPersonsByTimeline(timelineId) {
+    return getAll(API_BASE_URL, `/PhysicalPersons`)
+      .then(response => response.physicalPersons || [])
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to fetch physical persons";
+        toast.error(errorMessage);
+        return [];
+      });
   }
 
-/**
- * Get all physical persons for a timeline
- * @param {string} timelineId - The timeline ID
- * @returns {Promise<Array>} - Array of physical persons
- */
-static async getPhysicalPersonsByTimelineWithoutPagination(timelineId) {
-  try {
-    const response = await getAll(API_BASE_URL, `/PhysicalPersons/Timeline/${timelineId}`);
-    
-    return response.physicalPersons;
-  } catch (error) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch physical persons";
-    toast.error(errorMessage);
-    return [];
+  /**
+   * Get all physical persons for a timeline
+   * @param {string} timelineId - The timeline ID
+   * @returns {Promise<Array>} - Array of physical persons
+   */
+  static getPhysicalPersonsByTimelineWithoutPagination(timelineId) {
+    return getAllWithoutPagination(API_BASE_URL, `/PhysicalPersons/Timeline/${timelineId}`)
+      .then(response => response.physicalPersons || [])
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to fetch physical persons";
+        toast.error(errorMessage);
+        return [];
+      });
   }
-}
 
   /**
    * Get a single physical person by ID
    * @param {string} id - The physical person ID
    * @returns {Promise<Object>} - The physical person data
    */
-  static async getPhysicalPersonById(id) {
-    try {
-      const response = await getById(API_BASE_URL, "/PhysicalPersons/", id);
-      return response.physicalPerson;
-    } catch (error) {
-      const errorMessage = "Failed to fetch physical person";
-      toast.error(errorMessage);
-    }
+  static getPhysicalPersonById(id) {
+    return getById(API_BASE_URL, "/PhysicalPersons/", id)
+      .then(response => response.physicalPerson)
+      .catch(error => {
+        toast.error("Failed to fetch physical person");
+        throw error;
+      });
   }
 
   /**
@@ -85,16 +80,17 @@ static async getPhysicalPersonsByTimelineWithoutPagination(timelineId) {
    * @param {Object} updateData - Fields to update
    * @returns {Promise<Object>} - Updated physical person data
    */
-  static async updatePhysicalPerson(id, updateData) {
-    try {
-      const response = await Put(API_BASE_URL, `/PhysicalPersons/${id}`, updateData);
-      toast.success("Physical person updated successfully!");
-      return response.data;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to update physical person";
-      toast.error(errorMessage);
-    }
+  static updatePhysicalPerson(id, updateData) {
+    return Put(API_BASE_URL, `/PhysicalPersons/${id}`, updateData)
+      .then(response => {
+        toast.success("Physical person updated successfully!");
+        return response.data;
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to update physical person";
+        toast.error(errorMessage);
+        throw error;
+      });
   }
 
   /**
@@ -102,16 +98,17 @@ static async getPhysicalPersonsByTimelineWithoutPagination(timelineId) {
    * @param {string} id - The physical person ID to delete
    * @returns {Promise<Object>} - Delete confirmation
    */
-  static async deletePhysicalPerson(id) {
-    try {
-      const response = await deleteById(API_BASE_URL, "/PhysicalPersons/", id);
-      toast.success("Physical person deleted successfully!");
-      return response;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to delete physical person";
-      toast.error(errorMessage);
-    }
+  static deletePhysicalPerson(id) {
+    return deleteById(API_BASE_URL, "/PhysicalPersons/", id)
+      .then(response => {
+        toast.success("Physical person deleted successfully!");
+        return response;
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to delete physical person";
+        toast.error(errorMessage);
+        throw error;
+      });
   }
 }
 

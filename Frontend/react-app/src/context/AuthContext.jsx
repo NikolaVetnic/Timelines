@@ -1,66 +1,71 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { Post } from "../core/api/post";
 import API_BASE_URL from "../data/constants";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+ const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [error, setError] = useState(null);
   const [sessionExpired, setSessionExpired] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const isAuthenticated = useCallback(() => {
+    const expiresAt = localStorage.getItem("expires_at");
+    const storedToken = localStorage.getItem("token");
+    return !!storedToken && !!expiresAt && Date.now() < Number(expiresAt);
+  }, []);
+
+  const refreshToken = useCallback(async () => {
+    try {
+      const refreshToken = localStorage.getItem("refresh_token");
+      if (!refreshToken) return false;
+
+      setIsLoading(true);
+      const data = await Post(API_BASE_URL, '/Auth/Token', {
+        grant_type: "refresh_token",
+        refresh_token: refreshToken
+      }, true);
+
+      if (data.access_token) {
+        localStorage.setItem("token", data.access_token);
+        setToken(data.access_token);
+        
+        const expiresAt = Date.now() + (data.expires_in || 3600) * 1000;
+        localStorage.setItem("expires_at", expiresAt);
+
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Refresh token failed:", error);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
-    const checkTokenExpiration = () => {
-      if (token && !isAuthenticated()) {
-        handleLogout(true);
+    const checkAuth = async () => {
+      if (!token) return;
+      
+      const expiresAt = localStorage.getItem("expires_at");
+      const isAboutToExpire = expiresAt && (Number(expiresAt) - Date.now() < 30000);
+      
+      if (!isAuthenticated() || isAboutToExpire) {
+        const refreshed = await refreshToken();
+        if (!refreshed) {
+          handleLogout(true);
+        }
       }
     };
+
+    checkAuth();
     
-    const interval = setInterval(checkTokenExpiration, 1800000);
+    const interval = setInterval(checkAuth, 30000);
     return () => clearInterval(interval);
-  }, [token]);
-
-useEffect(() => {
-  const checkAuth = async () => {
-    if (token && !isAuthenticated()) {
-      const refreshed = await refreshToken();
-      if (!refreshed) {
-        handleLogout(true);
-      }
-    }
-  };
-  
-  const interval = setInterval(checkAuth, 300000);
-  return () => clearInterval(interval);
-}, [token]);
-
-const refreshToken = async () => {
-  try {
-    const refreshToken = localStorage.getItem("refresh_token");
-    if (!refreshToken) return false;
-
-    const data = await Post(API_BASE_URL, '/Auth/RefreshToken', {
-      grant_type: "refresh_token",
-      refresh_token: refreshToken
-    }, true);
-
-    if (data.access_token) {
-      localStorage.setItem("token", data.access_token);
-      setToken(data.access_token);
-      
-      const expiresAt = Date.now() + (data.expires_in || 3600) * 1000;
-      localStorage.setItem("expires_at", expiresAt);
-
-      return true;
-    }
-
-    return false;
-  } catch {
-    return false;
-  }
-};
+  }, [token, isAuthenticated, refreshToken]);
 
 const login = async (credentials) => {
   try {
@@ -117,13 +122,6 @@ const login = async (credentials) => {
   } finally {
     setIsLoading(false);
   }
-};
-
-const isAuthenticated = () => {
-  const expiresAt = localStorage.getItem("expires_at");
-  const storedToken = localStorage.getItem("token");
-  
-  return !!storedToken && !!expiresAt && Date.now() < Number(expiresAt);
 };
 
   const logout = () => {

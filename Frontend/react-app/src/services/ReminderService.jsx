@@ -7,13 +7,12 @@ import { Post } from "../core/api/post";
 import API_BASE_URL from "../data/constants";
 
 class ReminderService {
-/**
- * Create a new reminder
- * @param {Object} reminderData - The reminder data to create
- * @returns {Promise<Object>} - Created reminder data
- */
-static async createReminder(reminderData) {
-  try {
+  /**
+   * Create a new reminder
+   * @param {Object} reminderData - The reminder data to create
+   * @returns {Promise<Object>} - Created reminder data
+   */
+  static createReminder(reminderData) {
     const formattedData = {
       title: reminderData.title,
       description: reminderData.description || "",
@@ -23,27 +22,30 @@ static async createReminder(reminderData) {
       colorHex: reminderData.colorHex || this.getDefaultColorForPriority(reminderData.priority)
     };
 
-    const response = await Post(API_BASE_URL, "/Reminders", formattedData);
-    toast.success("Reminder created successfully!");
-    return response;
-  } catch (error) {
-    const errorMessage = error.response?.data?.message || 
-                      error.message || 
-                      "Failed to create reminder";
-    toast.error(errorMessage);
+    return Post(API_BASE_URL, "/Reminders", formattedData)
+      .then(response => {
+        toast.success("Reminder created successfully!");
+        return response;
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || 
+                          error.message || 
+                          "Failed to create reminder";
+        toast.error(errorMessage);
+        throw error;
+      });
   }
-}
 
-static getDefaultColorForPriority(priority) {
-  switch(priority) {
-    case 2:
-      return '#ffa500';
-    case 1: 
-      return '#ffff00';
-    default:
-      return '#ff0000';
+  static getDefaultColorForPriority(priority) {
+    switch(priority) {
+      case 2:
+        return '#ffa500';
+      case 1: 
+        return '#ffff00';
+      default:
+        return '#ff0000';
+    }
   }
-}
 
   /**
    * Get reminders by node ID with server-side pagination
@@ -52,44 +54,41 @@ static getDefaultColorForPriority(priority) {
    * @param {number} pageSize - Items per page
    * @returns {Promise<Object>} - { items: [], totalCount: 0, totalPages: 0 }
    */
-  static async getRemindersByNode(nodeId, pageIndex = 0, pageSize = 10) {
-    try {
-      const response = await getAll(API_BASE_URL, `/Nodes/${nodeId}/Reminders`, pageIndex, pageSize);
-
-      const reminders = response.reminders.data?.map(reminder => ({
-        id: reminder.id,
-        title: reminder.title,
-        description: reminder.description,
-        notifyAt: reminder.notifyAt,
-        priority: reminder.priority,
-        nodeId: nodeId,
-      })) || [];
-      
-      return {
-        items: reminders,
-        totalCount: response.reminders.count || 0,
-        totalPages: Math.ceil((response.reminders.count || 0) / pageSize),
-      };
-    } catch (error) {
-      const errorMessage = "Failed to fetch node reminders";
-      toast.error(errorMessage);
-    }
-  }   
+  static getRemindersByNode(nodeId, pageIndex = 0, pageSize = 10) {
+    return getAll(API_BASE_URL, `/Nodes/${nodeId}/Reminders`, pageIndex, pageSize)
+      .then(response => {
+        const reminders = response.reminders.data?.map(reminder => ({
+          id: reminder.id,
+          title: reminder.title,
+          description: reminder.description,
+          notifyAt: reminder.notifyAt,
+          priority: reminder.priority,
+          nodeId: nodeId,
+        })) || [];
+        
+        return {
+          items: reminders,
+          totalCount: response.reminders.count || 0,
+          totalPages: Math.ceil((response.reminders.count || 0) / pageSize),
+        };
+      })
+      .catch(error => {
+        toast.error("Failed to fetch node reminders");
+        throw error;
+      });
+  }
 
   /**
    * Get all reminders
    * @returns {Promise<Array>} - Array of reminders
    */
-  static async getAllReminders() {
-    try {
-      const response = await getAllWithoutPagination(
-        API_BASE_URL,
-        `/Reminders`
-      );
-      return response.reminders;
-    } catch (error) {
-      toast.error("Failed to load all reminders");
-    }
+  static getAllReminders() {
+    return getAllWithoutPagination(API_BASE_URL, `/Reminders`)
+      .then(response => response.reminders || [])
+      .catch(error => {
+        toast.error("Failed to load all reminders");
+        throw error;
+      });
   }
 
   /**
@@ -97,13 +96,13 @@ static getDefaultColorForPriority(priority) {
    * @param {string} id - The reminder ID
    * @returns {Promise<Object>} - The reminder data
    */
-  static async getReminderById(id) {
-    try {
-      const response = await getById(API_BASE_URL, "/Reminders/", id);
-      return response.reminder || response;
-    } catch (error) {
-      toast.error("Failed to load reminder details");
-    }
+  static getReminderById(id) {
+    return getById(API_BASE_URL, "/Reminders/", id)
+      .then(response => response.reminder || response)
+      .catch(error => {
+        toast.error("Failed to load reminder details");
+        throw error;
+      });
   }
 
   /**
@@ -112,14 +111,16 @@ static getDefaultColorForPriority(priority) {
    * @param {Object} updateData - Fields to update
    * @returns {Promise<Object>} - Updated reminder data
    */
-  static async updateReminder(id, updateData) {
-    try {
-      const response = await Post(API_BASE_URL, `/Reminders/${id}`, updateData);
-      toast.success("Reminder updated successfully!");
-      return response.data;
-    } catch (error) {
-      toast.error(error.message || "Failed to update reminder");
-    }
+  static updateReminder(id, updateData) {
+    return Post(API_BASE_URL, `/Reminders/${id}`, updateData)
+      .then(response => {
+        toast.success("Reminder updated successfully!");
+        return response.data;
+      })
+      .catch(error => {
+        toast.error(error.message || "Failed to update reminder");
+        throw error;
+      });
   }
 
   /**
@@ -127,14 +128,16 @@ static getDefaultColorForPriority(priority) {
    * @param {string} id - The reminder ID to delete
    * @returns {Promise<Object>} - Delete confirmation
    */
-  static async deleteReminder(id) {
-    try {
-      const response = await deleteById(API_BASE_URL, "/Reminders/", id);
-      toast.success("Reminder deleted successfully!");
-      return response;
-    } catch (error) {
-      toast.error(error.message || "Failed to delete reminder");
-    }
+  static deleteReminder(id) {
+    return deleteById(API_BASE_URL, "/Reminders/", id)
+      .then(response => {
+        toast.success("Reminder deleted successfully!");
+        return response;
+      })
+      .catch(error => {
+        toast.error(error.message || "Failed to delete reminder");
+        throw error;
+      });
   }
 }
 

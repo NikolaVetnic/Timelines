@@ -17,6 +17,6 @@ export const getAllWithoutPagination = async (apiUrl, exactPath, additionalParam
     const errorMessage = error.response?.data || { 
       message: 'Network error, please try again later.' 
     };
-    throw errorMessage; // Throw the error object directly (not as new Error)
+    throw errorMessage;
   }
 };

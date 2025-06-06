@@ -13,43 +13,46 @@ class TimelineService {
    * @param {string} description - Timeline description
    * @returns {Promise<Object>} - Created timeline data
    */
-  static async createTimeline(title, description) {
-    try {
-      const timelineData = {
-        Title: title,
-        Description: description,
-      };
+  static createTimeline(title, description) {
+    const timelineData = {
+      Title: title,
+      Description: description,
+    };
 
-      const response = await Post(API_BASE_URL, "/Timelines", timelineData);
-      toast.success("Timeline created successfully!");
-      return response.data;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to create timeline";
-      toast.error(errorMessage);
-    }
+    return Post(API_BASE_URL, "/Timelines", timelineData)
+      .then(response => {
+        toast.success("Timeline created successfully!");
+        return response.data;
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to create timeline";
+        toast.error(errorMessage);
+        throw error;
+      });
   }
 
-    /**
-   * Create a new timeline
+  /**
+   * Clone a timeline
    * @param {string} timelineId - Timeline id
    * @param {string} title - Timeline title
    * @param {string} description - Timeline description
    * @returns {Promise<Object>} - Created timeline data
    */
-  static async cloneTimeline(timelineId, title, description) {
-  try {
-    const response = await Post(API_BASE_URL, `/Timelines/Clone/${timelineId}`, {
+  static cloneTimeline(timelineId, title, description) {
+    return Post(API_BASE_URL, `/Timelines/Clone/${timelineId}`, {
       title,
       description
-    });
-    toast.success("Timeline cloned successfully!");
-    return response.timeline.id;
-  } catch (error) {
-    const errorMessage = error.response?.data?.message || "Failed to clone timeline";
-    toast.error(errorMessage);
+    })
+      .then(response => {
+        toast.success("Timeline cloned successfully!");
+        return response.timeline.id;
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to clone timeline";
+        toast.error(errorMessage);
+        throw error;
+      });
   }
-}
 
   /**
    * Get all timelines with pagination
@@ -57,25 +60,18 @@ class TimelineService {
    * @param {number} pageSize - The number of items per page (default: 10)
    * @returns {Promise<Object>} - { items: [], totalCount: 0, totalPages: 0 }
    */
-  static async getAllTimelines(pageIndex = 0, pageSize = 10) {
-    try {
-      const response = await getAll(
-        API_BASE_URL,
-        "/Timelines",
-        pageIndex,
-        pageSize
-      );
-
-      return {
+  static getAllTimelines(pageIndex = 0, pageSize = 10) {
+    return getAll(API_BASE_URL, "/Timelines", pageIndex, pageSize)
+      .then(response => ({
         items: response.timelines?.data || [],
         totalCount: response.timelines?.count || 0,
         totalPages: Math.ceil((response.timelines?.count || 0) / pageSize),
-      };
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to fetch timelines";
-      toast.error(errorMessage);
-    }
+      }))
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to fetch timelines";
+        toast.error(errorMessage);
+        throw error;
+      });
   }
 
   /**
@@ -83,15 +79,14 @@ class TimelineService {
    * @param {string} id - The timeline ID
    * @returns {Promise<Object>} - The timeline data
    */
-  static async getTimelineById(id) {
-    try {
-      const response = await getById(API_BASE_URL, "/Timelines/", id);
-      return response.timeline || response;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to fetch timeline";
-      toast.error(errorMessage);
-    }
+  static getTimelineById(id) {
+    return getById(API_BASE_URL, "/Timelines/", id)
+      .then(response => response.timeline || response)
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to fetch timeline";
+        toast.error(errorMessage);
+        throw error;
+      });
   }
 
   /**
@@ -102,16 +97,17 @@ class TimelineService {
    * @param {string} [updateData.Description] - New description
    * @returns {Promise<Object>} - Updated timeline data
    */
-  static async updateTimeline(id, updateData) {
-    try {
-      const response = await Put(API_BASE_URL, `/Timelines/${id}`, updateData);
-      toast.success("Timeline updated successfully!");
-      return response.data;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to update timeline";
-      toast.error(errorMessage);
-    }
+  static updateTimeline(id, updateData) {
+    return Put(API_BASE_URL, `/Timelines/${id}`, updateData)
+      .then(response => {
+        toast.success("Timeline updated successfully!");
+        return response.data;
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to update timeline";
+        toast.error(errorMessage);
+        throw error;
+      });
   }
 
   /**
@@ -119,38 +115,44 @@ class TimelineService {
    * @param {string} id - The timeline ID to delete
    * @returns {Promise<Object>} - Delete confirmation
    */
-  static async deleteTimeline(id) {
-    try {
-      const response = await deleteById(API_BASE_URL, "/Timelines/", id);
-      toast.success("Timeline deleted successfully!");
-      return response;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to delete timeline";
-      toast.error(errorMessage);
-    }
+  static deleteTimeline(id) {
+    return deleteById(API_BASE_URL, "/Timelines/", id)
+      .then(response => {
+        toast.success("Timeline deleted successfully!");
+        return response;
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to delete timeline";
+        toast.error(errorMessage);
+        throw error;
+      });
   }
 
-static async searchTimelines(query) {
-  try {
-    const allTimelinesResponse = await TimelineService.getAllTimelines(0, 1000);
-    const allTimelines = allTimelinesResponse.items || [];
+  /**
+   * Search timelines by query
+   * @param {string} query - Search query
+   * @returns {Promise<Object>} - { items: [], totalCount: 0 }
+   */
+  static searchTimelines(query) {
+    return this.getAllTimelines(0, 1000)
+      .then(allTimelinesResponse => {
+        const allTimelines = allTimelinesResponse.items || [];
+        const filtered = allTimelines.filter(timeline => {
+          const searchContent = `${timeline.title} ${timeline.description}`.toLowerCase();
+          return searchContent.includes(query.toLowerCase());
+        });
 
-    const filtered = allTimelines.filter(timeline => {
-      const searchContent = `${timeline.title} ${timeline.description}`.toLowerCase();
-      return searchContent.includes(query.toLowerCase());
-    });
-
-    return {
-      items: filtered,
-      totalCount: filtered.length
-    };
-  } catch (error) {
-    const errorMessage = error.response?.data?.message || "Search failed";
-    toast.error(errorMessage);
-    return { items: [], totalCount: 0 };
+        return {
+          items: filtered,
+          totalCount: filtered.length
+        };
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Search failed";
+        toast.error(errorMessage);
+        return { items: [], totalCount: 0 };
+      });
   }
-}
 }
 
 export default TimelineService;

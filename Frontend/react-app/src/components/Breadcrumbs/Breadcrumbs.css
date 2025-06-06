@@ -36,14 +36,36 @@
   }
 
   .breadcrumb-dropdown-container {
+    position: relative;
     padding: 0.5rem 0;
+    width: 100%;
   }
 
   .breadcrumb-select {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.75rem 1rem;
     font-size: 0.9rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .breadcrumb-select:focus {
+    outline: none;
+    border-color: #0077cc;
+    box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.1);
+  }
+
+  .breadcrumb-select option {
+    padding: 0.5rem;
   }
 }

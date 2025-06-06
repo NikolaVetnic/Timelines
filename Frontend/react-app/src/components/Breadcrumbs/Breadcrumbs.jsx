@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { useMatches, useNavigate } from "react-router-dom";
+import "./Breadcrumbs.css";
 
 const Breadcrumbs = ({ crumbs = [] }) => {
   const matches = useMatches();
@@ -32,6 +33,7 @@ const Breadcrumbs = ({ crumbs = [] }) => {
     return (
       <div className="breadcrumb-dropdown-container">
         <select
+          id="breadcrumb-select"
           className="breadcrumb-select"
           value={displayCrumbs[displayCrumbs.length - 1].path}
           onChange={(e) => navigate(e.target.value)}
