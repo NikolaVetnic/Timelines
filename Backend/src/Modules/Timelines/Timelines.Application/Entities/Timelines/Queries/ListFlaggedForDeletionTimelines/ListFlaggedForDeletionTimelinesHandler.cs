@@ -3,6 +3,7 @@ using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.Timelines.Timeline.Dtos;
 
 namespace Timelines.Application.Entities.Timelines.Queries.ListFlaggedForDeletionTimelines;
+
 internal class ListFlaggedForDeletionTimelinesHandler(ITimelinesService timelinesService) : IQueryHandler<ListFlaggedForDeletionTimelinesQuery, ListFlaggedForDeletionTimelinesResponse>
 {
     public async Task<ListFlaggedForDeletionTimelinesResponse> Handle(ListFlaggedForDeletionTimelinesQuery query, CancellationToken cancellationToken)
