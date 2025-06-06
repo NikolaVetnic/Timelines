@@ -83,6 +83,17 @@ public class TimelinesRepository(ICurrentUser currentUser, ITimelinesDbContext d
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task ReviveTimeline(TimelineId timelineId, CancellationToken cancellationToken)
+    {
+        var timelineToRevive = await dbContext.Timelines
+            .FirstAsync(t => t.Id == timelineId && t.OwnerId == currentUser.UserId!, cancellationToken);
+
+        timelineToRevive.Revive();
+
+        dbContext.Timelines.Update(timelineToRevive);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     #region Relationships
 
     public async Task<IEnumerable<Timeline>> GetTimelinesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds,

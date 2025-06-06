@@ -15,6 +15,7 @@ public interface ITimelinesRepository
     Task CreateTimelineAsync(Timeline timeline, CancellationToken cancellationToken);
     Task UpdateTimelineAsync(Timeline timeline, CancellationToken cancellationToken);
     Task DeleteTimeline(TimelineId timelineId, CancellationToken cancellationToken);
+    Task ReviveTimeline(TimelineId timelineId, CancellationToken cancellationToken);
 
     Task<IEnumerable<Timeline>> GetTimelinesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 }
