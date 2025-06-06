@@ -97,14 +97,14 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
         var fileAssets = await FilesService
             .GetFileAssetsBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
+        var notes = await NotesService
+            .GetNotesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
+
         var reminders = await RemindersService
             .GetRemindersBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
         var timelines = await TimelinesService
             .GetTimelinesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
-
-        var notes = await NotesService
-            .GetNotesBaseBelongingToNodeIdsAsync(nodes.Select(n => n.Id).ToList(), cancellationToken);
 
         var nodeDtos = nodes.Select(n =>
             n.ToNodeDto(timelines
