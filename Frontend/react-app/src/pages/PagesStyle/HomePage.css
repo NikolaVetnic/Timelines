@@ -172,13 +172,27 @@
     justify-content: end;
 }
 
+.loading-more, .end-message {
+  text-align: center;
+  padding: 1rem;
+  color: #666;
+}
+
 @media (max-width: 768px) {
     .timeline-list-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
 
+    .timeline-list-item {
+        margin-bottom: 5px;
+    }
+
     .timeline-list-pagination-container {
         display: none;
+    }
+
+    .timeline-list-actions {
+        position: sticky;
     }
 }
