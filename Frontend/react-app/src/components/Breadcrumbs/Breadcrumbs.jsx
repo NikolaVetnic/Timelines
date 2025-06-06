@@ -33,6 +33,7 @@ const Breadcrumbs = ({ crumbs = [] }) => {
     return (
       <div className="breadcrumb-dropdown-container">
         <select
+          id="breadcrumb-select"
           className="breadcrumb-select"
           value={displayCrumbs[displayCrumbs.length - 1].path}
           onChange={(e) => navigate(e.target.value)}
