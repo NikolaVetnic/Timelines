@@ -13,6 +13,7 @@ using System;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Nodes.Application.Entities.Nodes.Commands.DeleteNode;
 using Nodes.Application.Entities.Nodes.Commands.UpdateNode;
+using Nodes.Application.Entities.Nodes.Queries.ListFlaggedForDeletionNodes;
 
 namespace Nodes.Api.Controllers.Nodes;
 
@@ -55,6 +56,17 @@ public class NodesController(ISender sender) : ControllerBase
     public async Task<ActionResult<ListNodesResponse>> Get([FromQuery] PaginationRequest query)
     {
         var result = await sender.Send(new ListNodesQuery(query));
+        var response = result.Adapt<ListNodesResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet("Entity/Deleted")]
+    [ProducesResponseType(typeof(ListNodesResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListNodesResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListFlaggedForDeletionNodesQuery(query));
         var response = result.Adapt<ListNodesResponse>();
 
         return Ok(response);
