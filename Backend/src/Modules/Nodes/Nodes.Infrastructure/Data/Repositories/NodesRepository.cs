@@ -35,11 +35,6 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<long> CountAllNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
-    {
-        return await dbContext.Nodes.LongCountAsync(n => n.TimelineId == timelineId && n.IsDeleted == false, cancellationToken);
-    }
-
     public async Task<long> NodeCountBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken)
     {
         return await dbContext.Nodes

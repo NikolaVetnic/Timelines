@@ -8,7 +8,6 @@ public interface INodesRepository
 {
     Task<List<Node>> ListNodesPaginatedAsync(int pageIndex, int pageSize, Expression<Func<Node, bool>> predicate, CancellationToken cancellationToken);
     Task<long> CountNodesAsync(Expression<Func<Node, bool>> predicate, CancellationToken cancellationToken);
-    Task<long> CountAllNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken);
     Task<long> NodeCountBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken);
 
     Task<Node> GetNodeByIdAsync(NodeId nodeId, CancellationToken cancellationToken);

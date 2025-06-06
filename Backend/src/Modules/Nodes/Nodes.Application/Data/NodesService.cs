@@ -192,7 +192,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task<long> CountAllNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
     {
-        return await nodesRepository.CountAllNodesByTimelineIdAsync(timelineId, cancellationToken);
+        return await nodesRepository.CountNodesAsync(n => n.TimelineId == timelineId && !n.IsDeleted, cancellationToken);
     }
 
     public async Task<long> CountNodesBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken)
