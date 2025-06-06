@@ -35,14 +35,6 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<long> NodeCountBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken)
-    {
-        return await dbContext.Nodes
-            .Where(n => n.OwnerId == currentUser.UserId!)
-            .Where(n => n.CreatedAt >= startDate && n.CreatedAt <= endDate)
-            .LongCountAsync(cancellationToken);
-    }
-
     #endregion
 
     #region Get

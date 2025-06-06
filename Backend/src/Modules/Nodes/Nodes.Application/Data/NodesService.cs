@@ -197,7 +197,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task<long> CountNodesBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken)
     {
-        return await nodesRepository.NodeCountBelongingToPhase(startDate, endDate, cancellationToken);
+        return await nodesRepository.CountNodesAsync(n => n.CreatedAt >= startDate && n.CreatedAt <=  endDate, cancellationToken);
     }
 
     public async Task EnsureNodeBelongsToOwner(NodeId nodeId, CancellationToken cancellationToken)
