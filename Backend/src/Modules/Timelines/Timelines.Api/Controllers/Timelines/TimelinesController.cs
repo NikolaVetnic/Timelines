@@ -8,6 +8,7 @@ using OpenIddict.Validation.AspNetCore;
 using Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 using Timelines.Application.Entities.Timelines.Commands.CreateTimelineWithTemplate;
 using Timelines.Application.Entities.Timelines.Commands.DeleteTimeline;
+using Timelines.Application.Entities.Timelines.Commands.ReviveTimeline;
 using Timelines.Application.Entities.Timelines.Commands.UpdateTimeline;
 using Timelines.Application.Entities.Timelines.Queries.GetTimelineById;
 using Timelines.Application.Entities.Timelines.Queries.ListFlaggedForDeletionTimelines;
@@ -139,6 +140,19 @@ public class TimelinesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new DeleteTimelineCommand(timelineId));
         var response = result.Adapt<DeleteTimelineResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpPost("Entity/Deleted/Revive/{timelineId}")]
+    [ProducesResponseType(typeof(CreateTimelineWithTemplateResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ReviveTimelineResponse>> Revive(
+        [FromRoute] string timelineId,
+        [FromBody] CreateTimelineWithTemplateRequest request)
+    {
+        var result = await sender.Send(new ReviveTimelineCommand(timelineId));
+        var response = result.Adapt<ReviveTimelineResponse>();
 
         return Ok(response);
     }
