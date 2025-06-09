@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+﻿using System.Linq.Expressions;
+using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Notes.Note.ValueObjects;
 
 namespace Notes.Application.Data.Abstractions;
@@ -7,7 +8,7 @@ public interface INotesRepository
 {
     Task AddNoteAsync(Note note, CancellationToken cancellationToken);
 
-    Task<List<Note>> ListNotesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
+    Task<List<Note>> ListNotesPaginatedAsync(Expression<Func<Note, bool>> predicate, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<Note>> ListFlaggedForDeletionNotesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<Note>> ListNotesByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<long> CountAllNotesAsync(CancellationToken cancellationToken);
