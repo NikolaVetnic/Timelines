@@ -15,12 +15,13 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<List<FileAsset>> ListFileAssetsPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    public async Task<List<FileAsset>> ListFileAssetsPaginatedAsync(Expression<Func<FileAsset, bool>> predicate, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets
             .AsNoTracking()
-            .OrderBy(f => f.CreatedBy)
-            .Where(f => f.OwnerId == currentUser.UserId! && f.IsDeleted == false)
+            .OrderBy(f => f.CreatedAt)
+            .Where(f => f.OwnerId == currentUser.UserId)
+            .Where(predicate)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
