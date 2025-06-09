@@ -22,27 +22,6 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<List<Note>> ListFlaggedForDeletionNotesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
-    {
-        return await dbContext.Notes
-            .AsNoTracking()
-            .Where(n => n.OwnerId == currentUser.UserId! && n.IsDeleted)
-            .Skip(pageSize * pageIndex)
-            .Take(pageSize)
-            .ToListAsync(cancellationToken: cancellationToken);
-    }
-
-    public async Task<List<Note>> ListNotesByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
-    {
-        return await dbContext.Notes
-            .AsNoTracking()
-            .Where(n => n.NodeId == nodeId && n.OwnerId == currentUser.UserId! && !n.IsDeleted)
-            .OrderBy(n => n.CreatedAt)
-            .Skip(pageIndex * pageSize)
-            .Take(pageSize)
-            .ToListAsync(cancellationToken);
-    }
-
     public async Task<long> CountAllNotesAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Notes
