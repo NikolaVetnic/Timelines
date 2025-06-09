@@ -79,7 +79,7 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
 
     public async Task<long> CountAllNotesByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return await notesRepository.CountAllNotesByNodeIdAsync(nodeId, cancellationToken);
+        return await notesRepository.CountNotesAsync(n => n.NodeId == nodeId, cancellationToken);
     }
 
     public async Task DeleteNote(NoteId noteId, CancellationToken cancellationToken)
@@ -116,6 +116,6 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
 
     public async Task<long> CountAllNotesAsync(CancellationToken cancellationToken)
     {
-        return await notesRepository.CountAllNotesAsync(cancellationToken);
+        return await notesRepository.CountNotesAsync(n => true, cancellationToken);
     }
 }
