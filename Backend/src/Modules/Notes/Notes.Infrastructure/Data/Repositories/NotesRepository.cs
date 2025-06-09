@@ -22,6 +22,14 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
+    public async Task<long> CountNotesAsync(Expression<Func<Note, bool>> predicate, CancellationToken cancellationToken)
+    {
+        return await dbContext.Notes
+            .Where(n => n.OwnerId == currentUser.UserId!)
+            .Where(predicate)
+            .LongCountAsync(cancellationToken);
+    }
+
     public async Task<long> CountAllNotesAsync(CancellationToken cancellationToken)
     {
         return await dbContext.Notes
