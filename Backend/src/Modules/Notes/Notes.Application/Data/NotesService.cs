@@ -35,12 +35,12 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
     {
         var nodes = await NodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
 
-        var notes = await notesRepository.ListFlaggedForDeletionNotesPaginatedAsync(pageIndex, pageSize, cancellationToken);
+        var notes = await notesRepository.ListNotesPaginatedAsync(n => n.IsDeleted, pageIndex, pageSize, cancellationToken);
 
         // Exclude Notes whose Nodes have been deleted
         var noteDtos = notes
             .Select(n => (Note: n, Node: nodes.FirstOrDefault(d => d.Id == n.NodeId.ToString())))
-            .Where(x => x.Node != null)
+            .Where(x => x.Node != null) // todo: changes might be needed due to complete deletion overhaul 
             .Select(x => x.Note.ToNoteDto(x.Node!))
             .ToList();
 
@@ -49,7 +49,7 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
 
     public async Task<List<NoteBaseDto>> ListNotesByNodeIdPaginated(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
-        var notes = await notesRepository.ListNotesByNodeIdPaginatedAsync(nodeId, pageIndex, pageSize, cancellationToken);
+        var notes = await notesRepository.ListNotesPaginatedAsync(n => n.NodeId == nodeId, pageIndex, pageSize, cancellationToken);
 
         var notesDtos = notes
             .Select(n => n.ToNoteBaseDto())
