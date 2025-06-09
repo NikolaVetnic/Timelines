@@ -2,12 +2,12 @@
 
 namespace Files.Application.Entities.Files.Commands.ReviveFileAsset;
 
-public record ReviveFileAssetCommand(FileAssetId Id) : ICommand<ReviveFileAssetResult>
+public record ReviveFileAssetCommand(FileAssetId Id) : ICommand<ReviveFileAssetResponse>
 {
     public ReviveFileAssetCommand(string Id) : this(FileAssetId.Of(Guid.Parse(Id))) { }
 }
 
-public record ReviveFileAssetResult(bool FileRevived);
+public record ReviveFileAssetResponse(bool FileRevived);
 
 public class ReviveFileAssetCommandValidator : AbstractValidator<ReviveFileAssetCommand>
 {
