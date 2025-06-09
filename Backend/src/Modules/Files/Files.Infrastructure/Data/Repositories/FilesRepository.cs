@@ -3,6 +3,7 @@ using BuildingBlocks.Domain.Files.File.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Files.Application.Data.Abstractions;
 using Files.Application.Entities.Files.Exceptions;
+using Files.Domain.Models;
 
 namespace Files.Infrastructure.Data.Repositories;
 
@@ -113,6 +114,17 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
             dbContext.FileAssets.UpdateRange(fileAssetsToDelete);
             await dbContext.SaveChangesAsync(cancellationToken);
         }
+    }
+
+    public async Task ReviveFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)
+    {
+        var fileAssetToDelete = await dbContext.FileAssets
+            .FirstAsync(f => f.Id == fileAssetId, cancellationToken);
+
+        fileAssetToDelete.Revive();
+
+        dbContext.FileAssets.Update(fileAssetToDelete);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<IEnumerable<FileAsset>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
