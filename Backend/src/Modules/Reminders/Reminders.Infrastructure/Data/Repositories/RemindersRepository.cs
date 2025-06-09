@@ -64,20 +64,6 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<long> CountAllRemindersAsync(CancellationToken cancellationToken)
-    {
-        return await dbContext.Reminders
-            .Where(r => r.OwnerId == currentUser.UserId!)
-            .LongCountAsync(cancellationToken);
-    }
-
-    public async Task<long> CountAllRemindersByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
-    {
-        return await dbContext.Reminders
-            .Where(r => r.OwnerId == currentUser.UserId!)
-            .LongCountAsync(r => r.NodeId == nodeId, cancellationToken);
-    }
-
     public async Task<IEnumerable<Reminder>> GetRemindersBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         return await dbContext.Reminders
