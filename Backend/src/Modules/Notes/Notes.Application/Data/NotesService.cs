@@ -109,6 +109,11 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
         return noteBaseDtos;
     }
 
+    public async Task ReviveNote(NoteId noteId, CancellationToken cancellationToken)
+    {
+        await notesRepository.ReviveNoteAsync(noteId, cancellationToken);
+    }
+
     public async Task<long> CountAllNotesAsync(CancellationToken cancellationToken)
     {
         return await notesRepository.CountAllNotesAsync(cancellationToken);
