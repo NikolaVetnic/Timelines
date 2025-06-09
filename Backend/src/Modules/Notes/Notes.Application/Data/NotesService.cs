@@ -17,7 +17,7 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
     {
         var nodes = await NodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
 
-        var notes = await notesRepository.ListNotesPaginatedAsync(pageIndex, pageSize, cancellationToken);
+        var notes = await notesRepository.ListNotesPaginatedAsync(n => !n.IsDeleted, pageIndex, pageSize, cancellationToken);
 
         // Exclude Notes whose Nodes have been deleted
         var noteDtos = notes
