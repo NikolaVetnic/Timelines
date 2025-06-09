@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 
@@ -11,6 +12,7 @@ public interface IRemindersRepository
     Task<List<Reminder>> ListFlaggedForDeletionRemindersPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<Reminder>> ListRemindersByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<Reminder> GetReminderByIdAsync(ReminderId reminderId, CancellationToken cancellationToken);
+    Task<long> CountRemindersAsync(Expression<Func<Reminder, bool>> predicate, CancellationToken cancellationToken);
     Task<long> CountAllRemindersAsync(CancellationToken cancellationToken);
     Task<long> CountAllRemindersByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken);
 
