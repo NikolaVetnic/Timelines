@@ -9,6 +9,7 @@ public interface INotesRepository
     Task AddNoteAsync(Note note, CancellationToken cancellationToken);
 
     Task<List<Note>> ListNotesPaginatedAsync(Expression<Func<Note, bool>> predicate, int pageIndex, int pageSize, CancellationToken cancellationToken);
+    Task<long> CountNotesAsync(Expression<Func<Note, bool>> predicate, CancellationToken cancellationToken);
     Task<long> CountAllNotesAsync(CancellationToken cancellationToken);
     Task<long> CountAllNotesByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken);
 
