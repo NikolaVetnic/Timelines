@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Notes.Application.Entities.Notes.Commands.CreateNote;
 using Notes.Application.Entities.Notes.Commands.DeleteNote;
+using Notes.Application.Entities.Notes.Commands.ReviveNote;
 using Notes.Application.Entities.Notes.Commands.UpdateNote;
 using Notes.Application.Entities.Notes.Queries.GetNoteById;
 using Notes.Application.Entities.Notes.Queries.ListFlaggedForDeletionNotes;
@@ -99,6 +100,18 @@ public class NotesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new DeleteNoteCommand(noteId));
         var response = result.Adapt<DeleteNoteResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpPost("Entity/Deleted/Revive/{noteId}")]
+    [ProducesResponseType(typeof(ReviveNoteResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ReviveNoteResponse>> Revive([FromRoute] string noteId)
+    {
+        var result = await sender.Send(new ReviveNoteCommand(noteId));
+        var response = result.Adapt<ReviveNoteResponse>();
 
         return Ok(response);
     }
