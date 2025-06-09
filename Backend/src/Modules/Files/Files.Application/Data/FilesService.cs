@@ -127,4 +127,9 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
     {
         await filesRepository.DeleteFileAssetsByNodeIds(nodeIds, cancellationToken);
     }
+
+    public async Task ReviveFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)
+    {
+        await filesRepository.ReviveFileAsset(fileAssetId, cancellationToken);
+    }
 }
