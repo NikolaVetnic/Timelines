@@ -129,6 +129,17 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
         }
     }
 
+    public async Task ReviveNoteAsync(NoteId noteId, CancellationToken cancellationToken)
+    {
+        var noteToDelete = await dbContext.Notes
+            .FirstAsync(n => n.Id == noteId && n.OwnerId == currentUser.UserId!, cancellationToken);
+
+        noteToDelete.Revive();
+
+        dbContext.Notes.Update(noteToDelete);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<IEnumerable<Note>> GetNotesBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         return await dbContext.Notes
