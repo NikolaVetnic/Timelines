@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
@@ -53,6 +54,14 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
                    .AsNoTracking()
                    .SingleOrDefaultAsync(r => r.Id == reminderId && r.OwnerId == currentUser.UserId! && r.IsDeleted == false, cancellationToken) ??
                throw new ReminderNotFoundException(reminderId.ToString());
+    }
+
+    public async Task<long> CountRemindersAsync(Expression<Func<Reminder, bool>> predicate, CancellationToken cancellationToken)
+    {
+        return await dbContext.Reminders
+            .Where(r => r.OwnerId == currentUser.UserId!)
+            .Where(predicate)
+            .LongCountAsync(cancellationToken);
     }
 
     public async Task<long> CountAllRemindersAsync(CancellationToken cancellationToken)
