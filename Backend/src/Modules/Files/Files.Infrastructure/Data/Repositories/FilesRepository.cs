@@ -4,7 +4,6 @@ using BuildingBlocks.Domain.Files.File.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Files.Application.Data.Abstractions;
 using Files.Application.Entities.Files.Exceptions;
-using Files.Domain.Models;
 
 namespace Files.Infrastructure.Data.Repositories;
 
@@ -69,13 +68,6 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
             .Where(n => n.OwnerId == currentUser.UserId)
             .Where(predicate)
             .LongCountAsync(cancellationToken);
-    }
-
-    public async Task<long> CountAllFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
-    {
-        return await dbContext.FileAssets
-            .Where(f => f.OwnerId == currentUser.UserId!)
-            .LongCountAsync(f => f.NodeId == nodeId, cancellationToken);
     }
 
     public async Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)
