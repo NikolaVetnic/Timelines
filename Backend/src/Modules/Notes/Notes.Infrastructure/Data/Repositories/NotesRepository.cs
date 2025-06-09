@@ -30,20 +30,6 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
             .LongCountAsync(cancellationToken);
     }
 
-    public async Task<long> CountAllNotesAsync(CancellationToken cancellationToken)
-    {
-        return await dbContext.Notes
-            .Where(n => n.OwnerId == currentUser.UserId!)
-            .LongCountAsync(cancellationToken);
-    }
-
-    public async Task<long> CountAllNotesByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
-    {
-        return await dbContext.Notes
-            .Where(n => n.OwnerId == currentUser.UserId!)
-            .LongCountAsync(n => n.NodeId == nodeId, cancellationToken);
-    }
-
     #endregion
 
     #region Get
