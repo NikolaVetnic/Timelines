@@ -19,7 +19,7 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
     {
         var nodes = await NodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
 
-        var fileAssets = await filesRepository.ListFileAssetsPaginatedAsync(pageIndex, pageSize, cancellationToken);
+        var fileAssets = await filesRepository.ListFileAssetsPaginatedAsync(f => !f.IsDeleted, pageIndex, pageSize, cancellationToken);
 
         var fileAssetsDtos = fileAssets.Select(f =>
             f.ToFileAssetDto(
@@ -33,7 +33,7 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
     {
         var nodes = await NodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
 
-        var fileAssets = await filesRepository.ListFlaggedForDeletionFileAssetsPaginatedAsync(pageIndex, pageSize, cancellationToken);
+        var fileAssets = await filesRepository.ListFileAssetsPaginatedAsync(f => f.IsDeleted, pageIndex, pageSize, cancellationToken);
 
         var fileAssetsDtos = fileAssets.Select(f =>
             f.ToFileAssetDto(
@@ -45,7 +45,7 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
 
     public async Task<List<FileAssetBaseDto>> ListFileAssetsByNodeIdPaginated(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
-        var fileAssets = await filesRepository.ListFileAssetsByNodeIdPaginatedAsync(nodeId, pageIndex, pageSize, cancellationToken);
+        var fileAssets = await filesRepository.ListFileAssetsPaginatedAsync(f => f.NodeId == nodeId, pageIndex, pageSize, cancellationToken);
 
         var fileAssetsDtos = fileAssets
             .Select(f => f.ToFileAssetBaseDto())
