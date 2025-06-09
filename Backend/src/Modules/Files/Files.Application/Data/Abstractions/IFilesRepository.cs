@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.Domain.Files.File.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
+using System.Linq.Expressions;
 
 namespace Files.Application.Data.Abstractions;
 
@@ -12,7 +13,7 @@ public interface IFilesRepository
     Task<List<FileAsset>> ListFileAssetsByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<FileAsset> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken);
     Task UpdateFileAssetAsync(FileAsset fileAsset, CancellationToken cancellationToken);
-    Task<long> CountFileAssetsAsync(CancellationToken cancellationToken);
+    Task<long> CountFileAssetsAsync(Expression<Func<FileAsset, bool>> predicate, CancellationToken cancellationToken);
     Task<long> CountAllFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken);
 
     Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken);
