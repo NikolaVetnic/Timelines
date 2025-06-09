@@ -10,8 +10,6 @@ public interface INotesRepository
 
     Task<List<Note>> ListNotesPaginatedAsync(Expression<Func<Note, bool>> predicate, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<long> CountNotesAsync(Expression<Func<Note, bool>> predicate, CancellationToken cancellationToken);
-    Task<long> CountAllNotesAsync(CancellationToken cancellationToken);
-    Task<long> CountAllNotesByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken);
 
     Task<Note> GetNoteByIdAsync(NoteId noteId, CancellationToken cancellationToken);
     Task<List<Note>> GetNotesByIdsAsync(IEnumerable<NoteId> noteIds, CancellationToken cancellationToken);
