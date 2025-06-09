@@ -15,12 +15,13 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<List<Reminder>> ListRemindersPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    public async Task<List<Reminder>> ListRemindersPaginatedAsync(Expression<Func<Reminder, bool>> predicate, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.Reminders
             .AsNoTracking()
             .OrderBy(r => r.NotifyAt)
-            .Where(r => r.OwnerId == currentUser.UserId! && r.IsDeleted == false)
+            .Where(r => r.OwnerId == currentUser.UserId)
+            .Where(predicate)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
