@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Application.Data;
+﻿using System.Linq.Expressions;
+using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Files.File.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Files.Application.Data.Abstractions;
@@ -62,10 +63,11 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<long> CountFileAssetsAsync(CancellationToken cancellationToken)
+    public async Task<long> CountFileAssetsAsync(Expression<Func<FileAsset, bool>> predicate, CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets
-            .Where(f => f.OwnerId == currentUser.UserId!)
+            .Where(n => n.OwnerId == currentUser.UserId)
+            .Where(predicate)
             .LongCountAsync(cancellationToken);
     }
 
