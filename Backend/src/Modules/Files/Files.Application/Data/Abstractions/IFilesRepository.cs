@@ -12,7 +12,7 @@ public interface IFilesRepository
     Task<List<FileAsset>> ListFileAssetsByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<FileAsset> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken);
     Task UpdateFileAssetAsync(FileAsset fileAsset, CancellationToken cancellationToken);
-    Task<long> CountAllFileAssetsAsync(CancellationToken cancellationToken);
+    Task<long> CountFileAssetsAsync(CancellationToken cancellationToken);
     Task<long> CountAllFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken);
 
     Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken);
