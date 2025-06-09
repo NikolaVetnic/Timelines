@@ -8,7 +8,7 @@ public interface IFilesRepository
 {
     Task AddFileAssetAsync(FileAsset fileAsset, CancellationToken cancellationToken);
 
-    Task<List<FileAsset>> ListFileAssetsPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
+    Task<List<FileAsset>> ListFileAssetsPaginatedAsync(Expression<Func<FileAsset, bool>> predicate, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<FileAsset>> ListFlaggedForDeletionFileAssetsPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<FileAsset>> ListFileAssetsByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<long> CountFileAssetsAsync(Expression<Func<FileAsset, bool>> predicate, CancellationToken cancellationToken);
