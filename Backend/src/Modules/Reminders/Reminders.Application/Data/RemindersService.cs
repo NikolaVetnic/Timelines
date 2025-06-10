@@ -106,4 +106,9 @@ public class RemindersService(IServiceProvider serviceProvider, IRemindersReposi
     {
         await remindersRepository.DeleteRemindersByNodeIds(nodeIds, cancellationToken);
     }
+
+    public async Task ReviveReminder(ReminderId reminderId, CancellationToken cancellationToken)
+    {
+        await remindersRepository.ReviveReminder(reminderId, cancellationToken);
+    }
 }
