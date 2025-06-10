@@ -100,6 +100,17 @@ public class NodesRepository(ICurrentUser currentUser, INodesDbContext dbContext
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task ReviveNode(NodeId nodeId, CancellationToken cancellationToken = default)
+    {
+        var nodeToDelete = await dbContext.Nodes
+            .FirstAsync(n => n.Id == nodeId, cancellationToken);
+
+        nodeToDelete.Revive();
+
+        dbContext.Nodes.Update(nodeToDelete);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     #region Relationships
 
     public async Task<IEnumerable<Node>> GetNodesBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken)
