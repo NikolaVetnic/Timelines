@@ -12,6 +12,7 @@ using Nodes.Application.Entities.Nodes.Queries.ListRemindersByNodeId;
 using System;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Nodes.Application.Entities.Nodes.Commands.DeleteNode;
+using Nodes.Application.Entities.Nodes.Commands.ReviveNode;
 using Nodes.Application.Entities.Nodes.Commands.UpdateNode;
 using Nodes.Application.Entities.Nodes.Queries.ListFlaggedForDeletionNodes;
 
@@ -136,6 +137,18 @@ public class NodesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new DeleteNodeCommand(nodeId));
         var response = result.Adapt<DeleteNodeResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpPost("Entity/Deleted/Revive/{nodeId}")]
+    [ProducesResponseType(typeof(ReviveNodeResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ReviveNodeResponse>> Revive([FromRoute] string nodeId)
+    {
+        var result = await sender.Send(new ReviveNodeCommand(nodeId));
+        var response = result.Adapt<ReviveNodeResponse>();
 
         return Ok(response);
     }
