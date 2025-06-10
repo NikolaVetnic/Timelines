@@ -15,6 +15,8 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
+    #region List
+
     public async Task<List<Reminder>> ListRemindersPaginatedAsync(Expression<Func<Reminder, bool>> predicate, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.Reminders
@@ -27,20 +29,24 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<Reminder> GetReminderByIdAsync(ReminderId reminderId, CancellationToken cancellationToken)
-    {
-        return await dbContext.Reminders
-                   .AsNoTracking()
-                   .SingleOrDefaultAsync(r => r.Id == reminderId && r.OwnerId == currentUser.UserId! && r.IsDeleted == false, cancellationToken) ??
-               throw new ReminderNotFoundException(reminderId.ToString());
-    }
-
     public async Task<long> CountRemindersAsync(Expression<Func<Reminder, bool>> predicate, CancellationToken cancellationToken)
     {
         return await dbContext.Reminders
             .Where(r => r.OwnerId == currentUser.UserId!)
             .Where(predicate)
             .LongCountAsync(cancellationToken);
+    }
+
+    #endregion
+
+    #region Get
+
+    public async Task<Reminder> GetReminderByIdAsync(ReminderId reminderId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Reminders
+                   .AsNoTracking()
+                   .SingleOrDefaultAsync(r => r.Id == reminderId && r.OwnerId == currentUser.UserId! && r.IsDeleted == false, cancellationToken) ??
+               throw new ReminderNotFoundException(reminderId.ToString());
     }
 
     public async Task<IEnumerable<Reminder>> GetRemindersBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
@@ -50,6 +56,8 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
             .Where(r => nodeIds.Contains(r.NodeId))
             .ToListAsync(cancellationToken: cancellationToken);
     }
+
+    #endregion
 
     public async Task UpdateReminderAsync(Reminder reminder, CancellationToken cancellationToken)
     {
