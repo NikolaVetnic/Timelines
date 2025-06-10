@@ -96,4 +96,15 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
             await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
+
+    public async Task ReviveReminder(ReminderId reminderId, CancellationToken cancellationToken)
+    {
+        var reminderToRevive = await dbContext.Reminders
+            .FirstAsync(r => r.Id == reminderId, cancellationToken);
+
+        reminderToRevive.Revive();
+
+        dbContext.Reminders.Update(reminderToRevive);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
 }
