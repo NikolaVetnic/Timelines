@@ -18,5 +18,7 @@ public interface INodesRepository
     Task DeleteNode(NodeId nodeId, CancellationToken cancellationToken);
     Task DeleteNodes(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
 
+    Task ReviveNode(NodeId nodeId, CancellationToken cancellationToken);
+
     Task<IEnumerable<Node>> GetNodesBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken);
 }
