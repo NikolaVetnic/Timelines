@@ -104,7 +104,7 @@ public class RemindersController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpDelete("Entity/Deleted/Revive/{reminderId}")]
+    [HttpPost("Entity/Deleted/Revive/{reminderId}")]
     [ProducesResponseType(typeof(ReviveReminderResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
