@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using Timelines.Application.Entities.Phases.Commands.CreatePhase;
 using Timelines.Application.Entities.Phases.Commands.DeletePhase;
+using Timelines.Application.Entities.Phases.Commands.RevivePhase;
 using Timelines.Application.Entities.Phases.Commands.UpdatePhase;
 using Timelines.Application.Entities.Phases.Queries.GetPhaseById;
 using Timelines.Application.Entities.Phases.Queries.ListNodesByPhaseId;
@@ -107,6 +108,18 @@ public class PhasesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new DeletePhaseCommand(phaseId));
         var response = result.Adapt<DeletePhaseResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpPost("Entity/Deleted/Revive{phaseId}")]
+    [ProducesResponseType(typeof(RevivePhaseResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<RevivePhaseResponse>> Revive([FromRoute] string phaseId)
+    {
+        var result = await sender.Send(new RevivePhaseCommand(phaseId));
+        var response = result.Adapt<RevivePhaseResponse>();
 
         return Ok(response);
     }
