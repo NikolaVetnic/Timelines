@@ -150,9 +150,9 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
         return timelineBaseDto;
     }
     #endregion
-    
+
     #region Nodes
-    
+
     public async Task AddNode(TimelineId timelineId, NodeId nodeId, CancellationToken cancellationToken)
     {
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
@@ -172,11 +172,11 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
             timeline.RemoveNode(nodeId);
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
     }
-    
+
     #endregion
 
     #region Phases
-    
+
     public async Task AddPhase(TimelineId timelineId, PhaseId phaseId, CancellationToken cancellationToken)
     {
         var timeline = await timelinesRepository.GetTimelineByIdAsync(timelineId, cancellationToken);
@@ -199,9 +199,9 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
             timeline.RemovePhase(phaseId);
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
     }
-    
+
     #endregion
-    
+
     #region PhysicalPersons
 
     public async Task AddPhysicalPerson(TimelineId timelineId, PhysicalPersonId physicalPersonId, CancellationToken cancellationToken)
@@ -227,7 +227,7 @@ public class TimelinesService(IServiceProvider serviceProvider, ITimelinesReposi
             timeline.RemovePhysicalPerson(physicalPersonId);
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
     }
-    
+
     #endregion
 
     #region Relationships

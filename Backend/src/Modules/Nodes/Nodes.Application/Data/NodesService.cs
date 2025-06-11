@@ -157,7 +157,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task<List<NodeBaseDto>> ListNodesByTimelineIdPaginated(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
-        var nodes = await nodesRepository.ListNodesPaginatedAsync( pageIndex, pageSize, n => n.TimelineId == timelineId && !n.IsDeleted, cancellationToken);
+        var nodes = await nodesRepository.ListNodesPaginatedAsync(pageIndex, pageSize, n => n.TimelineId == timelineId && !n.IsDeleted, cancellationToken);
 
         var nodesDtos = nodes
             .Select(n => n.ToNodeBaseDto())
@@ -187,7 +187,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task<long> CountAllNodesAsync(CancellationToken cancellationToken)
     {
-        return await nodesRepository.CountNodesAsync(n => true ,cancellationToken);
+        return await nodesRepository.CountNodesAsync(n => true, cancellationToken);
     }
 
     public async Task<long> CountAllNodesByTimelineIdAsync(TimelineId timelineId, CancellationToken cancellationToken)
@@ -197,7 +197,7 @@ public class NodesService(IServiceProvider serviceProvider, INodesRepository nod
 
     public async Task<long> CountNodesBelongingToPhase(DateTime startDate, DateTime? endDate, CancellationToken cancellationToken)
     {
-        return await nodesRepository.CountNodesAsync(n => n.CreatedAt >= startDate && n.CreatedAt <=  endDate, cancellationToken);
+        return await nodesRepository.CountNodesAsync(n => n.CreatedAt >= startDate && n.CreatedAt <= endDate, cancellationToken);
     }
 
     public async Task EnsureNodeBelongsToOwner(NodeId nodeId, CancellationToken cancellationToken)

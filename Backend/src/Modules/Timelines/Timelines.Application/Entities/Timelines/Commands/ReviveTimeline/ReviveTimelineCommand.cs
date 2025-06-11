@@ -3,7 +3,7 @@ using Timelines.Application.Entities.Timelines.Commands.DeleteTimeline;
 
 namespace Timelines.Application.Entities.Timelines.Commands.ReviveTimeline;
 
-public record ReviveTimelineCommand(TimelineId  Id) : ICommand<ReviveTimelineResponse>
+public record ReviveTimelineCommand(TimelineId Id) : ICommand<ReviveTimelineResponse>
 {
     public ReviveTimelineCommand(string Id) : this(TimelineId.Of(Guid.Parse(Id))) { }
 }

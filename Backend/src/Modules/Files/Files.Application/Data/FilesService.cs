@@ -56,7 +56,7 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
 
     public async Task<long> CountFileAssetsAsync(CancellationToken cancellationToken)
     {
-        return await filesRepository.CountFileAssetsAsync(n => true ,cancellationToken);
+        return await filesRepository.CountFileAssetsAsync(n => true, cancellationToken);
     }
 
     public async Task<long> CountFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
@@ -105,7 +105,7 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
         return await filesRepository.CountFileAssetsAsync(f => f.NodeId == nodeId, cancellationToken);
     }
 
-#endregion
+    #endregion
 
     public async Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)
     {
