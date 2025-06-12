@@ -10,6 +10,7 @@ public interface IRemindersRepository
 
     Task<List<Reminder>> ListRemindersPaginatedAsync(Expression<Func<Reminder, bool>> predicate, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<Reminder> GetReminderByIdAsync(ReminderId reminderId, CancellationToken cancellationToken);
+    Task<Reminder> GetFlaggedForDeletionReminderByIdAsync(ReminderId reminderId, CancellationToken cancellationToken);
     Task<long> CountRemindersAsync(Expression<Func<Reminder, bool>> predicate, CancellationToken cancellationToken);
 
     Task<IEnumerable<Reminder>> GetRemindersBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
