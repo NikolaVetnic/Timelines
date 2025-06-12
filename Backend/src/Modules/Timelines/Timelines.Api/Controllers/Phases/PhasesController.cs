@@ -124,7 +124,7 @@ public class PhasesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("Entity/Deleted/Revive{phaseId}")]
+    [HttpPost("Entity/Deleted/Revive/{phaseId}")]
     [ProducesResponseType(typeof(RevivePhaseResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
