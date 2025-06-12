@@ -104,7 +104,7 @@ public class FilesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("Entity/Deleted/Revive{fileId}")]
+    [HttpPost("Entity/Deleted/Revive/{fileId}")]
     [ProducesResponseType(typeof(ReviveFileAssetResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
