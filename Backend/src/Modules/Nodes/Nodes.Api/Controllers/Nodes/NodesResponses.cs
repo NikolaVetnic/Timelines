@@ -24,4 +24,4 @@ public record UpdateNodeResponse(NodeBaseDto Node);
 
 public record DeleteNodeResponse(bool NodeDeleted);
 
-public record ReviveNodeResponse(bool NodeDeleted);
+public record ReviveNodeResponse(bool NodeRevived);
