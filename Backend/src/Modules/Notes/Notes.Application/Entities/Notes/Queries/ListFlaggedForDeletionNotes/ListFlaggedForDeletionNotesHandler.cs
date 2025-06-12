@@ -10,7 +10,7 @@ internal class ListFlaggedForDeletionNotesHandler(INotesService notesService) : 
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var notes = await notesService.ListNotesPaginated(pageIndex, pageSize, cancellationToken);
+        var notes = await notesService.ListFlaggedForDeletionNotesPaginated(pageIndex, pageSize, cancellationToken);
 
         var totalCount = notes.Count;
 
