@@ -35,6 +35,14 @@ public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbCo
                throw new PhaseNotFoundException(phaseId.ToString());
     }
 
+    public async Task<Phase> GetPhaseByIdBaseAsync(PhaseId phaseId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Phases
+                   .AsNoTracking()
+                   .SingleOrDefaultAsync(p => p.Id == phaseId, cancellationToken) ??
+               throw new PhaseNotFoundException(phaseId.ToString());
+    }
+
     public async Task<List<Phase>> GetPhasesByIdsAsync(IEnumerable<PhaseId> phaseIds, CancellationToken cancellationToken)
     {
         return await dbContext.Phases
