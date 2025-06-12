@@ -36,7 +36,7 @@ public class TimelinesController(ISender sender) : ControllerBase
     [HttpGet("Entity/Deleted")]
     [ProducesResponseType(typeof(ListTimelinesResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ListFlaggedForDeletionTimelinesResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
+    public async Task<ActionResult<ListTimelinesResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
     {
         var result = await sender.Send(new ListFlaggedForDeletionTimelinesQuery(query));
         var response = result.Adapt<ListTimelinesResponse>();
