@@ -17,4 +17,4 @@ public record UpdatePhaseResponse(PhaseBaseDto Phase);
 
 public record DeletePhaseResponse(bool PhaseDeleted);
 
-public record RevivePhaseResponse(bool PhaseDeleted);
+public record RevivePhaseResponse(bool PhaseRevived);
