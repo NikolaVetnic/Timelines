@@ -10,6 +10,7 @@ using Timelines.Application.Entities.Phases.Commands.DeletePhase;
 using Timelines.Application.Entities.Phases.Commands.RevivePhase;
 using Timelines.Application.Entities.Phases.Commands.UpdatePhase;
 using Timelines.Application.Entities.Phases.Queries.GetPhaseById;
+using Timelines.Application.Entities.Phases.Queries.ListFlaggedForDeletionPhases;
 using Timelines.Application.Entities.Phases.Queries.ListNodesByPhaseId;
 using Timelines.Application.Entities.Phases.Queries.ListPhases;
 
@@ -55,6 +56,17 @@ public class PhasesController(ISender sender) : ControllerBase
     public async Task<ActionResult<ListPhasesResponse>> List([FromQuery] PaginationRequest query)
     {
         var result = await sender.Send(new ListPhasesQuery(query));
+        var response = result.Adapt<ListPhasesResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet("Entity/Deleted")]
+    [ProducesResponseType(typeof(ListPhasesResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListPhasesResponse>> ListFlaggedForDeletion([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListFlaggedForDeletionPhasesQuery(query));
         var response = result.Adapt<ListPhasesResponse>();
 
         return Ok(response);
