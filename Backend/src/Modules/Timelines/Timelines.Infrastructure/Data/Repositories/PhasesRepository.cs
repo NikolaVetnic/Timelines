@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Application.Data;
+﻿using System.Linq.Expressions;
+using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
 using Timelines.Application.Data.Abstractions;
@@ -8,12 +9,13 @@ namespace Timelines.Infrastructure.Data.Repositories;
 
 public class PhasesRepository(ICurrentUser currentUser, ITimelinesDbContext dbContext) : IPhasesRepository
 {
-    public async Task<List<Phase>> ListPhasesPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    public async Task<List<Phase>> ListPhasesPaginatedAsync(Expression<Func<Phase, bool>> predicate, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.Phases
             .AsNoTracking()
             .OrderBy(p => p.CreatedBy)
-            .Where(p => p.OwnerId == currentUser.UserId! && !p.IsDeleted)
+            .Where(p => p.OwnerId == currentUser.UserId)
+            .Where(predicate)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
