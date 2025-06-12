@@ -49,6 +49,14 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
                throw new ReminderNotFoundException(reminderId.ToString());
     }
 
+    public async Task<Reminder> GetFlaggedForDeletionReminderByIdAsync(ReminderId reminderId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Reminders
+                   .AsNoTracking()
+                   .SingleOrDefaultAsync(r => r.Id == reminderId && r.OwnerId == currentUser.UserId! && r.IsDeleted, cancellationToken) ??
+               throw new ReminderNotFoundException(reminderId.ToString());
+    }
+
     public async Task<IEnumerable<Reminder>> GetRemindersBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         return await dbContext.Reminders
