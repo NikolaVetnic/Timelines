@@ -6,8 +6,8 @@ internal class RevivePhaseHandler(IPhasesRepository phasesRepository) : ICommand
 {
     public async Task<RevivePhaseResult> Handle(RevivePhaseCommand command, CancellationToken cancellationToken)
     {
-        var phase = await phasesRepository.GetPhaseByIdAsync(command.Id, cancellationToken);
-        await phasesRepository.DeletePhaseAsync(phase.Id, cancellationToken);
+        var phase = await phasesRepository.GetPhaseByIdBaseAsync(command.Id, cancellationToken);
+        await phasesRepository.RevivePhaseAsync(phase.Id, cancellationToken);
 
         return new RevivePhaseResult(true);
     }
