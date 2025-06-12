@@ -13,3 +13,5 @@ public record ListNotesResponse(PaginatedResult<NoteDto> Notes);
 public record UpdateNoteResponse(NoteDto Note);
 
 public record DeleteNoteResponse(bool NoteDeleted);
+
+public record ReviveNoteResponse(bool NoteRevived);
