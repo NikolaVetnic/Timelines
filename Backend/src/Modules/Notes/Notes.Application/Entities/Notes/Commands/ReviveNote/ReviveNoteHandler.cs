@@ -3,9 +3,9 @@ using Notes.Application.Entities.Notes.Exceptions;
 
 namespace Notes.Application.Entities.Notes.Commands.ReviveNote;
 
-internal class ReviveNoteHandler(INotesService notesService) : ICommandHandler<ReviveNoteCommand, ReviveNoteResponse>
+internal class ReviveNoteHandler(INotesService notesService) : ICommandHandler<ReviveNoteCommand, ReviveNoteResult>
 {
-    public async Task<ReviveNoteResponse> Handle(ReviveNoteCommand command, CancellationToken cancellationToken)
+    public async Task<ReviveNoteResult> Handle(ReviveNoteCommand command, CancellationToken cancellationToken)
     {
         var note = await notesService.GetNoteBaseByIdAsync(command.Id, cancellationToken);
 
@@ -14,6 +14,6 @@ internal class ReviveNoteHandler(INotesService notesService) : ICommandHandler<R
 
         await notesService.ReviveNote(command.Id, cancellationToken);
 
-        return new ReviveNoteResponse(true);
+        return new ReviveNoteResult(true);
     }
 }
