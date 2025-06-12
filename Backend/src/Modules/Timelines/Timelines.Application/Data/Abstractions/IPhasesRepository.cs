@@ -10,6 +10,7 @@ public interface IPhasesRepository
 
     Task<List<Phase>> ListPhasesPaginatedAsync(Expression<Func<Phase, bool>> predicate, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<Phase> GetPhaseByIdAsync(PhaseId phaseId, CancellationToken cancellationToken);
+    Task<Phase> GetPhaseByIdBaseAsync(PhaseId phaseId, CancellationToken cancellationToken);
     Task<List<Phase>> GetPhasesByIdsAsync(IEnumerable<PhaseId> phaseIds, CancellationToken cancellationToken);
 
     Task<IEnumerable<Phase>> GetPhasesBelongingToTimelineIdsAsync(IEnumerable<TimelineId> timelineIds, CancellationToken cancellationToken);
