@@ -34,10 +34,10 @@ public class CreateReminderCommandValidator : AbstractValidator<CreateReminderCo
 
         RuleFor(x => x.Priority)
             .NotEmpty().WithMessage("Priority is required.");
-        
+
         RuleFor(x => x.ColorHex)
             .NotEmpty().WithMessage("Color is required.");
-        
+
         RuleFor(x => x.NodeId)
             .NotEmpty().WithMessage("NodeId is required.");
     }

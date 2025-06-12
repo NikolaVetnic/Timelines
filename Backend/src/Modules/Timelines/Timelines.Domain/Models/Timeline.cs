@@ -77,7 +77,7 @@ public class Timeline : Aggregate<TimelineId>
     }
 
     #endregion
-    
+
     #region PhysicalPersons
 
     public void AddPhysicalPerson(PhysicalPersonId physicalPersonId)
@@ -91,7 +91,7 @@ public class Timeline : Aggregate<TimelineId>
         if (PhysicalPersonIds.Contains(physicalPersonId))
             PhysicalPersonIds.Remove(physicalPersonId);
     }
-    
+
     #endregion
 }
 

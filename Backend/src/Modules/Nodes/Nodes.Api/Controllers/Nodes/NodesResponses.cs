@@ -23,3 +23,5 @@ public record ListRemindersByNodeIdResponse(PaginatedResult<ReminderBaseDto> Rem
 public record UpdateNodeResponse(NodeBaseDto Node);
 
 public record DeleteNodeResponse(bool NodeDeleted);
+
+public record ReviveNodeResponse(bool NodeRevived);

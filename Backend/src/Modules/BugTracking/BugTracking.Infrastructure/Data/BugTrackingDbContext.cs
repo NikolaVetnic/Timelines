@@ -9,7 +9,7 @@ public class BugTrackingDbContext(DbContextOptions<BugTrackingDbContext> options
     DbContext(options), IBugTrackingDbContext
 {
     public DbSet<BugReport> BugReports { get; init; }
-    
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

@@ -14,3 +14,5 @@ public record ListFileAssetsResponse(PaginatedResult<FileAssetDto> FileAssets);
 public record UpdateFileAssetResponse(FileAssetDto FileAsset);
 
 public record DeleteFileAssetResponse(bool FileDeleted);
+
+public record ReviveFileAssetResponse(bool FileRevived);

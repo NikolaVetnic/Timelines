@@ -22,7 +22,7 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
     public RegisterUserCommandValidator()
     {
         RuleFor(x => x.FullName).NotEmpty().WithMessage("Full name is required.");
-        
+
         // ToDo: Add remaining RegisterUser command validators
     }
 }

@@ -20,10 +20,10 @@ public static class ServiceCollectionExtensions
         });
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        
-        services.AddHttpContextAccessor();  
+
+        services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUser, CurrentUser>();
-        
+
         services.AddScoped<ITokenService, TokenService>();
 
         return services;

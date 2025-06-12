@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Application.Data;
+﻿using System.Linq.Expressions;
+using BuildingBlocks.Application.Data;
 using BuildingBlocks.Domain.Files.File.ValueObjects;
 using BuildingBlocks.Domain.Nodes.Node.ValueObjects;
 using Files.Application.Data.Abstractions;
@@ -14,26 +15,16 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<List<FileAsset>> ListFileAssetsPaginatedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    public async Task<List<FileAsset>> ListFileAssetsPaginatedAsync(Expression<Func<FileAsset, bool>> predicate, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets
             .AsNoTracking()
-            .OrderBy(f => f.CreatedBy)
-            .Where(f => f.OwnerId == currentUser.UserId! && f.IsDeleted == false)
+            .OrderBy(f => f.CreatedAt)
+            .Where(f => f.OwnerId == currentUser.UserId)
+            .Where(predicate)
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
             .ToListAsync(cancellationToken: cancellationToken);
-    }
-
-    public async Task<List<FileAsset>> ListFileAssetsByNodeIdPaginatedAsync(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
-    {
-        return await dbContext.FileAssets
-            .AsNoTracking()
-            .Where(f => f.NodeId == nodeId && f.OwnerId == currentUser.UserId! && !f.IsDeleted)
-            .OrderBy(f => f.CreatedAt)
-            .Skip(pageIndex * pageSize)
-            .Take(pageSize)
-            .ToListAsync(cancellationToken);
     }
 
     public async Task<FileAsset> GetFileAssetByIdAsync(FileAssetId fileAssetId, CancellationToken cancellationToken)
@@ -50,18 +41,12 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<long> CountAllFileAssetsAsync(CancellationToken cancellationToken)
+    public async Task<long> CountFileAssetsAsync(Expression<Func<FileAsset, bool>> predicate, CancellationToken cancellationToken)
     {
         return await dbContext.FileAssets
-            .Where(f => f.OwnerId == currentUser.UserId!)
+            .Where(n => n.OwnerId == currentUser.UserId)
+            .Where(predicate)
             .LongCountAsync(cancellationToken);
-    }
-
-    public async Task<long> CountAllFileAssetsByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
-    {
-        return await dbContext.FileAssets
-            .Where(f => f.OwnerId == currentUser.UserId!)
-            .LongCountAsync(f => f.NodeId == nodeId, cancellationToken);
     }
 
     public async Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)
@@ -102,6 +87,17 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
             dbContext.FileAssets.UpdateRange(fileAssetsToDelete);
             await dbContext.SaveChangesAsync(cancellationToken);
         }
+    }
+
+    public async Task ReviveFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)
+    {
+        var fileAssetToDelete = await dbContext.FileAssets
+            .FirstAsync(f => f.Id == fileAssetId, cancellationToken);
+
+        fileAssetToDelete.Revive();
+
+        dbContext.FileAssets.Update(fileAssetToDelete);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<IEnumerable<FileAsset>> GetFileAssetsBaseBelongingToNodeIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)

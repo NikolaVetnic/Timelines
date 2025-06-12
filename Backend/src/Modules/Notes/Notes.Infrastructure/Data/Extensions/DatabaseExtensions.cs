@@ -23,7 +23,7 @@ public static class DatabaseExtensions
         await context.AddRangeAsync(InitialData.Notes);
         await context.SaveChangesAsync();
     }
-    
+
     public static async Task MigrateNotesDatabaseAsync(this IServiceProvider services)
     {
         using var scope = services.CreateScope();

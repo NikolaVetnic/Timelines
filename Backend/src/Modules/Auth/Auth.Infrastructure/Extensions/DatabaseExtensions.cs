@@ -32,9 +32,9 @@ public static class DatabaseExtensions
 
         foreach (var seededUser in InitialData.SeededUsers)
         {
-            if (await userManager.FindByNameAsync(seededUser.Username) is not null) 
+            if (await userManager.FindByNameAsync(seededUser.Username) is not null)
                 continue;
-            
+
             var user = new ApplicationUser
             {
                 Id = seededUser.Id,
@@ -45,11 +45,11 @@ public static class DatabaseExtensions
 
             var result = await userManager.CreateAsync(user, seededUser.Password);
 
-            if (result.Succeeded) 
+            if (result.Succeeded)
                 continue;
-            
+
             var errors = string.Join("; ", result.Errors.Select(e => e.Description));
-            
+
             throw new InvalidOperationException($"Seeding {seededUser.Username} failed: {errors}");
         }
     }

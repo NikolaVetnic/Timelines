@@ -26,4 +26,11 @@ public abstract class Aggregate<TId> : Entity<TId>, IAggregate<TId>
         DeletedAt = DateTime.UtcNow;
         DeletedBy = deletedBy;
     }
+
+    public virtual void Revive()
+    {
+        IsDeleted = false;
+        DeletedAt = null;
+        DeletedBy = null;
+    }
 }

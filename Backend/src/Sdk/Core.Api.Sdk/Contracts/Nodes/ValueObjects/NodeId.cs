@@ -7,7 +7,7 @@ namespace Core.Api.Sdk.Contracts.Nodes.ValueObjects;
 public class NodeId
 {
     public NodeId() { }
-    
+
     public NodeId(Guid value) => Value = value;
 
     public Guid Value { get; init; }

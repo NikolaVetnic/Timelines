@@ -11,7 +11,7 @@ internal class CreatePhysicalPersonHandler(ICurrentUser currentUser, IPhysicalPe
     {
         var userId = currentUser.UserId!;
         var physicalPerson = command.ToPhysicalPerson(userId);
-        
+
         await timelinesService.EnsureTimelineBelongsToOwner(physicalPerson.TimelineId, cancellationToken);
         await physicalPersonsRepository.CreatePhysicalPersonAsync(physicalPerson, cancellationToken);
         await timelinesService.AddPhysicalPerson(physicalPerson.TimelineId, physicalPerson.Id, cancellationToken);

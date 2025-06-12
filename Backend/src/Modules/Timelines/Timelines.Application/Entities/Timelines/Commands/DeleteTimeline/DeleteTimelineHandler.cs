@@ -10,10 +10,10 @@ internal class DeleteTimelineHandler(INodesService nodesService, IPhasesService 
     public async Task<DeleteTimelineResult> Handle(DeleteTimelineCommand command, CancellationToken cancellationToken)
     {
         var timeline = await timelinesRepository.GetTimelineByIdAsync(command.Id, cancellationToken);
-        
+
         if (timeline is null)
             throw new TimelineNotFoundException(command.Id.ToString());
-        
+
         await nodesService.DeleteNodes(timeline.Id, timeline.NodeIds, cancellationToken);
         await phasesService.DeletePhases(timeline.Id, timeline.PhaseIds, cancellationToken);
         await timelinesRepository.DeleteTimeline(timeline.Id, cancellationToken);

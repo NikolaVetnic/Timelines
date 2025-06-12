@@ -13,7 +13,7 @@ internal class ListPhysicalPersonsHandler(IPhysicalPersonsRepository physicalPer
     {
         var physicalPersons = await physicalPersonsRepository.ListPhysicalPersonsAsync(query.TimelineId, cancellationToken);
         var timeline = await timelinesService.GetTimelineBaseByIdAsync(physicalPersons[0].TimelineId, cancellationToken);
-        
+
         var physicalPersonDtos = physicalPersons.Select(p => p.ToPhysicalPersonDto(timeline)).ToList();
 
         return new ListPhysicalPersonsResult(physicalPersonDtos);

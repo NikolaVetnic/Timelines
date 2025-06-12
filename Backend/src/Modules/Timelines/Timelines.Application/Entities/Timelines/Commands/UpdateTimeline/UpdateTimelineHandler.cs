@@ -13,12 +13,12 @@ internal class UpdateTimelineHandler(ITimelinesRepository timelinesRepository)
 
         if (timeline is null)
             throw new TimelineNotFoundException(command.Id.ToString());
-        
+
         timeline.Title = command.Title ?? timeline.Title;
         timeline.Description = command.Description ?? timeline.Description;
 
         await timelinesRepository.UpdateTimelineAsync(timeline, cancellationToken);
-        
+
         return new UpdateTimelineResult(timeline.ToTimelineDto());
     }
 }

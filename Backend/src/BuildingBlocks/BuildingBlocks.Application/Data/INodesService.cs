@@ -10,6 +10,7 @@ namespace BuildingBlocks.Application.Data;
 public interface INodesService
 {
     Task<List<NodeDto>> ListNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken);
+    Task<List<NodeDto>> ListFlaggedForDeletionNodesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<NodeBaseDto>> ListNodesByTimelineIdPaginated(TimelineId timelineId, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<NodeBaseDto>> ListNodesBelongingToPhasePaginated(DateTime startDate, DateTime? endDate, int pageIndex, int pageSize, CancellationToken cancellationToken);
     Task<List<NodeBaseDto>> GetNodesByIdsAsync(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken);
@@ -22,7 +23,7 @@ public interface INodesService
     Task<NodeBaseDto> GetNodeBaseByIdAsync(NodeId nodeId, CancellationToken cancellationToken);
 
     Task<NodeId> CloneNodeIntoTimelineAsync(NodeId nodeTemplateId, TimelineId timelineId, CancellationToken cancellationToken);
-    
+
     Task AddReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken);
     Task RemoveReminder(NodeId nodeId, ReminderId reminderId, CancellationToken cancellationToken);
     Task RemoveReminders(NodeId nodeId, IEnumerable<ReminderId> reminderIds, CancellationToken cancellationToken);

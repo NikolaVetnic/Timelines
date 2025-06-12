@@ -14,10 +14,10 @@ internal class ListPhasesHandler(IPhasesRepository phasesRepository, ITimelinesS
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var phases = await phasesRepository.ListPhasesPaginatedAsync(pageIndex, pageSize, cancellationToken);
+        var phases = await phasesRepository.ListPhasesPaginatedAsync(p => !p.IsDeleted, pageIndex, pageSize, cancellationToken);
         var timeline = await timelineService.GetTimelineBaseByIdAsync(phases[0].TimelineId, cancellationToken);
 
-        var phaseDtos = phases.Select(p => p.ToPhaseDto(timeline)).ToList(); 
+        var phaseDtos = phases.Select(p => p.ToPhaseDto(timeline)).ToList();
 
         return new ListPhasesResult(
             new PaginatedResult<PhaseDto>(

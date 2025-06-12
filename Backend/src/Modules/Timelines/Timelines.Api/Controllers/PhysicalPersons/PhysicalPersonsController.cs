@@ -30,7 +30,7 @@ public class PhysicalPersonsController(ISender sender) : ControllerBase
 
         return CreatedAtAction(nameof(Create), new { id = response.Id }, response);
     }
-    
+
     [HttpGet("{physicalPersonId}")]
     [ProducesResponseType(typeof(GetPhysicalPersonByIdResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -47,7 +47,7 @@ public class PhysicalPersonsController(ISender sender) : ControllerBase
 
         return Ok(response);
     }
-    
+
     [HttpGet("Timeline/{timelineId}")]
     [ProducesResponseType(typeof(ListPhysicalPersonsResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -58,7 +58,7 @@ public class PhysicalPersonsController(ISender sender) : ControllerBase
 
         return Ok(response);
     }
-    
+
     [HttpPut("{physicalPersonId}")]
     [ProducesResponseType(typeof(UpdatePhysicalPersonResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -80,13 +80,13 @@ public class PhysicalPersonsController(ISender sender) : ControllerBase
             BankAccountNumber = request.BankAccountNumber,
             Comment = request.Comment
         };
-        
+
         var result = await sender.Send(command);
         var response = result.Adapt<UpdatePhysicalPersonResponse>();
 
         return Ok(response);
     }
-    
+
     [HttpDelete("{physicalPersonId}")]
     [ProducesResponseType(typeof(DeletePhysicalPersonResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

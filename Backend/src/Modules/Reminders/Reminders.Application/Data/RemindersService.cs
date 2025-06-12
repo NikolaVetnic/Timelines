@@ -17,7 +17,7 @@ public class RemindersService(IServiceProvider serviceProvider, IRemindersReposi
     {
         var nodes = await NodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
 
-        var reminders = await remindersRepository.ListRemindersPaginatedAsync(pageIndex, pageSize, cancellationToken);
+        var reminders = await remindersRepository.ListRemindersPaginatedAsync(r => !r.IsDeleted, pageIndex, pageSize, cancellationToken);
 
         var reminderDtos = reminders.Select(n =>
             n.ToReminderDto(
@@ -27,9 +27,23 @@ public class RemindersService(IServiceProvider serviceProvider, IRemindersReposi
         return reminderDtos;
     }
 
+    public async Task<List<ReminderDto>> ListFlaggedForDeletionRemindersPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        var nodes = await NodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
+
+        var reminders = await remindersRepository.ListRemindersPaginatedAsync(r => r.IsDeleted, pageIndex, pageSize, cancellationToken);
+
+        var reminderDtos = reminders.Select(n =>
+            n.ToReminderDto(
+                nodes.First(d => d.Id == n.NodeId.ToString())
+            )).ToList();
+
+        return reminderDtos;
+    }
+
     public async Task<List<ReminderBaseDto>> ListRemindersByNodeIdPaginated(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
-        var reminders = await remindersRepository.ListRemindersByNodeIdPaginatedAsync(nodeId, pageIndex, pageSize, cancellationToken);
+        var reminders = await remindersRepository.ListRemindersPaginatedAsync(r => r.NodeId == nodeId, pageIndex, pageSize, cancellationToken);
 
         var remindersDtos = reminders
             .Select(r => r.ToReminderBaseDto())
@@ -65,12 +79,12 @@ public class RemindersService(IServiceProvider serviceProvider, IRemindersReposi
 
     public async Task<long> CountAllRemindersAsync(CancellationToken cancellationToken)
     {
-        return await remindersRepository.CountAllRemindersAsync(cancellationToken);
+        return await remindersRepository.CountRemindersAsync(r => true, cancellationToken);
     }
 
     public async Task<long> CountAllRemindersByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return await remindersRepository.CountAllRemindersByNodeIdAsync(nodeId, cancellationToken);
+        return await remindersRepository.CountRemindersAsync(r => r.NodeId == nodeId, cancellationToken);
     }
 
     public async Task DeleteReminder(ReminderId reminderId, CancellationToken cancellationToken)
@@ -91,5 +105,10 @@ public class RemindersService(IServiceProvider serviceProvider, IRemindersReposi
     public async Task DeleteRemindersByNodeIds(IEnumerable<NodeId> nodeIds, CancellationToken cancellationToken)
     {
         await remindersRepository.DeleteRemindersByNodeIds(nodeIds, cancellationToken);
+    }
+
+    public async Task ReviveReminder(ReminderId reminderId, CancellationToken cancellationToken)
+    {
+        await remindersRepository.ReviveReminder(reminderId, cancellationToken);
     }
 }
