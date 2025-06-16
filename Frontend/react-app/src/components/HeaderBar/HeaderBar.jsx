@@ -52,6 +52,7 @@ const HeaderBar = ({ onSearch, searchResults, onResultClick }) => {
   const handleLogout = () => {
     logout();
     closeMobileMenu();
+    navigate('/login');
   };
 
   return (
@@ -114,7 +115,7 @@ const HeaderBar = ({ onSearch, searchResults, onResultClick }) => {
           icon={<FaSignOutAlt />}
           iconOnly
           size="small"
-          onClick={logout}
+          onClick={handleLogout}
           className="headbar-logout"
         />
       )}

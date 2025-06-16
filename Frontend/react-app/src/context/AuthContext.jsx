@@ -130,6 +130,8 @@ const login = async (credentials) => {
 
   const handleLogout = (expired = false) => {
     localStorage.removeItem("token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("expires_at");
     setToken(null);
     setUser(null);
     setSessionExpired(expired);
