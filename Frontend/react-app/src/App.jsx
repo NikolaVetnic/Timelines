@@ -19,17 +19,17 @@ import "./styles/App.css";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route errorElement={<ErrorPage />}>
-  <Route path="/login" element={<LoginPage />} />
-  <Route
-    path="/"
-    element={<AuthGuard><AppLayout /></AuthGuard>}
-    handle={{ 
-      crumb: { 
-        title: "Home",
-        static: true
-      } 
-    }}
-  >
+    <Route path="/login" element={<LoginPage />} />
+    <Route
+      path="/"
+      element={<AuthGuard><AppLayout /></AuthGuard>}
+      handle={{ 
+        crumb: { 
+          title: "Home",
+          static: true
+        } 
+      }}
+    >
     <Route index element={<HomePage />} />
     
     <Route
@@ -48,10 +48,10 @@ const router = createBrowserRouter(
   element={<PhysicalPersonDetails />}
   handle={{
     crumb: ({ params }) => ({
-      title: params.personId, // This will be replaced by the actual name
+      title: params.personId,
       dynamic: true,
       personIdParam: 'personId',
-      type: 'person' // Add this to identify person crumbs
+      type: 'person'
     })
   }}
 />
