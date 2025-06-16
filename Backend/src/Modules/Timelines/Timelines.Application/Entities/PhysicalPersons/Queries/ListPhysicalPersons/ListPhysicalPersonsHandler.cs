@@ -12,6 +12,10 @@ internal class ListPhysicalPersonsHandler(IPhysicalPersonsRepository physicalPer
     public async Task<ListPhysicalPersonsResult> Handle(ListPhysicalPersonsQuery query, CancellationToken cancellationToken)
     {
         var physicalPersons = await physicalPersonsRepository.ListPhysicalPersonsAsync(query.TimelineId, cancellationToken);
+        
+        if (!physicalPersons.Any())
+            return new ListPhysicalPersonsResult(new List<PhysicalPersonDto>());
+        
         var timeline = await timelinesService.GetTimelineBaseByIdAsync(physicalPersons[0].TimelineId, cancellationToken);
         
         var physicalPersonDtos = physicalPersons.Select(p => p.ToPhysicalPersonDto(timeline)).ToList();
