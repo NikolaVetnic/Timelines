@@ -106,16 +106,16 @@ useEffect(() => {
 
       <div className="app-content-wrapper">
         <div className="app-content" style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '900px',
-        maxWidth: '100%',
-        backgroundColor: '#fff',
-        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-        padding: '20px 20px 0 20px',
-        height: `calc(100vh - ${footerHeight})`,
-        overflowY: 'auto'
-      }}>
+          display: 'flex',
+          flexDirection: 'column',
+          width: '900px',
+          maxWidth: '100%',
+          backgroundColor: '#fff',
+          boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+          padding: '20px 20px 0 20px',
+          height: `calc(100vh - ${footerHeight})`,
+          overflowY: 'auto'
+        }}>
           <Breadcrumbs crumbs={breadcrumbs} />
           <div className="content-wrapper">
             <Outlet />
