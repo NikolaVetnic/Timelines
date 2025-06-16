@@ -15,11 +15,9 @@ const NotesList = ({
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     try {
-      // Try parsing as ISO format first
       return format(parseISO(dateString), "MMM dd, yyyy - h:mm a");
     } catch (e) {
       try {
-        // Fallback to regular Date parsing
         return format(new Date(dateString), "MMM dd, yyyy - h:mm a");
       } catch (e) {
         console.error("Failed to parse date:", dateString);
