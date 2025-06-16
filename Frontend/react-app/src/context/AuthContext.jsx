@@ -5,7 +5,7 @@ import API_BASE_URL from "../data/constants";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
- const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [error, setError] = useState(null);
   const [sessionExpired, setSessionExpired] = useState(false);
