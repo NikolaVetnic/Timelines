@@ -1,5 +1,4 @@
 import { format, parseISO } from "date-fns";
-import React from "react";
 import { CiEdit } from "react-icons/ci";
 import { IoIosAdd } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
