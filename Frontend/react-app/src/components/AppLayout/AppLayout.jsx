@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { FaBug } from "react-icons/fa";
+import { IoChatbubbleSharp } from "react-icons/io5";
 import { Outlet, useMatches, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useChat } from "../../context/ChatContext";
 import BugReportModal from "../../core/components/modals/BugReportModal/BugReportModal";
 import ReminderNotifier from "../../core/utils/ReminderNotifier";
 import PhysicalPersonService from "../../services/PhysicalPersonService";
@@ -18,6 +20,8 @@ function AppLayout() {
   const [isBugReportOpen, setIsBugReportOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [breadcrumbs, setBreadcrumbs] = useState([]);
+
+  const { isChatOpen, openChat, closeChat } = useChat();
 
   const footerHeight = process.env.REACT_APP_FOOTER === 'true' ? '150px' : '68px';
 
@@ -125,12 +129,20 @@ useEffect(() => {
       </div>
 
       <button
-        className="bug-report-button"
-        onClick={() => setIsBugReportOpen(true)}
-        aria-label="Report a bug"
+        className="chat-button"
+        onClick={() => isChatOpen ? closeChat() : openChat()}
+        aria-label={isChatOpen ? "Close chat" : "Open chat"}
       >
-        <FaBug size={20} />
+        <IoChatbubbleSharp size={20} />
       </button>
+      
+      <button
+          className="bug-report-button"
+          onClick={() => setIsBugReportOpen(true)}
+          aria-label="Report a bug"
+        >
+          <FaBug size={20} />
+        </button>
 
       {isBugReportOpen && (
         <BugReportModal

@@ -79,17 +79,22 @@ class FileService {
    */
   static getAllFiles(pageIndex = 0, pageSize = 10) {
     return getAll(API_BASE_URL, "/Files", pageIndex, pageSize)
-      .then(response => ({
-        items: response.files?.data || [],
-        totalCount: response.files?.count || 0,
-        totalPages: Math.ceil((response.files?.count || 0) / pageSize),
-      }))
+      .then(response => {
+        const data = response.fileAssets?.data || [];
+        const count = response.fileAssets?.count || 0;
+        return {
+          items: data,
+          totalCount: count,
+          totalPages: Math.ceil(count / pageSize),
+        };
+      })
       .catch(error => {
         const errorMessage = error.response?.data?.message || "Failed to fetch files";
         toast.error(errorMessage);
         throw error;
       });
   }
+  
 
   /**
    * Get files by node ID with server-side pagination

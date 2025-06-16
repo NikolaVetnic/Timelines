@@ -1,6 +1,5 @@
-import React from "react";
 import { IoMdDownload } from "react-icons/io";
-import { MdDelete, MdOutlinePreview } from "react-icons/md";
+import { MdChat, MdDelete, MdOutlinePreview } from "react-icons/md";
 import Button from "../../../../core/components/buttons/Button/Button";
 
 const FileList = ({ 
@@ -9,7 +8,8 @@ const FileList = ({
   handlePreview, 
   handleDownload, 
   setFileToDelete, 
-  setIsDeleteModalOpen 
+  setIsDeleteModalOpen,
+  handleOpenChat
 }) => {
   if (files.length === 0) {
     return (
@@ -59,6 +59,16 @@ const FileList = ({
               size="small"
               onClick={() => handleDownload(file)}
             />
+            <Button
+              icon={<MdChat />}
+              iconOnly
+              shape="square"
+              variant="primary"
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleOpenChat(file);
+              }}/>
             <Button
               icon={<MdDelete />}
               iconOnly

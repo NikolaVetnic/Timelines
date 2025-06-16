@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 export function InfiniteScrollWrapper({
@@ -18,14 +18,12 @@ export function InfiniteScrollWrapper({
     setIsLoading(true);
     try {
       const { items: newItems, total } = await fetchData(pageNumber);
-      setItems(prevItems => 
+      setItems((prevItems) =>
         pageNumber === initialPage ? newItems : [...prevItems, ...newItems]
       );
       if (total !== undefined && pageNumber === initialPage) {
         setTotalItems(total);
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);
     }
@@ -61,18 +59,16 @@ export function InfiniteScrollWrapper({
       pullDownToRefresh
       pullDownToRefreshThreshold={50}
       pullDownToRefreshContent={
-        <h3 style={{ textAlign: 'center' }}>↓ Pull down to refresh</h3>
+        <h3 style={{ textAlign: "center" }}>↓ Pull down to refresh</h3>
       }
       releaseToRefreshContent={
-        <h3 style={{ textAlign: 'center' }}>↑ Release to refresh</h3>
+        <h3 style={{ textAlign: "center" }}>↑ Release to refresh</h3>
       }
       refreshFunction={handleRefresh}
     >
       <div>
         {items.map((item, index) => (
-          <div key={index}>
-            {renderItem(item)}
-          </div>
+          <div key={index}>{renderItem(item)}</div>
         ))}
       </div>
     </InfiniteScroll>
