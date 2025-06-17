@@ -28,12 +28,11 @@ const mockedAnalysis = {
   export const addMessage = (messages, setMessages, tabId, text, sender) => {
     if (sender === 'bot' && (text.startsWith("Hello!") || text.startsWith("Great! I'm ready to analyze"))) {
       const existingMessages = messages[tabId] || [];
-      const hasSimilarGreeting = existingMessages.some(msg => 
-        msg.sender === 'bot' && 
-        (msg.text.startsWith("Hello!") || msg.text.startsWith("Great! I'm ready to analyze"))
+      const hasExactGreeting = existingMessages.some(msg => 
+        msg.sender === 'bot' && msg.text === text
       );
       
-      if (hasSimilarGreeting) {
+      if (hasExactGreeting) {
         return;
       }
     }
