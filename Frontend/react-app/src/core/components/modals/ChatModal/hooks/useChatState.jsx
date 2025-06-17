@@ -3,23 +3,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 const STORAGE_KEY = 'fileAnalysisChat';
 const CHAT_EXPIRY_DAYS = 7;
 
-export function useChatState(initialFile) {
+export function useChatState() {
   const [tabs, setTabs] = useState(() => {
     const savedState = loadChatState();
-    
-    if (initialFile && !savedState?.tabs?.some(tab => tab.file?.id === initialFile.id)) {
-      return [
-        { id: 'home', title: 'Home', type: 'home', active: false },
-        { 
-          id: `file-${initialFile.id}`, 
-          title: initialFile.name, 
-          type: 'file', 
-          file: initialFile, 
-          active: true 
-        }
-      ];
-    }
-    
     return savedState?.tabs || [{ id: 'home', title: 'Home', type: 'home', active: true }];
   });
   
