@@ -78,5 +78,14 @@
     .app-content {
         padding: 10px;
     }
+.bug-report-button {
+    position: fixed;
+    bottom: 50px;
+}
+
+.chat-button {
+    position: fixed;
+    bottom: 50px;
+}
 }
 
