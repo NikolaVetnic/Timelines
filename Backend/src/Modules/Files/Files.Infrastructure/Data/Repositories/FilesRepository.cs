@@ -104,7 +104,7 @@ public class FilesRepository(ICurrentUser currentUser, IFilesDbContext dbContext
     {
         return await dbContext.FileAssets
             .AsNoTracking()
-            .Where(f => nodeIds.Contains(f.NodeId))
+            .Where(f => nodeIds.Contains(f.NodeId) && !f.IsDeleted)
             .ToListAsync(cancellationToken: cancellationToken);
     }
 }
