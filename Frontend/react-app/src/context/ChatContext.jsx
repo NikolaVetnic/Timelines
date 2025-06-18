@@ -6,19 +6,32 @@ const ChatContext = createContext();
 export const ChatProvider = ({ children }) => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatContext, setChatContext] = useState(null);
+  const [initialFile, setInitialFile] = useState(null);
 
   const openChat = (context) => {
     setChatContext(context);
+    setInitialFile(context?.file || null);
     setIsChatOpen(true);
   };
 
   const closeChat = () => {
     setIsChatOpen(false);
     setChatContext(null);
+    setInitialFile(null);
+  };
+
+  const clearInitialFile = () => {
+    setInitialFile(null);
   };
 
   return (
-    <ChatContext.Provider value={{ isChatOpen, openChat, closeChat, chatContext }}>
+    <ChatContext.Provider value={{ 
+      isChatOpen, 
+      openChat, 
+      closeChat, 
+      chatContext,
+      clearInitialFile
+    }}>
       {children}
       
       {isChatOpen && (
@@ -30,7 +43,8 @@ export const ChatProvider = ({ children }) => {
         }}>
           <ChatModal 
             onClose={closeChat}
-            initialFile={chatContext?.file || null}
+            initialFile={initialFile}
+            clearInitialFile={clearInitialFile}
           />
         </div>
       )}

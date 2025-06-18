@@ -10,9 +10,10 @@ import { useFileAnalysis } from './hooks/useFileAnalysis';
 import { useTypingEffect } from './hooks/useTypingEffect';
 import { addMessage, getBotResponse } from './services/ChatService';
 
-const ChatModal = ({ onClose, initialFile }) => {
-  const { tabs, setTabs, messages, setMessages, tabsRef } = useChatState(initialFile);
+const ChatModal = ({ onClose, initialFile, clearInitialFile }) => {
+  const { tabs, setTabs, messages, setMessages, tabsRef } = useChatState();
   const { simulateTyping } = useTypingEffect();
+  const handledFiles = useRef(new Set());
   const [inputValue, setInputValue] = useState('');
   const { 
     files, 
@@ -44,7 +45,7 @@ const ChatModal = ({ onClose, initialFile }) => {
   }, [fetchFiles]);
 
   useEffect(() => {
-    if (initialFile) {
+    if (initialFile && !handledFiles.current.has(initialFile.id)) {
       const existingTab = tabsRef.current.find(tab => 
         tab.type === 'file' && tab.file?.id === initialFile.id
       );
@@ -64,7 +65,16 @@ const ChatModal = ({ onClose, initialFile }) => {
         ]);
         
         simulateTyping(setMessages, newTab.id, `Great! I'm ready to analyze "${initialFile.name}". What would you like to know?`, 'bot');
+      } else {
+        setTabs(prevTabs => 
+          prevTabs.map(tab => ({
+            ...tab,
+            active: tab.id === existingTab.id
+          }))
+        );
       }
+      
+      handledFiles.current.add(initialFile.id);
     }
   }, [initialFile, setTabs, simulateTyping, tabsRef, setMessages]);
 
@@ -124,20 +134,32 @@ const ChatModal = ({ onClose, initialFile }) => {
     
     if (tabs.length <= 1) return;
     
-    const tabIndex = tabs.findIndex(tab => tab.id === tabId);
-    const isActive = tabs.find(tab => tab.id === tabId)?.active;
-    
     setTabs(prevTabs => {
+      const tabIndex = prevTabs.findIndex(tab => tab.id === tabId);
+      const tabToClose = prevTabs[tabIndex];
+      const isActive = tabToClose?.active;
       const newTabs = prevTabs.filter(tab => tab.id !== tabId);
       
       if (isActive) {
-        const newActiveIndex = Math.min(tabIndex, newTabs.length - 1);
-        newTabs[newActiveIndex].active = true;
+        const homeTabIndex = newTabs.findIndex(tab => tab.id === 'home');
+        const newActiveIndex = homeTabIndex >= 0 ? homeTabIndex : 0;
+        
+        return newTabs.map((tab, index) => ({
+          ...tab,
+          active: index === newActiveIndex
+        }));
       }
       
       return newTabs;
     });
+  
+    if (tabId.startsWith('file-') && initialFile?.id === tabId.replace('file-', '')) {
+      clearInitialFile (null);
+    }
+  
+    handledFiles.current.delete(initialFile?.id);
   };
+
 
   return (
     <div className="chat-modal">

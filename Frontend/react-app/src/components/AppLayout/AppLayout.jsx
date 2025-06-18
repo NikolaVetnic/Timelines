@@ -22,6 +22,7 @@ function AppLayout() {
   const [breadcrumbs, setBreadcrumbs] = useState([]);
 
   const { isChatOpen, openChat, closeChat } = useChat();
+  const shouldShowChatButton = !isChatOpen;
 
   const footerHeight = process.env.REACT_APP_FOOTER === 'true' ? '150px' : '68px';
 
@@ -127,14 +128,16 @@ useEffect(() => {
           </div>
         </div>
       </div>
-
-      <button
-        className="chat-button"
-        onClick={() => isChatOpen ? closeChat() : openChat()}
-        aria-label={isChatOpen ? "Close chat" : "Open chat"}
-      >
-        <IoChatbubbleSharp size={20} />
-      </button>
+      
+      {shouldShowChatButton && (
+        <button
+          className="chat-button"
+          onClick={() => isChatOpen ? closeChat() : openChat()}
+          aria-label={isChatOpen ? "Close chat" : "Open chat"}
+        >
+          <IoChatbubbleSharp size={20} />
+        </button>
+      )}
       
       <button
           className="bug-report-button"
