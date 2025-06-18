@@ -65,10 +65,8 @@ const FileList = ({
               shape="square"
               variant="primary"
               size="small"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleOpenChat(file);
-              }}/>
+              onClick={() => handleOpenChat(file)}
+            />
             <Button
               icon={<MdDelete />}
               iconOnly
