@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.Domain.Timelines.Timeline.ValueObjects;
-using Timelines.Application.Entities.Timelines.Commands.DeleteTimeline;
 
 namespace Timelines.Application.Entities.Timelines.Commands.ReviveTimeline;
 
