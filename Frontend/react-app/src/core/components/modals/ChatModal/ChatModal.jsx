@@ -47,7 +47,6 @@ const ChatModal = ({ onClose, initialFile, clearInitialFile }) => {
   }, [fetchFiles]);
 
   useEffect(() => {
-    console.log(initialFile)
     if (initialFile && !handledFiles.current.has(initialFile.id)) {
       const existingTab = tabsRef.current.find(tab => 
         tab.type === 'file' && tab.file?.id === initialFile.id
