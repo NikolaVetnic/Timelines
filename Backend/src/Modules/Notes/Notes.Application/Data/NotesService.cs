@@ -84,9 +84,6 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
 
     public async Task DeleteNote(NoteId noteId, CancellationToken cancellationToken)
     {
-        var note = await notesRepository.GetNoteByIdAsync(noteId, cancellationToken);
-        await NodesService.RemoveNote(note.NodeId, noteId, cancellationToken);
-
         await notesRepository.DeleteNote(noteId, cancellationToken);
     }
 
