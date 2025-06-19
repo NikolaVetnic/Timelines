@@ -33,7 +33,7 @@ public class TimelinesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("Entity/Deleted")]
+    [HttpGet("ToBeDeleted")]
     [ProducesResponseType(typeof(ListTimelinesResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ListTimelinesResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
@@ -144,7 +144,7 @@ public class TimelinesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("Entity/Deleted/Revive/{timelineId}")]
+    [HttpPost("{timelineId}/Revive")]
     [ProducesResponseType(typeof(CreateTimelineWithTemplateResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ReviveTimelineResponse>> Revive(

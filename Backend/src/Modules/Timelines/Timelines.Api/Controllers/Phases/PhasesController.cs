@@ -61,7 +61,7 @@ public class PhasesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("Entity/Deleted")]
+    [HttpGet("ToBeDeleted")]
     [ProducesResponseType(typeof(ListPhasesResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ListPhasesResponse>> ListFlaggedForDeletion([FromQuery] PaginationRequest query)
@@ -124,7 +124,7 @@ public class PhasesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("Entity/Deleted/Revive/{phaseId}")]
+    [HttpPost("{phaseId}/Revive")]
     [ProducesResponseType(typeof(RevivePhaseResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

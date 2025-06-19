@@ -59,7 +59,7 @@ public class RemindersController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("Entity/Deleted")]
+    [HttpGet("ToBeDeleted")]
     [ProducesResponseType(typeof(ListRemindersResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ListRemindersResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
@@ -104,7 +104,7 @@ public class RemindersController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("Entity/Deleted/Revive/{reminderId}")]
+    [HttpPost("{reminderId}/Revive")]
     [ProducesResponseType(typeof(ReviveReminderResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

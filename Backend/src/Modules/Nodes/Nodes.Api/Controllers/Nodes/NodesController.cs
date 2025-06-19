@@ -62,7 +62,7 @@ public class NodesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("Entity/Deleted")]
+    [HttpGet("ToBeDeleted")]
     [ProducesResponseType(typeof(ListNodesResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ListNodesResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
@@ -141,7 +141,7 @@ public class NodesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("Entity/Deleted/Revive/{nodeId}")]
+    [HttpPost("{nodeId}/Revive")]
     [ProducesResponseType(typeof(ReviveNodeResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

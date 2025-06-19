@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Auth.Api\Auth.Api.csproj" />
+        <ProjectReference Include="..\..\..\Modules\Auth\Auth.Api\Auth.Api.csproj" />
         <ProjectReference Include="..\..\..\Modules\BugTracking\BugTracking.Api\BugTracking.Api.csproj" />
         <ProjectReference Include="..\..\..\Modules\Files\Files.Api\Files.Api.csproj" />
         <ProjectReference Include="..\..\..\Modules\Nodes\Nodes.Api\Nodes.Api.csproj" />

@@ -9,9 +9,6 @@ internal class ReviveFileAssetHandler(IFilesService filesService) : ICommandHand
     {
         var fileAsset = await filesService.GetFileAssetBaseByIdAsync(command.Id, cancellationToken);
 
-        if (fileAsset is null)
-            throw new FileAssetNotFoundException(command.Id.ToString());
-
         await filesService.ReviveFileAsset(command.Id, cancellationToken);
 
         return new ReviveFileAssetResult(true);

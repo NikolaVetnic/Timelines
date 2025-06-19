@@ -60,7 +60,7 @@ public class FilesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("Entity/Deleted")]
+    [HttpGet("ToBeDeleted")]
     [ProducesResponseType(typeof(ListFileAssetsResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ListFileAssetsResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
@@ -104,7 +104,7 @@ public class FilesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("Entity/Deleted/Revive/{fileId}")]
+    [HttpPost("{fileId}/Revive")]
     [ProducesResponseType(typeof(ReviveFileAssetResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

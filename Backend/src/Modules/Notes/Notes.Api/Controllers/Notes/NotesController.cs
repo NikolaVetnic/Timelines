@@ -59,7 +59,7 @@ public class NotesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("Entity/Deleted")]
+    [HttpGet("ToBeDeleted")]
     [ProducesResponseType(typeof(ListNotesResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ListNotesResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
@@ -104,7 +104,7 @@ public class NotesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("Entity/Deleted/Revive/{noteId}")]
+    [HttpPost("{noteId}/Revive")]
     [ProducesResponseType(typeof(ReviveNoteResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
