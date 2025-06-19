@@ -109,10 +109,6 @@ public class FilesService(IServiceProvider serviceProvider, IFilesRepository fil
 
     public async Task DeleteFileAsset(FileAssetId fileAssetId, CancellationToken cancellationToken)
     {
-        var fileAsset = await filesRepository.GetFileAssetByIdAsync(fileAssetId, cancellationToken);
-
-        await NodesService.RemoveFileAsset(fileAsset.NodeId, fileAssetId, cancellationToken);
-
         await filesRepository.DeleteFileAsset(fileAssetId, cancellationToken);
     }
 
