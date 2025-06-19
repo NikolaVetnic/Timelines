@@ -12,7 +12,7 @@ internal class GetNodeByIdHandler(INodesService nodesService)
 
         if (nodeDto is null)
             throw new NodeNotFoundException(query.Id.ToString());
-        
+
         return new GetNodeByIdResult(nodeDto);
     }
 }

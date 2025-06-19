@@ -39,7 +39,7 @@ public class RemindersApiStepDefinitions
                     DueDateTime = DateTime.Parse("2025-03-15T14:24:06.919459Z", null, DateTimeStyles.RoundtripKind),
                     Priority = 3,
                     NotificationTime = DateTime.Parse("2025-02-15T10:00:00Z", null, DateTimeStyles.RoundtripKind),
-                    Status =  "Canceled"
+                    Status = "Canceled"
                 }
             });
 

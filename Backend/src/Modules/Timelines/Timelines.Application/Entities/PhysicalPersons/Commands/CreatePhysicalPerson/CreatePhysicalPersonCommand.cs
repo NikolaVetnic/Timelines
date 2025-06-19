@@ -11,7 +11,7 @@ public class CreatePhysicalPersonCommand : ICommand<CreatePhysicalPersonResult>
     public required string ParentName { get; set; }
 
     public required DateOnly BirthDate { get; set; }
-    public required string StreetAddress { get; set; } 
+    public required string StreetAddress { get; set; }
     public required string PersonalIdNumber { get; set; }
     public required string IdCardNumber { get; set; }
 

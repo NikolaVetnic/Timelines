@@ -14,3 +14,5 @@ public record ListRemindersResponse(PaginatedResult<ReminderDto> Reminders);
 public record UpdateReminderResponse(ReminderDto Reminder);
 
 public record DeleteReminderResponse(bool ReminderDeleted);
+
+public record ReviveReminderResponse(bool ReminderRevived);

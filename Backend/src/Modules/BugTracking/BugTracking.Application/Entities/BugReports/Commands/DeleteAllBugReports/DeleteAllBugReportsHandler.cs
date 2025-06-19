@@ -13,12 +13,12 @@ internal class DeleteAllBugReportsHandler(IBugTrackingDbContext dbContext)
             .AsNoTracking()
             .OrderBy(br => br.CreatedAt)
             .ToListAsync(cancellationToken);
-        
+
         var bugReportIds = bugReports.Select(br => br.Id.ToString()).ToList();
 
         dbContext.BugReports.RemoveRange(bugReports);
         await dbContext.SaveChangesAsync(cancellationToken);
-        
+
         return new DeleteAllBugReportsResult(bugReportIds);
     }
 }

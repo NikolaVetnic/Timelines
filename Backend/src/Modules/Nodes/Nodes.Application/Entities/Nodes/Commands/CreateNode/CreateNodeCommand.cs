@@ -35,7 +35,7 @@ public class CreateNodeCommandValidator : AbstractValidator<CreateNodeCommand>
 
         RuleFor(x => x.Importance)
             .InclusiveBetween(1, 10).WithMessage("Importance must be between 1 and 10.");
-        
+
         RuleFor(x => x)
             .NotNull().WithMessage("Node cannot be null.")
             .DependentRules(() =>
@@ -43,7 +43,7 @@ public class CreateNodeCommandValidator : AbstractValidator<CreateNodeCommand>
                 RuleFor(x => x.Categories)
                     .Must(categories => categories != null && categories.Count > 0)
                     .WithMessage("At least one category must be provided.");
-                
+
                 RuleFor(x => x.Tags)
                     .Must(tags => tags != null && tags.Count > 0)
                     .WithMessage("At least one tag must be provided.");

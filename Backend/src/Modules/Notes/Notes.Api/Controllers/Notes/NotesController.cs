@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Notes.Application.Entities.Notes.Commands.CreateNote;
 using Notes.Application.Entities.Notes.Commands.DeleteNote;
+using Notes.Application.Entities.Notes.Commands.ReviveNote;
 using Notes.Application.Entities.Notes.Commands.UpdateNote;
 using Notes.Application.Entities.Notes.Queries.GetNoteById;
+using Notes.Application.Entities.Notes.Queries.ListFlaggedForDeletionNotes;
 using Notes.Application.Entities.Notes.Queries.ListNotes;
 using OpenIddict.Validation.AspNetCore;
 
@@ -57,6 +59,17 @@ public class NotesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("ToBeDeleted")]
+    [ProducesResponseType(typeof(ListNotesResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListNotesResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListFlaggedForDeletionNotesQuery(query));
+        var response = result.Adapt<ListNotesResponse>();
+
+        return Ok(response);
+    }
+
     [HttpPut("{noteId}")]
     [ProducesResponseType(typeof(UpdateNoteResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -87,6 +100,18 @@ public class NotesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new DeleteNoteCommand(noteId));
         var response = result.Adapt<DeleteNoteResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpPost("{noteId}/Revive")]
+    [ProducesResponseType(typeof(ReviveNoteResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ReviveNoteResponse>> Revive([FromRoute] string noteId)
+    {
+        var result = await sender.Send(new ReviveNoteCommand(noteId));
+        var response = result.Adapt<ReviveNoteResponse>();
 
         return Ok(response);
     }

@@ -20,7 +20,7 @@ public class BugReport : Entity<BugReportId>
             ReporterName = reporterName,
             IsProcessed = false
         };
-        
+
         return bugReport;
     }
 }

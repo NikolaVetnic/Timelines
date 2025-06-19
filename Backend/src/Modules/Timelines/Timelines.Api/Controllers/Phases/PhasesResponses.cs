@@ -16,3 +16,5 @@ public record ListNodesByPhaseIdResponse(PaginatedResult<NodeBaseDto> Nodes);
 public record UpdatePhaseResponse(PhaseBaseDto Phase);
 
 public record DeletePhaseResponse(bool PhaseDeleted);
+
+public record RevivePhaseResponse(bool PhaseRevived);
