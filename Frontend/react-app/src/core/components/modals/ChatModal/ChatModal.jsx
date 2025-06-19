@@ -5,6 +5,7 @@ import { ChatInput } from './components/ChatInput';
 import { ChatMessages } from './components/ChatMessages';
 import { ChatTabs } from './components/ChatTabs';
 import { FileSelection } from './components/FileSelection';
+import { FileViewer } from './components/FileViewer';
 import { useChatState } from './hooks/useChatState';
 import { useFileAnalysis } from './hooks/useFileAnalysis';
 import { useTypingEffect } from './hooks/useTypingEffect';
@@ -12,6 +13,7 @@ import { addMessage, getBotResponse } from './services/ChatService';
 
 const ChatModal = ({ onClose, initialFile, clearInitialFile }) => {
   const { tabs, setTabs, messages, setMessages, tabsRef } = useChatState();
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const { simulateTyping } = useTypingEffect();
   const handledFiles = useRef(new Set());
   const [inputValue, setInputValue] = useState('');
@@ -45,6 +47,7 @@ const ChatModal = ({ onClose, initialFile, clearInitialFile }) => {
   }, [fetchFiles]);
 
   useEffect(() => {
+    console.log(initialFile)
     if (initialFile && !handledFiles.current.has(initialFile.id)) {
       const existingTab = tabsRef.current.find(tab => 
         tab.type === 'file' && tab.file?.id === initialFile.id
@@ -160,34 +163,59 @@ const ChatModal = ({ onClose, initialFile, clearInitialFile }) => {
     handledFiles.current.delete(initialFile?.id);
   };
 
+  const toggleFullScreen = useCallback(() => {
+    setIsFullScreen(prev => !prev);
+  }, []);
+
 
   return (
-    <div className="chat-modal">
-      <ChatHeader onClose={onClose} />
+    <div className={`chat-modal ${isFullScreen ? 'full-screen' : ''}`}>
+      <ChatHeader 
+        onClose={onClose} 
+        isFullScreen={isFullScreen} 
+        toggleFullScreen={toggleFullScreen} 
+      />
       <ChatTabs tabs={tabs} switchTab={switchTab} closeTab={closeTab} />
       
-      {activeTab?.type === 'home' ? (
-        <>
-          <ChatMessages activeMessages={activeMessages} messagesEndRef={messagesEndRef} />
-          <FileSelection 
-            files={files}
-            isLoadingFiles={isLoadingFiles}
-            pagination={pagination}
-            handleFileSelect={handleFileSelect}
-            handlePageChange={handlePageChange}
-          />
-        </>
-      ) : (
-        <ChatMessages activeMessages={activeMessages} messagesEndRef={messagesEndRef} />
-      )}
-      
-      <ChatInput 
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        handleSendMessage={handleSendMessage}
-        activeTab={activeTab}
-        isTyping={isTyping}
-      />
+      <div className="chat-content-container">
+        {activeTab?.type === 'file' && isFullScreen ? (
+          <>
+            <div className="file-viewer-container">
+              <FileViewer file={activeTab.file} />
+            </div>
+            <div className="chat-messages-container">
+              <ChatMessages activeMessages={activeMessages} messagesEndRef={messagesEndRef} />
+              <ChatInput 
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+                handleSendMessage={handleSendMessage}
+                activeTab={activeTab}
+                isTyping={isTyping}
+              />
+            </div>
+          </>
+        ) : (
+          <div className="normal-chat-container">
+            <ChatMessages activeMessages={activeMessages} messagesEndRef={messagesEndRef} />
+            {activeTab?.type === 'home' && (
+              <FileSelection 
+                files={files}
+                isLoadingFiles={isLoadingFiles}
+                pagination={pagination}
+                handleFileSelect={handleFileSelect}
+                handlePageChange={handlePageChange}
+              />
+            )}
+            <ChatInput 
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+              handleSendMessage={handleSendMessage}
+              activeTab={activeTab}
+              isTyping={isTyping}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
