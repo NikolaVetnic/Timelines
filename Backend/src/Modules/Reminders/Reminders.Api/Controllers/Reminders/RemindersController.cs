@@ -9,7 +9,9 @@ using Reminders.Application.Entities.Reminders.Queries.ListReminders;
 using System;
 using BuildingBlocks.Domain.Reminders.Reminder.ValueObjects;
 using Reminders.Application.Entities.Reminders.Commands.DeleteReminder;
+using Reminders.Application.Entities.Reminders.Commands.ReviveReminder;
 using Reminders.Application.Entities.Reminders.Commands.UpdateReminder;
+using Reminders.Application.Entities.Reminders.Queries.ListFlaggedForDeletionReminders;
 
 namespace Reminders.Api.Controllers.Reminders;
 
@@ -57,6 +59,17 @@ public class RemindersController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("ToBeDeleted")]
+    [ProducesResponseType(typeof(ListRemindersResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListRemindersResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListFlaggedForDeletionRemindersQuery(query));
+        var response = result.Adapt<ListRemindersResponse>();
+
+        return Ok(response);
+    }
+
     [HttpPut("{reminderId}")]
     [ProducesResponseType(typeof(UpdateReminderResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -87,6 +100,18 @@ public class RemindersController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new DeleteReminderCommand(reminderId));
         var response = result.Adapt<DeleteReminderResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpPost("{reminderId}/Revive")]
+    [ProducesResponseType(typeof(ReviveReminderResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ReviveReminderResponse>> Revive([FromRoute] string reminderId)
+    {
+        var result = await sender.Send(new ReviveReminderCommand(reminderId));
+        var response = result.Adapt<ReviveReminderResponse>();
 
         return Ok(response);
     }

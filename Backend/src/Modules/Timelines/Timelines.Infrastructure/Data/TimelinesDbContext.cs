@@ -13,7 +13,7 @@ public class TimelinesDbContext(DbContextOptions<TimelinesDbContext> options) :
     public DbSet<Timeline> Timelines { get; init; }
 
     public DbSet<Phase> Phases { get; init; }
-    
+
     public DbSet<PhysicalPerson> PhysicalPersons { get; init; }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -22,7 +22,7 @@ public class TimelinesDbContext(DbContextOptions<TimelinesDbContext> options) :
 
         // Specify schema for this module
         builder.HasDefaultSchema("Timelines");
-        
+
         // Prevent EF from ever trying to map any Id as an entity
         builder.Ignore<TimelineId>();
         builder.Ignore<PhaseId>();
@@ -87,17 +87,17 @@ public class TimelinesDbContext(DbContextOptions<TimelinesDbContext> options) :
         builder.Entity<PhysicalPerson>(entity =>
         {
             entity.ToTable("PhysicalPersons");
-            
+
             entity.HasKey(p => p.Id);
             entity.Property(p => p.Id)
                 .HasConversion(new PhysicalPersonIdValueConverter());
-            
+
             entity.Property(p => p.TimelineId).IsRequired();
             entity.HasIndex(p => p.TimelineId); // Add an index for efficient querying
             entity.Property(p => p.TimelineId)
                 .HasConversion(new TimelineIdValueConverter()) // Apply the value converter
                 .IsRequired();
-            
+
             entity.Property(p => p.FirstName).IsRequired();
             entity.Property(p => p.MiddleName).IsRequired(false);
             entity.Property(p => p.LastName).IsRequired();

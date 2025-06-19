@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using BuildingBlocks.Domain.Timelines.Phase.ValueObjects;
 using Timelines.Application.Entities.Phases.Commands.CreatePhase;
 using Timelines.Application.Entities.Phases.Commands.DeletePhase;
+using Timelines.Application.Entities.Phases.Commands.RevivePhase;
 using Timelines.Application.Entities.Phases.Commands.UpdatePhase;
 using Timelines.Application.Entities.Phases.Queries.GetPhaseById;
+using Timelines.Application.Entities.Phases.Queries.ListFlaggedForDeletionPhases;
 using Timelines.Application.Entities.Phases.Queries.ListNodesByPhaseId;
 using Timelines.Application.Entities.Phases.Queries.ListPhases;
 
@@ -54,6 +56,17 @@ public class PhasesController(ISender sender) : ControllerBase
     public async Task<ActionResult<ListPhasesResponse>> List([FromQuery] PaginationRequest query)
     {
         var result = await sender.Send(new ListPhasesQuery(query));
+        var response = result.Adapt<ListPhasesResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpGet("ToBeDeleted")]
+    [ProducesResponseType(typeof(ListPhasesResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListPhasesResponse>> ListFlaggedForDeletion([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListFlaggedForDeletionPhasesQuery(query));
         var response = result.Adapt<ListPhasesResponse>();
 
         return Ok(response);
@@ -107,6 +120,18 @@ public class PhasesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new DeletePhaseCommand(phaseId));
         var response = result.Adapt<DeletePhaseResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpPost("{phaseId}/Revive")]
+    [ProducesResponseType(typeof(RevivePhaseResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<RevivePhaseResponse>> Revive([FromRoute] string phaseId)
+    {
+        var result = await sender.Send(new RevivePhaseCommand(phaseId));
+        var response = result.Adapt<RevivePhaseResponse>();
 
         return Ok(response);
     }

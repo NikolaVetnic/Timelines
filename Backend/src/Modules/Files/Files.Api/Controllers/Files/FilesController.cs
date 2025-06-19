@@ -4,9 +4,11 @@ using BuildingBlocks.Application.Pagination;
 using BuildingBlocks.Domain.Files.File.ValueObjects;
 using Files.Application.Entities.Files.Commands.CreateFileAsset;
 using Files.Application.Entities.Files.Commands.DeleteFileAsset;
+using Files.Application.Entities.Files.Commands.ReviveFileAsset;
 using Files.Application.Entities.Files.Commands.UpdateFileAsset;
 using Files.Application.Entities.Files.Queries.GetFileAssetById;
 using Files.Application.Entities.Files.Queries.ListFileAssets;
+using Files.Application.Entities.Files.Queries.ListFlaggedForDeletionFileAssets;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Validation.AspNetCore;
@@ -58,6 +60,17 @@ public class FilesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("ToBeDeleted")]
+    [ProducesResponseType(typeof(ListFileAssetsResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListFileAssetsResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListFlaggedForDeletionFileAssetsQuery(query));
+        var response = result.Adapt<ListFileAssetsResponse>();
+
+        return Ok(response);
+    }
+
     [HttpPut("{fileId}")]
     [ProducesResponseType(typeof(UpdateFileAssetResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -87,6 +100,18 @@ public class FilesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new DeleteFileAssetCommand(fileId));
         var response = result.Adapt<DeleteFileAssetResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpPost("{fileId}/Revive")]
+    [ProducesResponseType(typeof(ReviveFileAssetResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ReviveFileAssetResponse>> Revive([FromRoute] string fileId)
+    {
+        var result = await sender.Send(new ReviveFileAssetCommand(fileId));
+        var response = result.Adapt<ReviveFileAssetResponse>();
 
         return Ok(response);
     }

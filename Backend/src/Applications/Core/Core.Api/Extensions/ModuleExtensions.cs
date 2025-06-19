@@ -20,7 +20,7 @@ public static class ModuleExtensions
             .AddNotesModule(configuration)
             .AddRemindersModule(configuration)
             .AddTimelinesModule(configuration);
-        
+
         return services;
     }
 
@@ -34,7 +34,7 @@ public static class ModuleExtensions
             .UseNotesModule()
             .UseRemindersModule()
             .UseTimelinesModule();
-        
+
         return endpoints;
     }
 }

@@ -17,7 +17,7 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
     {
         var nodes = await NodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
 
-        var notes = await notesRepository.ListNotesPaginatedAsync(pageIndex, pageSize, cancellationToken);
+        var notes = await notesRepository.ListNotesPaginatedAsync(n => !n.IsDeleted, pageIndex, pageSize, cancellationToken);
 
         // Exclude Notes whose Nodes have been deleted
         var noteDtos = notes
@@ -27,13 +27,29 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
             .ToList();
 
         // ToDo: Handle orphaned entities (Files, Notes, Reminders, but Nodes as well)
-        
+
+        return noteDtos;
+    }
+
+    public async Task<List<NoteDto>> ListFlaggedForDeletionNotesPaginated(int pageIndex, int pageSize, CancellationToken cancellationToken)
+    {
+        var nodes = await NodesService.ListNodesPaginated(pageIndex, pageSize, cancellationToken);
+
+        var notes = await notesRepository.ListNotesPaginatedAsync(n => n.IsDeleted, pageIndex, pageSize, cancellationToken);
+
+        // Exclude Notes whose Nodes have been deleted
+        var noteDtos = notes
+            .Select(n => (Note: n, Node: nodes.FirstOrDefault(d => d.Id == n.NodeId.ToString())))
+            .Where(x => x.Node != null) // todo: changes might be needed due to complete deletion overhaul 
+            .Select(x => x.Note.ToNoteDto(x.Node!))
+            .ToList();
+
         return noteDtos;
     }
 
     public async Task<List<NoteBaseDto>> ListNotesByNodeIdPaginated(NodeId nodeId, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
-        var notes = await notesRepository.ListNotesByNodeIdPaginatedAsync(nodeId, pageIndex, pageSize, cancellationToken);
+        var notes = await notesRepository.ListNotesPaginatedAsync(n => n.NodeId == nodeId, pageIndex, pageSize, cancellationToken);
 
         var notesDtos = notes
             .Select(n => n.ToNoteBaseDto())
@@ -63,7 +79,7 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
 
     public async Task<long> CountAllNotesByNodeIdAsync(NodeId nodeId, CancellationToken cancellationToken)
     {
-        return await notesRepository.CountAllNotesByNodeIdAsync(nodeId, cancellationToken);
+        return await notesRepository.CountNotesAsync(n => n.NodeId == nodeId, cancellationToken);
     }
 
     public async Task DeleteNote(NoteId noteId, CancellationToken cancellationToken)
@@ -93,8 +109,13 @@ public class NotesService(INotesRepository notesRepository, IServiceProvider ser
         return noteBaseDtos;
     }
 
+    public async Task ReviveNote(NoteId noteId, CancellationToken cancellationToken)
+    {
+        await notesRepository.ReviveNoteAsync(noteId, cancellationToken);
+    }
+
     public async Task<long> CountAllNotesAsync(CancellationToken cancellationToken)
     {
-        return await notesRepository.CountAllNotesAsync(cancellationToken);
+        return await notesRepository.CountNotesAsync(n => true, cancellationToken);
     }
 }

@@ -17,7 +17,7 @@ public class NodeDto(
 {
     public NodeDto() : this(null, string.Empty, string.Empty, default, default, [], []) { }
 
-    [JsonPropertyName("timelines")] public required TimelineBaseDto Timeline { get; set; }
+    [JsonPropertyName("timeline")] public required TimelineBaseDto Timeline { get; set; }
 
     [JsonPropertyName("fileAssets")] public List<FileAssetBaseDto> FileAssets { get; set; } = [];
 

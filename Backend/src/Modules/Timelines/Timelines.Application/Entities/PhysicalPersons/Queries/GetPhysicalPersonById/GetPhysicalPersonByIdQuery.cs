@@ -14,6 +14,6 @@ public class GetPhysicalPersonByIdQueryValidator : AbstractValidator<GetPhysical
 {
     public GetPhysicalPersonByIdQueryValidator()
     {
-        
+
     }
 }

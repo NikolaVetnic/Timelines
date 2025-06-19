@@ -25,7 +25,7 @@ public static class DatabaseExtensions
 
         await context.SaveChangesAsync();
     }
-    
+
     public static async Task MigrateNodesDatabaseAsync(this IServiceProvider services)
     {
         using var scope = services.CreateScope();

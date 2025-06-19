@@ -12,7 +12,7 @@ public class UpdatePhysicalPersonCommand : ICommand<UpdatePhysicalPersonResult>
     public string? ParentName { get; set; }
 
     public DateOnly? BirthDate { get; set; }
-    public string? StreetAddress { get; set; } 
+    public string? StreetAddress { get; set; }
     public string? PersonalIdNumber { get; set; }
     public string? IdCardNumber { get; set; }
 

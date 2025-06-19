@@ -24,7 +24,7 @@ public static class DatabaseExtensions
         await context.AddRangeAsync(InitialData.FileAssets);
         await context.SaveChangesAsync();
     }
-    
+
     public static async Task MigrateFilesDatabaseAsync(this IServiceProvider services)
     {
         using var scope = services.CreateScope();

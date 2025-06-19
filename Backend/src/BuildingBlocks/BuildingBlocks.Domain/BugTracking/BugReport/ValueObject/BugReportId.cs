@@ -22,27 +22,27 @@ public class BugReportIdJsonConverter : JsonConverter<BugReportId>
         switch (reader.TokenType)
         {
             case JsonTokenType.String:
-            {
-                var guidString = reader.GetString();
-                if (!Guid.TryParse(guidString, out var guid))
-                    throw new JsonException($"Invalid GUID format for BugReportId: {guidString}");
+                {
+                    var guidString = reader.GetString();
+                    if (!Guid.TryParse(guidString, out var guid))
+                        throw new JsonException($"Invalid GUID format for BugReportId: {guidString}");
 
-                return BugReportId.Of(guid);
-            }
+                    return BugReportId.Of(guid);
+                }
             case JsonTokenType.StartObject:
-            {
-                using var jsonDoc = JsonDocument.ParseValue(ref reader);
+                {
+                    using var jsonDoc = JsonDocument.ParseValue(ref reader);
 
-                if (!jsonDoc.RootElement.TryGetProperty("id", out JsonElement idElement))
-                    throw new JsonException("Expected property 'id' not found.");
+                    if (!jsonDoc.RootElement.TryGetProperty("id", out JsonElement idElement))
+                        throw new JsonException("Expected property 'id' not found.");
 
-                var guidString = idElement.GetString();
+                    var guidString = idElement.GetString();
 
-                if (!Guid.TryParse(guidString, out var guid))
-                    throw new JsonException($"Invalid GUID format for BugReportId: {guidString}");
+                    if (!Guid.TryParse(guidString, out var guid))
+                        throw new JsonException($"Invalid GUID format for BugReportId: {guidString}");
 
-                return BugReportId.Of(guid);
-            }
+                    return BugReportId.Of(guid);
+                }
             default:
                 throw new JsonException(
                     $"Unexpected token parsing BugReportId. Expected String or StartObject, got {reader.TokenType}.");

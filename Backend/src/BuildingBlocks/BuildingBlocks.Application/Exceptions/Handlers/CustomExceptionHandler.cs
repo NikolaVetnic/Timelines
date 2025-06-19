@@ -13,7 +13,7 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IE
         logger.LogError(
             "Error Message: {exceptionMessage}, Time of occurrence {time}",
             exception.Message, DateTime.UtcNow);
-        
+
         (string Detail, string Title, int StatusCode) details = exception switch
         {
             InternalServerException =>
@@ -62,7 +62,7 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IE
             problemDetails.Extensions.Add("ValidationErrors", validationException.Errors);
 
         await context.Response.WriteAsJsonAsync(problemDetails, cancellationToken: cancellationToken);
-        
+
         return true;
     }
 }

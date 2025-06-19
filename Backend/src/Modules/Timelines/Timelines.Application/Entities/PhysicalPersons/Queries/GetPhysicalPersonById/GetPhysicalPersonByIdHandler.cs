@@ -15,9 +15,9 @@ internal class GetPhysicalPersonByIdHandler(IPhysicalPersonsRepository physicalP
 
         if (physicalPerson is null)
             throw new PhysicalPersonNotFoundException(request.Id.ToString());
-        
+
         var timeline = await timelinesService.GetTimelineByIdAsync(physicalPerson.TimelineId, cancellationToken);
-        
+
         if (timeline is null)
             throw new TimelineNotFoundException(physicalPerson.TimelineId.ToString());
 

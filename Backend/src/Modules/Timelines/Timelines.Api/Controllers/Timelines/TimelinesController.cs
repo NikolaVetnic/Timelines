@@ -8,8 +8,10 @@ using OpenIddict.Validation.AspNetCore;
 using Timelines.Application.Entities.Timelines.Commands.CreateTimeline;
 using Timelines.Application.Entities.Timelines.Commands.CreateTimelineWithTemplate;
 using Timelines.Application.Entities.Timelines.Commands.DeleteTimeline;
+using Timelines.Application.Entities.Timelines.Commands.ReviveTimeline;
 using Timelines.Application.Entities.Timelines.Commands.UpdateTimeline;
 using Timelines.Application.Entities.Timelines.Queries.GetTimelineById;
+using Timelines.Application.Entities.Timelines.Queries.ListFlaggedForDeletionTimelines;
 using Timelines.Application.Entities.Timelines.Queries.ListNodesByTimelineId;
 using Timelines.Application.Entities.Timelines.Queries.ListTimelines;
 
@@ -31,6 +33,17 @@ public class TimelinesController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("ToBeDeleted")]
+    [ProducesResponseType(typeof(ListTimelinesResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ListTimelinesResponse>> GetFlaggedForDeletion([FromQuery] PaginationRequest query)
+    {
+        var result = await sender.Send(new ListFlaggedForDeletionTimelinesQuery(query));
+        var response = result.Adapt<ListTimelinesResponse>();
+
+        return Ok(response);
+    }
+
     [HttpGet("{timelineId}")]
     [ProducesResponseType(typeof(GetTimelineByIdResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -44,7 +57,7 @@ public class TimelinesController(ISender sender) : ControllerBase
             return NotFound();
 
         var response = result.Adapt<GetTimelineByIdResponse>();
-        
+
         return Ok(response);
     }
 
@@ -57,7 +70,7 @@ public class TimelinesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new ListNodesByTimelineIdQuery(timelineId, query));
         var response = result.Adapt<ListNodesByTimelineIdResponse>();
-        
+
         return Ok(response);
     }
 
@@ -117,7 +130,7 @@ public class TimelinesController(ISender sender) : ControllerBase
 
         return Ok(response);
     }
-    
+
     [HttpDelete("{timelineId}")]
     [ProducesResponseType(typeof(DeleteTimelineResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -127,6 +140,19 @@ public class TimelinesController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new DeleteTimelineCommand(timelineId));
         var response = result.Adapt<DeleteTimelineResponse>();
+
+        return Ok(response);
+    }
+
+    [HttpPost("{timelineId}/Revive")]
+    [ProducesResponseType(typeof(CreateTimelineWithTemplateResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ReviveTimelineResponse>> Revive(
+        [FromRoute] string timelineId,
+        [FromBody] CreateTimelineWithTemplateRequest request)
+    {
+        var result = await sender.Send(new ReviveTimelineCommand(timelineId));
+        var response = result.Adapt<ReviveTimelineResponse>();
 
         return Ok(response);
     }
