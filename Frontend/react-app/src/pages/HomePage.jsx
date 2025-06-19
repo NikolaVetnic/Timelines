@@ -9,6 +9,7 @@ import CreateTimelineModal from "../core/components/modals/CreateTimelineModal/C
 import DeleteModal from "../core/components/modals/DeleteModal/DeleteModal";
 import EditTimelineModal from "../core/components/modals/EditTimelineModal/EditTimelineModal";
 import Pagination from "../core/components/pagination/Pagination";
+import { useMediaQuery } from "../core/utils/UseMediaQuery";
 import TimelineService from "../services/TimelineService";
 import "./PagesStyle/HomePage.css";
 
@@ -27,16 +28,14 @@ const HomePage = () => {
   const [timelineToEdit, setTimelineToEdit] = useState(null);
   const [selectedTimelineTitle, setSelectedTimelineTitle] = useState("");
 
+  const isMobile = useMediaQuery('(max-width: 768px)');
+
   const fetchTimelines = async (page = 1, size = 10) => {
     setIsLoading(true);
     setError(null);
     try {
       const response = await TimelineService.getAllTimelines(page - 1, size);
-      if (page === 1) {
-        setTimelines(response.items);
-      } else {
-        setTimelines((prev) => [...prev, ...response.items]);
-      }
+      setTimelines(response.items);
       setTotalPages(response.totalPages);
       setSelectedTimelines([]);
     } catch (error) {
@@ -87,7 +86,6 @@ const HomePage = () => {
     if (e.target.closest(".timeline-checkbox")) {
       return;
     }
-
     navigate(`/timelines/${timeline.id}`);
     setSelectedTimelines([]);
   };
@@ -124,12 +122,12 @@ const HomePage = () => {
   };
 
   const handleDeleteClick = async () => {
-  if (selectedTimelines.length === 1) {
+    if (selectedTimelines.length === 1) {
       const timeline = await TimelineService.getTimelineById(selectedTimelines[0]);
       setSelectedTimelineTitle(timeline.title);
-  }
-  setIsDeleteModalOpen(true);
-};
+    }
+    setIsDeleteModalOpen(true);
+  };
 
   if (isLoading) {
     return <div className="loading-state">Loading timelines...</div>;
@@ -173,17 +171,17 @@ const HomePage = () => {
           />
         </div>
         {selectedTimelines.length > 0 && (
-            <div className="timeline-list-action-delete">
-              <Button
-                icon={<FaTrash />}
-                iconOnly
-                variant="danger"
-                tooltip="Delete Selected"
-                size="small"
-                onClick={handleDeleteClick}
-              />
-            </div>
-          )}
+          <div className="timeline-list-action-delete">
+            <Button
+              icon={<FaTrash />}
+              iconOnly
+              variant="danger"
+              tooltip="Delete Selected"
+              size="small"
+              onClick={handleDeleteClick}
+            />
+          </div>
+        )}
       </div>
 
       <TimelineList
@@ -193,6 +191,7 @@ const HomePage = () => {
         handleTimelineClick={handleTimelineClick}
         toggleTimelineSelection={toggleTimelineSelection}
         handleEditTimeline={handleEditTimeline}
+        isMobile={isMobile}
       />
 
       <div className="timeline-list-pagination-container">

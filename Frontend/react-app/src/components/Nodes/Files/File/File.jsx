@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useChat } from '../../../../context/ChatContext';
 import FileList from "../../../../core/components/lists/FileList/FileList";
 import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";
 import Pagination from "../../../../core/components/pagination/Pagination";
@@ -17,6 +18,8 @@ const File = ({ node, onToggle }) => {
   const [fileToDelete, setFileToDelete] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   
+  const { openChat } = useChat();
+
   const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(2);
   const [totalCount, setTotalCount] = useState(0);
@@ -55,34 +58,34 @@ const File = ({ node, onToggle }) => {
   };
 
   const onDrop = useCallback(
-  async (acceptedFiles) => {
-    const validFiles = acceptedFiles.filter((file) => {
-      if (file.size > MAX_FILE_SIZE) {
-        toast.error(`File "${file.name}" exceeds the 10MB limit.`);
-        return false;
-      }
-      return true;
-    });
+    async (acceptedFiles) => {
+      const validFiles = acceptedFiles.filter((file) => {
+        if (file.size > MAX_FILE_SIZE) {
+          toast.error(`File "${file.name}" exceeds the 10MB limit.`);
+          return false;
+        }
+        return true;
+      });
 
-    if (validFiles.length === 0) return;
+      if (validFiles.length === 0) return;
 
       setIsLoading(true);
       const uploadPromises = validFiles.map(async (file) => {
-          const response = await FileService.uploadFile({
-            nodeId: node.id,
-            file,
-            title: file.name,
-            description: "",
-          });
+        const response = await FileService.uploadFile({
+          nodeId: node.id,
+          file,
+          title: file.name,
+          description: "",
+        });
 
-          return {
-            ...response,
-            url: URL.createObjectURL(file),
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            nodeId: node.id
-          };
+        return {
+          ...response,
+          url: URL.createObjectURL(file),
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          nodeId: node.id
+        };
       });
 
       const results = await Promise.all(uploadPromises);
@@ -93,9 +96,9 @@ const File = ({ node, onToggle }) => {
       }
       setIsLoading(false);
       onToggle();
-  },
-  [node.id, onToggle, fetchFiles]
-);
+    },
+    [node.id, onToggle, fetchFiles]
+  );
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -146,6 +149,10 @@ const File = ({ node, onToggle }) => {
     }
   };
 
+  const handleOpenChat = (file) => {
+    openChat({ file });
+  };
+
   return (
     <div className={`${root}-section`}>
       <button
@@ -181,6 +188,7 @@ const File = ({ node, onToggle }) => {
                   handleDownload={handleDownload}
                   setFileToDelete={setFileToDelete}
                   setIsDeleteModalOpen={setIsDeleteModalOpen}
+                  handleOpenChat={handleOpenChat}
                 />
                 {totalCount > 0 && (
                   <Pagination

@@ -1,5 +1,5 @@
 import MDEditor from "@uiw/react-md-editor";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { FaTimes } from "react-icons/fa";
 import Button from "../../buttons/Button/Button";

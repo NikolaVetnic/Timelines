@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { FaBug } from "react-icons/fa";
+import { IoChatbubbleSharp } from "react-icons/io5";
 import { Outlet, useMatches, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useChat } from "../../context/ChatContext";
 import BugReportModal from "../../core/components/modals/BugReportModal/BugReportModal";
 import ReminderNotifier from "../../core/utils/ReminderNotifier";
 import PhysicalPersonService from "../../services/PhysicalPersonService";
 import TimelineService from "../../services/TimelineService";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
+import Footer from "../Footer/Footer";
 import HeaderBar from "../HeaderBar/HeaderBar";
 import "./AppLayout.css";
 
@@ -17,6 +20,11 @@ function AppLayout() {
   const [isBugReportOpen, setIsBugReportOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [breadcrumbs, setBreadcrumbs] = useState([]);
+
+  const { isChatOpen, openChat, closeChat } = useChat();
+  const shouldShowChatButton = !isChatOpen;
+
+  const footerHeight = process.env.REACT_APP_FOOTER === 'true' ? '150px' : '68px';
 
 useEffect(() => {
   const buildBreadcrumbs = async () => {
@@ -102,7 +110,17 @@ useEffect(() => {
       />
 
       <div className="app-content-wrapper">
-        <div className="app-content">
+        <div className="app-content" style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '900px',
+          maxWidth: '100%',
+          backgroundColor: '#fff',
+          boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+          padding: '20px 20px 0 20px',
+          height: `calc(100vh - ${footerHeight})`,
+          overflowY: 'auto'
+        }}>
           <Breadcrumbs crumbs={breadcrumbs} />
           <div className="content-wrapper">
             <Outlet />
@@ -110,14 +128,24 @@ useEffect(() => {
           </div>
         </div>
       </div>
-
+      
+      {shouldShowChatButton && (
+        <button
+          className="chat-button"
+          onClick={() => isChatOpen ? closeChat() : openChat()}
+          aria-label={isChatOpen ? "Close chat" : "Open chat"}
+        >
+          <IoChatbubbleSharp size={20} />
+        </button>
+      )}
+      
       <button
-        className="bug-report-button"
-        onClick={() => setIsBugReportOpen(true)}
-        aria-label="Report a bug"
-      >
-        <FaBug size={20} />
-      </button>
+          className="bug-report-button"
+          onClick={() => setIsBugReportOpen(true)}
+          aria-label="Report a bug"
+        >
+          <FaBug size={20} />
+        </button>
 
       {isBugReportOpen && (
         <BugReportModal
@@ -125,6 +153,7 @@ useEffect(() => {
           onClose={() => setIsBugReportOpen(false)}
         />
       )}
+      <Footer />
     </div>
   );
 }

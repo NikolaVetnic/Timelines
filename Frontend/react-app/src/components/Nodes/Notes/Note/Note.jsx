@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import NotesList from "../../../../core/components/lists/NotesList/NotesList";
 import CreateNoteModal from "../../../../core/components/modals/CreateNoteModal/CreateNoteModal";
 import DeleteModal from "../../../../core/components/modals/DeleteModal/DeleteModal";

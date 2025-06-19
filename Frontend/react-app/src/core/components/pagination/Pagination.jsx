@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
-import React from "react";
-import Button from "../buttons/Button/Button";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+import Button from "../buttons/Button/Button";
 import "./Pagination.css";
 
 const Pagination = ({
@@ -14,24 +13,27 @@ const Pagination = ({
 }) => {
   return (
     <div className="pagination-controls">
-      <Button
-        icon={<FaChevronLeft />}
-        iconOnly
-        shape="circle"
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      />
-      <span>
-        Page {currentPage} of {totalPages}
-      </span>
-
-      <Button
-        icon={<FaChevronRight />}
-        iconOnly
-        shape="circle"
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage >= totalPages}
-      />
+      <div className="pagination-navigation">
+        <Button
+          icon={<FaChevronLeft />}
+          iconOnly
+          shape="circle"
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          size="medium"
+        />
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <Button
+          icon={<FaChevronRight />}
+          iconOnly
+          shape="circle"
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage >= totalPages}
+          size="medium"
+        />
+      </div>
 
       <div className="page-size-selector">
         <label>Items per page:</label>

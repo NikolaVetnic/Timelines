@@ -152,9 +152,7 @@ const Timeline = () => {
       </div>
 
       <div className="timeline-actions">
-        {timeline?.nodes?.length > 0 && (
-          <>
-            {selectedNodes.length > 0 && (
+        {selectedNodes.length > 0 && (
               <Button
                 icon={<FaTrash />}
                 iconOnly
@@ -164,6 +162,8 @@ const Timeline = () => {
                 size="small"
               />
             )}
+            
+        {timeline?.nodes?.length > 0 && (
             <Button
               icon={
                 selectedNodes.length === timeline.nodes.length ? (
@@ -178,7 +178,6 @@ const Timeline = () => {
               tooltip="Select All"
               size="small"
             />
-          </>
         )}
         <Button
           icon={<FaClone />}

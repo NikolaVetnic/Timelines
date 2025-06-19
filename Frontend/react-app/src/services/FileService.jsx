@@ -15,50 +15,56 @@ class FileService {
    * @param {string} fileData.description - File description
    * @returns {Promise<Object>} - Uploaded file data
    */
-  static async uploadFile(fileData) {
-  try {
-    const fileContent = await new Promise((resolve, reject) => {
+  static uploadFile(fileData) {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(fileData.file);
-      reader.onload = () => resolve(reader.result.split(",")[1]);
-      reader.onerror = (error) => reject(error);
+      reader.onload = () => {
+        const fileContent = reader.result.split(",")[1];
+        
+        const filePayload = {
+          name: fileData.file.name,
+          description: fileData.description || "No description",
+          size: fileData.file.size,
+          type: this.getFileTypeNumber(fileData.file.type) || 1,
+          owner: "username",
+          content: fileContent,
+          sharedWith: [],
+          isPublic: false,
+          nodeId: fileData.nodeId,
+        };
+
+        if (!filePayload.name || !filePayload.type || !filePayload.owner || !filePayload.nodeId) {
+          reject(new Error("Missing required fields for file upload"));
+          return;
+        }
+
+        Post(API_BASE_URL, "/Files", filePayload)
+          .then(response => {
+            toast.success("File uploaded successfully!");
+            resolve({
+              ...response,
+              url: URL.createObjectURL(fileData.file),
+              name: fileData.file.name,
+              size: fileData.file.size,
+              type: fileData.file.type,
+              nodeId: fileData.nodeId
+            });
+          })
+          .catch(error => {
+            const errorMessage = error.response?.data?.message ||
+                              error.message ||
+                              "Failed to upload file";
+            toast.error(errorMessage);
+            reject(error);
+          });
+      };
+      reader.onerror = (error) => {
+        toast.error("Failed to read file");
+        reject(error);
+      };
     });
-
-    const filePayload = {
-      name: fileData.file.name,
-      description: fileData.description || "No description",
-      size: fileData.file.size,
-      type: this.getFileTypeNumber(fileData.file.type) || 1,
-      owner: "username",
-      content: fileContent, // This is the base64 content
-      sharedWith: [],
-      isPublic: false,
-      nodeId: fileData.nodeId,
-    };
-
-    if (!filePayload.name || !filePayload.type || !filePayload.owner || !filePayload.nodeId) {
-      throw new Error("Missing required fields for file upload");
-    }
-
-    const response = await Post(API_BASE_URL, "/Files", filePayload);
-    
-    toast.success("File uploaded successfully!");
-    
-    return {
-      ...response,
-      url: URL.createObjectURL(fileData.file),
-      name: fileData.file.name,
-      size: fileData.file.size,
-      type: fileData.file.type,
-      nodeId: fileData.nodeId
-    };
-  } catch (error) {
-    const errorMessage = error.response?.data?.message ||
-                        error.message ||
-                        "Failed to upload file";
-    toast.error(errorMessage);
   }
-}
 
   static getFileTypeNumber(mimeType) {
     const typeMap = FILE_TYPE_TO_NUMBER;
@@ -71,57 +77,57 @@ class FileService {
    * @param {number} pageSize - The number of items per page (default: 10)
    * @returns {Promise<Object>} - { items: [], totalCount: 0, totalPages: 0 }
    */
-  static async getAllFiles(pageIndex = 0, pageSize = 10) {
-    try {
-      const response = await getAll(
-        API_BASE_URL,
-        "/Files",
-        pageIndex,
-        pageSize
-      );
-
-      return {
-        items: response.files?.data || [],
-        totalCount: response.files?.count || 0,
-        totalPages: Math.ceil((response.files?.count || 0) / pageSize),
-      };
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to fetch files";
-      toast.error(errorMessage);
-    }
+  static getAllFiles(pageIndex = 0, pageSize = 10) {
+    return getAll(API_BASE_URL, "/Files", pageIndex, pageSize)
+      .then(response => {
+        const data = response.fileAssets?.data || [];
+        const count = response.fileAssets?.count || 0;
+        return {
+          items: data,
+          totalCount: count,
+          totalPages: Math.ceil(count / pageSize),
+        };
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to fetch files";
+        toast.error(errorMessage);
+        throw error;
+      });
   }
+  
 
-/**
- * Get files by node ID with server-side pagination
- * @param {string} nodeId - Parent node ID
- * @param {number} pageIndex - Pagination index (0-based)
- * @param {number} pageSize - Items per page
- * @returns {Promise<Object>} - { items: [], totalCount: 0, totalPages: 0 }
- */
-static async getFilesByNode(nodeId, pageIndex = 0, pageSize = 10) {
-  try {
-    const response = await getAll(API_BASE_URL, `/Nodes/${nodeId}/Files`, pageIndex, pageSize);
-    const files = response.fileAssets?.data?.map(fileAsset => ({
-      id: fileAsset.id,
-      name: fileAsset.name,
-      size: fileAsset.size * 1024,
-      type: this.getMimeType(fileAsset.type),
-      url: fileAsset.content || "",
-      nodeId: nodeId,
-      description: fileAsset.description,
-    })) || [];
-    
-    return {
-      items: files,
-      totalCount: response.fileAssets?.count || 0,
-      totalPages: Math.ceil((response.fileAssets?.count || 0) / pageSize),
-    };
-  } catch (error) {
-    const errorMessage = error.response?.data?.message || "Failed to fetch files";
-    toast.error(errorMessage);
+  /**
+   * Get files by node ID with server-side pagination
+   * @param {string} nodeId - Parent node ID
+   * @param {number} pageIndex - Pagination index (0-based)
+   * @param {number} pageSize - Items per page
+   * @returns {Promise<Object>} - { items: [], totalCount: 0, totalPages: 0 }
+   */
+  static getFilesByNode(nodeId, pageIndex = 0, pageSize = 10) {
+    return getAll(API_BASE_URL, `/Nodes/${nodeId}/Files`, pageIndex, pageSize)
+      .then(response => {
+        const files = response.fileAssets?.data?.map(fileAsset => ({
+          id: fileAsset.id,
+          name: fileAsset.name,
+          size: fileAsset.size * 1024,
+          type: this.getMimeType(fileAsset.type),
+          url: fileAsset.content || "",
+          nodeId: nodeId,
+          description: fileAsset.description,
+        })) || [];
+        
+        return {
+          items: files,
+          totalCount: response.fileAssets?.count || 0,
+          totalPages: Math.ceil((response.fileAssets?.count || 0) / pageSize),
+        };
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to fetch files";
+        toast.error(errorMessage);
+        throw error;
+      });
   }
-}
 
   static getMimeType(typeNumber) {
     const types = FILE_NUMBER_TO_TYPE;
@@ -133,15 +139,14 @@ static async getFilesByNode(nodeId, pageIndex = 0, pageSize = 10) {
    * @param {string} id - The file ID
    * @returns {Promise<Object>} - The file data
    */
-  static async getFileById(id) {
-    try {
-      const response = await getById(API_BASE_URL, "/Files/", id);
-      return response.file || response;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to fetch file";
-      toast.error(errorMessage);
-    }
+  static getFileById(id) {
+    return getById(API_BASE_URL, "/Files/", id)
+      .then(response => response.file || response)
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to fetch file";
+        toast.error(errorMessage);
+        throw error;
+      });
   }
 
   /**
@@ -150,16 +155,17 @@ static async getFilesByNode(nodeId, pageIndex = 0, pageSize = 10) {
    * @param {Object} updateData - Fields to update (title, description, etc.)
    * @returns {Promise<Object>} - Updated file data
    */
-  static async updateFile(id, updateData) {
-    try {
-      const response = await Post(API_BASE_URL, `/Files/${id}`, updateData);
-      toast.success("File updated successfully!");
-      return response.data;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to update file";
-      toast.error(errorMessage);
-    }
+  static updateFile(id, updateData) {
+    return Post(API_BASE_URL, `/Files/${id}`, updateData)
+      .then(response => {
+        toast.success("File updated successfully!");
+        return response.data;
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to update file";
+        toast.error(errorMessage);
+        throw error;
+      });
   }
 
   /**
@@ -167,17 +173,17 @@ static async getFilesByNode(nodeId, pageIndex = 0, pageSize = 10) {
    * @param {string} id - The file ID to delete
    * @returns {Promise<Object>} - Delete confirmation
    */
-  static async deleteFile(id) {
-    try {
-      const response = await deleteById(API_BASE_URL, "/Files/", id);
-      toast.success("File deleted successfully!");
-      return response;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to delete file";
-      toast.error(errorMessage);
-      throw new Error(errorMessage);
-    }
+  static deleteFile(id) {
+    return deleteById(API_BASE_URL, "/Files/", id)
+      .then(response => {
+        toast.success("File deleted successfully!");
+        return response;
+      })
+      .catch(error => {
+        const errorMessage = error.response?.data?.message || "Failed to delete file";
+        toast.error(errorMessage);
+        throw new Error(errorMessage);
+      });
   }
 
   /**
@@ -185,12 +191,11 @@ static async getFilesByNode(nodeId, pageIndex = 0, pageSize = 10) {
    * @param {string} id - The file ID to download
    * @returns {Promise<void>}
    */
-  static async downloadFile(id) {
-    try {
-      const response = await getById(API_BASE_URL, "/Files/download/", id, {
-        responseType: "blob",
-      });
-
+  static downloadFile(id) {
+    return getById(API_BASE_URL, "/Files/download/", id, {
+      responseType: "blob",
+    })
+    .then(response => {
       const url = window.URL.createObjectURL(new Blob([response]));
       const link = document.createElement("a");
       link.href = url;
@@ -203,12 +208,12 @@ static async getFilesByNode(nodeId, pageIndex = 0, pageSize = 10) {
       link.remove();
 
       toast.success("File download started!");
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to download file";
+    })
+    .catch(error => {
+      const errorMessage = error.response?.data?.message || "Failed to download file";
       toast.error(errorMessage);
       throw new Error(errorMessage);
-    }
+    });
   }
 }
 

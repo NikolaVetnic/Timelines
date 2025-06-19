@@ -1,5 +1,4 @@
 import { format } from "date-fns";
-import React from "react";
 import { IoIosAdd } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { PRIORITY } from "../../../../data/constants";
@@ -21,7 +20,7 @@ const RemindersList = ({
           iconOnly
           variant="success"
           shape="square"
-          size="little"
+          size="small"
           onClick={openCreateModal}
         />
       </div>
