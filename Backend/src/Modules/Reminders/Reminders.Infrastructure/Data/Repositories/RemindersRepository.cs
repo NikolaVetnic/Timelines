@@ -61,7 +61,7 @@ public class RemindersRepository(ICurrentUser currentUser, IRemindersDbContext d
     {
         return await dbContext.Reminders
             .AsNoTracking()
-            .Where(r => nodeIds.Contains(r.NodeId))
+            .Where(r => nodeIds.Contains(r.NodeId) && !r.IsDeleted)
             .ToListAsync(cancellationToken: cancellationToken);
     }
 
