@@ -9,17 +9,16 @@ import { api } from "./apiConfig";
  * @param {Object} additionalParams - Any additional query parameters to include in the request
  * @returns {Promise<Object>} - The list of data
  */
-export const getAll = async (apiUrl, exactPath, pageIndex = 0, pageSize = 10) => {
-  try {
-    const response = await api.get(`${apiUrl}${exactPath}`, {
-      params: {
-        PageIndex: pageIndex,
-        PageSize: pageSize,
-      }
-    });
-    return response.data;
-  } catch (error) {
+export const getAll = (apiUrl, exactPath, pageIndex = 0, pageSize = 10) => {
+  return api.get(`${apiUrl}${exactPath}`, {
+    params: {
+      PageIndex: pageIndex,
+      PageSize: pageSize,
+    }
+  })
+  .then(response => response.data)
+  .catch(error => {
     const errorMessage = error.response?.data || { message: 'Network error' };
     throw errorMessage;
-  }
+  });
 };

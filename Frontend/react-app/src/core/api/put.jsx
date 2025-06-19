@@ -7,12 +7,11 @@ import { api } from './apiConfig';
  * @param {Object} data - The data to send for update
  * @returns {Promise<Object>} - Returns updated data response
  */
-export const Put = async (apiUrl, exactPath, data) => {
-  try {
-    const response = await api.put(`${apiUrl}${exactPath}`, data);
-    return response.data;
-  } catch (error) {
-    const errorMessage = error.response?.data || { message: 'Network error' };
-    throw errorMessage;
-  }
+export const Put = (apiUrl, exactPath, data) => {
+  return api.put(`${apiUrl}${exactPath}`, data)
+    .then(response => response.data)
+    .catch(error => {
+      const errorMessage = error.response?.data || { message: 'Network error' };
+      throw errorMessage;
+    });
 };

@@ -7,18 +7,18 @@ import { api } from './apiConfig'; // Import the configured axios instance
  * @param {string} id - The ID of the resource to fetch
  * @returns {Promise<Object>} - The resource data
  */
-export const getById = async (apiUrl, exactPath, id) => {
-  try {
-    if (!id) {
-      throw { message: 'ID is required to fetch the resource.' }; // Consistent error object
-    }
-
-    const response = await api.get(`${apiUrl}${exactPath}${id}`);
-    return response.data;
-  } catch (error) {
-    const errorMessage = error.response?.data || { 
-      message: 'Network error, please try again later.' 
-    };
-    throw errorMessage; // Throw the error object directly
+export const getById = (apiUrl, exactPath, id) => {
+  // Validate ID first
+  if (!id) {
+    return Promise.reject({ message: 'ID is required to fetch the resource.' });
   }
+
+  return api.get(`${apiUrl}${exactPath}${id}`)
+    .then(response => response.data)
+    .catch(error => {
+      const errorMessage = error.response?.data || { 
+        message: 'Network error, please try again later.' 
+      };
+      throw errorMessage;
+    });
 };

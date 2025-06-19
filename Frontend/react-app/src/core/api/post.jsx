@@ -1,4 +1,3 @@
-// post.js
 import qs from 'qs';
 import { api } from './apiConfig';
 
@@ -7,23 +6,24 @@ import { api } from './apiConfig';
  * @param {string} apiUrl - The base API URL
  * @param {string} exactPath - Remaining path
  * @param {Object} data - The data to send
+ * @param {boolean} [isFormUrlEncoded=false] - Whether to send as form-urlencoded
  * @returns {Promise<Object>} - Returns created data response
  */
-export const Post = async (apiUrl, exactPath, data, isFormUrlEncoded = false) => {
-  try {
-    const config = {
-      headers: {
-        'Content-Type': isFormUrlEncoded 
-          ? 'application/x-www-form-urlencoded' 
-          : 'application/json'
-      }
-    };
+export const Post = (apiUrl, exactPath, data, isFormUrlEncoded = false) => {
+  const config = {
+    headers: {
+      'Content-Type': isFormUrlEncoded 
+        ? 'application/x-www-form-urlencoded' 
+        : 'application/json'
+    }
+  };
 
-    const requestData = isFormUrlEncoded ? qs.stringify(data) : data;
-    const response = await api.post(`${apiUrl}${exactPath}`, requestData, config);
-    return response.data;
-  } catch (error) {
-    const errorMessage = error.response?.data || { message: 'Network error' };
-    throw errorMessage;
-  }
+  const requestData = isFormUrlEncoded ? qs.stringify(data) : data;
+
+  return api.post(`${apiUrl}${exactPath}`, requestData, config)
+    .then(response => response.data)
+    .catch(error => {
+      const errorMessage = error.response?.data || { message: 'Network error' };
+      throw errorMessage;
+    });
 };
