@@ -34,6 +34,14 @@ public class NotesRepository(ICurrentUser currentUser, INotesDbContext dbContext
 
     #region Get
 
+    public async Task<Note> GetNoteAsync(Expression<Func<Note, bool>> predicate, CancellationToken cancellationToken)
+    {
+        return await dbContext.Notes
+                   .AsNoTracking()
+                   .SingleOrDefaultAsync(predicate, cancellationToken) ??
+               throw new NoteNotFoundException("noId"); // todo: need new exception
+    }
+
     public async Task<Note> GetNoteByIdAsync(NoteId noteId, CancellationToken cancellationToken)
     {
         return await dbContext.Notes
